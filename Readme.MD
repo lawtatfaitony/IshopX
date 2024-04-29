@@ -51,4 +51,15 @@ Update in 2024-4-28
  不再引用項目,太久遠,保留源碼獨立輸出
 
 1.  DataAnnotationsExtensions.dll
-2. DataAnnotationsExtensions.ClientValidation.dll
+2.  DataAnnotationsExtensions.ClientValidation.dll
+
+## github限制
+
+文件 App_Start\IdentityConfig.cs
+
+//由於github限制 不能直接寫 三個參數 cn-hangzhou=====", "LTAIZtZo=====jbLbxadL========", "BWvGVZRo88cKoK===========QAu71RFusXNNsAM5"
+line 112 : IClientProfile profile = DefaultProfile.GetProfile("xxx", "xxx", "xxx");  //裡面的參數值xxx是虛假的
+
+![rendersuccess_2024_4_29](README_IMGs\rendersuccess_2024_4_29.jpg)
+
+最後生成記錄 2024-4-29
