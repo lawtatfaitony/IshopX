@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+ <html>
+<head>
+    <meta charset="UTF-8">
+    <title>获取图片的Base64位编码</title>
+    <script src="/jquery/1.11.3/jquery.js"></script>
+    <link href="/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+<span>浏览器按F12获取输出的data:base64</span>
+
+
+    <script type="text/javascript">
+        function getBase64Image(img) {
+            var canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+
+            var dataURL = canvas.toDataURL("image/png");
+            return dataURL
+
+            // return dataURL.replace("data:image/png;base64,", "");
+        }
+
+
+        function main() {
+            var img = document.createElement('img');
+            img.src = '/images/1.jpg';
+            img.onload = function () {
+                var data = getBase64Image(img);
+                console.log(data);
+
+            }
+
+            document.body.appendChild(img);
+        }
+        main()
+
+        /*编码输出*/
+        $("#div2").click(function () {
+            alert("编码输出2.");
+           
+             
+        })
+        function tobase64(){
+            alert("编码输出.");
+            var img = document.createElement('img');
+            img.src = document.getElementById("url").value;
+            img.onload = function () {
+                var data = getBase64Image(img);
+                console.log(data);
+                document.getElementById("Base64txt").value = data;
+            }
+        }
+
+    </script>
+
+    <hr />
+    <span class="h2">图片编码输出</span>
+    <input type="text" 
+           id="url"
+           class="form-control"
+           placeholder="Insert an IMAGE-URL"
+           value="/images/2.jpg"
+           required> 
+    <div id="div1" onclick="tobase64()" class="btn btn-default">
+        编码输出
+    </div>
+    <div>
+        <input type="text" id="Base64txt" class="btn-block" style="height=90; "   aria-multiline="true" height="100" />
+    </div>
+    <div id="div2" class="btn btn-default">
+        编码输出2
+    </div>
+
+
+
+    <hr />
+    <br />
+    <hr />
+    <p>First Paragraph</p>
+
+    <p>Second Paragraph</p>
+    <p>Yet one more Paragraph</p>
+    <script>
+        $("p").click(function () {
+            $(this).slideUp();
+        });
+    </script>
+</body>
+</html>
