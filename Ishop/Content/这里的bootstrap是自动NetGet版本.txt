@@ -1,0 +1,3 @@
+这里的bootstrap是自动NetGet版本
+
+最新版是 V3.37
