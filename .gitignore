@@ -1,5 +1,6 @@
 .vs/
 Ishop/obj
+LanguageResource/bin/
 Common/obj/Common.csproj.nuget.dgspec.json
 Common/obj/Common.csproj.nuget.g.props
 Common/obj/Common.csproj.nuget.g.targets
