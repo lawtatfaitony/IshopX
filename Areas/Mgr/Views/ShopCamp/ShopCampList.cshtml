@@ -1,0 +1,91 @@
+﻿@using LanguageResource;
+@using Ishop.Context;
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<Ishop.Areas.Mgr.ModelView.ShopCampModelview>
+@{
+    ViewBag.Title = Lang.ShopCampList_Title;
+    ViewBag.SubTitle = Lang.ShopCampList_SubTitle;
+}
+
+@using (Html.BeginForm("ShopCampList", "ShopCamp", FormMethod.Get))
+{
+    <div id="box-widget" class="box-header with-border">
+        <lable>@Lang.Views_GeneralUI_Find</lable> @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" class="btn-default btn" value="@Lang.Views_GeneralUI_Search" />
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            <i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().CampaignID)</lable>
+        </th>
+        <th>
+            <i class="fa fa-square" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().CampaignName)</lable>
+        </th>
+        <th>
+            <i class="fa fa-flag" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().CampaignLabel)</lable>
+        </th>
+        <th>
+            <i class="fa fa-home" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().ShopID)</lable>
+        </th>
+        <th>
+            <i class="fa fa-calendar" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i>
+            @Html.ActionLink(Lang.UserFinance_StartDate, "ShopCampList", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            <i class="fa fa-calendar" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i>
+            @Html.ActionLink(Lang.UserFinance_EndDate, "ShopCampList", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().OperatedUserName)</lable>
+        </th>
+        <th>
+            <i class="fa fa-calendar" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().OperatedDate)</lable>
+        </th>
+        <th>
+            <i class="fa fa-share-alt-square" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i> <lable>@Lang.Views_GeneralUI_Details</lable>
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayTextFor(modelItem => item.CampaignID) &nbsp;<span class="label label-success" data-toggle="tooltip" title="@Lang.ShopCampList_PromoteProduct @Html.DisplayFor(modelItem => item.CampProductQty)">@Html.DisplayFor(modelItem => item.CampProductQty)</span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CampaignName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CampaignLabel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperatedUserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperatedDate)
+            </td>
+            <td>
+                @Html.ActionLink(Lang.Views_GeneralUI_Edit, "ShopCampCreate", new { CampaignID = item.CampaignID })
+            </td>
+        </tr>
+    }
+
+</table>
+@if (Model.PageCount > 1)
+{
+    <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+    @Html.PagedListPager(Model, page => Url.Action("ShopCampList", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
+<script>
+    $('[data-toggle="tooltip"]').tooltip(); 
+</script>

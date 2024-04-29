@@ -1,0 +1,75 @@
+﻿@using LanguageResource;
+@model  Ishop.Models.PubDataModal.SeoExtand 
+ 
+@using(Ajax.BeginForm("Create", "Seo", new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleSeoCreate", OnFailure = "err", LoadingElementId = "Loading" }, new { id = "form1", @class = "form-horizontal  bg-gray-light" }))
+{ 
+    
+    @Html.AntiForgeryToken()
+
+    <div id="box-widget" class="box box-default box-solid">
+        <div class="box-header with-border">
+            <h3 class="box-title">@Lang.ModalView_KeywordMgr</h3>
+            <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+
+        <div class="box-body"> 
+            @Html.HiddenFor(m => m.SeoExtandID)
+            <div class="form-group">
+                @Html.LabelFor(m => m.ParentsSeoExtandID, new { @class = "col-md-2 control-label h4", @for="SearchString" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(m => m.ParentsSeoExtandID) 
+                        <div class="input-group">
+                            @Html.TextBox("ParentsSeoKeyWord", "", new { @class = "dropdown-toggle form-control", autocomplete = "off", placeholder = Lang.Views_GeneralUI_KeyWord, data_toggle = "dropdown" })
+                            <ul id="Div_SeoExtand" class="dropdown-menu" role="menu" style="width:280px;transition-delay:0.5s;background-color:#fff;" aria-labelledby="dLabel">
+                                <li class="pad"> 
+                                    <div class="input-group"> 
+                                        <input id="dropdown_SearchString"  name = "dropdown_SearchString" type="text" class = "form-control"  placeholder = "@Lang.ModalView_QryKeyword"  value="" /> 
+                                        <span class="input-group-btn">
+                                            <button  id="search-btn"  type="button" name="search-btn" class="btn btn-flat">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li class="pad"><div id="SeoExtand_dropdown-menu1" class="h6 small"></div></li>
+                            </ul>
+                        </div><!--input-group-btn-->
+                 </div>
+            </div> <!--form-group--> 
+            <div class="form-group">
+                @Html.LabelFor(m => m.SeoKeyWord, new { @class = "col-md-2 control-label h4" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.SeoKeyWord, new { @class = "form-control h4", placeholder = Html.DisplayNameFor(m => m.SeoKeyWord) })
+                </div>
+            </div> 
+        </div>
+
+        <div class="box-footer">
+            <div id="err_message"></div>
+            &nbsp;&nbsp;<input type="button" id="Savechanges" class="btn btn-default bg-navy-active col-md-offset-2" value="@Lang.Views_GeneralUI_Submit" />
+        </div>
+    </div>
+}
+<script>
+    $("#Savechanges").click(function () {
+        {
+            $("#box-widget").activateBox();
+            $("#form1").submit();
+            $("#Savechanges").attr("disabled", true);
+        }
+    });
+    function HandleSeoCreate(data) {
+       
+        $("#form1").html(data);
+    }
+    function err(data) {
+        alert("@Lang.Views_GeneralUI_ServerError Fun:([HttpPost]Seo/Create)");
+        $("#err_messages").html("@Lang.Views_GeneralUI_ServerError Fun：([HttpPost]Seo/Create)<br>,Failed to load resource: the server responded with a status of 500 (Internal Server Error)");
+    }
+    $(document).ready(function () {
+        LoadDropDownEvent("SeoExtand_dropdown-menu1", "ParentsSeoExtandID", "ParentsSeoKeyWord", "search-btn", "dropdown_SearchString");
+    });
+</script>
+

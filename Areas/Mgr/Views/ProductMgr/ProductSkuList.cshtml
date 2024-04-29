@@ -1,0 +1,158 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+@model IQueryable<Ishop.Models.ProductMgr.ProductSku>
+@{
+    ViewBag.Title = Lang.ProductSkuList_Title;
+    ViewBag.SubTitle = Lang.ProductSkuList_SubTitle;
+    if(Request.Params["Layout"] != null)
+    {
+        if (Request.Params["Layout"].ToString() == "0")
+        {
+            Layout = "~/Views/Shared/_LayoutWX.cshtml";
+        }
+    }
+}
+<style>
+    .text-omit1 {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 280px;
+    }
+
+    .text-omit2 {
+        width: 280px;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .text-omit-defined {
+        overflow: hidden;
+        text-overflow: clip;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+</style>
+
+<div class="box-body table-responsive no-margin no-padding">
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable style="overflow-x:hidden;max-width:220px;">@ViewBag.ProductName</lable>
+            </th>
+            <th>
+                <i class="fa fa-minus-square-o" aria-hidden="true" style="color:mediumslateblue"></i><lable class="text1" title="@Lang.ProductSku_Quantity" data-toggle="tooltip" data-placement="top">@Lang.ProductSku_Quantity</lable>
+            </th>
+
+            <th>
+                <i class="fa  fa-money" aria-hidden="true" style="color:mediumslateblue;word-break:keep-all"></i><lable style="word-break:keep-all" title="@Lang.ProductSku_TradePrice" data-toggle="tooltip" data-placement="top">@Lang.ProductSku_TradePrice</lable>
+            </th>
+            <th class="hidden-xs">
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.ProductSku_StyleNo</lable>
+            </th> 
+            <th class="hidden-xs">
+                <i class="fa fa-calendar" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.ProductSku_CreatedDate</lable>
+            </th>
+            <th class="hidden-xs">
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.ProductSku_OperatedUserName</lable>
+            </th>
+            <th class="hidden-xs">
+                <i class="fa fa-calendar" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.ProductSku_OperatedDate</lable>
+            </th>
+            <th>
+                <i class="fa fa-dedent" aria-hidden="true" style="color:mediumslateblue"></i>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr id="@string.Format("tr{0}",item.ProductSkuId)">
+                <td class="no-padding">
+                    <div style="margin:0,0,5px,0; max-width:300px;">
+                        <div class="info-box-text h5">
+                            @if (!string.IsNullOrEmpty(item.SkuImage))
+                            {
+                                <img id="uploadPicResult" class="img-responsive img-thumbnail margin-r-5" src="@item.SkuImage" align="left" width="60" />
+                            }
+                            <span class="text-omit-defined h4" style="padding-left:5px 0 0 5px;" title="@item.PropertyDesc" data-toggle="tooltip">
+                                @Html.DisplayFor(modelItem => item.PropertyDesc)
+                            </span> 
+                            <lable class="padding-top5"><strong class="text-omit-defined"><i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue"></i>@Html.DisplayFor(modelItem => item.ProductSkuId)</strong></lable>
+                         </div>
+                    </div>
+                </td>
+                <td>
+                    <span title="@Lang.ProductSku_Quantity" class="text-omit-defined" style="max-width:60px;" data-toggle="tooltip">@Html.DisplayFor(modelItem => item.Quantity)</span>
+                </td>
+                <td>
+                    <span title="@Lang.ProductSku_TradePrice" class="text-omit-defined" style="max-width:60px;" data-toggle="tooltip">@Html.DisplayFor(modelItem => item.TradePrice,"{0:c1}")</span>
+                </td>
+                <td class="hidden-xs">
+                    @Html.DisplayFor(modelItem => item.StyleNo)
+                </td>
+                <td class="hidden-xs">
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td class="hidden-xs">
+                    @Html.DisplayFor(modelItem => item.OperatedUserName)
+                </td>
+                <td class="hidden-xs small">
+                    @Html.DisplayFor(modelItem => item.OperatedDate)
+                </td>
+                <td>
+                    <button class="btn btn-default btn-sm" id="@string.Format("btnDel{0}",item.ProductSkuId)" onclick="javascript: DeleteResult('@item.ProductSkuId');"> @Lang.Views_GeneralUI_Delete </button>
+                 </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<script>
+
+    function DeleteResult(ProductSkuId) {
+
+        var myparamsObject = { "ProductSkuId": ProductSkuId};
+
+    $.ajax({
+            url: "/mgr/ProductMgr/DeleteProductSku",
+            data: myparamsObject,
+            type: "post",
+            dataType: "json",
+            error: function (result) {
+                console.log("/mgr/ProductMgr/DeleteProductSku error\n\r code:500 \n\r\n\r" + JSON.stringify(result));
+            },
+            success: function (result)
+            {
+                if (result.MsgCode === "1") {
+                    　
+                    //btnDel
+                    $("#btnDel" + ProductSkuId).attr("disabled", "ture");
+
+                    layer.open({
+                          title:"@Lang.Views_GeneralUI_OperateInfo"
+                         ,content: "@Lang.Views_GeneralUI_DeleteOK　<br>" + ProductSkuId 
+                         ,btn:"OK"
+                         ,yes: function (index) {
+                             //remove row
+                             trId = "#tr" + ProductSkuId;
+                             $(trId).remove();
+                             layer.close(index);
+                         }  
+                    });　
+                    
+
+                } else { 
+                    layer.open({
+                        content: "@Lang.GeneralUI_Fail"
+                        ,btn: 'OK'
+                    }); 
+                } 
+                return result;
+            }
+     });
+    }
+</script>

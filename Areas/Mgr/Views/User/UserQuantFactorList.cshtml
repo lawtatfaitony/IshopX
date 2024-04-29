@@ -1,0 +1,136 @@
+﻿@using LanguageResource;
+@using Ishop.Models.User;
+@using Ishop.Context;
+@using Ishop.Utilities;
+@using PagedList;
+@using PagedList.Mvc;
+@using Ishop.Models.PubDataModal;
+@using Ishop.AppCode.Utilities;
+@model PagedList.IPagedList<Ishop.Models.User.UserQuantFactor>
+@{
+    if (Request.Params["Layout"] == null)
+    {
+        Layout = null;
+    }
+}
+@{
+    ViewBag.Title = Lang.UserQuantFactorList_Title;
+    ViewBag.SubTitle = string.Format("{0} Role:CustomerService",Lang.Views_GeneralUI_CRM);
+}
+<style>
+    div {
+        word-wrap: break-word;
+        word-break: normal;
+    }
+</style>
+<style>
+    .word {
+        max-width: 200px;
+        word-wrap: break-word;
+        word-break: normal;
+        font-family: "microsoft yahei";
+    }
+    /* 强制不换行 */
+    .nowrap {
+        white-space: nowrap;
+    }
+    /* 允许单词内断句，首先会尝试挪到下一行，看看下一行的宽度够不够，
+            不够的话就进行单词内的断句 */
+    .breakword {
+        word-wrap: break-word;
+    }
+    /* 断句时，不会把长单词挪到下一行，而是直接进行单词内的断句 */
+    .breakAll {
+        word-break: break-all;
+    }
+    /* 超出部分显示省略号 */
+    .ellipsis {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+</style>
+<div class="box-body table-responsive">
+    <table class="table table-striped table-hover  table-responsive">
+        <tr>
+            <th>
+                <i class="fa fa-square" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.UserQuantFactorList_lable1</lable>
+            </th>
+
+            <th>
+                <i class="fa fa-diamond" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i>
+            </th>
+            <th>
+                <lable class="block fa fa-share-alt-square" style="word-break:keep-all;color:mediumslateblue">@Lang.Views_GeneralUI_Delete</lable>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="word ">
+                    <p class="small" style="width:200px; text-overflow: ellipsis;word-wrap: break-word; word-break: break-all;">@Html.ActionLink(Html.DisplayFor(modelItem => item.FactorNameRemarks).ToString(), "Details", new { ID = item.UserProfileID, Layout = 1 }, new { target = "_Blank" })</p>
+                </td>
+
+                <td class="h4">
+                    @Html.DisplayFor((modelItem => item.Score), new { @class = "strong", target = "_Blank", style = "color:mediumpurple;" })
+                </td>
+
+                <td style="color:#1b1b1b">
+                    <div class="block">
+                        <a id="link_UserQuantfactor" onclick="javascript:UserQuantfactorRemove('@Html.DisplayFor(modelItem => item.ID).ToString()')">
+                            &nbsp;&nbsp;<i class="glyphicon glyphicon-remove" aria-hidden="true" style="color:mediumslateblue">&nbsp;&nbsp;</i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+@if (Model.PageCount > 1)
+{
+    <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+    @Html.PagedListPager(Model, page => Url.Action("UserQuantFactorList", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    }); 
+    function UserQuantfactorRemove(ID) {
+        console.log("Func UserQuantfactorRemove Params ID = " + ID);
+        OpenUserQuantfactorRemoveUrl = "/Mgr/User/UserQuantfactorRemove";
+
+        var myparamsObject = { "ID": ID };
+        $.ajax({
+            type: "post",
+            data: JSON.stringify(myparamsObject),
+            url: OpenUserQuantfactorRemoveUrl,
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.MsgCode !== "1") 
+                {
+                    console.log("@Lang.Views_GeneralUI_ServerError,data.MsgCode=" + data.MsgCode);
+                    return;
+                }
+                BootstrapDialog.show({
+                    cssClass: 'bootstrap-dialog fade',
+                    title: "@Lang.Views_GeneralUI_ReturnResult",
+                    message: "<H3>" + data.Message + "</H3>",
+                    buttons: [{
+                        label: 'OK',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });//BootstrapDialog
+            },
+            error: function (err) {
+                console.log(JSON.stringify(err));
+            }
+        });
+    }
+</script>
+
+
+

@@ -1,0 +1,529 @@
+﻿@using LanguageResource;
+@using Ishop.Context
+@using Ishop.Utilities
+@model Ishop.Models.ProductMgr.ShopStaff
+@{
+    ViewBag.Title = Lang.ShopStaff_ShopStaffAdd_Title;
+    ViewBag.SubTitle = Lang.ShopStaff_ShopStaffAdd_SubTitle;
+    Layout = "~/Areas/Mgr/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/css")
+@Scripts.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/js")
+<script src="~/AdminLTE/plugins/bootstrap-wysiwyg/js/bootstrap-wysiwyg-ini-editor2.js"></script>
+<script src="~/js/Info/TreeInfoCateItem.js"></script>
+<script src="~/js/Info/SeoHtmlContextAdd.js"></script>
+
+@using (Ajax.BeginForm("ShopStaffAdd", "ShopAdmin",new {area = "mgr"}, new AjaxOptions { HttpMethod = "post", OnSuccess = "OpenShopStaffAddRole" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <div id="box-widget" class="box-header with-border">
+        <h4 class="box-title small">@Html.ActionLink(Lang.Views_GeneralUI_Return, "CreateShop", "Manage")</h4>   <h4 class="box-title small">@Html.ActionLink(Lang.ShopStaff_ShopStaffAdd_ReturnStaffList, "ShopStaffList", "ShopAdmin")</h4>
+    </div>
+    <div class="box-body">
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.ShopStaffID, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.ShopStaffID, new { @class = "form-control", data_ShopStaffID = ViewBag.ShopStaffID }) 
+                    @Html.ValidationMessageFor(model => model.ShopStaffID,Lang.ShopStaff_ShopStaffAdd_ShopStaffIDTips, new { @class = "text-danger h6" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ShopID, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.ShopID, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.ShopID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserId, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.UserId, new { @class = "form-control", placeholder = Lang.ShopStaff_ShopStaffAdd_ShopStaffUserId })
+                    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IconPortrait, htmlAttributes: new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <a id="OpenDialog1" style="width:110px;display:block;">
+                                @if (String.IsNullOrEmpty(Html.DisplayFor(model => model.IconPortrait).ToString().Trim()))
+                                {
+                                    <img id="uploadPicResult1" src="@Url.Content("~/images/AddPicture_a.png")" width="110" class="img-thumbnail" />
+                                }
+                                else
+                                {
+                                    <img id="uploadPicResult1" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.IconPortrait).ToString(), PictureSize.s160X160)" alt="点击此处变更图片" width="110" class="img-thumbnail" />
+                                }
+                            </a>
+
+                        </li>
+
+                        <li>
+                            <input type="file" value="浏览" id="file_uploadPic1" SrvUrl="/en-US/Utilities/UpLoadProcess2?Prefix=Pr&SubPath=Shoplogo&TargetTalbeKeyID=@DateTime.Now.ToString("yyyyMMddHHmmssfff")&ShopID=@WebCookie.ShopID"
+                                   mime_type="image/jpeg" accept="image/jpeg" class="input-group-sm hidden" />
+                        </li>
+                    </ul>
+                    @Html.TextBoxFor(model => model.IconPortrait, htmlAttributes: new { @class = "hidden" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.StaffName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.StaffName, new { @class = "form-control", placeholder = "输入店员名字或编辑笔名等" })
+                    @Html.ValidationMessageFor(model => model.StaffName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PublicNo, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.PublicNo, new { @class = "form-control", placeholder = Lang.ShopStaff_ShopStaffAdd_PublicNoTips })
+                    @Html.ValidationMessageFor(model => model.PublicNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContactTitle, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.ContactTitle, new { @class = "form-control", placeholder = Lang.ShopStaff_ShopStaffAdd_ContactTitleTips })
+                    @Html.ValidationMessageFor(model => model.ContactTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <!--描述 begin-->
+            <div class="form-group ">
+                @Html.LabelFor(model => model.Introduction, htmlAttributes: new { @class = "col-sm-2 control-label", @for = "editor" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(model => model.Introduction, new { @class = "form-control hidden" })
+
+                    <!--文本编辑器开始-->
+                    <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font" aria-hidden="true"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu"></ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default  btn-sm dropdown-toggle" data-toggle="dropdown" title="Text Highlight Color"><i class="fa fa-paint-brush"></i>&nbsp;<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <!--<p>&nbsp;&nbsp;&nbsp;Text Highlight Color:</p>-->
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #FFFFFF"><i class="fa fa-stop" style="color:#ebf3f3;font-weight:700;">&nbsp;White</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FFFF"><i class="fa fa-stop" style="color:#808080;font-weight:700;">&nbsp;Gray</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FFFF"><i class="fa fa-stop" style="color:#00FFFF;font-weight:700;">&nbsp;Blue</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FF00"><i class="fa fa-stop" style="color:#00FF00;font-weight:700;">&nbsp;Green</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #FF7F00"><i class="fa fa-stop" style="color:#FF7F00;font-weight:700;">&nbsp;Orange</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #FF0000"><i class="fa fa-stop" style="color:#FF0000;font-weight:700;">&nbsp;Red</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #9a8383"><i class="fa fa-stop" style="color:#9a8383;font-weight:700;">&nbsp;Brown</i></a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height" aria-hidden="true"></i>&nbsp;<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a data-edit="fontSize 7"><font size="7">7</font></a></li>
+                                <li><a data-edit="fontSize 6"><font size="6">6</font></a></li>
+                                <li><a data-edit="fontSize 5"><font size="5">5</font></a></li>
+                                <li><a data-edit="fontSize 4"><font size="4">4</font></a></li>
+                                <li><a data-edit="fontSize 3"><font size="3">3</font></a></li>
+                                <li><a data-edit="fontSize 2"><font size="2">2</font></a></li>
+                                <li><a data-edit="fontSize 1"><font size="1">1</font></a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-outdent" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link" aria-hidden="true"></i></a>
+                            <div class="dropdown-menu input-append">
+                                <input class="span2" placeholder="URL" type="text" data-edit="createLink" style="max-width:150px" />
+                                <button class="btn btn-default btn-sm " type="button">Add</button>
+                            </div>
+                            <a class="btn btn-default btn-sm" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-chain-broken" aria-hidden="true"></i></a>
+
+                        </div>
+
+                        <div class="btn-group">
+                            <a class="btn-default btn-sm btn" title="@Lang.Views_GeneralUI_UploadToServer" id="pictureBtn2">
+                                <i class="fa fa-file-image-o" aria-hidden="true">
+                                    <input type="file" id="pictureInput" data-Prefix="Ca"
+                                           SrvUrl="/en-US/Utilities/UpLoadProcess2?Prefix=Staff&SubPath=ShopStaff&TargetTalbeKeyID=@ViewBag.TempInfoID&ShopID=@WebCookie.ShopID"
+                                           data-role="magic-overlay" data-target="#pictureBtn2" multiple="multiple" accept="image/*" data-edit="insertImage" width="30" />
+                                </i>
+                            </a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
+                        </div>
+
+                    </div><!--文本编辑器结束-->
+                    <div id="editor" style="overflow:auto;max-width:720px;max-height:350px;padding:5px;">
+                        @(Html.Raw(ViewBag.vIntroduction))
+                    </div>
+                    <input type="button" id="SeoHtmlContext1" data-toggle="modal" data-target="#ModalSeoHtml1" class="btn btn-info btn-flat" value="富文本" title="HTML5 富文本" />
+                </div><!--col-md-10结束-->
+            </div>
+            <!--描述 end-->
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ChannelID, htmlAttributes: new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ChannelID", null, Lang.ShopStaff_ShopStaffAdd_Selectchannel, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "渠道", title = "选择渠道" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Qrcode, htmlAttributes: new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <a id="OpenDialog" style="width:110px;display:block;">
+                                @if (String.IsNullOrEmpty(Html.DisplayFor(model => model.Qrcode).ToString().Trim()))
+                                {
+                                    <img id="uploadPicResult" src="@Url.Content("~/images/AddPicture_a.png")" width="110" class="img-thumbnail" />
+                                }
+                                else
+                                {
+                                    <img id="uploadPicResult" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.Qrcode).ToString(), PictureSize.s160X160)" alt="@Lang.Views_GeneralUI_ChangeThepicture" width="110" class="img-thumbnail" />
+                                }
+                            </a>
+
+                        </li>
+
+                        <li>
+                            <input type="file" value="@Lang.Views_GeneralUI_Browse" id="file_uploadPic" SrvUrl="/en-US/Utilities/UpLoadProcess2?Prefix=chn&SubPath=Shoplogo&TargetTalbeKeyID=@DateTime.Now.ToString("yyyyMMddHHmmssfff")&ShopID=@WebCookie.ShopID"
+                                   mime_type="image/jpeg" accept="image/jpeg" class="input-group-sm hidden" />
+                        </li>
+                    </ul>
+                    @Html.TextBoxFor(model => model.Qrcode, htmlAttributes: new { @class = "hidden" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.OtherChannelName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.OtherChannelName, new { @class = "form-control" })
+                </div>
+            </div>
+            <!--其他二维码-->
+            <div class="form-group">
+                @Html.LabelFor(model => model.OtherQrcode, htmlAttributes: new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <a id="OpenDialog2" style="width:110px;display:block;">
+                                @if (String.IsNullOrEmpty(Html.DisplayFor(model => model.OtherQrcode).ToString().Trim()))
+                                {
+                                    <img id="uploadPicResult2" src="@Url.Content("~/images/AddPicture_a.png")" width="110" class="img-thumbnail" />
+                                }
+                                else
+                                {
+                                    <img id="uploadPicResult2" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.OtherQrcode).ToString(), PictureSize.s160X160)" alt="点击此处变更图片" width="110" class="img-thumbnail" />
+                                }
+                            </a>
+
+                        </li>
+
+                        <li>
+                            <input type="file" value="@Lang.Views_GeneralUI_Browse" id="file_uploadPic2" SrvUrl="/en-US/Utilities/UpLoadProcess2?Prefix=ChnOther&SubPath=Shoplogo&TargetTalbeKeyID=@DateTime.Now.ToString("yyyyMMddHHmmssfff")&ShopID=@WebCookie.ShopID"
+                                   mime_type="image/jpeg" accept="image/jpeg" class="input-group-sm hidden" />
+                        </li>
+                    </ul>
+                    @Html.TextBoxFor(model => model.OtherQrcode, htmlAttributes: new { @class = "hidden" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsConfirmed, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.IsConfirmed, new { @class = "checkbox", @checked = "checked" })
+                    @Html.ValidationMessageFor(model => model.IsConfirmed, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 ">
+                    <input id="btnaddnew" type="button" value="@Lang.Views_GeneralUI_Comfirm" class="btn btn-info" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-footer col-sm-offset-2" style="padding-left:15px">
+
+        <ul class="list-unstyled">
+            <li>
+                <p>@Lang.Views_GeneralUI_onlyoneShop</p>
+            </li>
+            <li>
+                <p>Role: StoreAdmin,Supervisor,Admins</p>
+            </li>
+        </ul>
+
+    </div>
+}
+
+<!-- Modal for 关键词富文本HTML5模板-->
+<div id="ModalSeoHtml1" class="modal fade" tabindex="-2" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title h4" title="@Lang.Views_GeneralUI_Html5Template" data-toggle="tooltip" id="ModalSeoHtml_Title">@Lang.Views_GeneralUI_Html5Template</span>
+            </div>
+            <div class="modal-body ">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xm-5 col-lg-5" style="padding-left:5px;padding-right:5px;padding-top:0px;">
+                        <div id="ModalSeoHtml_Tree_dropdown_menu" class="treeview h6"></div>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xm-7 col-lg-7" style="padding-left:5px;padding-right:5px;">
+                        <!--ModalSeoHtml文本编辑器开始-->
+                        <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font" aria-hidden="true"></i><b class="caret"></b></a>
+                                <ul class="dropdown-menu"></ul>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height" aria-hidden="true"></i>&nbsp;<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a data-edit="fontSize 7"><font size="7">7</font></a></li>
+                                    <li><a data-edit="fontSize 6"><font size="6">6</font></a></li>
+                                    <li><a data-edit="fontSize 5"><font size="5">5</font></a></li>
+                                    <li><a data-edit="fontSize 4"><font size="4">4</font></a></li>
+                                    <li><a data-edit="fontSize 3"><font size="3">3</font></a></li>
+                                    <li><a data-edit="fontSize 2"><font size="2">2</font></a></li>
+                                    <li><a data-edit="fontSize 1"><font size="1">1</font></a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm " data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link" aria-hidden="true"></i></a>
+                                <div class="dropdown-menu input-append">
+                                    <input class="span2" placeholder="URL" type="text" data-edit="createLink" style="max-width:150px" />
+                                    <button class="btn btn-default btn-sm " type="button">Add</button>
+                                </div>
+                                <a class="btn-default btn-sm btn" title="@Lang.Views_GeneralUI_UploadToServer" id="pictureBtn2">
+                                    <i class="fa fa-file-image-o" aria-hidden="true">
+                                        <input type="file" id="pictureInput" data-Prefix="Ca"
+                                               SrvUrl="/en-US/Utilities/UpLoadProcess2?Prefix=Staff&SubPath=ShopStaff&TargetTalbeKeyID=@ViewBag.TempShopStaffID&ShopID=@WebCookie.ShopID"
+                                               data-role="magic-overlay" data-target="#pictureBtn2" multiple="multiple" accept="image/*" data-edit="insertImage" width="30" />
+                                    </i>
+                                </a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm " data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify" aria-hidden="true"></i></a>
+                            </div>
+
+                        </div><!--ModalSeoHtml文本编辑器结束-->
+                        <div id="editor2" style="overflow:auto;max-height:350px;height:350px;padding:5px;">
+                            <span class="bg-black-gradient">@Lang.Views_GeneralUI_PasteTheObtainedHTML5</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="h6 col-md-7 col-sm-7 col-xm-7 col-lg-7 col-md-offset-5 col-sm-offset-5 col-lg-offset-5"><span>@Lang.Views_GeneralUI_PasteTheObtainedHTML5</span></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="btn_append1" class="btn btn-primary">@Lang.ModalView_AddUpdateInfo_btn_append1_text</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //--begin Modal for 关键词富文本HTML5模板-- ---------------------------------------------------------------------
+    $('#ModalSeoHtml1').on('shown.bs.modal', function () {
+        $('#editor2').focus();
+    });
+    $("#SeoHtmlContext1").click(function (e) {
+        //参数
+        forRetriveNodeHtml5 = "#editor2";
+        TreeViewID = "#ModalSeoHtml_Tree_dropdown_menu";
+        $(TreeViewID).slimscroll({
+            disableFadeOut: false,
+            height: '410px'
+        });
+        LoadSeoExtandsForEditor(TreeViewID, forRetriveNodeHtml5);
+    });
+    //富文本附加到编辑器
+    $("#btn_append1").click(function (e) {
+        $("#ModalSeoHtml1").modal('hide');
+        //参数
+        $("#editor").html($("#editor").html() + $('#editor2').html());
+        $("#editor").focus();
+    });
+
+    //--end ---------------------------------------------------------------------------------------------------------
+
+    //弹出角色授权  //returnActionResult
+    function OpenShopStaffAddRole() {
+
+        Url_ShopStaffAddRole = "@Url.Action("ShopStaffAddRole", "ShopAdmin",new { area = "admin" })" + "?UserId=" + $("#UserId").val();
+        console.log(Url_ShopStaffAddRole);
+        BootstrapDialog.show({
+            title: "@Lang.ShopStaffAdd_OpenShopStaffAddRole",
+            message: $('<div><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>').load(Url_ShopStaffAddRole)
+        });
+        $("#btn1").attr("disabled", "disabled");
+    }
+</script>
+
+<!--Qrcode图片上存-->
+<script>
+    $("#OpenDialog").click(function () {
+        console.log("OpenDialog to select");
+        $("#file_uploadPic").click();
+    });
+    $("#file_uploadPic").change(function uploadPic() {
+        $("#Loading").removeClass("hidden");
+        var fileInfo = document.getElementById("file_uploadPic").files[0];
+        var SrvUrl = $("#file_uploadPic").attr('SrvUrl');
+        console.log("Qrcode path::" + SrvUrl);
+
+        var form = new FormData();
+        form.append("file", fileInfo);
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", SrvUrl, false);// 必需等于 false(异步) 否则出错 ;html>input 属性 SrvUrl = "/en-US/Utilities/UpLoadProcess2?Prefix=SC&SubPath=Category&TargetTalbeKeyID=0&ShopID=Shp00001"
+        xhr.send(form);
+        if (xhr.responseText === "0") {
+            alert("@Lang.Views_GeneralUI_ServerError \n\r" + xhr.responseText);
+        }
+        else {
+            $("#Loading").addClass("hidden");
+            $("#Qrcode").val(xhr.responseText);
+            $("#uploadPicResult").attr("src", xhr.responseText);
+        }
+        console.log(xhr.responseText); 
+    });
+
+</script>
+
+<!--OtherQrcode upload-->
+<script>
+    $("#OpenDialog2").click(function () {
+        console.log("OpenDialog to select");
+        $("#file_uploadPic2").click();
+    });
+    $("#file_uploadPic2").change(function uploadPic() {
+        $("#Loading").removeClass("hidden");
+        var fileInfo = document.getElementById("file_uploadPic2").files[0];
+        var SrvUrl = $("#file_uploadPic2").attr('SrvUrl');
+        console.log("OtherQrcode picture to upload::" + SrvUrl);
+
+        var form = new FormData();
+        form.append("file", fileInfo);
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", SrvUrl, false);// 必需等于 false(异步) 否则出错 ;html>input 属性 SrvUrl = "/Utilities/UpLoadProcess2?Prefix=SC&SubPath=Category&TargetTalbeKeyID=0&ShopID=Shp00001"
+        xhr.send(form);
+        if (xhr.responseText === "0") {
+            alert("@Lang.Views_GeneralUI_ServerError\n\r" + xhr.responseText);
+        }
+        else {
+            $("#Loading").addClass("hidden");
+            $("#OtherQrcode").val(xhr.responseText);
+            $("#uploadPicResult2").attr("src", xhr.responseText);
+        }
+
+        console.log(xhr.responseText);
+
+    });
+
+</script>
+
+<!--形象图片上存-->
+<script>
+    $("#OpenDialog1").click(function () {
+        console.log("OpenDialog to select");
+        $("#file_uploadPic1").click();
+    });
+    $("#file_uploadPic1").change(function uploadPic() {
+        $("#Loading").removeClass("hidden");
+        var fileInfo = document.getElementById("file_uploadPic1").files[0];
+        var SrvUrl = $("#file_uploadPic2").attr('SrvUrl')
+        console.log("OtherQrcode path::" + SrvUrl);
+
+        var form = new FormData();
+        form.append("file", fileInfo);
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", SrvUrl, false);// 必需等于 false(异步) 否则出错 ;html>input 属性 SrvUrl = "/Utilities/UpLoadProcess2?Prefix=SC&SubPath=Category&TargetTalbeKeyID=0&ShopID=Shp00001"
+        xhr.send(form);
+        if (xhr.responseText === "0") {
+            alert("error \n\r @Lang.Views_GeneralUI_ServerError\n" + xhr.responseText);
+        }
+        else {
+            $("#Loading").addClass("hidden");
+            $("#IconPortrait").val(xhr.responseText);
+            $("#uploadPicResult1").attr("src", xhr.responseText);
+        }
+
+        console.log(xhr.responseText);
+
+    });
+
+</script>
+
+<script>
+    //comfirm
+    $("#btnaddnew").click(function () {
+        $("img").addClass("img-responsive");
+        var htmlIntroduction = $("#editor").html();
+        alert($("#ContactTitle").val());
+        $("#Introduction").val(escape(htmlIntroduction));
+
+        return BootstrapDialog.show({
+            cssClass: 'bootstrap-dialog fade',
+            title: "@Html.DisplayNameFor(model => model.ShopStaffID)" + $("#ShopStaffID").val() + "-" + $("#ShopID").val(),
+            message: $("#ContactTitle").val(),
+            buttons: [{
+                label: '@Lang.Views_GeneralUI_Submit',
+                action: function (dialog) {
+                    console.log("Submit....");
+                    $("#btnaddnew").submit();
+                    dialog.close();
+                }
+            }, {
+                label: '@Lang.Views_GeneralUI_Cancel',
+                action: function (dialog) {
+                    dialog.close();
+                    return false;
+                }
+            }]
+        });//BootstrapDialog
+    }); // click
+
+</script>
+
+

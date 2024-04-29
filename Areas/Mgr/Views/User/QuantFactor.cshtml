@@ -1,0 +1,237 @@
+﻿@using LanguageResource;
+@using Ishop.Identity.Models;
+@using System.Text;
+@using Ishop.Context;
+@model Ishop.Models.User.QuantFactor
+
+@Styles.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/css")
+@Scripts.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/js")
+<script src="~/js/MgrUser/UserQuantization.js"></script>
+<style>
+    .col-md-2 {
+        max-width: 160px;
+    }
+    label {
+        font-size: 1.1em;
+    }
+    span {
+        font-family: micosoft 'Microsoft YaHei';
+    }
+    input {
+        max-width: 280px;
+    }
+</style>
+@{
+    ViewBag.Title = string.IsNullOrEmpty(ViewBag.CurrentQuantFactorID) ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update;
+    ViewBag.SubTitle = Lang.QuantFator_SubTitle;
+}
+ 
+@using (Ajax.BeginForm("QuantFactor", "User", new { QuantFactorID = ViewBag.CurrentQuantFactorID }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleSeccessDialog", OnFailure = "err", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="form-group ">
+                <label class="col-md-2 text-right" for="txt_MenuItemID">@Lang.Views_GeneralUI_LastLevel</label>
+                <div class="col-md-10">
+                    <div class="input-group" style="width:auto;">
+                        <div class="input-group-btn">
+                            <button type="button" id="btn1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" style="width:auto;" aria-expanded="false">
+                                <span id="btn_span1">@Lang.GeneralUI_Select @Html.DisplayNameFor(Model => Model.ParentsID)</span><span class="caret"></span>
+                            </button>
+                            <ul id="dropdown-menu1" class="dropdown-menu" role="menu" style="width:300px;">
+                                <li>
+                                    <div id="ul-li-div1" style="padding:10px;">
+                                        <button type="button" id="btnAddCategoryItemRoot" onclick="setQuantFactorRoot()" data-toggle="tooltip" data-placement="top" title="根因子默认为0" class="btn btn-danger btn-xs">
+                                            @Html.DisplayNameFor(model => model.ParentsID)
+                                        </button>
+                                        @Html.TextBoxFor(model => model.ParentsID, new { @class = "text-info dropdawn_txtbox", placeholder = Lang.Views_GeneralUI_DefaultRootValue })
+                                        @Html.HiddenFor(model => model.ShopID)<!--隐藏ShpID-->
+                                        <i class="fa fa-times pull-right" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                                <li><div id="treeviewQuantFactor1" class="treemenucls"></div></li>
+                            </ul>
+
+                        </div><!--input-group-btn-->
+                        <input ID="txtFactorName" type="text" maxlength="50" placeholder="@Lang.Views_GeneralUI_DefaultRoot" style="width:auto" class="form-control " value="@ViewBag.ParentsName" />
+                        <div class="row"> @Html.ValidationMessageFor(model => model.ParentsID, "", new { @class = "text-danger" })</div>
+                    </div><!--input-group-->
+                </div>
+            </div>
+        </div><!--row-->
+        <br />
+        <div class="row ">
+            <div class="form-group ">
+                <label class="col-md-2 text-right" for="CategoryName">@Html.DisplayNameFor(model => model.FactorName)</label>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.FactorName, new { @class = "form-control", placeholder = @Html.DisplayNameFor(model => model.FactorName) })
+                    @Html.ValidationMessageFor(model => model.FactorName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div><!--row-->
+        <br />
+        <br />
+        <div class="row ">
+            <div class="form-group ">
+                <label class="col-md-2 text-right" for="CategoryName">@Html.DisplayNameFor(model => model.Score)</label>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Score, new { @class = "form-control", placeholder = @Html.DisplayNameFor(model => model.Score) })
+                    @Html.ValidationMessageFor(model => model.Score, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div><!--row-->
+        <br />
+        <br />
+        <div class="row ">
+            <div class="form-group ">
+                <label class="col-md-2 text-right" for="CategoryName">@Html.DisplayNameFor(model => model.TopRank50)</label>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.TopRank50, new { @class = "form-control bold", placeholder = @Html.DisplayNameFor(model => model.TopRank50) })
+                    @Html.ValidationMessageFor(model => model.TopRank50, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div><!--row-->
+        <div class="row ">
+            <!--row-->
+            <div class="form-group">
+                <div class="col-md-10  col-md-offset-1" style="padding-left:50px;">
+                    <ul class="list-inline list-unstyled">
+                        <li>
+                            <button type="submit" id="btnaddnew" class="btn btn-info btn-large" title="@ViewBag.CurrentQuantFactorID">
+                                @(string.IsNullOrEmpty(ViewBag.CurrentQuantFactorID) ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update)
+                            </button>
+                        </li>
+                        <li>
+                            @Html.ActionLink(Lang.Views_GeneralUI_Return, "QuantList", null, new { @class = "btn btn-primary" })
+                        </li>
+                        <li>
+                            <button type="button" id="btnDelete" class="@(string.IsNullOrEmpty(ViewBag.CurrentQuantFactorID) ? " hidden" : "btn btn-primary btn-large btn-danger")" title="@ViewBag.CurrentQuantFactorID">
+                               @Lang.Views_GeneralUI_Delete
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <!--row-->
+            <p class="small"> role : StoreAdmin,Supervisor,Admins,StoreBusinessPromotion</p>
+        </div>
+    </div>
+} <!-- form end-->
+<script>
+    $(document).ready(function () {
+        LoadQuantFactorData("#treeviewQuantFactor1", "0", "#ParentsID", "#txtFactorName");  
+        $('#treeviewQuantFactor1').slimscroll({
+            disableFadeOut: false
+        });
+    });
+    function HandleSeccessDialog(data) {
+        if (data.MsgCode === "1")  // 输入数据格式非法
+        {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: false,
+                title: $("#FactorName").val(),
+                message: "<H3>" + data.Message + "</H3>",
+                cssClass: 'login-dialog fade',
+                buttons: [{
+                    label: 'OK!',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        dialog.close();
+                        setTimeout("golist()", 3000);
+                    }
+                }]
+            });
+        } else {
+            alert(" add  or update  fail");
+        }
+    } // end for HandleSeccessDialog
+    function err(data) { 
+        console.log(JSON.stringify(data));
+    }
+    function golist() {
+        console.log("@Url.Content("QuantList")");
+        window.location = "@Url.Content("QuantList")";
+    }
+    function HandleError(data) {
+        console.log("@Lang.Views_GeneralUI_ReturnResult error : " + JSON.stringify(data));
+    }
+    function setQuantFactorRoot() { 
+        $("#ParentsID").val("0");
+        $("#txtFactorName").val("@Lang.QuantFator_RootFactors");
+    }
+    $("#btnDelete").click(function () {
+
+        var myparamsObject = { "QuantFactorID": "@ViewBag.CurrentQuantFactorID" };
+        $.ajax({
+            type: "post",
+            data: JSON.stringify(myparamsObject),
+            url: "/mgr/user/QuantFactorDelete",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.MsgCode !== "1")   
+                {
+                    console.log("@Lang.ManuItem_ActionMethod_DeleteMenuItem_Failure,data.MsgCode=" + data.MsgCode);
+                    return;
+                }
+                BootstrapDialog.show({
+                    cssClass: 'bootstrap-dialog fade',
+                    title: "@Lang.Views_GeneralUI_ReturnResult",
+                    message: "<H3>" + data.Message + "</H3>",
+                    buttons: [{
+                        label: 'OK',
+                        action: function (dialog) {
+                            dialog.close();
+                            setTimeout("golist()", 10000);
+                        }
+                    }]
+                });//BootstrapDialog
+            },
+            error: function (err) {
+                console.log(JSON.stringify(err)); 
+            }
+        });
+    });
+    function QuantFactorDelete(UploadItemId) {
+         var myparamsObject = { "QuantFactorID": "@ViewBag.CurrentQuantFactorID" };
+        $.ajax({
+            type: "post",
+            data: JSON.stringify(myparamsObject),
+            url: "/mgr/user/QuantFactorDelete",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.MsgCode !== "1")   
+                {
+                    alert("@Lang.Views_GeneralUI_ServerError ,data.MsgCode=" + data.MsgCode);
+                    return;
+                }
+                BootstrapDialog.show({
+                    cssClass: 'bootstrap-dialog fade',
+                    title: "@Lang.Views_GeneralUI_ReturnResult",
+                    message: "<H3>" + data.Message + "</H3>",
+                    buttons: [{
+                        label: 'OK',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });//BootstrapDialog
+            },
+            error: function (err) {
+                console.log(JSON.stringify(err)); 
+            }
+        });
+    }
+</script>
+

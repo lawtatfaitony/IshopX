@@ -1,0 +1,53 @@
+﻿@using LanguageResource;
+@model Ishop.ViewModes.Users.AsignToAccountMgrIDResult
+@{
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("AsignToAccountMgrID", null, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleAsignToAccountMgrIDResult", OnFailure = "err", LoadingElementId = "Loading" }, new { @class = "form-horizontal  bg-gray-light" }))
+{
+    <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span></div>
+
+    @Html.AntiForgeryToken()
+
+    <div id="box-widget" class="box  box-default box-solid">
+        <div class="box-header with-border">
+            <h3 class="box-title">@Lang.AsignToAccountMgrID_GenerateResult</h3>
+            <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+
+        <div class="box-body">
+            <div id="form1" class="form-horizontal">
+                @Html.HiddenFor(m => m.AccountMgrID)
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoginID, new { @class = "col-sm-3 control-label h4" })
+                    <div class="col-sm-7">
+                        @Html.TextBoxFor(m => m.LoginID, new { @class = "form-control h4", placeholder = Html.DisplayNameFor(m => m.LoginID) })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Take, new { @class = "col-sm-3 control-label h4" })
+                    <div class="col-sm-7">
+                        @Html.TextBoxFor(m => m.Take, new { @class = "form-control h4", placeholder = Html.DisplayNameFor(m => m.Take), maxlength = "4" })
+                        @Html.ValidationMessageFor(m => m.Take, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.GenerateResult, new { @class = "col-sm-3 control-label h4" })
+                    <div class="col-sm-7">
+                        @Html.TextAreaFor(m => m.GenerateResult, new { @class = "form-control h6", multiple = "multiple", rows = 10, style = "max-width:350px;" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-footer">
+            &nbsp;&nbsp;<A id="VcardDownUrl" class="btn btn-default bg-navy-active col-sm-offset-4" href="@Html.DisplayFor(m => m.VcardDownUrl)">下载VCR通讯录</A>
+        </div>
+    </div>
+
+}
+

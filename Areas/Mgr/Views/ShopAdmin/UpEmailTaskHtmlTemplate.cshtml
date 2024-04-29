@@ -1,0 +1,425 @@
+﻿@using Ishop.Context;
+@using LanguageResource
+@model Ishop.Models.EmailTask
+@{
+    ViewBag.Title = Lang.EmailSubscribe_Title;
+}
+<link href="~/webuploader/CSS/webuploader.css" rel="stylesheet" />
+<script src="~/webuploader/Script/webuploader.js"></script>
+<script src="~/AdminLTE/plugins/select-pure-master/dist/bundle.min.js"></script>
+<!--MULTI-SELECT-->
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+    }
+
+    .select-wrapper {
+        margin: auto;
+        max-width: 600px;
+        width: calc(100% - 40px);
+    }
+
+    .select-pure__select {
+        align-items: center;
+        background: #f9f9f8;
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        box-sizing: border-box;
+        color: #363b3e;
+        cursor: pointer;
+        display: flex;
+        font-size: 16px;
+        font-weight: 500;
+        justify-content: left;
+        min-height: 44px;
+        padding: 5px 10px;
+        position: relative;
+        transition: 0.2s;
+        width: 100%;
+    }
+
+    .select-pure__options {
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        box-sizing: border-box;
+        color: #363b3e;
+        display: none;
+        left: 0;
+        max-height: 221px;
+        overflow-y: scroll;
+        position: absolute;
+        top: 50px;
+        width: 100%;
+        z-index: 5;
+    }
+
+    .select-pure__select--opened .select-pure__options {
+        display: block;
+    }
+
+    .select-pure__option {
+        background: #fff;
+        border-bottom: 1px solid #e4e4e4;
+        box-sizing: border-box;
+        height: 44px;
+        line-height: 25px;
+        padding: 10px;
+    }
+
+    .select-pure__option--disabled {
+        color: #e4e4e4;
+    }
+
+    .select-pure__option--selected {
+        color: #e4e4e4;
+        cursor: initial;
+        pointer-events: none;
+    }
+
+    .select-pure__option--hidden {
+        display: none;
+    }
+
+    .select-pure__selected-label {
+        align-items: 'center';
+        background: #5e6264;
+        border-radius: 4px;
+        color: #fff;
+        cursor: initial;
+        display: inline-flex;
+        justify-content: 'center';
+        margin: 5px 10px 5px 0;
+        padding: 3px 7px;
+    }
+
+        .select-pure__selected-label:last-of-type {
+            margin-right: 0;
+        }
+
+        .select-pure__selected-label i {
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 7px;
+        }
+
+        .select-pure__selected-label img {
+            cursor: pointer;
+            display: inline-block;
+            height: 18px;
+            margin-left: 7px;
+            width: 14px;
+        }
+
+        .select-pure__selected-label i:hover {
+            color: #e4e4e4;
+        }
+
+    .select-pure__autocomplete {
+        background: #f9f9f8;
+        border-bottom: 1px solid #e4e4e4;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        box-sizing: border-box;
+        font-size: 16px;
+        outline: none;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .select-pure__placeholder--hidden {
+        display: none;
+    }
+</style>
+<div ng-app="App_UpEmailTaskHtmlTemplate" ng-controller="Ctrl_UpEmailTaskHtmlTemplate" class="container" style="max-width:620px;">
+
+    @using (Ajax.BeginForm("UpEmailTaskHtmlTemplate", "ShopAdmin", new AjaxOptions { HttpMethod = "post", OnSuccess = "GetResult", OnFailure = "err", LoadingElementId = "imgLoad" }, new { id = "form1", @class = "form-horizontal" }))
+    {
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.OperatedDate)
+        @Html.HiddenFor(model => model.OperatedUserName)
+        @Html.HiddenFor(model => model.ShopId)
+
+        <div id="box-widget" class="box box-solid box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">@Lang.EmailSubscribe_Title</h3>
+                <div class="box-tools pull-right">
+                    <span class="label label-default"><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Template</span><button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <label class="control-label" for="Subject">@Lang.EmailTask_Name</label>
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control form-control-sm" })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger col-md-12" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <label class="control-label" for="Subject">@Lang.EmailTask_Subject</label>
+                        @Html.TextBoxFor(model => model.Subject, new { @class = "form-control form-control-sm" })
+                        <span class="col-md-10 no-padding no-margin small">@Lang.EmailTask_SubjectBlankRule</span>
+                        @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger col-md-12" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <label class="control-label" for="SenderAccountArr">@Lang.EmailTask_SenderAccountArr</label>
+                        <div class="input-group col-12">
+                            @Html.TextBoxFor(model => model.SenderAccountArr, new { @class = "form-control form-control-sm SenderAccountArr invisible" })
+                            <div class="autocomplete-select-sendmailinfo-list1  multi-select-custom col-12 ml-0 mr-0 pl-0 input-group-sm"></div>
+                        </div>
+                        <span class="col-md-10 no-padding no-margin small">@Lang.EmailTask_SenderAccountArrRule</span>
+                        @Html.ValidationMessageFor(model => model.SenderAccountArr, "", new { @class = "text-danger col-md-12" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <label class="control-label" for="Subject">@Lang.EmailTask_CallBackUrl</label>
+                        @Html.TextBoxFor(model => model.CallBackUrl, new { @class = "form-control form-control-sm" })
+                        <span class="col-md-10 no-padding no-margin small">@Lang.EmailTask_CallBackUrlRule</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.LabelFor(m => m.EmailTemplate, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.EmailTemplate, new { @class = "form-control form-control-sm invisible", @readonly = "readonly" })
+                        <div id="uploader" class="wu-example">
+                            <!--用来存放文件信息-->
+                            <div id="fileList" class="uploader-list"></div>
+                            <div class="btns">
+                                <div id="picker" class="btn btn-default bg-black-gradient">@Lang.GeneralUI_SelectFile</div>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.EmailTemplate, "", new { @class = "text-danger col-md-12" })
+                        </div>
+                        <hr class="col-md-12">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <!--没用上 js submit-->
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" id="submit1" class="btn btn-default btn-flat" value="@Lang.Views_GeneralUI_Submit" />
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+
+    }
+</div>
+
+<script>
+    //获取应用程序根路径
+    //var applicationPath = window.applicationPath === "" ? "" : window.applicationPath || "../../";
+    $(function () {
+        var $ = jQuery,
+        $list = $('#fileList'),
+
+        // Web Uploader实例
+        uploader;
+        uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: '/webuploader/Script/Uploader.swf',
+
+            // 文件接收服务端。
+            server: '/@LangUtilities.LanguageCode/Utilities/UpLoadProcessFile',    // '@Url.Action("UpLoadProcessFile", "Utilities")',
+
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#picker',
+            accept: {
+                title: 'html',
+                extensions: 'html',
+                mimeTypes: '.html'                       // 'application/pdf, application/msword'
+            }
+        });
+
+        // 当有文件添加进来的时候
+        uploader.on('fileQueued', function (file) {
+            // 初始化以后添加 参数传入
+            uploader.options.formData.SubPath = 'MailTemplate';  //设置SubPath
+            uploader.options.formData.Prefix = 'MAIL_';
+            uploader.options.formData.shopID = '@WebCookie.ShopID';
+            uploader.options.formData.TargetTalbeKeyID = '@Model.Id';
+            uploader.options.formData.name = file.name;
+            uploader.options.formData.type = file.type;
+            uploader.options.formData.AcceptType = 'text/html'; //可以接受的文件类型 AcceptType;
+            console.log(JSON.stringify(uploader.options))
+
+            $list.append('<div id="' + file.id + '" class="item">' +
+                '<h4 class="info">' + file.name + '</h4>' +
+                '<p class="state">等待上传...</p>' +
+            '</div>');
+        });
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on('uploadProgress', function (file, percentage) {
+            var $li = $('#' + file.id),
+                $percent = $li.find('.progress span');
+
+            // 避免重复创建
+            if (!$percent.length) {
+                $percent = $('<p class="progress"><span></span></p>')
+                        .appendTo($li)
+                        .find('span');
+            }
+
+            $percent.css('width', percentage * 100 + '%');
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on('uploadSuccess', function (file, response) {
+
+            console.log(response.filePath);
+            $("#EmailTemplate").val(response.filePath);
+            console.log("EmailTemplate=" + response.filePath);
+            $('#' + file.id).find('p.state').text('文件已上传');
+        });
+
+        uploader.on('uploadError', function (file) {
+            $('#' + file.id).find('p.state').text('上传出错' + response.message);
+        });
+
+        uploader.on('uploadComplete', function (file) {
+            $('#' + file.id).find('.progress').fadeOut();
+        });
+
+        //所有文件上传完毕
+        uploader.on("uploadFinished", function (response) {
+            //提交表单
+            //$("#submit1").click(); //不自动提交表单
+            console.log("uploadFinished");
+        })
+
+    });
+</script>
+
+<script>
+    var GetSendMailInfoListJson;
+    var app = angular.module('App_UpEmailTaskHtmlTemplate', []);
+    app.controller('Ctrl_UpEmailTaskHtmlTemplate', function ($scope, $http) {
+        $http({
+            method: 'GET',
+            url: '/Mgr/ShopAdmin/SendMailInfoList2'
+        }).then(function successCallback(response) {
+
+            //console.log({ "response": response});
+
+            if (response.data.meta.Success === true) {
+                GetSendMailInfoListJson = response.data.data;
+
+                //console.log({ "GetSendMailInfoListJson": GetSendMailInfoListJson});
+
+                var SenderAccountArrINput = $(".SenderAccountArr").val();
+                var SenderAccountArr1 = SenderAccountArrINput.split(',');
+
+                if (SenderAccountArr1 instanceof Array === false) {
+                   // console.log("Just SenderAccountArr1 is Array or not:");
+                    //console.log(SenderAccountArr1 instanceof Array);
+                }
+
+                //Required
+                if (SenderAccountArr1[0] == "") {
+                    SenderAccountArr1 = [GetSendMailInfoListJson[0].value];
+                    layer.open({
+                        title: 'Tips'
+                        , content: "NO REC TO SELECT DEAULT VALUE"
+                        , btn: '@Lang.GeneralUI_OK'
+                    });
+                    //console.log({ "SenderAccountArr1": SenderAccountArr1});
+                }
+
+                InitializeSendMailInfoList(".autocomplete-select-sendmailinfo-list1", GetSendMailInfoListJson, ".SenderAccountArr", SenderAccountArr1);
+            }
+            else {
+                layer.open({
+                    title: 'Return'
+                    , content: "Get SendMailInfo list :" + response.data.meta.message
+                    , btn: '@Lang.GeneralUI_OK'
+                });
+                //console.log("UpdateTaskCtrl OK: \n\r" + response.data);
+            }
+
+        }, function errorCallback(response) {
+            console.log("UpdateTaskCtrl : \n\r" + response.data);
+        });
+
+    });
+
+    function GetResult(result) {
+
+        console.log(result);
+        if (result.meta.Success === true)  // 输入数据格式非法
+        {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: false,
+                message: "<H3>" + result.meta.Message + "</H3>",
+                cssClass: 'bootstrap-dialog fade',
+                buttons: [{
+                    label: 'OK!',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        dialog.close();
+                        $("#submit1").attr("disabled", "disabled");  //屏蔽按钮
+                    }
+                }]
+            });
+
+            setTimeout(function () {
+                golist();
+            }, 3000);
+
+        } else {
+            alert("服务器端处理数据失败\n\n" + result.meta.ErrorCode + ":" + result.meta.Message);
+        }
+    }
+
+    function err(data) {
+        alert("Form ERROR");
+    }
+    function golist() {
+
+        window.location = "/mgr/ShopAdmin/EmailTaskList";
+    }
+
+    function InitializeSendMailInfoList(select_css_id, sendMailInfoList, TargetObject, arr_value) {
+        
+        //console.log({ "InitializeSendMailInfoList_SendMailInfoList": sendMailInfoList});
+        var autocomplete = new SelectPure(select_css_id, {
+            options: sendMailInfoList,
+            value: arr_value,
+            multiple: true,
+            autocomplete: true,
+            icon: "fa fa-times",
+            placeholder: "-Please select-",
+            onChange: value => {
+                //console.log("arr_value.length " + arr_value.length);
+                $(TargetObject).val(value);
+            },
+            classNames: {
+                select: "select-pure__select",
+                dropdownShown: "select-pure__select--opened",
+                multiselect: "select-pure__select--multiple",
+                label: "select-pure__label",
+                placeholder: "select-pure__placeholder",
+                dropdown: "select-pure__options",
+                option: "select-pure__option",
+                autocompleteInput: "select-pure__autocomplete",
+                selectedLabel: "select-pure__selected-label",
+                selectedOption: "select-pure__option--selected",
+                placeholderHidden: "select-pure__placeholder--hidden",
+                optionHidden: "select-pure__option--hidden",
+            }
+        });
+    }
+</script>
+

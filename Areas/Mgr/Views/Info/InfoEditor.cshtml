@@ -1,0 +1,157 @@
+﻿@using LanguageResource
+@using Ishop.Context
+@using Microsoft.AspNet.Mvc.Rendering
+@model Ishop.Models.Info.InfoDetail
+
+
+ 
+
+<!-- 加载编辑器的容器 -->
+<script id="container" name="content" type="text/plain">@Html.Raw(Model.InfoDescription)</script>
+
+<div class="box box-info">
+    @using (Ajax.BeginForm("UpdateInfoDesc", null, new { InfoID = Model.InfoID}, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleUpdateInfoDescSuccDialog", OnFailure = "errUpdateInfoDesc"}, new { @class = "form-horizontal" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+           
+            <div class="box-footer col-sm-offset-2">
+                <ul class="list-inline list-unstyled">
+                    <li>
+                        <button type="button" id="btnaddnew" class="btn btn-info ">
+                            上存图片
+                        </button>
+                    </li>
+                    <li style="max-width:15px;max-height:30px;;overflow:hidden;">
+                        @Html.TextAreaFor(model => model.InfoDescription, new { @class = "form-control hidden InfoDescription" })
+                    </li>
+                    <li>
+                        <button type="submit" id="btnUpdate" class="btn btn-info ">
+                            <i class="fa fa-cloud-upload-alt"></i>  @Lang.Views_GeneralUI_Update)
+                        </button> 
+                    </li> 
+                </ul>
+            </div>  
+        }
+</div>
+
+<!--Modal For 信息复制 By InfoId-->
+<div class="modal fade" id="InfoCopyModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title h4" id="input_info_id">INput Info ID</span><a class="badge badge-warning padding-10 margin-left5" target="_blank" href="~/Content/BackEnd/InfoCopyHelpTips.jpg">帮助说明</a>
+            </div>
+            <div class="modal-body ">
+                <div class="row">
+                    @using (Html.BeginForm("AddUpdateInfo", "Info", FormMethod.Get, new { @class = "form-horizontal no-padding no-margin " }))
+                    {
+                        <div id="box-widget" class="box-body form-inline col-lg-8 col-md-8 col-sm-8 col-xs-12 padding-left15">
+                            @Html.TextBox("FromInfoID", "", new { @class = "form-control", placeholder = Lang.Views_GeneralUI_InputKeyWord, style = "max-width:120px;" })
+
+                            <input type="submit" class="btn btn-info" value="INFO COPY" />
+
+                        </div>
+                    }
+                </div><!--Row-->
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+<!-- 配置文件 -->
+<script src="~/Content/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script src="~/Content/ueditor/ueditor.all.min.js"></script>
+<script src="~/Content/ueditor/lang/zh-cn/zh-cn.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var SrvUrl = "/@LangUtilities.LanguageCode/Utilities/UpLoadProcess2?Prefix=UE&SubPath=ueditor";
+
+    var ue = UE.getEditor('container', {
+        autoHeight: true
+    });
+    //window.UMEDITOR_CONFIG = {
+
+    //    //为编辑器实例添加一个路径，这个不能被注释
+    //    UMEDITOR_HOME_URL: "/content/ueditor/"
+    //    //图片上传配置区
+    //    , imageUrl: "/en-US/Utilities/UpLoadProcess2" //图片上传提交地址
+    //    , imagePath: URL + "src/Pictures" //图片修正地址，引用了fixedImagePath,如有特殊需求，可自行配置
+    //    , imageFieldName: "file" //图片数据的key,若此处修改，需要在后台对应文件修改对应参数
+    //};
+    //对编辑器的操作最好在编辑器ready之后再做
+    ue.ready(function () {
+        //设置编辑器的内容
+        //ue.setContent('hello');
+        ue.setHeight(window.innerHeight-250);
+       // ue.fullscreen = true;
+        //获取html内容，返回: <p>hello</p>
+        var html = ue.getContent();
+        //获取纯文本内容，返回: hello
+        var txt = ue.getContentTxt();
+
+    });
+
+    $(document).ready(function () {
+        //UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+        //UE.Editor.prototype.getActionUrl = function (action) {
+        //    if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
+        //        alert("_bkGetActionUrl");
+        //        return SrvUrl;
+        //    } else if (action == 'uploadvideo') {
+        //        return 'http://a.b.com/video.php';
+        //    } else {
+        //        return this._bkGetActionUrl.call(this, action);
+        //    }
+        //};
+
+        //============================================================
+        //$('form').submit(function () {
+
+        //    $('#InfoDescription').val(escape(editor.getContent())); 
+        //    return true;
+
+        //});
+    });
+
+    function HandleUpdateInfoDescSuccDialog(data) {
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_SUCCESS,
+            resizable: true,
+            size: 'size-normal',
+            closeByBackdrop: false,
+            closeByKeyboard: false,
+            draggable: true,
+            closable: false,
+            title: "INFO",
+            message: "<H3>" + data.Message + "</H3>",
+            cssClass: 'bootstrap-dialog fade',
+            buttons: [{
+                label: 'OK!',
+                cssClass: 'btn-primary',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+    }
+    function errUpdateInfoDesc(data) {
+        alert(data.MsgCode + "::" + data.Message);
+    }
+
+    $("#btnUpdate").click(function () {
+         
+        $(".InfoDescription").val(escape(ue.getContent()));
+         
+        return;
+    }); // click
+
+    $("#btnEscape").click(function () {
+
+        $("#InfoDescription").val(escape(ue.getContent()));
+        alert("++====================++");
+    });
+</script>

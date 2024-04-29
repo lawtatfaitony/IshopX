@@ -1,0 +1,261 @@
+﻿@using LanguageResource ;
+@using Ishop.Models.User;
+@using Ishop.Context;
+@using Ishop.Utilities;
+@using PagedList;
+@using PagedList.Mvc;
+@using Ishop.Models.PubDataModal;
+@using Ishop.AppCode.Utilities;
+@model PagedList.IPagedList<Ishop.Models.User.UserProfile>
+@{
+    ViewBag.Title = Lang.MgrUser_Index_Title;
+    ViewBag.SubTitle = Lang.MgrUser_Index_SubTitle;
+    List<UserTag> UserTagQuery = ViewBag.UserTagQuery;
+    ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
+}
+@using (Html.BeginForm("Index", "User", FormMethod.Get))
+{
+    <div id="box-widget" class="box-header with-border">
+        <div class="form-group form-inline">
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = Lang.ModalView_QryKeyword, title = string.Format("{0}:{1}", Lang.ModalView_QryKeyword , Lang.User_Inder_SearchString_Title), data_toggle = "tooltip", style = "max-width:90px;" })
+            <div class="input-group">
+                <input type="text" id="txtAccountMgrIDName" class="dropdown-toggle form-control margin-r-5" autocomplete="off" data-toggle="dropdown" placeholder="@Lang.UserProfile_AsignAccountMgrIDs" style="max-width:90px;" />
+                <input type="text" id="txtAccountMgrID" class="hidden" />
+                <ul id="Div_AccountMgrID" class="dropdown-menu" role="menu" style="width:300px;" aria-labelledby="dLabel">
+                    <li class="pad"><div id="AccountMgrID_dropdown-menu1" class="h6 small">@Lang.Views_GeneralUI_Loading</div></li>
+                </ul>
+            </div><!--input-group-btn-->
+            @Html.DropDownList("UserTagID", null, Lang.GeneralUI_Select, new { @class = "form-control", data_toggle = "tooltip", title = Lang.UserProfile_UserTagID, style = "max-width:90px;" })
+
+            <input type="submit" class="btn btn-default margin-r-5" value="@Lang.Views_GeneralUI_Search" />
+            <input type="button" id="DistributeToAccountMgrID" class="btn btn-default" value="@Lang.User_DistributeToAccountMgrID_Value" />
+            <input type="button" id="btnIsBlock" class="btn btn-default pull-right  margin-r-5" value="@Lang.User_DistributeToAccountMgrID_Block" />
+            <input type="button" id="btnRenderPhoneNumber" class="btn btn-default pull-right  margin-r-5" value="@Lang.User_DistributeToAccountMgrID_Random" />
+            @Html.ActionLink(Lang.Views_GeneralUI_AddNew, "Details", null, new { @class = "btn btn-info pull-right margin-r-5", target = "_Blank" })
+        </div>
+    </div>
+}
+<div class="box-body table-responsive">
+    <table class="table table-striped table-hover table-responsive">
+        <tr>
+            <th>
+                <ul class="inline list-unstyled" style="max-width:80px;">
+                    <li class="inline">
+                        <i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue"></i><lable title="UserId">UId</lable>
+                    </li>
+                </ul>
+            </th>
+            <th>
+                <i class="fa fa-mobile" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.UserProfile_PhoneNumber</lable>
+            </th>
+            <th>
+                <i class="fa fa-meh-o" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.UserProfile_NickName</lable>
+            </th>
+            <th>
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.UserProfile_FullName</lable>
+            </th>
+            <th>
+                <i class="fa  fa-envelope-o" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.UserProfile_Email</lable>
+            </th>
+            <th>
+                <i class="fa fa-diamond" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.UserProfile_VipLevelID</lable>
+            </th>
+            <th>
+                <i class="fa fa-rss" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.UserProfile_UserTagID</lable>
+            </th>
+            <th>
+                <i class="fa fa-transgender" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.UserProfile_IsMonopoly</lable>
+            </th>
+            <th>
+                <i class="fa fa-calendar" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.UserProfile_AsignAccountMgrIDs</lable>
+            </th>
+            <th>
+                <i class="fa fa-home" aria-hidden="true" style="color:mediumslateblue"></i><lable>ShopID</lable>
+            </th>
+            <th>
+                <i class="fa fa-calendar" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.UserProfile_CreatedDate</lable>
+                @Html.ActionLink(" ", "Index", "User", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter }, htmlAttributes: new { @class = "fa fa-sort pull-right", title = Lang.Views_GeneralUI_OrderByDatetime })
+            </th>
+            <th>
+                <lable class="block fa fa-share-alt-square" style="word-break:keep-all;color:mediumslateblue">@Lang.Views_GeneralUI_Details</lable>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.CheckBoxFor(modelItem => item.IsBlock, new { title = Lang.UserProfile_IsBlock, data_toggle = "tooltip" }) @Html.DisplayFor(modelItem => item.UserId, new { target = "_Blank", title = Html.DisplayFor(modelItem => item.Remarks), data_toggle = "tooltip" })
+                </td>
+                <td>
+                    @if (ViewBag.CheckIsInRole)
+                    {
+                        @Html.DisplayFor(modelItem => item.PhoneNumber);
+                    }
+                    else
+                    {
+                        @mvcCommeBase.PhoneNumberRplforArisk(Html.DisplayFor(modelItem => item.PhoneNumber).ToString());
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NickName)
+                    <ul class="list-unstyled list-inline" title="openid:@item.OpenID" data-toggle="tooltip">
+                        <li>
+                            @Html.DisplayFor(modelItem => item.NickName)
+                        </li>
+                        <li> 
+                            @Html.Raw(HttpUtility.HtmlDecode(mvcCommeBase.RenderImg(item.UserIcon, "40px")))
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VipLevelID)
+                </td>
+                <td>
+                    @{
+                        string strUserTagID = Html.DisplayFor(modelItem => item.UserTagID).ToString();
+                        UserTag a = db.UserTags.Find(strUserTagID);
+                        string strTagName = a == null ? "-" : a.TagName;
+                    }
+                    @strTagName
+                </td>
+                <td>
+                    @Html.CheckBoxFor(modelItem => item.IsMonopoly, new { title = Lang.User_IsMonopoly_Tilte, data_toggle = "tooltip" })
+                </td>
+
+                <td>
+                    @{ string strAsignAccountMgrIDs = Html.DisplayFor(modelItem => item.AsignAccountMgrIDs).ToString().Trim().TrimEnd(',');
+                        if (!string.IsNullOrEmpty(strAsignAccountMgrIDs))
+                        {
+                            foreach (var i in strAsignAccountMgrIDs.Split(',').ToList())
+                            {
+                                AccountMgr accountMgr = new AccountMgr();
+                                accountMgr = db.AccountMgrs.Find(i);
+                                if (accountMgr != null)
+                                {
+                                    string lbl = accountMgr.SiteName + ">" + accountMgr.LoginID;
+                                    <label>
+                                        @lbl
+                                    </label>
+                                }
+                            }
+                        }
+
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShopID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td style="color:#1b1b1b">
+                    <div class="block">@Html.ActionLink(Lang.Views_GeneralUI_Edit, "Details", new { ID = item.UserProfileID, Layout = 1 }, new { @class = "fa fa-pencil", target = "_Blank", style = "color:mediumpurple;word-wrap:normal;word-break:keep-all" })</div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@if (Model.PageCount > 1)
+{
+    <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
+
+<script>
+    $(document).ready(function () {
+        //【动态检查】（规则： ~Ishop/js/TreeMenuItem.js）
+        $("#txtAccountMgrIDName").on('input', function (e) {
+            DropdownMenuID = "#AccountMgrID_dropdown-menu1";
+            searchString = $("#txtAccountMgrIDName").val(); // 帐号搜索关键要素
+            txtID = "txtAccountMgrID";
+            txtName = "txtAccountMgrIDName";
+            console.log(searchString);
+            LoadAccountMgrDropDownData(DropdownMenuID, txtID, txtName, searchString)
+        });
+        $("txtAccountMgrIDName").focus(function () {
+            DropdownMenuID = "#AccountMgrID_dropdown-menu1";
+            searchString = $("#txtAccountMgrIDName").val(); // 帐号搜索关键要素
+            txtID = "txtAccountMgrID";
+            txtName = "txtAccountMgrIDName";
+            console.log(searchString);
+            LoadAccountMgrDropDownData(DropdownMenuID, txtID, txtName, searchString)
+        });
+
+        //弹出分发 string AccountMgrID,int? skip ,int? take
+        $("#DistributeToAccountMgrID").click(function OpenAsignToAccountMgrID() {
+            var AccountMgrID = $("#txtAccountMgrID").val(); // 渠道帐号ID
+            //AccountMgrID = AccountMgrID.replace(/^\s+|\s+$/g, '');//去掉空格
+            var UserTagID = $("#UserTagID").val();
+            console.log("UserTagID = " + UserTagID);
+            Url_AsignToAccountMgrID = "@Url.Action("AsignToAccountMgrID", "User")" + "?AccountMgrID=" + AccountMgrID + "&UserTagID=" + UserTagID;
+            console.log(Url_AsignToAccountMgrID);
+
+            var $message = $('<div  class="h4"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="h4">@Lang.Views_GeneralUI_Pleasewait</span><br><span class="sr-only">Loading...</span></div><br/>').load(Url_AsignToAccountMgrID);
+            var $button = $('<div><button class="btn btn-default pull-right">Close</button></div>');
+            if (AccountMgrID === "" || AccountMgrID === "undefined" || UserTagID === "" || UserTagID === "undefined") {
+                $message = $('<div class="box-body"><span class="h3"> @Lang.User_DistributeToAccountMgrID_Clk_message </span></div>');
+            }
+            var dialog = new BootstrapDialog({
+                message: function (dialogRef) {
+                    $button.on('click', { dialogRef: dialogRef }, function (event) {
+                        event.data.dialogRef.close();
+                    });
+                    $message.append($button);
+                    return $message;
+                },
+                closable: true
+            });
+            dialog.realize();
+            dialog.getModalHeader().hide();
+            dialog.getModalFooter().hide();
+            //dialog.setType(BootstrapDialog.TYPE_DEFAULT);
+            dialog.getModalBody().css('background-color', '#efefef');
+            dialog.getModalBody().css('color', '#1b1b1b');
+            dialog.open();
+        });
+        $("#btnIsBlock").click(function OpenIsBlockPhoneNumberUrl() {
+            IsBlockPhoneNumberUrl = '@Url.Action("IsBlockPhoneNumber","User")';
+            var $message = $('<div  class="h4"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="h4">@Lang.Views_GeneralUI_Pleasewait</span><br><span class="sr-only">Loading...</span></div><br/>').load(IsBlockPhoneNumberUrl);
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: true,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: true,
+                title: "@Lang.Views_GeneralUI_OperateInfo",
+                message: $message,
+                cssClass: 'bootstrap-dialog fade'
+            });
+        });
+        $("#btnRenderPhoneNumber").click(function OpenRenderPhoneNumber() {
+            RenderPhoneNumberUrl = '@Url.Action("RenderPhoneNumber", "User")';
+            var $message = $('<div class="h4"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="h4">@Lang.Views_GeneralUI_PleaseWait2</span><br><span class="sr-only">Loading...</span></div><br/>').load(RenderPhoneNumberUrl);
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: true,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: true,
+                title: "@Lang.Views_GeneralUI_OperateInfo",
+                message: $message,
+                cssClass: 'bootstrap-dialog fade'
+            });
+        });
+    });
+    $('[data-toggle="tooltip"]').tooltip();  
+</script>
+
+

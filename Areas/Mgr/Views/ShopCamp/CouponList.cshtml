@@ -1,0 +1,282 @@
+﻿@using LanguageResource;
+@using Ishop.Context;
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<Ishop.Models.CampaignMgr.Coupon>
+@{
+    ViewBag.Title = Lang.CouponList_Title;
+    ViewBag.SubTitle = Lang.CouponList_SubTitle;
+}
+@Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
+@Styles.Render("~/AdminLTE/plugins/timepicker/css")
+@Scripts.Render("~/AdminLTE/plugins/timepicker/js")
+@Scripts.Render("~/AdminLTE/plugins/daterangepicker/js")
+
+
+@using (Html.BeginForm("CouponList", "ShopCamp", FormMethod.Get, new { @class = "form-horizontal" }))
+{
+    <div id="box-widget" class="box-header form-inline">
+        <label class="label label-info" for="SearchString">@Lang.Views_GeneralUI_Find</label>
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", style = "max-width:120px;" })
+        @Html.TextBox("StartDate", ViewBag.CurrentStartDate as string, new { @class = "form-control h6", style = "max-width:150px;" })
+        <label class="label label-info" for="SearchString">TO</label>
+        @Html.TextBox("EndDate", ViewBag.CurrentEndDate as string, new { @class = "form-control h6", style = "max-width:150px;" })
+        <input type="submit" class="btn btn-info" value="@Lang.Views_GeneralUI_Search" />
+
+        @Html.ActionLink(Lang.Views_GeneralUI_AddNew, "CouponAddOrUpd", null, new { @class = "btn btn-info pull-right" })
+    </div>
+}
+<div class="box-body">
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                <i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().CouponID)</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().ShopID)</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().CouponName)</lable>
+            </th>
+            <th>
+                <i class="fa fa-money" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable title="@Lang.CouponList_Label_Title_CouponUsage" data-toggle="tooltip" data-placement="top">@Html.DisplayNameFor(modelItem => modelItem.First().Conditions)</lable>
+            </th>
+            <th>
+                <i class="fa fa-money" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().FaceValue)</lable>
+            </th>
+            <th>
+                <i class="fa fa-calendar-check-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().StartDate)</lable>
+                @Html.ActionLink("∨", "CouponList", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter }, new { title = Lang.Views_GeneralUI_SortByTime })
+            </th>
+            <th>
+                <i class="fa fa-calendar-times-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().EndDate)</lable>
+            </th>
+            <th>
+                <i class="fa fa-clone" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().IssueQuantity)</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().Mode)</lable>
+            </th>
+            <th>
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().OperatedUserName)</lable>
+            </th>
+            <th>
+                <i class="fa fa-calendar" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().OperatedDate)</lable>
+            </th>
+            <th>
+                <i class="fa fa-share-alt-square" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable class="block" style="word-break:keep-all">@Lang.Views_GeneralUI_Details</lable>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a onclick='UserCoupon("@Html.DisplayFor(modelItem => item.CouponID)", "@User.Identity.Name");' href="#" class="active"><strong>@Html.DisplayFor(modelItem => item.CouponID)</strong></a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShopID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CouponName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Conditions)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FaceValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IssueQuantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OperatedUserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OperatedDate)
+                </td>
+                <td>
+                    <div class="block"><i class="fa fa-pencil" aria-hidden="true" style="color:mediumslateblue;word-break:keep-all"></i> @Html.ActionLink(Lang.Views_GeneralUI_Edit, "CouponAddOrUpd", new { CouponID = item.CouponID }, new { style = "word-wrap:normal;word-break:keep-all" })</div>
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+<!--Modal-->
+<div class="modal fade" id="UserCouponAdd">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">@Lang.CouponList_UserCouponAdd_h4</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <ul class="list-unstyled">
+                        <li class="list-group">
+                            <div class="form-group container">
+                                <Label class="col-sm-2 control-label" for="CouponID">@Html.DisplayNameFor(modelItem => modelItem.First().CouponID)</Label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="CouponID" class="form-control text-info" placeHolder="@Html.DisplayNameFor(modelItem => modelItem.First().CouponID)" />
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group">
+                            <div class="form-group container">
+                                <Label class="col-sm-2 control-label" for="CouponID">@Lang.Views_GeneralUI_LoginID</Label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="UserName" class="form-control text-info" placeHolder="@Lang.Views_GeneralUI_LoginName" />
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group">
+                            <div class="form-group container">
+                                <div id="alert_Ins_Succ" class="alert alert-success" role="alert" style="height:34px;width:450px">
+                                    <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;">
+                                        <i class="fa fa-check-square-o fa-1x" aria-hidden="true" style="color:white;"></i><span id="okmsg"></span><small><span id="msg" style="color:white;padding-left:30px;"></span></small>
+                                    </h4>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="SaveChanges1">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.PageCount > 1)
+{
+    <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+    @Html.PagedListPager(Model, page => Url.Action("CouponList", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
+
+<script>
+    $(document).ready(function () {
+        datepickerRender("#StartDate"); // 初始化日期
+        datepickerRender("#EndDate");
+        $('[data-toggle="tooltip"]').tooltip(); //初始化提示样式
+        $("#alert_Ins_Succ").toggle();
+
+    });
+        function UserCoupon(UserID, UserName) {
+            $("#alert_Ins_Succ").hide();
+            $('#CouponID').val(UserID);
+            $('#UserName').val(UserName);
+            $('#UserCouponAdd').modal({ backdrop: 'static', keyboard: true });
+        }
+        //UserCouponAdd
+    $("#SaveChanges1").click(function () {
+
+        var CouponID = $("#CouponID").val();
+        CouponID = CouponID.replace(/^\s+|\s+$/g, '');
+
+        var UserName = $("#UserName").val();
+        UserName = UserName.replace(/^\s+|\s+$/g, '');
+        var myparamsObject = { "UserName": UserName, "CouponID": CouponID };
+        console.log(myparamsObject);
+
+        if (CouponID.length <= 1 || UserName.length <= 1) {
+
+            alert("@Lang.CouponList_SaveChanges1_Alert");
+            return false;
+
+        } else { 
+            $.ajax({
+                url: "@Url.Content("UserCoupon")",
+                data: myparamsObject,
+                type: "post",
+                error: function (result) {
+                    console.log(result);
+                    alert("ShopCamp/UserCoupon @Lang.Views_GeneralUI_ServerError \n\r code:500\n\r" + JSON.stringify(result));
+                },
+                success: function (data) {
+                    if (data.MsgCode === "1") {
+                        $("#okmsg").html("OK!");
+                        $("#msg").html(data.Message);
+                        $("#alert_Ins_Succ").toggle();
+                        //setTimeout("$('#alert_Ins_Succ').toggle()", 3000);
+                        //setTimeout("$('#alert_Ins_Succ').toggle()", 4000); 
+                        setTimeout("$('#UserCouponAdd').modal('hide')", 6000);
+                    }
+                    else {
+                        alert(data.Message);
+                    }
+                }
+
+            });
+        }
+    });
+
+</script>
+
+<script>
+
+    function datepickerRender(ID) {
+        $(ID).daterangepicker({
+
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "timePicker": true,
+            "locale": {
+                "format": "YYYY-MM-DD",
+                "separator": " - ",
+                "applyLabel": "OK",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Su",
+                    "Mo",
+                    "Tu",
+                    "We",
+                    "Th",
+                    "Fr",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December"
+                ],
+                "firstDay": 1
+            },
+            "linkedCalendars": false,
+            "showCustomRangeLabel": false,
+            "startDate": moment(),
+            "endDate": moment()
+        }, function (start, end, label) {
+            $(ID).val(start.format('YYYY-MM-DD hh:mm'));
+            // console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+        });
+    }
+</script>
+

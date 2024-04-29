@@ -1,0 +1,65 @@
+﻿@using LanguageResource;
+@model Ishop.Models.ProductMgr.ProdPropertiesValue
+
+@{
+    ViewBag.Title = @Lang.ModalView_ProductPropertiesValue_Create_Title_AttributeAdd;
+    Layout = "~/Areas/Mgr/Views/Shared/_blankLayout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <label class="h4 top-left">@Lang.ModalView_ProductPropertiesValue_Create_Title_AttributeAdd</label>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProdCateID, htmlAttributes: new { @class = "control-label col-md-2  form-inline " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProdCateID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.ProdCateID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group ">
+            @Html.LabelFor(model => model.ProdCateName, htmlAttributes: new { @class = "control-label col-md-2  form-inline " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProdCateName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.ProdCateName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PropertiesNameID, htmlAttributes: new { @class = "control-label col-md-2  form-inline " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PropertiesNameID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.PropertiesNameID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PropertiesName, htmlAttributes: new { @class = "control-label col-md-2  form-inline " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PropertiesName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.PropertiesName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PropertiesValueName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PropertiesValueName, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.PropertiesValueName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@Lang.Views_GeneralUI_AddNew" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink(Lang.Views_GeneralUI_Return, "Index", new { ProdCateID = ViewBag.ProdCateID, ProdCateName = ViewBag.ProdCateName, PropertiesNameID = ViewBag.PropertiesNameID, PropertiesName = ViewBag.PropertiesName })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

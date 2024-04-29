@@ -1,0 +1,229 @@
+﻿@using System.Configuration
+@using Ishop.Utilities
+@using Ishop.Context
+@using PagedList
+@using LanguageResource
+@using Microsoft.AspNet.Identity
+@using Ishop.Areas.Mgr.ModelView
+@using Ishop.Models.PubDataModal
+@model IEnumerable<DispatchNotePrintView>
+@{
+    Layout = null;
+
+    DefiniteTemplateNote definiteTemplateNote = ViewBag.definiteTemplateNote;
+}
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Print</title>
+    @Styles.Render("~/AdminLTE/bootstrap/css")
+    @Styles.Render("~/AdminLTE/plugins/font-awesome/css")
+    @Styles.Render("~/AdminLTE/plugins/ionicons/css")
+    @Styles.Render("~/AdminLTE/plugins/bootstrap-treeview/css")
+    @Styles.Render("~/AdminLTE/dist/css")
+    @Styles.Render("~/AdminLTE/dist/css/skins")
+    @Styles.Render("~/AdminLTE/plugins/bootstrap-dialog/css")
+    @Styles.Render("~/AdminLTE/plugins/tbTrade")
+    @Styles.Render("~/AdminLTE/plugins/print")
+
+    @Scripts.Render("~/AdminLTE/plugins/jquery/js")
+
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax")
+    @Scripts.Render("~/Scripts/jquery.validate")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive")
+
+    @Scripts.Render("~/AdminLTE/bootstrap/js")
+
+    @Scripts.Render("~/AdminLTE/plugins/fastclick/js")
+    @Scripts.Render("~/AdminLTE/plugins/slimscroll/js")
+    @Scripts.Render("~/Scripts/Shared/_Layout")
+    @Scripts.Render("~/AdminLTE/dist/js")
+    @Scripts.Render("~/AdminLTE/plugins/bootstrap-dialog/js")
+    @Scripts.Render("~/AdminLTE/plugins/bootstrap-treeview/js")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/js/TreeMenuItem")
+    @Styles.Render("~/Content/Main") <!--customize style-->
+
+
+    @Scripts.Render("~/js/LayerUI/PC")
+    @Scripts.Render("~/js/MainJS")
+    @Scripts.Render("~/Scripts/angular")
+    @Scripts.Render("~/AdminLTE/plugins/print")
+
+    <style>
+        #PrintArea {
+            background: url(@definiteTemplateNote.DefiniteTemplatePicture);
+            -moz-background-size: @definiteTemplateNote.Width @definiteTemplateNote.Height; /* Firefox */
+            background-size: @definiteTemplateNote.Width @definiteTemplateNote.Height;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body> 
+    <div ng-app="drag" class="no-margin padding-top10">
+        <div id="PrintArea" class="no-margin padding-top10" style="width:@definiteTemplateNote.Width; height:@definiteTemplateNote.Height;background-size: @definiteTemplateNote.Width @definiteTemplateNote.Height;">
+            @foreach (var item in Model)
+            {
+                <span id="@item.TemplateNotePositionId" draggable data-FontSize="@item.FontSize" data-MaxWidth="@item.MaxWidth" X="@item.X" Y="@item.Y" style="display:-moz-inline-box; display:inline-block;font-size:@item.FontSize; width:@item.MaxWidth;word-wrap:break-word;position: relative;left: @(item.X+"px");top: @(item.Y+"px");">@item.DataFieldValue</span>
+            }
+        </div>
+        <div class="container  no-print" style="left:0px;position:absolute;max-width:900px;">
+            <div class="panel panel-default margin-top10">
+                <div class="panel-heading" id="TipsTitle"> @Lang.ModalView_TipsTitle</div>
+                <div class="panel panel-body" id="TipsBody">
+                    @Lang.ModalView_TipsBody
+                </div>
+                <div class="panel panel-footer" ng-controller="MyControllerUpd">
+                    <form ng-submit="processForm(data)" ng-name="form1" id="form1">
+                        <div>
+                            <!--TemplateNotePosition-->
+                            <div>
+                                <input id="TemplateNotePositionId" ng-model="TemplateNotePositionId" disabled="disabled" placeholder="@Lang.Modal_TemplateNotePositionId" title="@Lang.Modal_TemplateNotePositionId" class="small" />
+
+                                <input list="DataFieldFontSize" id="FontSize" ng-model="FontSize" onclick="javascript: this.value = '';" placeholder="@Lang.Modal_FontSize" title="@Lang.Modal_FontSize" class="small" />
+                                <datalist id="DataFieldFontSize">
+                                    <option value="10px">
+                                    <option value="12px">
+                                    <option value="14px" selected="selected">
+                                    <option value="16px">
+                                    <option value="18px">
+                                    <option value="24px">
+                                </datalist>
+
+                                <input type="text" list="List_TemplateNotePositionMaxWidth" id="MaxWidth" ng-model="MaxWidth" onclick="javascript: this.value = '';" placeholder="@Lang.Modal_MaxWidth" title="@Lang.Modal_MaxWidth" class="small">
+                                <datalist id="List_TemplateNotePositionMaxWidth">
+                                    <option value="2cm">
+                                    <option value="2.5cm" selected="selected">
+                                    <option value="3cm">
+                                    <option value="3.5cm">
+                                    <option value="4cm">
+                                    <option value="5cm">
+                                    <option value="6cm">
+                                    <option value="7cm">
+                                    <option value="8cm">
+                                    <option value="9cm">
+                                    <option value="10cm">
+                                    <option value="11cm">
+                                    <option value="12cm">
+                                </datalist>
+                                <input type="text" id="X" ng-model="X" disabled="disabled" placeholder="@Lang.TemplateNotePosition_X" title="@Lang.TemplateNotePosition_X" class="small">
+
+                                <input type="text" id="Y" ng-model="Y" disabled="disabled" placeholder="@Lang.TemplateNotePosition_Y" title="@Lang.TemplateNotePosition_Y" class="small">
+
+                            </div>
+                        </div>
+                        <div class="padding-top10 padding-bottom5">
+
+                            <button type="submit" class="btn btn-danger btn-xs pull-left">Update</button>
+                            <div ng-show="success.length>0">{{success}}</div>
+                            <div ng-show="error.length>0">{{error}}</div>
+
+                            <button id="Print" type="button" class="btn btn-info btn-xs pull-right">Print</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = angular.module('drag', []).
+            directive('draggable', function ($document) {
+                return function (scope, element, attr) {
+                    var startX = 0, startY =0, x = 0, y = 0;
+                    element.css({
+                        padding: '5px',
+                        position: 'relative',
+                        border: '1px solid white',
+                        backgroundColor: 'lightgray',
+                        cursor: 'pointer'
+                    });
+                    element.on('mousedown', function (event) {
+                        // 阻止默认的选中内容的拖拽
+                        event.preventDefault();
+                        startX = event.screenX - x;
+                        startY = event.screenY - y;
+                        $document.on('mousemove', mousemove);
+                        $document.on('mouseup', mouseup);
+
+                    });
+                    element.on('dblclick', function (event) {
+                        // 阻止默认的选中内容的拖拽
+
+                        $document.on('dblclick', dblclick);
+                    });
+                    function mousemove(event) {
+                        y = event.screenY - startY;
+                        x = event.screenX - startX;
+                        element.css({
+                            top: y + 'px',
+                            left: x + 'px'
+                        });
+                        //====================================================================
+                        $("#TemplateNotePositionId").val(element.attr("id"));
+                        element.attr("X", x);
+                        element.attr("Y", y);
+                        $("#MaxWidth").val(element.attr("data-MaxWidth"));
+                        $("#FontSize").val(element.attr("data-FontSize"));
+                        $("#X").val(x);
+                        $("#Y").val(y);
+                        //console.log(element.attr("id") + ": x=" + x + " ; " + "y=" + y);
+                        //======================================================================
+                        //app.value("DynamicTemplateNotePositionId", element.attr("id"));
+                    }
+
+                    function mouseup() {
+                        $document.unbind('mousemove', mousemove);
+                        $document.unbind('mouseup', mouseup);
+                    }
+
+                    function dblclick() {
+                        element.css({
+                            top: '100px',
+                            left:'100px'
+                        });
+                        alert("dblclick test");
+                    }
+                }
+            });
+        app.controller("MyControllerUpd", function ($scope, $http) {
+            var form1 = $('#form1');
+
+            $scope.error = "";
+
+            $scope.processForm = function () {
+                $scope.TemplateNotePositionId = $("input[id='TemplateNotePositionId']").val() ;
+                var myparamsObject = { "TemplateNotePositionId": $("input[id='TemplateNotePositionId']").val(), "FontSize": $("#FontSize").val(), "MaxWidth": $("#MaxWidth").val(), "X": $("#X").val(), "Y": $("#Y").val() };
+                console.log("scope.processForm 》myparamsObject:\n\r:" + JSON.stringify(myparamsObject));
+                console.log($scope.TemplateNotePositionId);
+                    $http({
+                    method: "POST",
+                    url: '/Mgr/DispatchNote/handleUpdTemplateNotePosition',
+                    data: myparamsObject
+                    }).then(function (res) {
+                         layer.open({
+                            title: "@Lang.Views_GeneralUI_ReturnResult"
+                             , content: res.data.Message
+                        });
+                        console.log(res)
+                    })
+            };
+        });
+
+        $('#Print').click(function (e) {
+
+            Print('#PrintArea', {
+                onStart: function () {
+                    console.log('onStart', new Date())
+                },
+                onEnd: function () {
+                    console.log('onEnd', new Date())
+                }
+            })
+
+        })
+         
+    </script>
+</body>
+</html>

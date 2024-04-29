@@ -1,0 +1,278 @@
+﻿@using LanguageResource;
+@using Ishop.Utilities;
+@using Ishop.Context;
+@using Ishop.Models.Info;
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<Ishop.Models.EmailTask>
+@{
+    ViewBag.Title = Lang.EmailTask_Title;
+}
+
+<style>
+    .text-omit1 {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 280px;
+    }
+
+    .text-omit2 {
+        width: 280px;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .text-omit-defined {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+</style>
+
+<div class="box-body table-responsive">
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable class="badge-inverse">ID</lable>
+            </th>
+            <th style="width:160px;" class="">
+                <i class="fa fa-money" aria-hidden="true" style="color:mediumslateblue"></i><lable class="text1 text-omit1" title="@Lang.EmailTask_Name" data-toggle="tooltip" data-placement="top">@Lang.EmailTask_Name</lable>
+            </th>
+            <th class="hidden-sm text-omit-defined">
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable class="text2 text-omit1" title="@Lang.EmailTask_Subject" data-toggle="tooltip" data-placement="top">@Lang.EmailTask_Subject</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa  fa-key" aria-hidden="true" style="color:mediumslateblue;word-break:keep-all"> </i><lable style="word-break:keep-all">@Lang.EmailTask_CallBackUrl</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa fa-compass" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.EmailTask_SenderAccountArr</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.EmailTask_OperatedUserName</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa fa-calendar-check-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.EmailTask_OperatedDate)</lable>
+            </th>
+            <th>
+                <i class="fa fa-share-alt-square" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable class="block" style="word-break:keep-all">@Lang.EmailTask_Status</lable>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr id="@string.Format("tr{0}",item.Id)">
+                <td>
+                    <div style="margin:0,0,5px,0; max-width:200px;">
+                        <div class="info-box-text h5 no-margin no-padding">
+                            <span class="text-omit-defined" style="padding-left:5px 0 0 5px;font-size:10px;" title="@item.Id" data-toggle="tooltip">
+                                <small>@item.Id</small>
+                            </span>
+                        </div>
+                    </div><!-- /.box -->
+                </td>
+                <td class="hidden-sm" style="max-width:310px;">
+                    <a href="@item.EmailTemplate" target="_blank"><span title="@item.Name" class="text-omit-defined" data-toggle="tooltip">@item.Name <i class="fa fa-eye" style="color:blue"></i></span></a> 
+                </td>
+                <td class="hidden-sm" style="max-width:310px;">
+                    <span title="@item.Subject" class="text-omit-defined" data-toggle="tooltip">@item.Subject</span>
+                </td>
+                <td class="hidden-sm">
+                    <span title="@item.CallBackUrl" class="text-omit-defined small" style="max-width:160px;" data-toggle="tooltip">@item.CallBackUrl</span>
+                </td>
+                <td class="hidden-sm small">
+                    <small>@Html.Raw(item.SenderAccountArr.Replace(",", "<br/>"))</small>
+                </td>
+                <td class="hidden-sm">
+                    @item.OperatedUserName
+                </td>
+                <td class="hidden-sm small">
+                    @item.OperatedDate
+                </td>
+                <td id="@string.Format("td{0}",item.Id)">
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <button class="btn btn-warning btn-sm text-nowrap" type="button" onclick="@string.Format("javascript:DeleteMailTask({0});", item.Id)">
+                                <i class="fa fa-trash" style="font-size:18px;"></i>
+                            </button>
+                        </li>
+                        @if (item.Status == 0)
+                        {
+                            <li class="p-1">
+                                <button class="btn btn-success btn-sm text-nowrap" type="button" id="@string.Format("MailTaskRunBtn{0}",item.Id)" data-state="@item.Status" data-toggle="tooltip" data-orginal-title="IN STOP" title="IN STOP" onclick="@string.Format("javascript:MailTaskRun({0});", item.Id)">
+                                    <i id="@string.Format("BtnIcon{0}",item.Id)" class="fa fa-play" style="font-size:18px;"></i>
+                                </button>
+                            </li>
+                        }
+                        else
+                        {
+
+                            <li class="p-1">
+                                <button class="btn btn-danger btn-sm text-nowrap" type="button" id="@string.Format("MailTaskRunBtn{0}",item.Id)" data-state="@item.Status" data-toggle="tooltip" data-orginal-title="IN RUNNING" title="IN RUNNING" onclick="@string.Format("javascript:MailTaskRun({0});", item.Id)">
+                                    <i id="@string.Format("BtnIcon{0}",item.Id)" class="fa fa-stop" style="font-size:18px;"></i>
+                                </button>
+                            </li>
+                        }
+                    </ul> 
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@if (Model.PageCount > 1)
+{
+    <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+    @Html.PagedListPager(Model, page => Url.Action("LangList", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
+
+
+<script>
+
+    function DeleteMailTask(MailTaskId)
+    {
+        console.log(MailTaskId);
+
+        layer.confirm('@Lang.DeleteEmailTask_ComfirmTips', {
+            title:'Tips',
+            btn: ['Yes', 'NO'] //btn
+        }, function () {
+            //TODO
+            var httpDelUrl = "/Mgr/ShopAdmin/DeleteEmailTask/";
+
+            var myparamsObject = { "MailTaskId": MailTaskId}; 
+            $.ajax({
+                url: httpDelUrl,
+                data: myparamsObject,
+                type: "post",
+                dataType: "json",
+                error: function (data) {
+                    alert("ERROR");
+                    console.log(JSON.stringify(data));
+                },
+                success: function (data) {
+                    console.log({ "SUCCESS": data});
+                    var pr_obj = "#td" + MailTaskId;
+                    var objTr = "#tr" + MailTaskId;
+
+                    setTimeout(function () {
+                        $(objTr).removeClass("bg-warning-gradient");
+                    }, 800);
+
+                    setTimeout(function () {
+                        $(objTr).addClass("bg-warning-gradient");
+                    }, 1800);
+                    
+                    layer.open({
+                        title: '@Lang.GeneralUI_ReturnResult'
+                        , content: data.meta.Message
+                    , btn:'@Lang.GeneralUI_OK'
+                    });
+
+                    if (data.meta.Success == true)
+                    {
+                        console.log($.isEmptyObject(pr_obj));
+
+                        setTimeout(function () {
+                            $(pr_obj).parent().remove();
+                        }, 3000);
+                    }
+                }
+            });
+
+            }, function () {
+                layer.msg('@Lang.DeleteEmailTask_ComfirmTips', { icon: 1 }, {
+                    time: 6000,
+                    btn: ['@Lang.GeneralUI_Isee']
+                });
+            });
+    }
+
+    function MailTaskRun(MailTaskId)
+    {
+        //console.log(MailTaskId);
+
+        layer.confirm('@Lang.GeneralUI_Comfirm', {
+            title: 'InfoTips',
+            content:"@Lang.GeneralUI_Comfirm",
+            btn: ['Yes', 'NO'] //btn
+        }, function () {
+            //TODO
+                var state = 0;
+                var httpUrl;
+                var httpStopTaskUrl = "/Mgr/ShopAdmin/StopTask";
+                var httpStartTaskUrl = "/Mgr/ShopAdmin/StartTask";
+
+                var idx = "#MailTaskRunBtn" + MailTaskId;
+                console.log("idx = " + idx);
+                state = $(idx).data("state");
+                console.log("state = " + state);
+
+                if ($(idx).data("state") == "1") {
+                    state = 1;
+                    httpUrl = httpStopTaskUrl;
+                } else {
+                    state = 0;
+                    httpUrl = httpStartTaskUrl;
+                }
+                var myparamsObject = { "MailTaskId": MailTaskId};
+            $.ajax({
+                url: httpUrl,
+                data: myparamsObject,
+                type: "post",
+                dataType: "json",
+                error: function (data) {
+                    alert("ERROR");
+                    console.log(JSON.stringify(data));
+                },
+                success: function (data) {
+                   // console.log(JSON.stringify(data));
+                    layer.open({
+                        title: '@Lang.GeneralUI_ReturnResult'
+                        , content: data.meta.Message
+                    , btn:'@Lang.GeneralUI_OK'
+                    });
+                    if (data.meta.Success == true) {
+                        var pr_obj = "#tr" + MailTaskId;
+                        //console.log(pr_obj);
+                        //console.log($.isEmptyObject(pr_obj));
+
+                        $(pr_obj).addClass("bg-warning-gradient");
+                        setTimeout(function () {
+                            console.log({ "#MailTaskRunBtnX": idx });
+                            if (data.data.Status === 0) {
+                                $(idx).data("state", data.data.Status);
+                                $(idx).html("<i class='fa fa-stop' style='font-size:18px;'></i>");
+                                $(idx).removeClass("btn-success");
+                                $(idx).addClass("btn-danger");
+                                $(idx).attr("title","IN STOP");
+
+                            } else {
+                                $(idx).data("state", data.data.Status);
+                                $(idx).html("<i class='fa fa-play' style='font-size:18px;'></i>");
+                                $(idx).removeClass("btn-danger");
+                                $(idx).addClass("btn-success");
+                                $(idx).attr("title", "IN RUNNING");
+                            }
+                        }, 2000);
+                    }
+                }
+            });
+
+            }, function () {
+                layer.msg('@Lang.GeneralUI_Isee', { icon: 1 }, {
+                    time: 6000,
+                    btn: ['@Lang.GeneralUI_OK']
+                });
+            });
+    }
+</script>
+
+
+
+

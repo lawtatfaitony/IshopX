@@ -1,0 +1,260 @@
+﻿@using Ishop.Utilities;
+@using Ishop.Context;
+@using PagedList;
+@using PagedList.Mvc;
+@using LanguageResource;
+@model PagedList.IPagedList<Ishop.Models.Info.InfoDetail>
+@{
+    ViewBag.Title = Lang.InfoListView_Title;
+    ViewBag.SubTitle = Lang.InfoListView_SubTitle;
+}
+@Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
+@Styles.Render("~/AdminLTE/plugins/timepicker/css")
+@Scripts.Render("~/AdminLTE/plugins/timepicker/js")
+@Scripts.Render("~/AdminLTE/plugins/daterangepicker/js")
+<style>
+    .text-omit1 {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 280px;
+    }
+    .text-omit2 {
+        width: 280px;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .text-omit-defined {
+        overflow: hidden;
+        text-overflow: clip;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+</style>
+@using (Html.BeginForm("Index", "Info", FormMethod.Get, new { @class = "form-horizontal no-padding no-margin " }))
+{
+    <div id="box-widget" class="box-header form-inline col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding no-margin padding-left5">
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = Lang.Views_GeneralUI_InputKeyWord, style = "max-width:120px;" })
+        @Html.TextBox("StartDate", ViewBag.CurrentStartDate as string, new { @class = "form-control h6", style = "max-width:120px;" })
+        <label class="label label-info" for="EndDate">TO</label>
+        @Html.TextBox("EndDate", ViewBag.CurrentEndDate as string, new { @class = "form-control h6", style = "max-width:120px;" })
+        <input type="submit" class="btn btn-info" value="@Lang.Views_GeneralUI_Search" />
+
+        @Html.ActionLink(Lang.Views_GeneralUI_Create, "AddUpdateInfo", null, new { @class = "btn btn-info pull-right" })
+    </div>
+}
+<div class="box-body table-responsive">
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.InfoDetail_Title</lable>
+            </th>
+            <th style="width:160px;" class="hidden-xs">
+                <i class="fa fa-money" aria-hidden="true" style="color:mediumslateblue"></i><lable title="Seo Keyword" data-toggle="tooltip" data-placement="top">@Lang.InfoDetail_SeoKeyword</lable>
+            </th>
+             
+            <th class="hidden-xs">
+                <i class="fa  fa-video-camera" aria-hidden="true" style="color:mediumslateblue;word-break:keep-all"></i><lable style="word-break:keep-all">&nbsp;</lable>
+            </th>
+            <th class="hidden-xs">
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.InfoDetail_Author</lable>
+            </th>
+            <th title="@Lang.Views_GeneralUI_Browse" class="hidden-xs">
+                <i class="fa fa-eye" aria-hidden="true" style="color:mediumslateblue"></i>
+            </th>
+            <th class="hidden-xs">
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.InfoDetail_OperatedUserName</lable>
+            </th>
+            <th class="hidden-xs">
+                <i class="fa fa-calendar-check-o" aria-hidden="true" style="color:mediumslateblue"></i>
+                <lable>
+                    @Html.DisplayNameFor(modelItem => modelItem.First().CreatedDate)
+                </lable>
+                @Html.ActionLink(" ", "Index", "Info", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter }, htmlAttributes: new { @class = "fa fa-sort pull-right", title = Lang.Views_GeneralUI_OrderByDatetime })
+            </th>
+            <th>
+                <i class="fa fa-share-alt-square" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable class="block" style="word-break:keep-all">@Lang.Views_GeneralUI_Details</lable>
+            </th>
+        </tr>
+                @foreach (var item in Model)
+                {
+                 <tr>
+                        <td class="no-padding">
+                                 <div style="margin:0,0,5px,0; max-width:350px;">
+                                    <div class="info-box-text h5">
+                                    @if (!string.IsNullOrEmpty(item.TitleThumbNail))
+                                    {
+                                    <img id="uploadPicResult" class="img-responsive img-thumbnail margin-r-5" src="@PictureSuffix.ReturnSizePicUrl(item.TitleThumbNail, PictureSize.s160X160)" align="left" width="160" />
+                                    }
+                                    <span class="text-omit-defined h4" style="padding-left:5px 0 0 5px;" title="@item.Title" data-toggle="tooltip">
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </span>
+                                    <span class="text-omit-defined h5" style="padding-left:5px 0 0 5px;font-size:10px;" title="@item.SubTitle" data-toggle="tooltip">
+                                        <small>@Html.DisplayFor(modelItem => item.SubTitle)</small>
+                                    </span>
+                                    <a href="@string.Format("/{0}/InfoList/InfoDetails/{1}",LangUtilities.LanguageCode,item.InfoID)"
+                                    title="@item.ShopID" data-toggle="tooltip" class="h6 text-flow-omit" , target="_blank">
+                                    <lable><br><strong class="text-omit-defined"><i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue"></i>@Html.DisplayFor(modelItem => item.InfoID)</strong></lable>
+                                    </a>
+                                </div>
+                            </div><!-- /.info-box -->
+                            </td>
+                        <td class="hidden-xs">
+                            <span title="@item.SeoKeyword" class="text-omit-defined" style="max-width:160px;" data-toggle="tooltip">@Html.DisplayFor(modelItem => item.SeoKeyword)</span>
+                        </td> 
+                        <td class="hidden-xs"> 
+                            @if (!string.IsNullOrEmpty(item.VideoUrl))
+                            {
+                                <a href="@item.VideoUrl" target="_blank">
+                                <i class="fa fa-video-camera" aria-hidden="true"><span title="@item.VideoUrl">&nbsp;</span></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <label>-</label>
+                            }
+                        </td>
+                        <td class="hidden-xs">
+                            @Html.DisplayFor(modelItem => item.Author)
+                        </td>
+                        <td class="hidden-xs">
+                            @Html.DisplayFor(modelItem => item.Views)
+                        </td>
+                        <td class="hidden-xs">
+                            @Html.DisplayFor(modelItem => item.OperatedUserName)
+                        </td>
+                        <td class="hidden-xs small">
+                            @string.Format("{0:yyyy-MM-dd HH:mm}", Html.DisplayFor(modelItem => item.OperatedDate).ToString())
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                                <li>
+                                    @Html.ActionLink(Lang.Views_GeneralUI_Edit, "AddUpdateInfo", new { InfoID = item.InfoID }, new { @class = "fa fa-pencil", style = "color:mediumslateblue;word-wrap:normal;", target = "_blank" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink(string.Format("UE{0}", Lang.Views_GeneralUI_Edit.Replace(" ", "")), "InfoEditor", new { InfoID = item.InfoID }, new { @class = "fa fa-pencil", style = "color:mediumslateblue;word-wrap:normal;word-break:keep-all",target="_blank" })
+                                </li> 
+                            </ul> 
+                        </td>
+                 </tr>
+                }
+    </table>
+</div>
+
+@if (Model.PageCount > 1)
+{
+        <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber,Model.PageCount,Model.Count)</label>
+        @Html.PagedListPager(Model, page => Url.Action("index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+ }
+ 
+<script>
+        $(document).ready(function () {
+            datepickerRender("#StartDate"); 
+            datepickerRender("#EndDate");
+            $('[data-toggle="tooltip"]').tooltip(); 
+            $("#alert_Ins_Succ").toggle(); 
+        });
+        function UserCoupon(UserID, UserName) {
+            $("#alert_Ins_Succ").hide();
+            $('#CouponID').val(UserID);
+            $('#UserName').val(UserName);
+            $('#UserCouponAdd').modal({ backdrop: 'static', keyboard: true });
+        }
+        //UserCouponAdd
+        $("#SaveChanges1").click(function () {
+
+            var CouponID = $("#CouponID").val();
+            CouponID = CouponID.replace(/^\s+|\s+$/g, '');
+
+            var UserName = $("#UserName").val();
+            UserName = UserName.replace(/^\s+|\s+$/g, '');
+
+            var myparamsObject = { "UserName": UserName, "CouponID": CouponID };
+            console.log(myparamsObject);
+
+            if (CouponID.length <= 1 || UserName.length <= 1) {
+                console.log("Invalid Account Or Coupon No.");
+                return false; 
+            } else {
+                $.ajax({
+                    url: "@Url.Content("UserCoupon")",
+                    data: myparamsObject,
+                    type: "post",
+                    error: function (result) {
+                        console.log(result);
+                        alert("ShopCamp/UserCoupon Server Fatal Essor Occured !\n\r code:500\n\r" + JSON.stringify(result));
+                    },
+                    success: function (data) {
+                        if (data.MsgCode === "1") {
+                            $("#okmsg").html("OK!");
+                            $("#msg").html(data.Message);
+                            $("#alert_Ins_Succ").toggle();
+                            setTimeout("$('#UserCouponAdd').modal('hide')", 6000); 
+                        }
+                        else {
+                            alert(data.Message);
+                        }
+                    } 
+                });
+            }
+        });
+</script>
+
+<script> 
+                    function datepickerRender(ID) {
+                        $(ID).daterangepicker({
+
+                            "singleDatePicker": true,
+                            "showDropdowns": true,
+                            "timePicker": true,
+                            "locale": {
+                                "format": "YYYY-MM-DD",
+                                "separator": " - ",
+                                "applyLabel": "OK",
+                                "cancelLabel": "Cancel",
+                                "fromLabel": "From",
+                                "toLabel": "To",
+                                "customRangeLabel": "Custom",
+                                "weekLabel": "W",
+                                "daysOfWeek": [
+                                    "Su",
+                                    "Mo",
+                                    "Tu",
+                                    "We",
+                                    "Th",
+                                    "Fr",
+                                    "Sa"
+                                ],
+                                "monthNames": [
+                                    "Jan",
+                                    "Feb",
+                                    "Mar",
+                                    "Apr",
+                                    "May",
+                                    "Jun",
+                                    "Jul",
+                                    "Aug",
+                                    "Sep",
+                                    "Oct",
+                                    "Nov",
+                                    "Dec"
+                                ],
+                                "firstDay": 1
+                            },
+                            "linkedCalendars": false,
+                            "showCustomRangeLabel": false,
+                            "startDate": moment(),
+                            "endDate": moment()
+                        }, function (start, end, label) {
+                            $(ID).val(start.format('YYYY-MM-DD hh:mm'));
+                            // console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+                        });
+                    } 
+</script>
+ 
+

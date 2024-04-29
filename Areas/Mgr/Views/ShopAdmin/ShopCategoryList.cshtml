@@ -1,0 +1,24 @@
+﻿@using LanguageResource;
+@Scripts.Render("~/js/Category/ShopCategoryItem.js")
+@{
+    ViewBag.Title = Lang.ShopCategoryList_ShopCategory_Title;
+    ViewBag.SubTitle = Lang.ShopCategoryList_ShopCategory_SubTitle;
+}
+
+<style>
+    .col-md-2 {
+        max-width: 160px;
+    }
+</style>
+<div class="form-group ">
+    <label class="col-md-2 text-right" for="txt_MenuItemID">@Lang.ShopCategoryList_ShopCategory_Title</label>
+    <div class="col-md-10">
+        <div id="treeviewCategorylist"></div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        LoadCategoryList("#treeviewCategorylist", "0"); //initialize
+    });
+</script>

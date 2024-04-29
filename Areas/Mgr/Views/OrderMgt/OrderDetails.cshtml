@@ -1,0 +1,452 @@
+﻿@using LanguageResource;
+@using Ishop.Context;
+@model Ishop.Models.ProductMgr.Product
+@{
+    ViewBag.Title = string.IsNullOrEmpty(ViewBag.CurrentProductID) ? Lang.ProductAddUpd_Title : Lang.ProductAddUpd_Title2;
+    ViewBag.SubTitle = Lang.ProductAddUpd_SubTitle;
+}
+@Styles.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/css")
+@Scripts.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/js")
+@Scripts.Render("~/js/Category/ShopCategoryItem.js")
+
+<link href="~/webuploader/CSS/webuploader.css" rel="stylesheet" />
+<script src="~/webuploader/Script/webuploader.js"></script>
+
+<script src="~/js/Info/TreeInfoCateItem.js"></script>
+<script src="~/js/Info/SeoHtmlContextAdd.js"></script>
+
+<style>
+    label {
+        font-size: 1.1em;
+    }
+
+    .cp_img_jia_productmain:hover {
+        background: url(/content/Images/cp_img_sc75.png) no-repeat;
+    }
+
+    .input_decorate {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        background: url("/images/AddPicture.jpg");
+        background-size: 100px 100px;
+        background-repeat: no-repeat;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .input-group {
+        width: 98%;
+        max-width: 600px;
+    }
+
+    #select_Author input {
+        width: 110px;
+        border-right-width: 0px
+    }
+
+    #select_Author select {
+        width: 170px;
+        border-left-width: 0px
+    }
+
+
+    .wenzibox {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        cursor: pointer;
+    }
+
+        .wenzibox .bmbox {
+            width: 60px;
+            height: 25px;
+            position: absolute;
+            bottom: 0px;
+            right: 5px;
+            display: none;
+            text-align: right;
+            background-color: antiquewhite;
+            border-radius: 4px;
+        }
+
+        .wenzibox:hover .bmbox {
+            position: absolute;
+            bottom: 0px;
+            right: 5px;
+            display: block;
+            text-align: right;
+        }
+</style>
+<div class="box box-info" ng-app="App">
+    @using (Ajax.BeginForm("ProductAddUpd", null, new { ProductID = ViewBag.CurrentProductID }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleProductAddUpdSuccDialog", OnFailure = "errProductAddUpd", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.ShopID, new { Value = WebCookie.ShopID })<!--隐藏ShpID-->
+        @Html.HiddenFor(model => model.CreatedDate, new { Value = DateTime.Now })<!--隐藏CreatedDate-->
+        @Html.HiddenFor(model => model.ViewsIP)
+        <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+        <div id="box-widget" class="box-header with-border">
+            <h3 class="box-title">@Html.ActionLink(Lang.Product_ProductAddUpd_ReturnToProductList, "Index")</h3>
+        </div>
+        <div class="box-body">
+            <!--选择产品类目-->
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProdCateID, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.ProdCateID, new { @class = "form-control dropdown-toggle hide", autocomplete = "on", style = "max-width:280px;" })
+                    @Html.ValidationMessageFor(model => model.ProdCateID, "", new { @class = "text-danger" })
+                    <div class="input-group" style="width:auto;">
+                        <div class="input-group-btn">
+                            <button type="button" id="btn1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" style="width:auto;" aria-expanded="false">
+                                <span id="btn_ProductSpan1"> @Lang.GeneralUI_Select</span><span class="caret"></span>
+                            </button>
+                            <ul id="ProdCate-dropdown-menu1" class="dropdown-menu" role="menu" style="width:300px;">
+                                <li><div id="treeviewProdCate1" class="treemenucls"></div></li>
+                            </ul>
+                        </div><!--input-group-btn-->
+                        <input ID="txtProdCateName" value="@ViewBag.ProdCateName" type="text" maxlength="50" style="width:auto" class="form-control " />
+                        <div class="row"> @Html.ValidationMessageFor(model => model.ProdCateID, "", new { @class = "text-danger" })</div>
+                    </div><!--input-group-->
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.Title, new { @class = "form-control dropdown-toggle", autocomplete = "off", data_toggle = "dropdown", style = "width:98%;max-width:600px;" })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        <div id="DivDownMenu1" class="dropdown-menu" role="menu" style="width:280px;">
+                            <div class="pull-right">
+                                <span class="fa fa-times" style="padding-right:10px;"></span>
+                            </div>
+                            <div id="Tree_dropdown_menu1" class="h6 small treeview" style="padding-top:5px;padding-left:5px;padding-right:-10px;">
+                                <div id="Tree_dropdown_menu1" class="h6 small treeview " style="padding-top:5px;padding-left:5px;padding-right:-10px;">
+                                    <div id="Loading1"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span><br /></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!--input-group-btn-->
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control dropdown-toggle", autocomplete = "off", style = "width:98%;max-width:600px;", placeholder = Lang.ProductAddUpd_Name_PlaceHolder })
+                        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProductImg, htmlAttributes: new { @class = "col-sm-2 control-label" })
+
+                <div class="col-sm-2">
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <a id="OpenDialog" style="width:110px;display:block;">
+                                @if (string.IsNullOrEmpty(Html.DisplayFor(model => model.ProductImg).ToString().Trim()))
+                                {
+                                    <img id="uploadPicResult" src="@Url.Content("~/images/AddPicture_a.png")" width="110" class="img-thumbnail" />
+                                }
+                                else
+                                {
+                                    <img id="uploadPicResult" src="@Html.DisplayFor(model => model.ProductImg)" alt="@Lang.Views_GeneralUI_Browse" width="110" class="img-thumbnail" />
+                                }
+                            </a>
+                        </li>
+
+                        <li>
+                            <input type="file" value="@Lang.Views_GeneralUI_Browse" id="file_uploadPic" SrvUrl="/Utilities/UpLoadProcess2?Prefix=P&SubPath=productmain&TargetTalbeKeyID=@ViewBag.TempProductID&ShopID=@WebCookie.ShopID"
+                                   mime_type="image/jpeg" accept="image/jpeg" class="input-group-sm hidden" />  @* class="input_decorate" onchange="javascript: uploadPic();"*@
+                            </li>
+                        </ul>
+                        @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @class = "hidden" })
+                        @Html.ValidationMessageFor(model => model.ProdCateID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label(Html.DisplayNameFor(m => m.ProductImg).ToString() + "2", htmlAttributes: new { @class = "col-sm-2 control-label productImg2" })
+                    <div class="col-sm-10">
+                        <ul class="list-unstyled">
+                            <li>
+                                <ul id="mainProductImagesList1" class="list-inline">
+                                    @{
+                                        List<Ishop.Models.UploadItem.UploadItem> uploadItems = ViewBag.UploadItemList;
+                                        if (uploadItems != null)
+                                        {
+                                            foreach (var item in uploadItems)
+                                            {
+                                                <li id="li_@item.UploadItemId" style="width:80px;">
+                                                    <div class="wenzibox">
+                                                        <a id="Rawname" href="@item.Url" target="_blank"><img src="@item.Url" class="img-responsive img-bordered" width="75" /> </a>
+                                                        <div class="bmbox">
+                                                            <a id="@item.UploadItemId" class="btn btn-link btn-sm" href="javascript:del_uploadItem('@item.UploadItemId')">@Lang.Views_GeneralUI_Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                            <li id="uploadbotton1">
+                                <ul class="list-unstyled list-inline">
+                                    <li>
+                                        <button id="OpenDialogButton" type="button" class="btn btn-default bg-black-active">Upload</button>
+
+                                    </li>
+
+                                    <li>
+                                        <input type="file" id="file_ProductMainUpload" multiple="multiple" SrvUrl="/Utilities/UpLoadProcess2?Prefix=P&SubPath=ProductMain&TargetTalbeKeyID=@ViewBag.TempProductID&ShopID=@WebCookie.ShopID"
+                                               mime_type="image/jpeg" accept="image/jpeg" value="@Lang.Views_GeneralUI_Browse" class="input-group-sm hidden" />
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StyleNo, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.StyleNo, new { @class = "form-control", autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.StyleNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+              
+                <div class="form-group">
+                    @Html.LabelFor(model => model.VideoUrl, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.VideoUrl, new { @class = "form-control hidden", data_toggle = "tooltip", placeHolder = Lang.Views_GeneralUI_UrlFormatOrBlank, title = Lang.ModalView_VideoUrl_title, style = "width:98%;max-width:600px;" })
+                        @Html.ValidationMessageFor(model => model.VideoUrl, "", new { @class = "text-danger" })
+                        <div id="uploader" class="wu-example">
+                            <!--用来存放文件产品-->
+                            <div id="fileList" class="uploader-list"></div>
+                            <div class="btns">
+                                <div id="picker" class="btn btn-default bg-black-gradient btn-sm">@Lang.GeneralUI_SelectFile</div><div id="fileLoading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CategoryIDs, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.CategoryIDs, new { @class = "form-control dropdown-toggle hide", autocomplete = "on" })
+                        <div class="input-group" style="max-width:280px;">
+                            <div class="input-group-btn">
+                                <button type="button" id="btn1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" style="width:auto;" aria-expanded="false">
+                                    <span id="btn_span1">@Lang.GeneralUI_Select</span><span class="caret"></span>
+                                </button>
+                                <ul id="dropdown-menu1" class="dropdown-menu" role="menu" style="width:300px;">
+                                    <li>
+                                        <div id="ul-li-div1" style="padding:10px;">
+                                            <button type="button" id="btnAddCategoryItemRoot" onclick="setCategoryRoot()" data-toggle="tooltip" data-placement="top" title="@Lang.Views_GeneralUI_MainCategoryDefaults0" class="btn btn-danger btn-xs">
+                                                @Html.DisplayNameFor(model => model.CategoryIDs)
+                                            </button>
+                                            <i class="fa fa-times pull-right" aria-hidden="true"></i>
+                                        </div>
+                                    </li>
+                                    <li><div id="treeviewCategory1" class="treemenucls"></div></li>
+                                </ul>
+
+                            </div><!--input-group-btn-->
+                            <input ID="txtCategoryIDsName" type="text" placeholder="@Lang.Views_GeneralUI_DefaultRoot" class="form-control" value="@ViewBag.CategoryIDsName" />
+                            <div class="row">
+                                @Html.ValidationMessageFor(model => model.CategoryIDs, "", new { @class = "text-danger" })
+                            </div>
+                        </div><!--input-group-->
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SupplierID, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div id="select_SaleStatusID" class="col-sm-7">
+                        <div class="input-group">
+                            @Html.DropDownList("SupplierID", null, Lang.GeneralUI_Select, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.SupplierID), title = Html.DisplayNameFor(model => model.SupplierID) })
+                        </div><!--input-group-btn-->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TradePrice, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.TradePrice, new { @class = "form-control dropdown-toggle" })
+                        @Html.ValidationMessageFor(model => model.TradePrice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RetailPrice, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.RetailPrice, new { @class = "form-control dropdown-toggle", autocomplete = "on" })
+                        @Html.ValidationMessageFor(model => model.RetailPrice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CommisionRate, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        <div class="input-group" style="max-width:280px;">
+                            @Html.TextBoxFor(model => model.CommisionRate, new { @class = "form-control", autocomplete = "on" })
+                            <div class="input-group-btn">
+                                <button type="button" id="btn1" class="btn btn-default" aria-haspopup="true" aria-expanded="false">
+                                    <span id="btn_span1"><strong>%</strong></span>
+                                </button>
+                            </div><!--input-group-btn-->
+                        </div><!--input-group-->
+                        <div class="row padding-left15 "> @Html.ValidationMessageFor(model => model.CommisionRate, "", new { @class = "text-danger" })</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SaleStatusID, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div id="select_SaleStatusID" class="col-sm-10">
+                        <div class="input-group">
+                            @*"销售状态", title = "Online=在售,Offline=下架,InStudio=设计拍摄中,OutOfStock=售罄"*@
+                            @Html.DropDownListFor(m => m.SaleStatusID, (IEnumerable<SelectListItem>)ViewBag.SaleStatusIDList, htmlAttributes: new { @class = "form-control" })
+                        </div><!--input-group-btn-->
+                    </div>
+                </div>
+
+                <div class="form-group" ng-controller="mycontroller">
+                    <label for="StaffID" class="col-sm-2 control-label">@Html.DisplayNameFor(model => model.StaffID)</label>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.StaffID, new { @class = "form-control", list = "List_SenderStaffIDList", onclick = "javascript: this.value = '';" })
+                        <datalist id="List_SenderStaffIDList">
+                            <option ng-repeat="x in SenderStaffIDList" value="{{x.ShopStaffID}}">{{x.StaffName }}</option>
+                        </datalist>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer col-sm-offset-2">
+                <ul class="list-inline list-unstyled">
+                    <li>
+                        <button type="button" id="btnaddnew" class="btn btn-info ">
+                            @(string.IsNullOrEmpty(ViewBag.CurrentProductID) ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update)
+                        </button>
+                    </li>
+                    <li>
+                        @Html.ActionLink(Lang.Views_GeneralUI_Return, "Index", null, new { @class = "btn btn-info" })
+                    </li>
+                    <li>
+                        <input type="button" id="btn_UploadItem" value="@Lang.Views_GeneralUI_RelateFile" class="btn btn-info" />
+                    </li>
+                    <li>
+                        @if (Request.Params["ProductID"] != null)
+                        {
+                            <button type="button" id="btnDel" class="btn btn-danger">@Lang.Views_GeneralUI_Delete</button>
+                        }
+
+                    </li>
+                    <li>
+                        @if (Request.Params["ProductID"] != null)
+                        {
+                            <button type="button" id="btncreateSku" class="btn btn-info">@Lang.ProductSku_SubTitle</button>
+                        }
+
+                    </li>
+                </ul>
+            </div>
+            <div class="box-title col-sm-offset-2" style="padding-left:15px">
+
+                <ul class="list-unstyled">
+                    <li>
+                        <p class="box-title"><strong>（Role:StoreProductAdmin)</strong></p>
+                    </li>
+                </ul>
+
+            </div>
+
+        }
+</div>
+
+<div id="ModalSeoHtml1" class="modal fade" tabindex="-2" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title h4" title="@Lang.Views_GeneralUI_ModalSeoHtml_Title_text" data-toggle="tooltip" id="ModalSeoHtml_Title">@Lang.Views_GeneralUI_ModalSeoHtml_Title_text</span>
+            </div>
+            <div class="modal-body ">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xm-5 col-lg-5" style="padding-left:5px;padding-right:5px;padding-top:0px;">
+                        <div id="ModalSeoHtml_Tree_dropdown_menu" class="treeview h6"></div>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xm-7 col-lg-7" style="padding-left:5px;padding-right:5px;">
+                        <!--ModalSeoHtml文本编辑器开始-->
+                        <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font" aria-hidden="true"></i><b class="caret"></b></a>
+                                <ul class="dropdown-menu"></ul>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height" aria-hidden="true"></i>&nbsp;<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a data-edit="fontSize 7"><font size="7">7</font></a></li>
+                                    <li><a data-edit="fontSize 6"><font size="6">6</font></a></li>
+                                    <li><a data-edit="fontSize 5"><font size="5">5</font></a></li>
+                                    <li><a data-edit="fontSize 4"><font size="4">4</font></a></li>
+                                    <li><a data-edit="fontSize 3"><font size="3">3</font></a></li>
+                                    <li><a data-edit="fontSize 2"><font size="2">2</font></a></li>
+                                    <li><a data-edit="fontSize 1"><font size="1">1</font></a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm " data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link" aria-hidden="true"></i></a>
+                                <div class="dropdown-menu input-append">
+                                    <input class="span2" placeholder="URL" type="text" data-edit="createLink" style="max-width:150px" />
+                                    <button class="btn btn-default btn-sm " type="button">Add</button>
+                                </div>
+                                <a class="btn-default btn-sm btn" title="@Lang.Views_GeneralUI_UploadToServer" id="pictureBtn2">
+                                    <i class="fa fa-file-image-o" aria-hidden="true">
+                                        <input type="file" id="pictureInput" data-Prefix="Ca"
+                                               SrvUrl="/Utilities/UpLoadProcess2?Prefix=Inf&SubPath=Info&TargetTalbeKeyID=@ViewBag.TempInfoID&ShopID=@WebCookie.ShopID"
+                                               data-role="magic-overlay" data-target="#pictureBtn2" multiple="multiple" accept="image/*" data-edit="insertImage" width="30" />
+                                    </i>
+                                </a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm " data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right" aria-hidden="true"></i></a>
+                                <a class="btn btn-default btn-sm " data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify" aria-hidden="true"></i></a>
+                            </div>
+
+                        </div><!--ModalSeoHtml文本编辑器结束-->
+                        <div id="editor2" style="overflow:auto;max-height:350px;height:350px;padding:5px;">
+                            <span class="bg-black-gradient">@Lang.Views_GeneralUI_PasteTheObtainedHTML5</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="h6 col-md-7 col-sm-7 col-xm-7 col-lg-7 col-md-offset-5 col-sm-offset-5 col-lg-offset-5"><span>@Lang.ModalView_AddUpdateInfo_bg_black_gradient_text</span></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="btn_append1" class="btn btn-primary">@Lang.ModalView_AddUpdateInfo_btn_append1_text</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 

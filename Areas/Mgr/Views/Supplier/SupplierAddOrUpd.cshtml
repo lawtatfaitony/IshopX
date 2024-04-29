@@ -1,0 +1,235 @@
+﻿@using LanguageResource;
+@using Ishop.Context;
+@model Ishop.Models.ProductMgr.Supplier
+
+@{
+    ViewBag.Title = string.IsNullOrEmpty(ViewBag.CurrentSupplierID) ? Lang.Views_GeneralUI_Create : Lang.Views_GeneralUI_Update;
+    ViewBag.SubTitle = Lang.ModalView_SupplierAddOrUpd_Title;
+}
+<div class="box box-info">
+    @using (Ajax.BeginForm("SupplierAddOrUpd", null, new { SupplierID = ViewBag.CurrentSupplierID }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleAddOrUpdDialog", OnFailure = "errAddOrUpd", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ShopID, new { Value = WebCookie.ShopID })<!--隐藏ShpID-->
+        <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+
+
+        <div id="box-widget" class="box-header with-border">
+            <h3 class="box-title">@Html.ActionLink( Lang.Views_GeneralUI_Return, "SupplierList")</h3>
+        </div>
+
+        <div class="box-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.SupplierName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.SupplierName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContactNick, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.ContactNick, new { @class = "form-control text-danger" })
+                    @Html.ValidationMessageFor(model => model.ContactNick, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContactName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.ContactName, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.ContactName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompanyAddress, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.CompanyAddress, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.CompanyAddress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @style = "height:160px;" })
+                    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="box-footer col-sm-offset-2">
+            <ul class="list-inline list-unstyled">
+                <li>
+                    <button type="button" id="btnaddnew" class="btn btn-info ">
+                        @(string.IsNullOrEmpty(ViewBag.CurrentSupplierID) ? Lang.Views_GeneralUI_Create : Lang.Views_GeneralUI_Update)
+                    </button>
+                </li>
+                @{if (!string.IsNullOrEmpty(ViewBag.CurrentSupplierID))
+                    {
+                         <li>
+                            <button type="button" id="btnDel" class="btn btn-info ">@Lang.Views_GeneralUI_Delete</button>
+                         </li>
+                    }
+                }
+                <li>
+                    @Html.ActionLink(Lang.Views_GeneralUI_Return, "SupplierList", null, new { @class = "btn btn-info" })
+                </li>
+            </ul>
+
+        </div>
+
+    }
+</div>
+<script>
+    function HandleAddOrUpdDialog(data)
+    {
+        if (data.MsgCode === "1")  // 输入数据格式非法
+        {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: true,
+                title: $("#SupplierName").val(),
+                message: "<H3>" + data.Message + "</H3>",
+                cssClass: 'bootstrap-dialog fade',
+                buttons: [{
+                    label: 'OK!',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        golist();
+                        dialog.close();
+                    }
+                }]
+            });
+        } else {
+            alert("server error");
+        }
+    }
+    function golist()
+    {
+        window.location = "@Url.Content("SupplierList")";
+
+    }
+    function errAddOrUpd(data) {
+        console.log(JSON.stringify(data));
+        alert("server error:"+ data.Message);
+    }
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip(); //初始化提示样式
+        //确认提交
+        $("#btnaddnew").click(function () {
+
+            return BootstrapDialog.show({
+                cssClass: 'bootstrap-dialog fade',
+                title: "@Lang.Views_GeneralUI_Comfirm",
+                message: $("#SupplierName").val(),
+                buttons: [{
+                    label: '@Lang.Views_GeneralUI_Submit',
+                    action: function (dialog) {
+                        $("#btnaddnew").submit();
+                        dialog.close();
+                    }
+                }, {
+                    label: '@Lang.Views_GeneralUI_Cancel',
+                    action: function (dialog) {
+                        dialog.close();
+                        return false;
+                    }
+                }]
+            });//BootstrapDialog
+
+        }) // 确定提交click
+
+
+        //确认删除
+        $("#btnDel").click(function () {
+
+            return BootstrapDialog.show({
+                cssClass: 'bootstrap-dialog fade',
+                title: "@Lang.Views_GeneralUI_OperateInfo",
+                message: $("#SupplierName").val(),
+                buttons: [{
+                    label: '@Lang.Views_GeneralUI_Delete',
+                    action: function (dialog) {
+                        delSupplier("@ViewBag.CurrentSupplierID");  //调用删除操作函数
+                        dialog.close();
+                    }
+                }, {
+                    label: '@Lang.Views_GeneralUI_Delete',
+                    action: function (dialog) {
+                        dialog.close();
+                        return false;
+                    }
+                }]
+            });//BootstrapDialog
+        });  //btnDel.click
+
+    }); //ready
+
+     function delSupplier(SupplierID)
+     {
+         var url = "@Url.Content("SupplierDel")";
+         var SupplierID = "@ViewBag.CurrentSupplierID";
+         var myparamsObject = { "SupplierID": SupplierID };
+         $.ajax({
+             type: "post",
+             data: JSON.stringify(myparamsObject),
+             url: url,
+             contentType: "application/json;charset=utf-8",
+             dataType: "json",
+             success: function (data) {
+                 if (data.MsgCode !== "1")  // 输入数据格式非法
+                 {
+                     alert("@Lang.GeneralUI_OK,data.MsgCode=" + data.MsgCode);
+                 }
+
+                 BootstrapDialog.show({
+                     cssClass: 'bootstrap-dialog fade',
+                     title: "@Lang.Views_GeneralUI_ReturnResult",
+                     message: "<H3>" + data.Message + "</H3>" ,
+                     buttons: [{
+                         label: 'OK',
+                         action: function (dialog) {
+                             dialog.close();
+                             golist();
+                         }
+                     }]
+                 });//BootstrapDialog
+             },
+             error: function (err) { 
+                 console.log(JSON.stringify(err));
+                 alert("@Lang.Views_GeneralUI_ServerError \n\r" + JSON.stringify(err));
+             }
+         });
+
+     }
+</script>

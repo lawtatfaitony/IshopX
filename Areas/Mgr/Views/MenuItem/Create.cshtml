@@ -1,0 +1,143 @@
+﻿@using LanguageResource;
+@using Ishop.Identity.Models;
+@model Ishop.Models.PubDataModal.MenuItem
+
+
+<style>
+    .col-md-2 {
+        max-width: 160px;
+    } 
+    label {
+        font-size: 1.1em;
+    }
+</style>
+@{
+    ViewBag.Title = Lang.ModalView_Title;
+    ViewBag.SubTitle = Lang.ModalView_SubTitle;
+}
+ 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="container-fluid" style="margin-bottom:15px;">
+
+    <div class="row">
+        <div class="container">
+            <div id="alert0" class="alert alert-danger form-inline " role="alert" style="height:34px;width:auto;max-width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-top:-14px;padding:-14px;margin-right:-13px;padding-top:10px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-ban-circle icon" style="color:red;"></i>&nbsp;warning！<small><span id="span0" style="color:#fff">@Lang.ModalView_MenuItem_Create_Span0</span></small></h4>
+            </div>
+        </div>
+    </div><!--row-->
+    <br />
+    <div class="row ">
+        <label class="col-md-2 form-inline text-right" for="txt_MenuItemID">@Lang.Views_GeneralUI_LastLevel</label>
+        <div class="form-inline col-lg-10">
+            <div class="input-group" style="width:auto;">
+                <div class="input-group-btn">
+                    <button type="button" id="btn1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" style="width:auto;" aria-expanded="false"><span id="btn_span1">@Lang.GeneralUI_Select</span><span class="caret"></span></button>
+                    <ul id="dropdown-menu1" class="dropdown-menu" role="menu" style="width:300px;" aria-labelledby="dLabel">
+                        <li>
+                            <div id="ul-li-div1" style="padding:10px;">
+                                <button type="button" id="btnAddMenuItemRoot" onclick="setMenuRoot()" data-toggle="tooltip" data-placement="top" title="@Lang.Views_GeneralUI_DefaultRootValue" class="btn btn-danger btn-xs">
+                                    @Lang.Views_GeneralUI_FirstLevel
+                                </button>
+                                @Html.TextBoxFor(model => model.ParentsMenuItemID, new { @class = "text-info dropdawn_txtbox", placeholder = Lang.Views_GeneralUI_DefaultRootValue })
+                                <i class="icon-remove pull-right">&nbsp;</i>
+                            </div>
+                        </li>
+                        <li><div id="treeviewMenu1"></div></li>
+                    </ul>
+                </div><!--input-group-btn-->
+                <input ID="txtMenuItemName" type="text" maxlength="50" placeholder="@Lang.Views_GeneralUI_DefaultRoot" style="width:130px" class="form-control " />
+            </div><!--input-group-->
+            <button type="button" id="btn_delete" class="btn btn-primary btn-large" data-placement="bottom" data-toggle="popover" title="@Lang.Views_GeneralUI_Delete" data-content="@Lang.Views_GeneralUI_DeleteOK">@Lang.Views_GeneralUI_Delete</button>
+            <div class="row" style="padding-left:15px;">@Html.ValidationMessageFor(model => model.ParentsMenuItemID, "", new { @class = "text-danger", style = "font-family: Microsoft YaHei" })</div>
+        </div>
+
+    </div><!--row-->
+    <br />
+    <div class="row ">
+        <div class="form-group ">
+            <label class="col-md-2 form-inline text-right" for="MenuItemName">@Lang.ModalView_MenuItem_MenuItemName</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.MenuItemName, new { @class = "form-control", placeholder = Lang.ModalView_MenuItem_MenuItemName })
+                @Html.ValidationMessageFor(model => model.MenuItemName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div><!--row-->
+    <br />
+
+    <div class="row ">
+        <div class="form-group ">
+            <label class="col-md-2 form-inline text-right" for="MenuItemName">@Lang.ModalView_MenuItem_EngMenuItemName</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.EngMenuItemName, new { @class = "form-control", placeholder = Lang.ModalView_MenuItem_EngMenuItemName })
+                @Html.ValidationMessageFor(model => model.EngMenuItemName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div><!--row-->
+    <br />
+
+    <div class="row ">
+        <div class="form-group ">
+            <label class="col-md-2 form-inline text-right" for="MenuLink">@Lang.Views_GeneralUI_Link</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.MenuLink, new { @class = "form-control", placeholder = Lang.ModalView_MenuItem_Create })
+                @Html.ValidationMessageFor(model => model.MenuLink, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div><!--row-->
+    <br />
+
+    <div class="row ">
+        <div class="form-group ">
+            <label class="col-md-2 form-inline text-right" for="ForRoleName">@Lang.Views_GeneralUI_RolePermission</label>
+            <div class="col-md-10">
+                @Html.DropDownList("ForRoleName", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+    </div><!--row-->
+    <br />
+    <div class="row ">
+        <div class="form-group ">
+            <div class="form-inline col-md-10 col-md-offset-1" style="padding-left:45px;">
+                <button type="submit" id="btnaddnew" data-loading-text="@Lang.Views_GeneralUI_Loading" class="btn btn-primary btn-large">@Lang.Views_GeneralUI_AddNew</button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<script>
+    $(document).ready(function () {
+        LoadMenuData("#treeviewMenu1", "0");
+        $("#alert0").toggle();
+        $('#treeviewMenu1').slimscroll({
+            disableFadeOut: false
+        });
+    });
+    $("#btn_delete").click(function () {
+        if ($("#ParentsMenuItemID").val() === "0" || $("#ParentsMenuItemID").val() === "") {
+            var dialogInstance3 = new BootstrapDialog() //TYPE_DANGER Ref: https://github.com/nakupanda/bootstrap3-dialog
+                .setTitle('@Lang.Views_GeneralUI_OperateInfo')
+                .setMessage('@(Lang.GeneralUI_Select+Lang.Views_GeneralUI_Manu)')
+                .setType(BootstrapDialog.TYPE_WARNING)
+                .realize()
+                .open();
+
+            return;
+        }
+        Url_NodeSelectForDel = "@Url.Action("delete", "MenuItem")" + "?ParentsMenuItemID=" + $("#ParentsMenuItemID").val();
+        console.log(Url_NodeSelectForDel);
+        BootstrapDialog.show({
+            closeByBackdrop: false,
+            closeByKeyboard: false,
+            title: "@Lang.ModalView_MenuItem_Create_DeleteMenuNodes" + $("#txtMenuItemName").val(),
+            message: $('<div></div>').load(Url_NodeSelectForDel)
+        });
+
+    }); 
+</script>

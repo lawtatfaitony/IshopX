@@ -1,0 +1,131 @@
+﻿@using LanguageResource;
+@{
+    Layout = null;
+}
+@using Ishop.Identity.Models
+@model Ishop.Models.PubDataModal.MenuItem
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div id="DelMenuDialog1" class="constants">
+        <div id="alert0" class="alert alert-danger hide form-inline " role="alert" style="height:34px;width:auto;max-width:400px;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-top:-14px;padding:-14px;margin-right:-13px;padding-top:10px;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-ban-circle icon" style="color:red;"></i>&nbsp;warning！<small><span id="span0">选择下拉菜单！</span></small></h4>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 text-right" style="width:160px;max-width:200px;margin-top:0.3em;">@Html.DisplayFor(model => model.MenuItemName)</label>
+            <div class="input-group  col-md-10" style="width:auto;">
+                <div class="input-group-btn">
+                    <button type="button" id="btn1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" style="width:auto;" aria-expanded="false"><span id="btn_span1">@Html.DisplayFor(model => model.MenuItemName)</span><span class="caret"></span></button>
+                    <ul id="dropdown-menu1" class="dropdown-menu" role="menu" style="width:300px;" aria-labelledby="dLabel">
+                        <li><div id="treeviewMenuNode1" class="treemenucls"></div></li>
+                    </ul>
+                </div><!--input-group-btn-->
+                &nbsp;&nbsp;<button type="button" id="btn_delete_dialog" class="btn btn-primary btn-large" >@Lang.Views_GeneralUI_Comfirm</button>
+            </div><!--input-group-->
+        </div>
+
+        <table class="table">
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.MenuItemID)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MenuItemID, new { @class = "form-control", @readonly = "readonly" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.MenuItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.MenuItemName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.MenuLink)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.MenuLink)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Target)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Target)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.ForRoleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ForRoleName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.OperatedUserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.OperatedUserName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.OperatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.OperatedDate)
+                </td>
+            </tr>
+        </table>
+    </div> <!--contains-->
+
+    <script> 
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+                LoadMenuData("#treeviewMenuNode1", "@ViewBag.ParentsMenuItemID"); 
+            }); 
+           
+            $("#btn_delete_dialog").click(function () { 
+                var MenuItemID = $("#MenuItemID").val(); 
+                var myparamsObject = { "MenuItemID": MenuItemID };
+                console.log(myparamsObject);
+                if (MenuItemID === null || MenuItemID === "") {
+                    $("#alert0").show();
+                    setTimeout("$('#alert0').toggle()", 6000);
+                    return false;
+                } else { 
+                    $.ajax({
+                        url: "/Mgr/MenuItem/DeleteMenuItem", 
+                        data: myparamsObject,
+                        type: "post",
+                        error: function (result) {
+                            console.log(result);
+                            alert("DeleteMenuItem error \n\r code:500\n\r" + JSON.stringify(result));
+                        },
+                        success: function (data) {
+                            result = JSON.parse(data);
+                            if (result.MsgCode === "1") {
+                                console.log(result);
+                                // $("#DelMenuDialog1").html = result.Message;
+                                $("#DelMenuDialog1").html(result.Message);
+                                loadcatedata("#treeviewMenu1", "0");
+                            }
+                            else {
+                                alert("error : not exists");
+                            }
+                        } 
+                    });
+                }
+            });
+    </script>
+}
+

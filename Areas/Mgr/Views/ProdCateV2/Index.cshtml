@@ -1,0 +1,320 @@
+﻿@using LanguageResource;
+@{
+    ViewBag.Title = Lang.Views_ProdCateV2_Index_Title;
+    Layout = "~/Areas/Mgr/Views/Shared/_Layout.cshtml";
+} 
+@Scripts.Render("~/js/ProdCate")
+<script>
+    $(document).ready(function () {
+        loadcatedata("#treeview6"); //初始化类目视图
+        $("#alert0").toggle();//切换到隐藏  新增类目名称，必先选择一个类目，根类目=0
+        $("#Prop_alert").toggle(); //属性界面 提示切换
+        $("#alert_Ins_requireName").toggle(); //切换到隐藏
+        $("#alert_Ins_RepeatName").toggle();//切换到隐藏
+        $("#alert_Ins_Succ").toggle();//切换到隐藏
+        $("#Modal_alert_ADDNew_PropertiesValueName").toggle(); //MODAL属性界面 提示切换
+        $("#Modal_alert_upd_PropertiesValueName").toggle(); //MODAL属性界面 提示切换
+        //$("#myModal_PropertiesValueEdit1").toggle();   //致命错误      //MODAL属性【编辑】界面 提示切换
+
+        $("#alert_upd_RepeatName").toggle();//切换到隐藏 for 更新
+        $("#alert_upd_requireName").toggle();//切换到隐藏 for 更新
+        $("#alert_upd_Succ").toggle();//切换到隐藏 for 更新
+
+        $('[data-toggle="tooltip"]').tooltip(); //初始化提示样式
+
+        $('#btn_delete').data("content", "@Lang.Views_ProdCateV2_Index_DelSeuccTips");
+        //属性===============================================================================
+        loadcatedataProp("#treeview_Prop_ProdCate", "#Prop_dropdown-menu1", "#txtProp_ProdCateID", "#txtProp_ProdcateName");
+        // $('#pCheckPropertiesName').toggle();//属性界面 提示切换
+    }); 
+</script>
+ <style>
+     strong,small{
+         color:#fff;
+     }
+ </style>
+    <div>
+       @{
+           ViewBag.Title = Lang.Views_ProdCateV2_Index_Title;
+           ViewBag.SubTitle = Lang.Views_ProdCateV2_Index_SubTitle;
+        }
+    </div>
+    <!--类目界面-->
+    <div class="container" style="margin-bottom:15px">
+        <div>
+            <label class="h4" style="margin-left:-15px;">@Lang.Views_ProdCateV2_Index_SubTitle</label>
+        </div>
+
+        <div class="row">
+            <div class="form-inline">
+                <div class="input-group " style="width:auto;">
+                    <div class="input-group-btn ">
+
+                        <button type="button" id="btn1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" style="width:auto;" aria-expanded="false"><span id="btn_span1">@Lang.GeneralUI_Select</span><span class="caret"></span></button>
+                        <ul id="dropdown-menu1" class="dropdown-menu" role="menu" style="width:300px;" aria-labelledby="dLabel">
+                            <li>
+                                <div id="ul-li-div1" style="padding:10px;">
+                                    <button type="button" id="btnaddnewroot" data-toggle="tooltip" data-placement="top" title="@Lang.Views_GeneralUI_DefaultRootValue" class="btn btn-danger btn-xs">
+                                        @Lang.Views_GeneralUI_FirstLevel
+                                    </button>
+                                    <input ID="txt_ProdCateID" type="text" value="0" Class="text-info" style="background-color:white;border-color:white;border-width:0px;color:#ffffff;width:90px;" />
+                                </div>
+                            </li>
+                            <li><div id="treeview6" style="width:100%;height:auto;overflow-y:scroll;font-size:1em;"></div></li>
+                        </ul>
+
+                    </div><!--input-group-btn-->
+                    <input ID="txtProdCateName" type="text" maxlength="50" style="width:130px" class="form-control " />
+
+                </div><!-- /input-group -->
+                <!-- Button trigger modal -->
+                <button type="button" id="btnaddnew" data-loading-text="@Lang.Views_GeneralUI_Loading" class="btn btn-primary btn-large">@Lang.Views_GeneralUI_AddNew </button> 
+                <button type="button" id="btn_add_update" class="btn btn-primary btn-large">@Lang.Views_GeneralUI_Update</button>
+                <button type="button" id="btn_delete" class="btn btn-primary btn-large" data-placement="bottom" data-toggle="popover" title="popover title" data-content="@Lang.Views_GeneralUI_DeleteOK">@Lang.Views_GeneralUI_Delete</button>
+
+            </div>
+        </div><!--row-->
+        <div id="alert0" class="alert alert-danger form-inline row col-md-12" role="alert" style="height:34px;width:auto;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-top:-14px;padding:-14px;margin-right:-13px;padding-top:10px;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-ban-circle icon" style="color:red;"></i>&nbsp;warning！<small><span id="span0" style="color:#fff">@Lang.Views_ProdCateV2_MustFillCategoryName</span></small></h4>
+        </div>
+    </div><!-container-->
+    <hr /> 
+    <!--属性管理 -->
+    <div class="container">
+        <div>
+            <label class="h4" style="margin-left:-15px;">@Lang.Views_ProdCateV2_Index_NameAndValue</label>
+        </div>
+        <div class="row">
+            <div class="form-inline form-group ">
+                <div class="input-group" style="width:auto;">
+                    <div class="input-group-btn ">
+                        <input id="txtProp_ProdcateName" type="text" placeholder="@Lang.GeneralUI_Select" class="form-control input-group-lg" Style="border-right:none;width:110px" />
+                        <button type="button" id="btn_Prop_ProdcateName" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="border-left:none;border-bottom-right-radius:4px;border-top-right-radius:4px;"><span id="btn_span12" class="caret"></span></button>
+                        <ul id="Prop_dropdown-menu1" class="dropdown-menu" role="menu" style="width:300px;border:none;">
+                            <li>
+                                <div id="ul-li-prop-div1" style="padding:10px;">
+                                    <input type="hidden" ID="txtProp_ProdCateID" /> 
+                                </div>
+                            </li>
+                            <li><div id="treeview_Prop_ProdCate" style="width:100%;height:auto;overflow-y:scroll;font-size:0.75em;"></div></li>
+                        </ul>
+                    </div><!-- input-group-btn/btn-group -->
+
+                    <div class="input-group-btn " style="padding-left:10px;">
+                        <input ID="txtPropertiesValueName" placeholder="@Lang.GeneralUI_Select" style="width:110px" class="form-control input-group-lg" />
+                        <button type="button" id="btn11a" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="border-left:none;border-bottom-right-radius:4px;border-top-right-radius:4px;"><span id="btn_span122" class="caret"></span></button>
+                        <ul id="dropdown-menus-PropertiesValueName" class="dropdown-menu" role="menu" style="width:300px;border:none;">
+                            <li>
+                                <div id="ul-li-div112" style="padding:10px;">
+                                    <input type="hidden" ID="txt_PropertiesValueID" />
+                                    <span id="No_PropertiesValueName_Record" class="label label-danger"><i class="icon-forward"></i>@Lang.Views_ProdCateV2_No_PropertiesValueName_Record</span>
+                                </div>
+                            </li>
+                            <li><div id="treeview_ProdPropertiesValue" style="width:100%;height:auto;overflow-y:scroll;font-size:0.75em;"></div></li>
+                        </ul>
+                    </div><!-- input-group-btn/btn-group -->
+                     
+                </div><!-- /input-group -->
+                <!-- Button trigger modal -->
+                <button type="button" id="btn_add_PropertiesValueName" class="btn btn-primary btn-large" data-toggle="tooltip">@Lang.Views_GeneralUI_AddNew</button>
+                <button type="button" id="btn_upd_PropertiesValueName" class="btn btn-primary btn-large" data-toggle="tooltip">@Lang.Views_GeneralUI_Update</button>
+                <button type="button" id="btn_del_PropertiesValueName" class="btn btn-primary btn-large" data-placement="bottom" data-toggle="popover" title="popover title" data-content="@Lang.Views_GeneralUI_DeleteOK">@Lang.Views_GeneralUI_Delete</button>
+                <button type="button" id="btn_PropertiesValue_Edit_1" class="btn btn-primary btn-large">@Lang.Views_GeneralUI_Edit</button>
+            </div>
+        </div><!--row-->
+        <div id="Prop_alert" class="alert alert-warning   alert-dismissable" role="alert" style="width:350px;">
+            <h3 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-warning-sign icon-1x" style="color:red"></i>&nbsp;warning！<small><span id="Prop_alert_span0">@Lang.Views_ProdCateV2_MustFillCategoryName</span></small></h3>
+            <button type="button" class="close bg-danger alert-dismissible" data-dismiss="alert" style="align-self:auto;" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+    </div> 
+
+    <!--【属性值】管理 -->
+    <div class="container">
+        <iframe id="iframe1" style="border:none;border-style:none; padding: 10px;justify-content:center; overflow:hidden;width:800px;height:550px;visibility:visible; background-color: #f3f3f3;"></iframe>
+    </div>
+
+    <!-- Modal for add new-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title" id="myModalLabel">@Lang.Views_ProdCateV2_Addproductcategory</h3>
+                </div>
+                <div class="modal-body">
+
+                    <div id="ParentsProdCateID_Is_0" class="form-inline">
+                        <label for="ddl_prod_cate">
+                            @Lang.Views_ProdCateV2_ParentCategory：
+                            <input type="text" ID="txtParentsProdCateName" class="form-control" style="width:200px" readonly="readonly" />
+                        </label>
+                        <!--参数传入但没用到，后台code生成-->
+                        <input ID="txtProdCateID" style="color:#cccccc;border-style:none;" type="text" />
+
+                    </div>
+                    <div class="form-inline">
+                        <label for="txt_prod_cate_name">
+                            @Lang.Views_GeneralUI_AddNew@Lang.Views_ProdCateV2_Subcategory：
+                            <input ID="txt_prod_cate_name" placeholder="@Lang.Views_ProdCateV2_ProdcatenameFormate" class="form-control" maxlength="20" required="required" style="width:200px" />
+                        </label>
+                        <div id="alert_Ins_RepeatName" class="alert alert-error" role="alert" style="width:250px;height:34px;">
+                            <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-warning-sign icon-1x" style="color:red"></i>&nbsp;<strong>Warning！</strong><small style="color:#ffffff"> @Lang.Views_ProdCateV2_ProdcateRepeate</small></h4>
+                        </div>
+                    </div>
+                    <div id="alert_Ins_requireName" class="alert alert-danger form-inline" role="alert" style="height:34px;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-top:-14px;padding:-14px;margin-right:-13px;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-ban-circle icon" style="color:red;"></i>&nbsp;warning！<small><span id="span1" style="color:#ffffff">@Lang.Views_ProdCateV2_NewSubcateRequire</span></small></h4>
+
+                    </div>
+
+                    <div id="alert_Ins_Succ" class="alert alert-success" role="alert" style="height:34px;">
+                        <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-info-sign icon" style="color:red"></i>&nbsp;OK！<small style="color:#ffffff"> @Lang.ProdCateV2_Index__NewProcateOK</small></h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="Savechanges" class="btn btn-primary">@Lang.Views_GeneralUI_SaveChanges</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for UPDATE -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title" id="myModalLabel2">@Lang.Views_ProdCateV2_Index_UpdCate</h3>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-inline">
+                        <label for="ddl_prod_cate">
+                            @Lang.Views_ProdCateV2_Index_Originalcategoryname
+                            <input ID="txtProdCateName0" class="form-control" style="width:200px" readonly="readonly" />
+                        </label>
+                    </div>
+                    <div class="form-inline">
+                        <label for="txt_prod_cate_name_upd">
+                            @Lang.Views_ProdCateV2_Index_NewCategoryname
+                            <input ID="txt_prod_cate_name_upd" placeholder="@Lang.Views_ProdCateV2_Index_NameFormat" class="form-control" maxlength="20" required="required" style="width:200px" />
+                        </label>
+                        <div id="alert_upd_RepeatName" class="alert alert-error" role="alert" style="width:250px;height:34px;">
+                            <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-warning-sign icon-1x" style="color:red"></i>&nbsp;<strong>Warning！</strong><small style="color:#fff">@Lang.Views_ProdCateV2_ProdcateRepeate !</small></h4>
+                        </div>
+                    </div>
+                    <div id="alert_upd_requireName" class="alert alert-danger form-inline" role="alert" style="height:34px;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-top:-14px;padding:-14px;margin-right:-13px;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-ban-circle icon" style="color:red;"></i>&nbsp;warning！<small  style="color:#fff"><span id="span_upd1">@Lang.Views_ProdCateV2_Index_span_upd1</span></small></h4>
+
+                    </div>
+
+                    <div id="alert_upd_Succ" class="alert alert-success" role="alert" style="height:34px;">
+                        <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-info-sign icon" style="color:red"></i>&nbsp;OK！<small  style="color:#fff"> @Lang.Views_GeneralUI_UpdateOK</small></h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="Savechanges_upd" class="btn btn-primary">@Lang.Views_GeneralUI_SaveChanges</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for ADDNEW  新增属性名称-->
+    <div class="modal fade" id="myModal_PropertiesValueName" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_PropertiesValueName">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span class="modal-title h4" title="@Lang.ModalView_ProdCateV2_Index_CategoryName" data-toggle="tooltip" id="myModalLabel_PN_ProDCateName">@Lang.ModalView_ProdCateV2_Index_CategoryName</span>
+                </div>
+                <div class="modal-body ">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <label class="form-inline" for="txtPropertiesValueName_forAddNew">
+                                @Lang.ModalView_ProdCateV2_Index_PropertyName：
+                                <input ID="txtPropertiesValueName_forAddNew" placeholder="@Lang.Views_ProdCateV2_Index_NameFormat" type="text" Class="form-control" maxlength="20" />
+                            </label>
+                        </div>
+                        <div class="col-lg-5">
+                            <div style="padding-top:20px"><p id="pCheckPropertiesName"></p></div>
+                        </div>
+                    </div><!--Row-->
+                    <div>
+                        <label for="chk_IsForTrading1">  @Lang.Views_ProdCateV2_Index_IsTradeProp：  </label><input type="checkbox" ID="chk_IsForTrading1" class="input-sm" title="@Lang.Views_ProdCateV2_Index_IsTradeProp" data-toggle="tooltip" data-placement="top" />
+                    </div>
+                    <div id="Modal_alert_ADDNew_PropertiesValueName" class="alert" role="alert" style="width:auto;height:34px;">
+                        <h4 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-ok icon-3x" style="color:green"></i>&nbsp;<strong class="label-success">OK！</strong><small><span style="color:#000"> @Lang.Views_GeneralUI_SavedSuccessfully</span></small></h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="Savechanges_AddNew_PropertiesValueName" class="btn btn-primary">@Lang.Views_GeneralUI_AddNew</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Update  属性名称修改-->
+    <div class="modal fade" id="myModal_PropertiesNameUpd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_PropertiesValueName">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span class="modal-title h4" title="@Lang.ModalView_ProdCateV2_Index_PropertyName" data-toggle="tooltip" id="myModalheader_lbl_PropertiesName">@Lang.Views_ProdCateV2_Index_myModalheader_lbl_PropertiesName</span>
+                </div>
+                <div class="modal-body ">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <label class="form-inline" for="txtPropertiesValueName_for_upd">
+                                @Lang.Views_GeneralUI_ChangeTo：
+                                <input ID="txtPropertiesValueName_for_upd" placeholder="@Lang.Views_ProdCateV2_Index_NameFormat" Class="form-control" maxlength="20" />
+                            </label>
+                        </div>
+                        <div class="col-lg-5">
+                            <div style="padding-top:20px"><p id="pCheckPropertiesName_upd"></p></div>
+                        </div>
+                    </div><!--Row-->
+                    <div class="form-group">
+                        <label for="chk_IsForTrading2" class="col-sm-7">
+                            @Lang.Views_ProdCateV2_Index_IsTradeProp：
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="checkbox" ID="chk_IsForTrading2" checked="checked" class="input-sm" title="@Lang.Views_ProdCateV2_Index_IsTradeProp" data-toggle="tooltip" data-placement="top" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="chk_ShowPicture" class="col-sm-7">
+                            @Lang.Views_ProdCateV2_Index_ShowPicture：
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="checkbox" ID="chk_ShowPicture" checked="checked" class="input-sm" title="@Lang.Views_ProdCateV2_Index_ShowPicture" data-toggle="tooltip" data-placement="top" />
+                        </div>
+                    </div>
+
+                    <div id="Modal_alert_upd_PropertiesValueName" class="alert" role="alert" style="width:auto;height:34px;">
+                        <h3 class="text-warning btn-block" style="margin-top:-10px;margin-bottom:5px;"><i class="icon-ok icon-3x" style="color:green"></i><strong style="color:green">OK！</strong><small style="color:black"><span>@Lang.Views_ProdCateV2_Index_NameModiSucc</span></small></h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="Savechanges_upd_PropertiesValueName" class="btn btn-primary">@Lang.Views_GeneralUI_SaveChanges</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="@Url.Content("~/js/ProdCate/ProductCate.js")"></script> 
+<script src="@Url.Content("~/js/ProdCate/ProdcateProp.js")"></script>
+  
+

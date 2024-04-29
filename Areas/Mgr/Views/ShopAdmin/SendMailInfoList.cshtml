@@ -1,0 +1,190 @@
+﻿@using LanguageResource;
+@using Ishop.Utilities;
+@using Ishop.Context;
+@using Ishop.Models.Info;
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<Ishop.Models.SendMailInfo>
+@{
+    ViewBag.Title = Lang.SendMailInfo_Title;
+}
+
+<style>
+    .text-omit1 {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 280px;
+    }
+
+    .text-omit2 {
+        width: 280px;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .text-omit-defined {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+</style>
+
+<div class="box-body table-responsive">
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable class="badge-inverse">ID</lable>
+            </th>
+            <th style="width:160px;" class="">
+                <i class="fa fa-money" aria-hidden="true" style="color:mediumslateblue"></i><lable class="text1 text-omit1" title="@Lang.SendMailInfo_SenderOfCompany" data-toggle="tooltip" data-placement="top">@Lang.SendMailInfo_SenderOfCompany</lable>
+            </th>
+            <th class="hidden-sm text-omit-defined">
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable class="text2 text-omit1" title="@Lang.SendMailInfo_EnableSSL @Lang.SendMailInfo_EnableSSL" data-toggle="tooltip" data-placement="top">SSL/TSL</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa  fa-key" aria-hidden="true" style="color:mediumslateblue;word-break:keep-all"> </i><lable style="word-break:keep-all">@Lang.SendMailInfo_SenderUserName</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa fa-compass" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.SendMailInfo_EnablePasswordAuthentication</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.SendMailInfo_SenderServerHost</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa fa-calendar-check-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.SendMailInfo_SenderServerHostPort</lable>
+            </th>
+            <th>
+                <i class="fa fa-share-alt-square" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable class="block" style="word-break:keep-all">@Lang.SendMailInfo_FromMailAddress</lable>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr id="@string.Format("tr{0}",item.SendMailInfoId)">
+                <td>
+                    <div style="margin:0,0,5px,0; max-width:200px;">
+                        <div class="info-box-text h5 no-margin no-padding">
+                            <span class="text-omit-defined" style="padding-left:5px 0 0 5px;font-size:10px;max-width:40px;" title="@item.SendMailInfoId" data-toggle="tooltip">
+                                <small>@item.SendMailInfoId</small>
+                            </span>
+                        </div>
+                    </div><!-- /.box -->
+                </td>
+                <td class="hidden-sm" style="max-width:110px;">
+                     <span title="@item.SenderOfCompany" class="text-omit-defined" data-toggle="tooltip">@item.SenderOfCompany <i class="fa fa-eye" style="color:blue"></i></span> 
+                </td>
+                <td class="hidden-sm" style="max-width:110px;">
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <span title="@Lang.SendMailInfo_EnableSSL" class="text-omit-defined" data-toggle="tooltip">@Html.CheckBoxFor(model => item.EnableSSL)</span>
+                        </li>
+                        <li>
+                            <span title="@Lang.SendMailInfo_EnableTSL" class="text-omit-defined" data-toggle="tooltip">@Html.CheckBoxFor(model => item.EnableTSL)</span>
+                        </li>
+                    </ul>
+                </td>
+                <td class="hidden-sm">
+                    <span title="@item.SenderUserName" class="text-omit-defined small" style="max-width:160px;" data-toggle="tooltip">@item.SenderUserName</span>
+                    <span title="@item.SenderUserPassword" class="text-omit-defined small" style="max-width:160px;" data-toggle="tooltip">@item.SenderUserPassword</span>
+                </td>
+                <td class="hidden-sm small">
+                    <span title="@Lang.SendMailInfo_EnablePasswordAuthentication" class="text-omit-defined" data-toggle="tooltip">@Html.CheckBoxFor(model => item.EnablePasswordAuthentication)</span>
+                </td>
+                <td class="hidden-sm">
+                    <small>@item.SenderServerHost</small>
+                </td>
+                <td class="hidden-sm small"  style="max-width:40px;">
+                    <small>@item.SenderServerHostPort</small>
+                </td>
+                <td id="@string.Format("td{0}",item.SendMailInfoId)">
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <button class="btn btn-warning btn-sm text-nowrap" type="button" onclick="@string.Format("javascript:DeleteSendMailInfo({0});", item.SendMailInfoId)">
+                                <i class="fa fa-trash" style="font-size:18px;"></i>
+                            </button>
+                        </li> 
+                    </ul> 
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@if (Model.PageCount > 1)
+{
+    <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+    @Html.PagedListPager(Model, page => Url.Action("LangList", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
+
+
+<script>
+
+    function DeleteSendMailInfo(SendMailInfoId)
+    {
+        console.log(SendMailInfoId);
+
+        layer.confirm('@Lang.DeleteSendMailInfo_ComfirmTips', {
+            title:'Tips',
+            btn: ['Yes', 'NO'] //btn
+        }, function () {
+            //TODO
+                var httpDelUrl = "/Mgr/ShopAdmin/DeleteSendMailInfo";
+
+                var myparamsObject = { "SendMailInfoId": SendMailInfoId}; 
+            $.ajax({
+                url: httpDelUrl,
+                data: myparamsObject,
+                type: "post",
+                dataType: "json",
+                error: function (data) {
+                    alert("ERROR");
+                    console.log(JSON.stringify(data));
+                },
+                success: function (data) {
+                    console.log({ "SUCCESS": data});
+                    var pr_obj = "#td" + SendMailInfoId;
+                    var objTr = "#tr" + SendMailInfoId;
+
+                    setTimeout(function () {
+                        $(objTr).removeClass("bg-warning-gradient");
+                    }, 800);
+
+                    setTimeout(function () {
+                        $(objTr).addClass("bg-warning-gradient");
+                    }, 1800);
+                    
+                    layer.open({
+                        title: '@Lang.GeneralUI_ReturnResult'
+                        , content: data.meta.Message
+                    , btn:'@Lang.GeneralUI_OK'
+                    });
+
+                    if (data.meta.Success == true)
+                    {
+                        console.log($.isEmptyObject(pr_obj));
+
+                        setTimeout(function () {
+                            $(pr_obj).parent().remove();
+                        }, 3000);
+                    }
+                }
+            });
+
+            }, function () {
+                layer.msg('@Lang.DeleteSendMailInfo_ComfirmTips', { icon: 1 }, {
+                    time: 6000,
+                    btn: ['@Lang.GeneralUI_Isee']
+                });
+            });
+    } 
+</script>
+
+
+
+

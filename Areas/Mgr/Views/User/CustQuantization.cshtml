@@ -1,0 +1,233 @@
+﻿@using LanguageResource;
+@using Ishop.Models.User;
+@using Ishop.Context;
+@using Ishop.Utilities;
+@using PagedList;
+@using PagedList.Mvc;
+@using Ishop.Models.PubDataModal;
+@using Ishop.AppCode.Utilities;
+@model PagedList.IPagedList<Ishop.Models.User.UserProfile>
+<script src="~/js/clipboard/clipboard.min.js"></script>
+<style>
+
+    .divRemarks {
+        width: 160px;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        line-height: 1.1em;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .text-omit100px {
+        width: 90px;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+<script>
+    //客户跟进备注
+    function UserProfileRemarksQuery(UserProfileID) {
+        var UserProfileRemarks = "-";
+        var myparamsObject = { "UserProfileID": UserProfileID };
+
+        $.ajax({
+            url: "/Mgr/User/UserProfileRemarksQuery", /*设置post提交到的页面*/
+            data: JSON.stringify(myparamsObject),
+            type: "post",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json", /*设置返回值类型为文本*/
+
+            success: function (data) {
+                UserProfileID1 = "#" + UserProfileID;
+                $(UserProfileID1).html(data.Message);
+                $(UserProfileID1).attr("title", data.Message);
+                console.log(data);
+                UserProfileRemarks = data.Message;
+                return UserProfileRemarks;
+            },
+            error: function (data) {
+                console.log("@Lang.Views_GeneralUI_ServerError \n\r code:500" + JSON.stringify(data));
+                return "@Lang.Views_GeneralUI_ServerError";
+            }
+        });
+    }
+</script>
+@{
+    ViewBag.Title =Lang.CustQuantization_Title;
+    ViewBag.SubTitle = Lang.Views_GeneralUI_CRM + " Role:CustomerService";
+    List<UserTag> UserTagQuery = ViewBag.UserTagQuery;
+    ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
+}
+@using (Html.BeginForm("CustQuantization", "User", FormMethod.Get))
+{
+    <div id="box-widget1" class="box-body" role="search">
+        <div class="form-group form-inline form-horizontal ">
+            <ul class="list-inline list-unstyled">
+                <li>
+                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "关键词", title = "关键词:姓名、昵称、Email、手机、City等", data_toggle = "tooltip", style = "max-width:90px;" })
+                </li>
+                <li>
+                    <div class="btn-group" role="group" aria-label="...">
+
+                        <input type="submit" class="btn btn-default margin-r-5" value="@Lang.Views_GeneralUI_Search" />
+                        @Html.ActionLink(Lang.Views_GeneralUI_Create , "Details", new { Layout = 1 }, new { @class = "btn btn-default pull-right", target = "_Blank" })
+
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+}
+
+<div class="table-responsive no-padding no-margin">
+    <table class="table table-striped table-hover table-bordered table-responsive">
+        <tr>
+            <th>
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.UserProfile_FullName | @Lang.UserProfile_NickName</lable>
+            </th>
+            <th>
+                <i class="fa fa-remark" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.UserProfile_Remarks</lable>
+                @Html.ActionLink(" ", "CustQuantization", "User", new { sortOrder = ViewBag.SortParm, currentFilter = ViewBag.CurrentFilter }, htmlAttributes: new { @class = "fa fa-sort pull-right", title = Lang.CustQuantization_SortRank_Title })
+            </th>
+            <th>
+                <i class="fa fa-diamond" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>&nbsp;</lable>
+            </th>
+            <th>
+                <lable class="block fa fa-share-alt-square" style="word-break:keep-all;color:mediumslateblue">&nbsp;</lable>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <ul class="no-margin no-padding">
+                        <li>
+                            <div id="@string.Format("c{0}",item.UserProfileID)" onclick="getClipboardText('@string.Format("c{0}",item.UserProfileID)')" data-clipboard-text="@item.NickName">
+                                <span class="block text-omit100px small" style="color:mediumslateblue">@item.NickName</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div id="@string.Format("f{0}",item.UserProfileID)" onclick="getClipboardText('@string.Format("f{0}",item.UserProfileID)')" data-clipboard-text="@item.FullName">
+                                <span class="block text-omit100px small" style="color:mediumslateblue">@item.FullName</span>
+                            </div>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <div class="block divRemarks small" id="@Html.DisplayFor(modelItem => item.UserProfileID).ToString()" data-toggle="tooltip" title="@Html.DisplayFor(modelItem => item.NickName).ToString()">
+                    </div>
+                    <a id="link_UserQuantfactor" class="small" onclick="javascript:UserProfileAddRemarks(@Html.DisplayFor(modelItem => item.UserProfileID).ToString())">@Html.DisplayFor(modelItem => item.City)<i class="glyphicon glyphicon-tags small" aria-hidden="true" style="color:mediumslateblue"></i></a>
+                    <script>
+                        var UserProfileRemarks = UserProfileRemarksQuery(@Html.DisplayFor(modelItem => item.UserProfileID));
+                    </script>
+                </td>
+
+                <td class="h4 no-padding">
+                    @Html.DisplayFor((modelItem => item.QuantizationScore), new { @class = "strong", target = "_Blank", style = "color:mediumpurple;word-wrap:normal;word-break:keep-all" })<a class="margin-r-5 " id="link_UserQuantfactor" onclick="javascript:PopUpUserQuantFactorList('@Html.DisplayFor(modelItem => item.UserProfileID).ToString()')"><i class="glyphicon glyphicon-list-alt small" aria-hidden="true" style="color:mediumslateblue"></i></a>
+                </td>
+
+                <td style="color:#1b1b1b">
+                    <div class="block inline">
+                        @Html.ActionLink(" ", "Details", new { ID = item.UserProfileID, Layout = 1 }, new { @class = "fa fa-pencil margin-r-5", target = "_Blank", style = "color:mediumpurple" })
+                        <a id="link_UserQuantfactor" onclick="javascript:UserQuantfactorAdd('@Html.DisplayFor(modelItem => item.UserProfileID).ToString()')"><i class="glyphicon glyphicon-tags" aria-hidden="true" style="color:mediumslateblue"></i></a>
+                    </div>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+ 
+@if (Model.PageCount > 1)
+{
+    <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+    @Html.PagedListPager(Model, page => Url.Action("CustQuantization", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
+
+<script>
+    $(document).ready(function () {
+
+        $('[data-toggle="tooltip"]').tooltip(); //初始化提示样式
+    });
+    
+    function UserQuantfactorAdd(UserProfileID) {
+        console.log("UserProfileID = " + UserProfileID);
+        OpenUserQuantfactorUrl = "/Mgr/User/userquantfactor?UserProfileID=" + UserProfileID;
+        var $message = $('<div class="h4"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="h3">Loading</span><br><span class="sr-only">Loading...</span></div><br/>').load(OpenUserQuantfactorUrl);
+       
+        var dialog1 = BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_DEFAULT,
+            resizable: true,
+            size: 'size-normal',
+            closeByBackdrop: true,
+            closeByKeyboard: false,
+            draggable: true,
+            closable: true,
+            title: "@Lang.Views_GeneralUI_OperateInfo "+ "-" + UserProfileID,
+            message: $message,
+            cssClass: 'bootstrap-dialog fade',
+            bodypadding: '0px'
+        });   
+        
+    }
+    function PopUpUserQuantFactorList(UserProfileID) {
+        console.log("Func: PopUpUserQuantFactorList -Params: UserProfileID = " + UserProfileID);
+        OpenUserQuantFactorListUrl = "/Mgr/User/UserQuantFactorList?UserProfileID=" + UserProfileID;
+        var $message = $('<div  class="h4"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="h3">Loading</span><br><span class="sr-only">Loading...</span></div><br/>').load(OpenUserQuantFactorListUrl);
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_SUCCESS,
+            resizable: true,
+            size: 'size-normal',
+            closeByBackdrop: true,
+            closeByKeyboard: false,
+            draggable: true,
+            closable: true,
+            title: "@Lang.CustQuantization_PopUpUserQuantFactorList_title -" + UserProfileID,
+            message: $message,
+            cssClass: 'bootstrap-dialog fade'
+        });
+    }
+
+    function UserProfileAddRemarks(UserProfileID) {
+        console.log("Fun: UserProfileAddRemarks()  UserProfileID = " + UserProfileID);
+        OpenUserProfileAddRemarksUrl = "/Mgr/User/UserProfileAddRemarks?UserProfileID=" + UserProfileID;
+        var $message = $('<div  class="h4"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="h3">Loading</span><br><span class="sr-only">Loading...</span></div><br/>').load(OpenUserProfileAddRemarksUrl);
+        dialog = new BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_DEFAULT,
+            resizable: true,
+            size: BootstrapDialog.SIZE_MIDDLE,
+            closeByBackdrop: true,
+            closeByKeyboard: false,
+            draggable: true,
+            closable: true,
+            title: UserProfileID + " - @Lang.Views_GeneralUI_OperateInfo",
+            message: $message,
+            cssClass: 'bootstrap-dialog fade' 
+        }); 
+    }
+
+</script>
+
+<script>
+    function getClipboardText(id) {
+        var btn = document.getElementById(id);
+        var clipboard = new Clipboard(btn);
+
+        clipboard.on('success', function (e) {
+            console.log(e);
+        }); 
+        clipboard.on('error', function (e) {
+            console.log(e);
+        });
+    };
+</script>
+

@@ -1,0 +1,53 @@
+﻿@using LanguageResource;
+@using Ishop.Utilities;
+@using Ishop.Context;
+@model IEnumerable<Ishop.Models.Info.UserChannel>
+@{
+    Layout = null;
+}
+<style>
+
+    .text-omit-UserChannel-list {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+</style>
+<div class="box-body table-responsive">
+
+    <table class="table table-striped table-hover">
+        <tr>
+            @{
+                int cnt = 0;
+
+                foreach (var item in Model)
+                {
+                    if (cnt++ % 4 == 0)
+                    {
+                    @:</tr><tr>
+                    }
+                    <td>
+                        <div class="h6">
+                            <ul class="list-unstyled">
+                                <li class="list-unstyled">
+                                    @if (!string.IsNullOrEmpty(Html.DisplayFor(model => item.ChannelQRcode).ToString().ToLower().Trim()))
+                                    {
+                                        <a href="@item.ChannelQRcode" target="_blank"><img id="uploadPicResult" class="img-responsive" src="@PictureSuffix.ReturnSizePicUrl(item.ChannelQRcode, PictureSize.s100X100)" /></a>
+                                    }
+                                </li>
+                                <li class="list-unstyled">
+                                    @Html.DisplayFor(model => item.ChannelName, new { @class = "h6" })
+                                <li class="list-unstyled">
+                                    @Html.DisplayFor(model => item.LoginID, new { @class = "h6" })
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                }
+            @:</tr>
+            }
+        </table>
+    </div>
+

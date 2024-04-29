@@ -1,0 +1,312 @@
+﻿@using Ishop.ViewModes.Order
+@using Ishop.Controllers
+@using System.Configuration
+@using System.Text
+@using Newtonsoft.Json
+@using LanguageResource
+@using Ishop.Models.ProductMgr
+@using Ishop.Utilities
+@using Ishop.Areas.Mgr.Models
+@using Ishop.Areas.Mgr.Controllers
+@using Ishop.Context
+@model Ishop.Models.ProductMgr.Product
+@{
+    /**/ 
+    ViewBag.Title = Lang.ProductSku_Title;
+    ViewBag.SubTitle = Lang.ProductSku_SubTitle;
+
+    string ProductId;
+    if (ViewBag.CurrentProductId != null)
+    {
+        ProductId = ViewBag.CurrentProductId;
+    }
+    else
+    {
+        ProductId = Request.Params["ProductId"].ToString();
+    }
+    ProductMgrController productController = new ProductMgrController();
+}
+<script>
+    $(document).ready(function () {
+        console.log("ifrUrl document.ready");
+        //link to productskulist
+        var ifrUrl = "/mgr/productmgr/productskulist?Layout=0&productid=" + "@ViewBag.CurrentProductId";
+        $("#ifrSkuList").attr("src", ifrUrl);  
+    });
+    
+
+    $(function () {
+        $(".sys_item_spec .sys_item_specpara").each(function () {
+            var i = $(this);
+            var p = i.find("ul>li");
+            p.click(function () {
+                if (!!$(this).hasClass("selected")) {
+                    console.log("selected");
+                    $(this).removeClass("selected");
+                    i.removeAttr("data-attrval");
+                } else {
+                    $(this).addClass("selected").siblings("li").removeClass("selected");
+                    i.attr("data-attrval", $(this).attr("data-aid"));
+                }
+                console.log("getattrprice:");
+                getattrprice(); //输出价格
+            });
+        });
+        
+        function getattrprice() {
+            var defaultstats = true;
+            var _val = '';
+            var _resp = {
+                mktprice: ".sys_item_mktprice",
+                price: ".sys_item_price"
+            };  //output corresponding class
+            $(".sys_item_spec .sys_item_specpara").each(function () {
+                var i = $(this);
+                var v = i.attr("data-attrval");
+                if (!v) {
+                    defaultstats = false;
+                } else {
+                    _val += _val !== "" ? "_" : "";
+                    _val += v;
+                    $("#txtProductSkuId").val("@ViewBag.CurrentProductId" + _val.replace("_", ""));
+                    $("#txtPropValueIDs").val(_val);
+                    getProductSkuInfo();
+                    console.log("_val:" + _val);
+                }
+            });
+            if (!!defaultstats){
+                // for debug
+                console.log("defaultstats = " + defaultstats);
+                console.log("#_val:" + _val);
+                var my_vals = _val.split('_');
+                $("#txtProductSkuId").val('@ViewBag.CurrentProductId' + _val.replace("_", ""));
+                $("#txtPropValueIDs").val(_val);
+                getProductSkuInfo();
+            } else {
+                console.log("if !!defaultstats else :\r\n");
+                $("#txtProductSkuId").val("-");
+            }
+        }
+    });
+</script>
+<div id="CreateSkuPopup1" style="margin-top:0px;padding-top:0px;padding-left:10px;padding-right:10px; max-height:400px;border-top-color:chartreuse;border-top-width:4px;border-top-left-radius:4px;border-top-right-radius:4px;">
+    @using (Ajax.BeginForm("createSku", "ProductMgr", new { ProductId = ViewBag.CurrentProductId, TempProductSkuId = ViewBag.TempProductSkuId }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandlecreateSkuSuccDialog", OnFailure = "errcreateSku", LoadingElementId = "Loading" }, new { @class = "form-horizontal", id = "formcreateSku" }))
+    {
+        @Html.AntiForgeryToken()
+         
+        <div class="form-group">
+                    <!--tb Trade Prop-->
+                    <div class="iteminfo_buying">
+                        <div class="clearfix" style="padding-left:30px;">
+                            <ul class="list-unstyled block">
+                                <li style="width:25%;padding:0px 10px 10px 0;">
+                                    <img src="@Html.DisplayFor(m => m.ProductImg)" class="img-responsive img-thumbnail img-rounded pull-left" style="margin-right:10px" max-width="60" width="60" />
+                                </li>
+                                <li style="width:75%;padding-left:10px;padding-top:0px;margin-top:0px;">
+                                    <ul class="list-unstyled list-inline">
+                                        <li style="padding-left:10px;padding-top:0px;">
+                                            @Html.DisplayFor(m => m.Title).ToString()
+                                        </li>
+                                        <li style="padding-left:30px;padding-top:0px;">
+                                            @Html.ActionLink(Lang.Views_GeneralUI_Return, "productaddupd", new { ProductId = ViewBag.CurrentProductId }, htmlAttributes: new { @class = "btn btn-link", style = "cursor:hand;text-decoration:none;hover{background:blue;}" })
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--Property-->
+                        <div class="sys_item_spec">
+                            <dl class="clearfix iteminfo_parameter lh32">
+                                <dt>@Lang.Views_GeneralUI_SalePrice<!--SalePrice--></dt>
+                                <dd>
+                                    <span class="iteminfo_price"><b class="sys_item_price">@string.Format("{0:C0}", decimal.Parse(Html.DisplayFor(m => m.TradePrice).ToString()))</b></span>
+                                </dd>
+                            </dl>
+                            @{
+                                var propLst1 = productController.GetPropName(ProductId);
+                                foreach (var item in propLst1)
+                                {
+                                    <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="@item.PropertiesNameID">
+                                        <dt><span id="@("ListName" + item.PropertiesNameID)">@item.PropertiesName</span><!--ListName1=尺码--></dt>
+                                        <dd>
+                                            <ul id="prop_ListData1" class="sys_spec_text">
+                                                <!-- prop1 listdata-->
+                                                @{
+                                                    List<ProdPropertiesValue> GetPropValue = productController.GetPropValue(item, ProductId);
+                                                    foreach (var item2 in GetPropValue)
+                                                    {
+                                                        <li data-aid="@item2.PropertiesValueID.Trim()"><a href="javascript:;" title="@item2.PropertiesValueID - @item2.OperatedUserName">@item2.PropertiesValueName</a><i></i></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </dd>
+                                    </dl>
+                                }
+                            }
+                            <dl class="clearfix iteminfo_parameter">
+                                <dt>
+                                    <span class="padding-left5">&nbsp;@Lang.Views_GeneralUI_Stock</span>
+                                </dt>
+                                <dd class="bg-gray-light">
+                                    <div class="container">
+                                        <label for="txtQuantity" class="col-md-1 col-sm-1 control-label">@Lang.Views_GeneralUI_Quantity</label>
+                                        <div class="col-md-2 col-sm-2 no-padding">
+                                            @Html.TextBox("txtQuantity", "1", new { @class = "form-control", id = "txtQuantity" })
+                                        </div>
+                                        <label for="txtProductSkuTradePrice" class="col-md-1 col-sm-1 control-label">@Lang.ProductSku_TradePrice</label>
+                                        <div class="col-md-2 col-sm-2 no-padding">
+                                            @Html.TextBox("txtProductSkuTradePrice", Html.DisplayFor(m => m.TradePrice), new { @class = "form-control", id = "txtProductSkuTradePrice" })
+                                        </div>
+                                        <label for="txtProductSkuId" class="col-md-1 col-sm-1 control-label">@Lang.ProductSku_ProductSkuId</label>
+                                        <div class="col-md-2 col-sm-2 no-padding">
+                                            @Html.TextBox("txtProductSkuId", "", new { @class = "form-control", id = "txtProductSkuId" })
+                                            @Html.TextBox("txtPropValueIDs", "", new { @class = "form-control hide", id = "txtPropValueIDs" })
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 no-padding">
+                                            <ul class="list-unstyled list-inline no-padding no-margin">
+                                                <li style="vertical-align:middle">
+                                                    <img id="SkuImage1" src="" class="img-responsive" width="40" />
+                                                </li>
+                                                <li style="vertical-align:middle">
+                                                    <button id="OpenDialogButton" type="button" class="btn btn-default bg-black-active">@Lang.CreateSku_DefinitedUI_UploadSkuPic</button>
+                                                    <input type="file" id="file_ProductSkuUpload" multiple="multiple" SrvUrl="/@LangUtilities.LanguageCode/Utilities/UpLoadProcess2?Prefix=SKU&SubPath=ProductSku&TargetTalbeKeyID=@ViewBag.TempProductSkuId&ShopID=@WebCookie.ShopID"
+                                                           mime_type="image/jpeg" accept="image/jpeg" value="@Lang.Views_GeneralUI_Browse" class="input-group-sm hidden" />
+                                                    @Html.TextBox("txtSkuImage", "", new { @class = "form-control hide", id = "txtSkuImage", @readonly = "true" })
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl class="clearfix iteminfo" data-sid="@propLst1.Count()">
+                                <dt style="padding-left:30px;"> @Html.ValidationSummary("", new { @class = "text-danger", id = "CreateSkuValidationSummary1" })</dt>
+                            </dl>
+                        </div>
+                    </div><!--end of tb Trade Prop-->
+                    <div class="form-group" style="padding-left:15px;padding-right:15px;">
+                        <button type="button" id="BtnCreateSkuOK" class="btn btn-danger btn-flat btn-block">OK</button>
+                    </div>
+        </div>
+             
+    }
+</div>
+            <div id="ifrlayer" class="no-margin no-padding">
+                <iframe id="ifrSkuList" style="border:none;border-style:none; padding: 0px;margin:0px; justify-content:center; overflow:hidden;width:100%;height:600px;visibility:visible; background-color: #f3f3f3;"></iframe>
+            </div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#AddToCartPopup1').slimscroll({
+            height: '350px'
+            , disableFadeOut: false
+        });
+    });
+    $("#BtnCreateSkuOK").click(function () {
+        var strPlsSelect = "@Lang.CreateSku_BtnCreateSkuOK_Tips_SelectProp";
+        var ProductSkuId = $("#txtProductSkuId").val();
+        if (ProductSkuId === "-" || ProductSkuId.length < 1)
+        {
+            $("#CreateSkuValidationSummary1").html(strPlsSelect);
+
+            layer.open({
+                content: strPlsSelect
+                , btn: 'OK'
+            });
+            return;
+        }
+        else {
+            $("#BtnCreateSkuOK").submit();
+        }
+    }); // click
+    function HandlecreateSkuSuccDialog(data) {
+        console.log("CreateSku Return Result:\r\n" + JSON.stringify(data));
+        if (data.MsgCode === "1") {
+            layer.open({
+                content: data.Message
+                , skin: 'msg'
+            });
+            refreshIframe();
+            return;
+        }
+    }
+    function errcreateSku(data) {
+        alert("occur error,view log");
+        console.log("errcreateSku.cshtml Error: line:128 \n\r\  errAddToShoppingCart \n\r ");
+        console.log(JSON.stringify(data));
+    }
+</script>
+
+            <script>
+                $("#OpenDialogButton").click(function () {
+                    $("#file_ProductSkuUpload").click();
+                });
+                $("#file_ProductSkuUpload").change(function uploadPic2() {
+
+                    var files = document.getElementById("file_ProductSkuUpload").files;
+                    console.log(files);
+                    var len = files.length;
+                    console.log("len = " + len);
+                    var SrvUrl = $("#file_ProductSkuUpload").attr('SrvUrl');
+                    for (i = 0; i < len; i++) {
+                        console.log("files[" + i + "] :" + files[i]);
+                        var form = new FormData();
+                        form.append("file", files[i]);
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("post", SrvUrl, false);// must =  false (asyc)
+                        xhr.send(form);
+                        if (xhr.responseText === "0") {
+                            alert("error:" + xhr.responseText);
+                        }
+                        else { 
+                            console.log("return upload result :\n\r" + xhr.responseText); 
+                            $("#SkuImage1").attr("src", xhr.responseText);
+                            $("#txtSkuImage").val(xhr.responseText);
+                            refreshIframe();
+                        }
+                    }
+                });
+            </script>
+
+<script>
+    function getProductSkuInfo()
+    {
+        var ProductSkuId = $("#txtProductSkuId").val();
+        var myparamsObject = { "ProductSkuId": ProductSkuId };
+        console.log("getProductSkuInfo \n\r  myparamsObject: \n\r" + JSON.stringify(myparamsObject));
+        $.ajax({
+            url: "/Mgr/ProductMgr/getProductSku",
+            data: JSON.stringify(myparamsObject),
+            contentType: "application/json;charset=utf-8",
+            type: "post",
+            dataType: "json",
+            error: function (result) {
+                console.log("@Lang.Views_GeneralUI_ServerError \n\r code:500");
+            },
+            success: function (data) {
+                console.log("/Mgr/ProductMgr/getProductSku \n\r  data \n\r" + JSON.stringify(data));
+                if (data.ProductSkuId === ProductSkuId)
+                {
+                    $("#txtSkuImage").val(data.SkuImage);
+                    $('#txtQuantity').val(data.Quantity);
+                    $('#txtProductSkuTradePrice').val(data.TradePrice);
+                    $("#SkuImage1").attr("src", data.SkuImage);
+                    $('#txtPropValueIDs').val(data.PropValueIDs);
+
+                    refreshIframe();
+                }
+                else
+                {
+                    $('#txtQuantity').val("1");
+                    $('#txtProductSkuTradePrice').val("0");
+                }
+            }
+        });
+    }
+</script>
+<script>
+    function refreshIframe() {
+        var ifrUrl = "/mgr/productmgr/productskulist?Layout=0&productid=" + "@ViewBag.CurrentProductId";
+     $("#ifrSkuList").attr("src", ifrUrl);
+    }
+</script>

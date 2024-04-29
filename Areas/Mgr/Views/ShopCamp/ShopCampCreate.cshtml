@@ -1,0 +1,274 @@
+﻿@using LanguageResource;
+@using Ishop.Context;
+@model Ishop.Models.CampaignMgr.Campaign
+
+@Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
+@Styles.Render("~/AdminLTE/plugins/timepicker/css")
+@Styles.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/css")
+@Scripts.Render("~/AdminLTE/plugins/timepicker/js")
+@Scripts.Render("~/AdminLTE/plugins/daterangepicker/js")
+@Scripts.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/js")
+@{
+    ViewBag.Title = string.IsNullOrEmpty(ViewBag.CurrentCampaignID) ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update;
+    ViewBag.SubTitle = Lang.ShopCampCreate_Subtitle;
+}
+<style>
+    label {
+        font-size: 1.1em;
+    }
+</style>
+<div class="box box-info">
+    @using (Ajax.BeginForm("ShopCampCreate", null, new { CampaignID = ViewBag.CurrentCampaignID }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleCampCreateSuccDialog", OnFailure = "errCampCreate", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ShopID, new { Value = WebCookie.ShopID })<!--隐藏ShpID-->
+        <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+
+        <div id="box-widget" class="box-header with-border">
+            <h3 class="box-title">@Html.ActionLink(Lang.Views_GeneralUI_ReturnToList, "ShopCampList")</h3>
+        </div>
+
+        <div class="box-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CampaignName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.CampaignName, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.CampaignName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CampaignLabel, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.CampaignLabel, new { @class = "form-control", placeHolder = Lang.ShopCampCreate_PriceLabel, title = Lang.ShopCampCreate_PriceLabelTips })
+                    @Html.ValidationMessageFor(model => model.CampaignLabel, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group hidden">
+                @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.HiddenFor(model => model.StartDate, new { @class = "form-control" })
+
+                </div>
+            </div>
+
+            <div class="form-group hidden">
+                @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.HiddenFor(model => model.EndDate, new { @class = "form-control" })
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">@Lang.ShopCampCreate_PromoteTime</label>
+                <div class="col-sm-10">
+                    <div id="Dateimerange1" class="datepicker" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; max-width:280px;overflow:hidden">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                        <span class="h6"></span> <b class="caret"></b>
+                    </div>@Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" }) @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label class="col-sm-2 form-inline text-right" for="MenuLink">@Html.DisplayNameFor(model => model.CampaignDesc)</label>
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(model => model.CampaignDesc, new { @class = "form-control hidden", style = "max-width:800px", placeholder = "-" })
+                    <!--文本编辑器开始-->
+                    <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font" aria-hidden="true"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu"></ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default  btn-sm dropdown-toggle" data-toggle="dropdown" title="Text Highlight Color"><i class="fa fa-paint-brush"></i>&nbsp;<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <!--<p>&nbsp;&nbsp;&nbsp;Text Highlight Color:</p>-->
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FFFF"><i class="fa fa-stop" style="color:#808080;font-weight:700;">&nbsp;Gray</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FFFF"><i class="fa fa-stop" style="color:#00FFFF;font-weight:700;">&nbsp;Blue</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FF00"><i class="fa fa-stop" style="color:#00FF00;font-weight:700;">&nbsp;Green</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #FF7F00"><i class="fa fa-stop" style="color:#FF7F00;font-weight:700;">&nbsp;Orange</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #FF0000"><i class="fa fa-stop" style="color:#FF0000;font-weight:700;">&nbsp;Red</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #9a8383"><i class="fa fa-stop" style="color:#9a8383;font-weight:700;">&nbsp;Brown</i></a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height" aria-hidden="true"></i>&nbsp;<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a data-edit="fontSize 7"><font size="7">7</font></a></li>
+                                <li><a data-edit="fontSize 6"><font size="6">6</font></a></li>
+                                <li><a data-edit="fontSize 5"><font size="5">5</font></a></li>
+                                <li><a data-edit="fontSize 4"><font size="4">4</font></a></li>
+                                <li><a data-edit="fontSize 3"><font size="3">3</font></a></li>
+                                <li><a data-edit="fontSize 2"><font size="2">2</font></a></li>
+                                <li><a data-edit="fontSize 1"><font size="1">1</font></a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-outdent" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link" aria-hidden="true"></i></a>
+                            <div class="dropdown-menu input-append">
+                                <input class="span2" placeholder="URL" type="text" data-edit="createLink" style="max-width:150px" />
+                                <button class="btn btn-default btn-sm " type="button">Add</button>
+                            </div>
+                            <a class="btn btn-default btn-sm" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-chain-broken" aria-hidden="true"></i></a>
+
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn-default btn-sm btn" title="@Lang.Views_GeneralUI_UploadToServer" id="pictureBtn2">
+                                <i class="fa fa-file-image-o" aria-hidden="true">
+                                    <input type="file" id="pictureInput" data-Prefix="Ca"
+                                           SrvUrl="/Utilities/UpLoadProcess2?Prefix=Camp&SubPath=Campaign&TargetTalbeKeyID=0&ShopID=@WebCookie.ShopID"
+                                           data-role="magic-overlay" data-target="#pictureBtn2" multiple="multiple" accept="image/*" data-edit="insertImage" width="30" />
+                                </i>
+                            </a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
+                        </div>
+                    </div><!--文本编辑器结束-->
+                    <div id="editor" style="font-family: 'Microsoft YaHei','Microsoft YaHei UI'; overflow: auto;  max-height: 600px; height: 450px;">
+                        @(Html.Raw(ViewBag.CampaignDesc))
+                    </div>
+
+                </div><!--col-md-10结束-->
+            </div>
+
+
+        </div>
+        <div class="box-footer col-sm-offset-2">
+            <ul class="list-inline list-unstyled">
+                <li>
+                    <button type="button" id="btnaddnew" class="btn btn-info ">
+                        @(string.IsNullOrEmpty(ViewBag.CurrentCampaignID) ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update)
+                    </button>
+                </li>
+                <li>
+                    @Html.ActionLink(Lang.Views_GeneralUI_Return, "ShopCampList", null, new { @class = "btn btn-info" })
+                </li>
+            </ul>
+        </div>
+    }
+</div>
+<script>
+    function HandleCampCreateSuccDialog(data)
+    {
+        if (data.MsgCode === "1")  // 输入数据格式非法
+        {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: false,
+                title: $("#CampaignName").val(),
+                message: "<H3>" + data.Message + "</H3>",
+                cssClass: 'bootstrap-dialog fade',
+                buttons: [{
+                    label: 'OK!',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        golist();
+                        dialog.close();
+                    }
+                }]
+            });
+        } else {
+            alert("@Lang.Views_GeneralUI_ServerError");
+        }
+    }
+    function golist()
+    {
+        window.location = "@Url.Content("ShopCampList")";
+
+    }
+    function errCampCreate(data) {
+        alert(data);
+    }
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip(); //初始化提示样式
+        //确认提交
+        $("#btnaddnew").click(function () {
+
+            var HtmlCampaignDesc = $("#editor").html();
+            $("#CampaignDesc").val(escape(HtmlCampaignDesc));
+
+            return BootstrapDialog.show({
+                cssClass: 'bootstrap-dialog fade',
+                title: $("#CampaignName").val(),
+                message: $('#Dateimerange1 span').html(),
+                buttons: [{
+                    label: '@Lang.Views_GeneralUI_Submit',
+                    action: function (dialog) {
+                        $("#btnaddnew").submit();
+                        dialog.close();
+                    }
+                }, {
+                    label: '@Lang.Views_GeneralUI_Cancel',
+                    action: function (dialog) {
+                        dialog.close();
+                        return false;
+                    }
+                }]
+            });//BootstrapDialog
+        }); // click
+    }); //ready
+</script>
+<script type="text/javascript">
+  //日期时间 http://www.daterangepicker.com/
+ $(function() {
+     var start = moment("@ViewBag.StartDate");  //reference : http://momentjs.cn/  日期时间多语言国际化  (内置,无须引用)
+     var end = moment("@ViewBag.EndDate");
+
+     function cb(start, end) {
+         $('#Dateimerange1 span').html(start.format('YYYY-MM-DD hh:mm') + ' - ' + end.format('YYYY-MM-DD hh:mm'));
+         $('#StartDate').val(start.format('YYYY-MM-DD hh:mm'));
+         $('#EndDate').val(end.format('YYYY-MM-DD hh:mm'));
+     }
+
+     $('#Dateimerange1').daterangepicker({
+         timePicker: true,
+         startDate: start,
+         endDate: end,
+         ranges: {
+            'Today': [moment(), moment().endOf('days')],
+            '3 Days': [moment(), moment().add(3, 'days')],
+            '7 Days': [moment(), moment().add(6, 'days')],
+            '30 Days': [moment(), moment().add(30, 'days')],
+            'This': [moment().startOf('month'), moment().endOf('month')],
+            'Next': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')]
+         }
+     }, cb);
+
+     cb(start, end);
+ });
+</script>
+
+

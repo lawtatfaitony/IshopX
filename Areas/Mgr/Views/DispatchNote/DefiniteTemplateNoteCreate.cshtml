@@ -1,0 +1,282 @@
+﻿@using LanguageResource
+@using Ishop.Areas.Mgr.ModelView
+@using Ishop.Utilities
+@using Ishop.Context
+@model Ishop.Models.PubDataModal.DefiniteTemplateNote
+
+@{
+    ViewBag.Title = Lang.DefiniteTemplateNoteCreate_Title;
+    ViewBag.SubTitle = Lang.DefiniteTemplateNoteCreate_SubTitle;
+}
+@section Scripts {
+    @Scripts.Render("~/Scripts/webuploader")
+}
+@Styles.Render("~/Content/webuploader")
+
+<div ng-app="App">
+    @using (Ajax.BeginForm("DefiniteTemplateNoteCreate", new { DefiniteTemplateNoteId = ViewBag.CurrentDefiniteTemplateNoteId }, new AjaxOptions { HttpMethod = "post", OnSuccess = "DefiniteTemplateNoteCreateResult" }, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ShopID, new { Value = WebCookie.ShopID })
+        @Html.HiddenFor(model => model.OperatedDate, new { Value = DateTime.Now })
+        <div class="form-group">
+            <label for="DefiniteTemplateNoteName" class="col-sm-2 control-label">@Html.DisplayNameFor(model => model.DefiniteTemplateNoteName)</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.DefiniteTemplateNoteName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DefiniteTemplateNoteName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="DefiniteTemplatePicture" class="col-sm-2 control-label">@Html.DisplayNameFor(model => model.DefiniteTemplatePicture) </label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.DefiniteTemplatePicture, new { @class = "form-control hide" })
+                <div id="fileList">
+                    @{ if (!string.IsNullOrEmpty(Html.DisplayFor(model => model.DefiniteTemplatePicture).ToString()))
+                        {
+                            <img class="img-circle thumbnail pull-left" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.DefiniteTemplatePicture).ToString(), PictureSize.s160X160)" style="margin-right:15px;max-width:200px" />
+                        }
+                    }
+                </div> <div class="cp_img_jia" id="filePicker"></div>
+
+            </div>
+        </div>
+        <div class="form-group" ng-controller="mycontroller">
+            <label for="SenderUserAddressID" class="col-sm-2 control-label">@Html.DisplayNameFor(model => model.SenderUserAddressID)</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.SenderUserAddressID, new { @class = "form-control", list = "List_SenderUserAddressID", onclick = "javascript: this.value = '';" })
+                <datalist id="List_SenderUserAddressID"> 
+                    <option ng-repeat="x in SenderUserAddressList" value="{{x.UserAddressID}}">{{x.State + " | " + x.Address +" " + x.PhoneNumber}}</option>
+                </datalist>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Width" class="col-sm-2 control-label">@Html.DisplayNameFor(model => model.Width)</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.Width, new { @class = "form-control", list = "List_Width", onclick = "javascript: this.value = '';" })
+                <datalist id="List_Width">
+                    <option value="2cm">
+                    <option value="3cm">
+                    <option value="4cm">
+                    <option value="5cm">
+                    <option value="6cm">
+                    <option value="7cm">
+                    <option value="8cm">
+                    <option value="9cm">
+                    <option value="10cm">
+                    <option value="11cm">
+                    <option value="12cm">
+                    <option value="13cm">
+                    <option value="14cm">
+                    <option value="15cm">
+                    <option value="16cm">
+                    <option value="17cm">
+                    <option value="18cm">
+                    <option value="19cm">
+                    <option value="20cm">
+                    <option value="21cm">
+                    <option value="22cm">
+                    <option value="23cm" selected="selected">
+                    <option value="24cm">
+                    <option value="25cm">
+                    <option value="26cm">
+                    <option value="27cm">
+                    <option value="28cm">
+                </datalist>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Height" class="col-sm-2 control-label">@Html.DisplayNameFor(model => model.Height)</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.Height, new { @class = "form-control", list = "List_Height", onclick = "javascript: this.value = '';" })
+                <datalist id="List_Height">
+                    <option value="2cm">
+                    <option value="3cm">
+                    <option value="4cm">
+                    <option value="5cm">
+                    <option value="6cm">
+                    <option value="7cm">
+                    <option value="8cm">
+                    <option value="9cm">
+                    <option value="10cm">
+                    <option value="11cm">
+                    <option value="12cm">
+                    <option value="13cm" selected="selected">
+                    <option value="14cm">
+                    <option value="15cm">
+                    <option value="16cm">
+                    <option value="17cm">
+                    <option value="18cm">
+                    <option value="19cm">
+                    <option value="20cm">
+                    <option value="21cm">
+                    <option value="22cm">
+                    <option value="23cm">
+                    <option value="24cm">
+                    <option value="25cm">
+                    <option value="26cm">
+                    <option value="27cm">
+                    <option value="28cm">
+                </datalist>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="selectedDataField" class="col-sm-2 control-label">@Html.DisplayNameFor(model => model.RecipientColFields)</label>
+            <div class="col-sm-10">
+                <table>
+                    <tr>
+                        @{
+                            int RecipientColFields_cnt = 0;
+                            List<DataFieldsCollection> RecipientColFields = ViewBag.RecipientColFields;
+
+                            foreach (var item in RecipientColFields)
+                            {
+                                if (RecipientColFields_cnt++ % 3 == 0)
+                                {
+                                @:</tr><tr>
+                                }
+                                <td>
+                                    <input type="checkbox"
+                                           id="selectedRecipientColFields"
+                                           name="selectedRecipientColFields"
+                                           value="@item.DataFieldName"
+                                           @(Html.Raw(item.Assigned ? "checked=\"checked\"" : "")) />
+                                    @item.DataFieldName
+                                </td>
+                            }
+                        @: </tr>
+                        } <!--代码段-->
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="selectedDataField" class="col-sm-2 control-label">@Html.DisplayNameFor(model => model.SenderColFields)</label>
+                <div class="col-sm-10">
+                    <table>
+                        <tr>
+                            @{
+                                int SenderColFields_cnt = 0;
+                                List<DataFieldsCollection> SenderColFields = ViewBag.SenderColFields;
+
+                                foreach (var item in SenderColFields)
+                                {
+                                    if (SenderColFields_cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    <td>
+                                        <input type="checkbox"
+                                               id="selectedSenderColFields"
+                                               name="selectedSenderColFields"
+                                               value="@item.DataFieldName"
+                                               @(Html.Raw(item.Assigned ? "checked=\"checked\"" : "")) />
+                                        @item.DataFieldName
+                                    </td>
+                                }
+                            @: </tr>
+                            } <!--代码段-->
+                        </table>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <ul class="list-unstyled list-inline">
+                            <li>
+                                @Html.ActionLink(Lang.Views_GeneralUI_Return, "DefiniteTemplateNoteList", null, new { @class = "btn btn-info btn-sm" })
+                            </li>
+                            <li>
+                                <button type="button" id="btnCreate" class="btn btn-danger btn-sm">@Lang.Views_GeneralUI_Submit</button>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+                <br />
+            }
+</div>
+ 
+<a class="col-sm-offset-2" href="~/Content/SADeliveryNote_big.jpg" target="_blank">Sample</a><br /><br />
+
+<script>
+    $(document).ready(function () {
+        // upload Picture
+        $(WebUploader1("fileList", "filePicker", "DefiniteTemplateNote_", "DefiniteTemplateNote", "DefiniteTemplatePicture", "@ViewBag.TempDefiniteTemplateNoteId", "@ViewBag.ShopID", 1));
+
+    })
+
+    function DefiniteTemplateNoteCreateResult(data) {
+
+        BootstrapDialog.show({
+            title: "@Lang.DefiniteTemplateNoteCreate_Title",
+            message: $('<div>loading...</div>').html(data.Message)
+        });
+    }
+    @*$("#btnCreate").click(function (e) {
+
+        onclick="javascript: return confirm('@Lang.Views_GeneralUI_Pleasecomfirm')"
+        setTimeout('$("#btnCreate").attr("disabled", "disabled");', 5000);
+
+
+    });*@
+    //submit
+    $("#btnCreate").click(function () {
+         
+            return BootstrapDialog.show({
+                cssClass: 'bootstrap-dialog fade',
+                title:"@Lang.Views_GeneralUI_OperateInfo",
+                message: $("#DefiniteTemplateNoteName").val(),
+                buttons: [{
+                    label: '@Lang.Views_GeneralUI_Submit',
+                    action: function (dialog) {
+                        $("#btnCreate").submit();
+                        $("#btnCreate").attr("disabled", "disabled");
+                        dialog.close();
+                    }
+                }, {
+                    label: '@Lang.Views_GeneralUI_Cancel',
+                    action: function (dialog) {
+                        dialog.close();
+                        return false;
+                    }
+                }]
+        });//BootstrapDialog
+
+        setTimeout('$("#btnCreate").removeAttr("disabled");$("#btnCreate").attr("enabled", "enabled");', 5000);
+
+    }) // click
+
+
+    var app = angular.module('App', []);
+    app.controller('mycontroller', function ($scope, $http) {
+
+        var myparamsObject = { "UserId": "@ViewBag.ShopID" };
+        //use the post method of angular http to recieve the data 
+        $http({
+            method: 'POST',
+            url: '/Mgr/DispatchNote/getSenderUserAddressList',
+            data: myparamsObject
+        }).then(function successCallback(response) {
+            console.log(response);
+            $scope.SenderUserAddressList = response.data;
+
+        }, function errorCallback(response) {
+        });
+    });
+
+
+            
+
+</script>
+
+
+
+
+
+

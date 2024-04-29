@@ -1,0 +1,130 @@
+﻿@using LanguageResource; 
+@model Ishop.Models.User.UserQuantFactor
+@{
+    if (Request.Params["Layout"] == null)
+    {
+        Layout = null;
+    }
+}
+
+@using (Ajax.BeginForm("UserQuantFactor", null, new { UserProfileID = ViewBag.CurrentUserProfileID }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleUserQuantFactorResult", OnFailure = "err", LoadingElementId = "Loading" }, new { id = "form1", @class = "form-horizontal  bg-gray-light" }))
+{
+    <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span></div>
+
+    @Html.AntiForgeryToken()
+
+    <div id="box-widget" class="box box-default box-solid">
+        <div class="box-header with-border">
+            <h3 class="box-title">@Lang.UserQuantFactor_Title</h3>
+            <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+
+        <div class="box-body">
+
+            @Html.HiddenFor(model => model.UserProfileID, new { @value = ViewBag.CurrentUserProfileID })
+            @Html.HiddenFor(model => model.QuantFactorID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FactorNameRemarks, htmlAttributes: new { @class = "col-sm-4 control-label" })
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.FactorNameRemarks, new { @class = "form-control dropdown-toggle", autocomplete = "off", data_toggle = "dropdown", placeHolder = Html.DisplayNameFor(model => model.FactorNameRemarks), title = Html.DisplayNameFor(model => model.FactorNameRemarks), style = "width:98%;max-width:600px;" })
+                        @Html.ValidationMessageFor(model => model.FactorNameRemarks, "", new { @class = "text-danger" })
+                        <div id="DivDownMenu1" class="dropdown-menu" role="menu" style="width:280px;">
+                            <div class="pull-right">
+                                <span class="fa fa-times" style="padding-right:10px;"></span>
+                            </div>
+                            <div id="Tree_dropdown_menu1" class="treeview" style="padding-top:5px;padding-left:5px;padding-right:-10px;">
+                                <div id="Loading1"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span><br /></div>
+                            </div>
+                        </div>
+                    </div><!--input-group-btn-->
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Score, htmlAttributes: new { @class = "col-sm-4 control-label" })
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.Score, new { @class = "form-control", placeHolder = Html.DisplayNameFor(model => model.Score), title = Html.DisplayNameFor(model => model.Score), style = "width:98%;max-width:600px;" })
+                        @Html.ValidationMessageFor(model => model.Score, "", new { @class = "text-danger" })
+                    </div><!--input-group-btn-->
+                </div>
+            </div>
+        </div>
+
+        <div class="box-footer">
+            <div id="err_message"></div>
+            &nbsp;&nbsp;<input type="submit" id="Savechanges" class="btn btn-default bg-navy-active col-sm-offset-4" value="@Lang.Views_GeneralUI_Submit" />
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        LoadUserQuantFactor("#Tree_dropdown_menu1", "#FactorNameRemarks");
+        $('#Tree_dropdown_menu1').slimscroll({
+            disableFadeOut: false
+        });
+    });
+</script>
+
+<script> 
+    function HandleUserQuantFactorResult(data) { 
+        //$("#form1").html(data);
+        return BootstrapDialog.show({
+            cssClass: 'bootstrap-dialog fade',
+            title: "@Lang.Views_GeneralUI_ReturnResult :",
+            message: data.Message,
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });//BootstrapDialog
+    }
+    function err(data) {
+        console.log(data);
+        console.log("@Lang.Views_GeneralUI_ServerError Function([HttpPost]AsignToAccountMgrID)");
+        $("#err_messages").html("@Lang.Views_GeneralUI_ServerError Function([HttpPost]UserQuantFactor)<br>,Failed to load resource: the server responded with a status of 500 (Internal Server Error)");
+    }
+</script>
+
+<script> 
+    function LoadUserQuantFactor(ID) {
+        var url_QuantFactorNode = "/Mgr/User/GetNodeOfQuantFactor";
+        $.ajax({
+            url: url_QuantFactorNode,
+            success: function (data) {
+                $(ID).treeview({
+                    enableLinks: false,
+                    expandIcon: "glyphicon glyphicon glyphicon-plus",
+                    collapseIcon: "glyphicon glyphicon glyphicon-minus",
+                    showBorder: true,
+                    borderColor: "#EDEDED",
+                    onhoverColor: "#E0E0E0",
+                    highlightSelected: true,
+                    levels: 3,
+                    showTags: true,
+                    data: $.parseJSON(data),
+                    onNodeCollapsed: function (event, node) {
+                        $(ID).dropdown('toggle');
+                    },
+                    onNodeExpanded: function (event, node) {
+                        $(ID).dropdown('toggle');
+                    },
+                    onNodeSelected: function (event, node) {
+                        var myArray = new Array();
+                        myArray = node.text.split("-");
+                        $(ID).dropdown('toggle');
+                        $("#FactorNameRemarks").val(myArray[0] + " ");
+                        $("#Score").val(node.Score);
+                        $("#QuantFactorID").val(node.nodeid);
+                    }
+                });
+            }
+        });//end ajax get json data
+    }
+</script>

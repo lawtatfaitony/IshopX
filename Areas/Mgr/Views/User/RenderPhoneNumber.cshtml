@@ -1,0 +1,94 @@
+﻿@using LanguageResource;
+@model Ishop.Areas.Mgr.ModelView.RenderPhoneNumber
+@{
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("RenderPhoneNumber", "User", new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleRenderPhoneNumber", OnFailure = "err", LoadingElementId = "Loading" }, new { id = "form1", @class = "form-horizontal  bg-gray-light" }))
+{
+    <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span></div>
+
+    @Html.AntiForgeryToken()
+
+    <div id="box-widget" class="box  box-default box-solid">
+
+        <div class="box-body">
+            <div class="form-group">
+                @Html.LabelFor(m => m.AreaCode, new { @class = "col-sm-4 control-label h4" })
+                <div class="col-sm-8">
+                    @Html.DropDownList("AreaCode", null, Lang.Views_GeneralUI_Selected, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AreaCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.RenderAmount, new { @class = "col-sm-4 control-label h4" })
+                <div class="col-sm-8">
+                    @Html.DropDownList("RenderAmount", null, Lang.GeneralUI_Select, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RenderAmount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.IsSaveDB, new { @class = "col-sm-4 control-label h4  bottom" })
+                <div class="col-sm-8 bottom">
+                    @Html.CheckBoxFor(m => m.IsSaveDB)
+                    @Html.ValidationMessageFor(model => model.IsSaveDB, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.RenderResult, new { @class = "col-sm-4 control-label h4" })
+                <div class="col-sm-8 bottom">
+                    @Html.TextAreaFor(m => m.RenderResult, new { @class = "form-control h4", rows = 5, placeholder = Html.DisplayNameFor(m => m.RenderResult) })
+                    @Html.ValidationMessageFor(model => model.RenderResult, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="box-footer">
+            <div id="err_message"></div>
+            &nbsp;&nbsp;<input type="button" id="Savechanges" class="btn btn-default bg-navy-active col-sm-offset-4" value="@Lang.Views_GeneralUI_Render" />
+        </div>
+    </div>
+
+}
+<script>
+    $("#Savechanges").click(function () {
+        {
+            $("#Loading").removeClass("hidden");
+            $("#form1").submit();
+            $("#Savechanges").attr("disabled", true);
+        }
+    });
+    function HandleRenderPhoneNumber(data) {
+        $("#Loading").addClass("hidden");
+        if (data.MsgCode == "0") {
+            $("#RenderResult").val(data.Message);
+        }
+        else {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                autospin: true,
+                opacity: 0,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: true,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: true,
+                title: "@Lang.Views_GeneralUI_OperateInfo",
+                message: "<H3>@Lang.Views_GeneralUI_ServerError<br>" + data.Message + "</H3>",
+                cssClass: 'bootstrap-dialog fade',
+                buttons: [{
+                    label: 'Close',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+        }
+    }
+    function err(data) {
+        console.log("@Lang.Views_GeneralUI_ServerError,Func :([HttpPost]RenderPhoneNumber)");
+        $("#err_messages").html("@Lang.Views_GeneralUI_ServerError,Func:([HttpPost]RenderPhoneNumber)<br>,Failed to load resource: the server responded with a status of 500 (Internal Server Error)");
+    }
+</script>

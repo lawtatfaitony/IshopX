@@ -1,0 +1,42 @@
+﻿@using LanguageResource;
+@model Ishop.Models.ProductMgr.ProdPropertiesValue
+@{
+    ViewBag.Title = Lang.Views_GeneralUI_Edit;
+    Layout = "~/Areas/Mgr/Views/Shared/_blankLayout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@Lang.Views_GeneralUI_Edit</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.PropertiesValueID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PropertiesValueName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PropertiesValueName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PropertiesValueName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@Lang.Views_GeneralUI_SaveChanges" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink(Lang.Views_GeneralUI_Return, "Index", new { ProdCateID = ViewBag.ProdCateID, ProdCateName = ViewBag.ProdCateName, PropertiesNameID = ViewBag.PropertiesNameID, PropertiesName = ViewBag.PropertiesName })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

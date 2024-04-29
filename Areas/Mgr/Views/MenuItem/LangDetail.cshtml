@@ -1,0 +1,184 @@
+﻿@using LanguageResource
+@using Ishop.Context
+@model Ishop.Models.PubDataModal.Language
+
+@Styles.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/css")
+@Scripts.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/js")
+<link href="~/webuploader/CSS/webuploader.css" rel="stylesheet" />
+<script src="~/webuploader/Script/webuploader.js"></script>
+
+@{
+    ViewBag.Title = Lang.ModalView_LangDetail_Title;
+    ViewBag.SubTitle = Lang.ModalView_LangDetail_SubTitle;
+}
+@using (Ajax.BeginForm("LangDetail", null, new { KeyName = ViewBag.KeyName }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleLangSuccDialog", OnFailure = "errLang", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.KeyName, new { Value = ViewBag.KeyName })
+    @Html.HiddenFor(model => model.KeyType)
+    <div class="box box-info">
+        <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+
+        <div id="box-widget" class="box-header with-border">
+            <h3 class="box-title">@Html.ActionLink(Lang.Views_GeneralUI_Return, "LangDetail")</h3>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.zh_CN, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.zh_CN, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "zh_CN", title = "zh_CN" })
+                    @Html.ValidationMessageFor(model => model.zh_CN, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.en, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.en, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "en", title = "en" })
+                    @Html.ValidationMessageFor(model => model.en, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.zh_HK, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.zh_HK, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "zh_HK", title = "zh_HK" })
+                    @Html.ValidationMessageFor(model => model.zh_HK, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.zh, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.zh, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "zh", title = "zh" })
+                    @Html.ValidationMessageFor(model => model.zh, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.fr, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.fr, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "fr", title = "fr" })
+                    @Html.ValidationMessageFor(model => model.fr, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.de, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.de, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "de", title = "de" })
+                    @Html.ValidationMessageFor(model => model.de, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ru, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.ru, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "ru", title = "ru" })
+                    @Html.ValidationMessageFor(model => model.ru, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ar, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.ar, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "ar", title = "ar" })
+                    @Html.ValidationMessageFor(model => model.ar, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.es, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.es, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "es", title = "es" })
+                    @Html.ValidationMessageFor(model => model.es, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ja, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.ja, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "ja", title = "ja" })
+                    @Html.ValidationMessageFor(model => model.ja, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ko, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.ko, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "ko", title = "ko" })
+                    @Html.ValidationMessageFor(model => model.ko, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.Remarks, new { @class = "form-control", data_toggle = "tooltip", placeHolder = "Remarks", title = "Remarks" })
+                    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer col-sm-offset-2">
+            <ul class="list-inline list-unstyled">
+                <li>
+                    <button type="button" id="btnUpdate" class="btn btn-info ">
+                        @Lang.Views_GeneralUI_Change
+                    </button>
+                </li>
+                @{
+                    if (Request["KeyName"] != null)
+                    {
+                        @:<li>
+                            @Html.ActionLink(Lang.Views_GeneralUI_Reflash, "LangDetail", new { KeyName = ViewBag.KeyName }, new { @class = "btn btn-info" })
+                        @:</li>
+                    }
+                }
+                <li>
+                    @Html.ActionLink(Lang.Views_GeneralUI_Return, "LangList", null, new { @class = "btn btn-info" })
+                </li>
+            </ul>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        // Submit to Update
+        $("#btnUpdate").click(function () {
+            return BootstrapDialog.show({
+                cssClass: 'bootstrap-dialog fade',
+                title: $("#KeyName").val(),
+                message: $("#zh_HK").val(),
+                buttons: [{
+                    label: '@Lang.Views_GeneralUI_Submit',
+                    action: function (dialog) {
+                        console.log("Submit....");
+                        $("#btnUpdate").submit();
+                        dialog.close();
+                    }
+                }, {
+                    label: '@Lang.Views_GeneralUI_Cancel',
+                    action: function (dialog) {
+                        dialog.close();
+                        return false;
+                    }
+                }]
+            });//BootstrapDialog
+
+        }); // click
+    });
+    function HandleLangSuccDialog(data) {
+        if (data.MsgCode === "1") {
+            BootstrapDialog.alert(data.Message);
+        }
+        else {
+            BootstrapDialog.alert(data.Message);
+        } 
+    }
+    function errSeoHtmlContextAdd(data) {
+        BootstrapDialog.alert('error');
+    }
+</script>
+

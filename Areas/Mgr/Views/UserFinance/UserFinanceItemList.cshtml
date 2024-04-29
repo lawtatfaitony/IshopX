@@ -1,0 +1,172 @@
+﻿@using Ishop.Controllers;
+@using LanguageResource;
+@using Ishop.Models.User;
+@using PagedList.Mvc;
+@using Ishop.Models.PubDataModal;
+@model PagedList.IPagedList<UserFinanceItem>
+@{ 
+    BaseController baseController = new BaseController();
+    ViewBag.Title = Lang.UserFinanceItemList_Title;
+    ViewBag.SubTitle = Lang.UserFinanceItemList_SubTitle;
+}
+@Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
+@Styles.Render("~/AdminLTE/plugins/timepicker/css")
+@Scripts.Render("~/AdminLTE/plugins/timepicker/js")
+@Scripts.Render("~/AdminLTE/plugins/daterangepicker/js")
+<script src="~/js/Info/IPstatitics.js"></script>
+<style>
+    .text-omit-defined {
+        overflow: hidden;
+        text-overflow: clip;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+</style>
+@using (Html.BeginForm("UserFinanceItemList", "UserFinance", FormMethod.Get, new { @class = "form-horizontal" }))
+{
+    <div id="box-widget" class="box-header form-inline block">
+        <label class="label label-info btn-flat" for="SearchString">@Lang.Views_GeneralUI_Find</label>
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", style = "max-width:120px;" })
+        @Html.TextBox("StartDate", ViewBag.CurrentStartDate as string, new { @class = "form-control h6", style = "max-width:150px;" })
+        <label class="label label-info btn-flat" for="SearchString">TO</label>
+        @Html.TextBox("EndDate", ViewBag.CurrentEndDate as string, new { @class = "form-control h6", style = "max-width:150px;" })
+        <input type="submit" class="btn btn-info" value="@Lang.Views_GeneralUI_Search" />  
+    </div>
+}
+
+<div class="box-body  table-responsive">
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                <i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><div style="width:40px;overflow-x:hidden">ID</div>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>FinanceID</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>UserId</lable>
+            </th>
+            <th>
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().ItemAmount)</lable>
+            </th> 
+            <th>
+                <i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().ShopID)</lable>
+            </th>
+            <th>
+                <i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().StatusId)</lable>
+            </th>
+            <th>
+                <i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().promoteAndSalesChannel)</lable>
+            </th>
+            <th>
+                <i class="fa fa-calendar-check-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().CreatedDate)</lable>
+                @Html.ActionLink("∨", "UserFinanceItemList", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter }, new { title = Lang.Views_GeneralUI_Datetime })
+            </th>
+            <th>
+                <i class="fa fa-calendar-check-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().OperatedDate)</lable>
+                @Html.ActionLink("∨", "UserFinanceItemList", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter }, new { title = Lang.Views_GeneralUI_Datetime })
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                <div style="width:40px;overflow-x:auto">@Html.DisplayFor(modelItem => item.UserFinanceItemID)</div>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserFinanceID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+               @Html.DisplayFor(modelItem => item.ItemAmount,"{0:d}")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopID)
+            </td>
+            <td> 
+                @baseController.GetTableStateStatusName("UserFinanceItem", Html.DisplayFor(modelItem => item.StatusId).ToString(),LangUtilities.LanguageCode)
+            </td>
+            <td class="small">
+                <span class="text-omit-defined small" title="@item.StatusId" data-toggle="tooltip">@Html.DisplayFor(modelItem => item.promoteAndSalesChannel) </span>
+            </td>
+            <td class="small">
+                @string.Format("{0:yyyy-MM-dd}", Html.DisplayFor(modelItem => item.CreatedDate))
+            </td>
+            <td class="small">
+                @string.Format("{0:yyyy-MM-dd}", Html.DisplayFor(modelItem => item.OperatedDate))
+            </td>
+        </tr>
+        }
+    </table>
+</div>
+
+@{
+    if (Model.PageCount > 1)
+    {
+        <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageNumber, Model.PageCount, Model.PageCount, Model.Count)</label>
+        @Html.PagedListPager(Model, page => Url.Action("UserFinanceItemList", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    }
+}
+
+<script>
+    $(document).ready(function () {
+        datepickerRender("#StartDate"); // Initialization date
+        datepickerRender("#EndDate");
+        $('[data-toggle="tooltip"]').tooltip(); //Initialization prompt style
+        $("#alert_Ins_Succ").toggle();
+    });
+</script>
+
+<script>
+    function datepickerRender(ID) {
+        $(ID).daterangepicker({
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "timePicker": true,
+            "locale": {
+                "format": "YYYY-MM-DD",
+                "separator": " - ",
+                "applyLabel": "OK",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Su",
+                    "Mo",
+                    "Tu",
+                    "We",
+                    "Th",
+                    "Fr",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December"
+                ],
+                "firstDay": 1
+            },
+            "linkedCalendars": false,
+            "showCustomRangeLabel": false,
+            "startDate": moment(),
+            "endDate": moment()
+        }, function (start, end, label) {
+            $(ID).val(start.format('YYYY-MM-DD hh:mm'));
+        });
+    }
+</script>

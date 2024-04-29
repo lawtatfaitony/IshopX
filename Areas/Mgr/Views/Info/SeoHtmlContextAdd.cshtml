@@ -1,0 +1,515 @@
+﻿@using Ishop.Context
+@using LanguageResource
+@using Ishop.Models
+@model Ishop.Models.PubDataModal.SeoExtand
+
+@Styles.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/css")
+@Scripts.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/js")
+<link href="~/webuploader/CSS/webuploader.css" rel="stylesheet" />
+<script src="~/webuploader/Script/webuploader.js"></script>
+<script src="~/js/Info/SeoHtmlContextAdd.js"></script>
+ 
+@{ 
+    ViewBag.Title = string.IsNullOrEmpty(ViewBag.SeoExtandID) ? Lang.ModalView_SeoHtmlContextAdd_Title : Lang.ModalView_SeoHtmlContextAdd_Title2;
+    ViewBag.SubTitle = Lang.ModalView_SeoHtmlContextAdd_SubTitle;
+}
+
+<!--关键词扩展-->
+@using (Ajax.BeginForm("SeoHtmlContextAdd", null, new { SeoExtandID = ViewBag.SeoExtandID }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleSeoHtmlContextAddSuccDialog", OnFailure = "errSeoHtmlContextAdd", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.SeoExtandID, new { Value = ViewBag.SeoExtandID }) 
+    <div class="box box-info">
+        <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+
+        <div id="box-widget" class="box-header with-border">
+            <h3 class="box-title">@Html.ActionLink(Lang.Views_GeneralUI_Return, "Index")</h3> <span> | </span>
+            <h3 class="box-title">@Html.ActionLink(Lang.Views_GeneralUI_Create, "SeoHtmlContextAdd")</h3>
+</div>
+        <div class="box-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ParentsSeoExtandID, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10"> 
+                    <div class="input-group"> 
+                        @Html.TextBox("SeorchStringResult", ViewBag.SeoKeyWord as String, new { @class = "form-control dropdown-toggle", autocomplete = "on", data_toggle = "dropdown", placeHolder = Lang.ModalView_SeoHtmlContextAdd_Queryparentkeywords, style = "width:280px;padding-right:10px;" })
+                        &nbsp;<button type="button" id="btnSeoExtandEdit" onclick="goDetailEdit()" data-toggle="tooltip" data-placement="top" title="@Lang.Views_GeneralUI_DefaultRootValue" class="btn btn-danger">@Lang.Views_GeneralUI_Edit</button>
+                           
+                        @Html.HiddenFor(model => model.ParentsSeoExtandID, new { Value = ViewBag.ParentsSeoExtandID })
+                        @Html.ValidationMessageFor(model => model.ParentsSeoExtandID, "", new { @class = "text-danger" })
+                        <div id="DivDownMenu1" class="dropdown-menu" role="menu" style="width:280px;">
+                            <button type="button" id="btnSeoExtandRoot" onclick="setSeoExtandRoot('#ParentsSeoExtandID', '#SeorchStringResult')" data-toggle="tooltip" data-placement="top" title="@Lang.Views_GeneralUI_DefaultRootValue" class="btn btn-danger btn-xs">
+                               @Lang.Views_GeneralUI_RootKeyWord
+                            </button>
+                            
+                           <span class="pull-right fa fa-times" style="padding-right:10px;"></span> 
+
+                            <div id="Tree_dropdown_menu1" class="h6 small treeview" style="padding-left:5px;padding-right:5px;"><div id="Loading2"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div></div> 
+                        </div>
+                       
+                    </div><!--input-group-btn-->
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SeoKeyWord, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.SeoKeyWord, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Lang.ModalView_SeoHtmlContextAdd_SEOKeyWord, title = Lang.ModalView_SeoHtmlContextAdd_SEOKeyWord })
+                    @Html.ValidationMessageFor(model => model.SeoKeyWord, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group"> 
+                <div class="col-sm-10 col-sm-offset-2"> 
+                    @Html.CheckBoxFor(model => model.IsSeoHtmlContext)  
+                    <label for="IsSeoHtmlContext" class="h6" data_toggle="tooltip" , title=@Html.DisplayNameFor(model=>model.IsSeoHtmlContext)>@Html.DisplayNameFor(model=>model.IsSeoHtmlContext)</label>
+                </div>
+            </div>
+
+            <!--描述 begin-->
+            <div id="editor_collapse1" class="form-group">
+                @Html.LabelFor(model => model.SeoHtmlContext, htmlAttributes: new { @class = "col-sm-2 control-label", @for = "editor" })
+                <div class="col-sm-10">
+                    @Html.HiddenFor(model => model.SeoHtmlContext)
+
+                    <!--文本编辑器开始-->
+                    <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font" aria-hidden="true"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu"></ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default  btn-sm dropdown-toggle" data-toggle="dropdown" title="Text Highlight Color"><i class="fa fa-paint-brush"></i>&nbsp;<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <!--<p>&nbsp;&nbsp;&nbsp;Text Highlight Color:</p>-->
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FFFF"><i class="fa fa-stop" style="color:#808080;font-weight:700;">&nbsp;Gray</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FFFF"><i class="fa fa-stop" style="color:#00FFFF;font-weight:700;">&nbsp;Blue</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FF00"><i class="fa fa-stop" style="color:#00FF00;font-weight:700;">&nbsp;Green</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #FF7F00"><i class="fa fa-stop" style="color:#FF7F00;font-weight:700;">&nbsp;Orange</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #FF0000"><i class="fa fa-stop" style="color:#FF0000;font-weight:700;">&nbsp;Red</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #9a8383"><i class="fa fa-stop" style="color:#9a8383;font-weight:700;">&nbsp;Brown</i></a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height" aria-hidden="true"></i>&nbsp;<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a data-edit="fontSize 7"><font size="7">7</font></a></li>
+                                <li><a data-edit="fontSize 6"><font size="6">6</font></a></li>
+                                <li><a data-edit="fontSize 5"><font size="5">5</font></a></li>
+                                <li><a data-edit="fontSize 4"><font size="4">4</font></a></li>
+                                <li><a data-edit="fontSize 3"><font size="3">3</font></a></li>
+                                <li><a data-edit="fontSize 2"><font size="2">2</font></a></li>
+                                <li><a data-edit="fontSize 1"><font size="1">1</font></a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-outdent" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link" aria-hidden="true"></i></a>
+                            <div class="dropdown-menu input-append">
+                                <input class="span2" placeholder="URL" type="text" data-edit="createLink" style="max-width:150px" />
+                                <button class="btn btn-default btn-sm " type="button">Add</button>
+                            </div>
+                            <a class="btn btn-default btn-sm" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-chain-broken" aria-hidden="true"></i></a>
+
+                        </div>
+
+                        <div class="btn-group">
+                            <a class="btn-default btn-sm btn" title="@Lang.Views_GeneralUI_UploadToServer" id="pictureBtn2">
+                                <i class="fa fa-file-image-o" aria-hidden="true">
+                                    <input type="file" id="pictureInput" data-Prefix="Ca"
+                                           SrvUrl="/@LangUtilities.LanguageCode/Utilities/UpLoadProcess2?Prefix=SeoExt&SubPath=SeoExtand&TargetTalbeKeyID=@ViewBag.TempSeoExtandID&ShopID=@WebCookie.ShopID"
+                                           data-role="magic-overlay" data-target="#pictureBtn2" multiple="multiple" accept="image/*" data-edit="insertImage" width="30" />
+                                </i>
+                            </a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
+                        </div>
+                     
+                    </div><!--文本编辑器结束-->
+                    <div id="editor" overflow auto;">
+                       @(Html.Raw(ViewBag.SeoHtmlContext))
+                    </div>
+
+                </div><!--col-md-10结束-->
+            </div>
+            <!--描述 end-->
+
+            <div class="form-group">
+                @Html.Label(Lang.Views_GeneralUI_UploadFile, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10 col-sm-offset-2">
+                    <div id="uploader" class="wu-example">
+                        <!--用来存放文件信息-->
+                        <div id="fileList" class="uploader-list"></div>
+                        <div class="btns">
+                            <div id="picker" class="btn btn-default bg-black-gradient">@Lang.GeneralUI_SelectFile</div><div id="fileLoading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label(Lang.Views_GeneralUI_RelateFile, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10 col-sm-offset-2"> 
+                        @{
+                            List<Ishop.Models.UploadItem.UploadItem> uploadItems = ViewBag.UploadItemList;
+                            if (uploadItems!=null)
+                            {
+                                    @:<table class="table"><tr>
+                                    int cnt = 0;
+                                 
+                                    foreach (var item in uploadItems)
+                                    {
+                                        if (cnt++ % 1 == 0)
+                                        {
+                                          @:</tr><tr>
+                                        }
+
+                                        <td>
+                                            <a id="Rawname" href="@item.Url" target="_blank">@item.RawName</a>&nbsp;&nbsp;<a id="@item.UploadItemId" href="javascript:del_uploadItem('@item.UploadItemId')">删 除</a>
+                                        </td>
+                                    }
+                                    @:</tr></table>
+                           }
+                        }
+                </div>
+            </div>
+        </div> 
+        <div class="box-footer col-sm-offset-2">
+            <ul class="list-inline list-unstyled">
+                <li>
+                    <button type="button" id="btnaddnew" class="btn btn-info ">
+                        @(Request["SeoExtandID"] == null ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update)
+                    </button>
+                </li>
+                @{
+                    if (Request["SeoExtandID"] != null)
+                    {
+                        @:<li>
+                            @Html.ActionLink(Lang.Views_GeneralUI_Reflash, "SeoHtmlContextAdd", new { SeoExtandID = ViewBag.SeoExtandID }, new { @class = "btn btn-info" })
+                        @:</li>
+                         
+                        @:<li>
+                        <input type="button" id="SeoKeyWordDelete" value="@Lang.Views_GeneralUI_Delete" title="@Lang.ModalView_SeoHtmlContextAdd_DelCurKeyWord" class="btn btn-info" />
+                        @:</li>
+                    }
+                }
+                <li>
+                    @Html.ActionLink(Lang.Views_GeneralUI_Return, "SeoHtmlContextAdd", null, new { @class = "btn btn-info" })
+                </li>
+
+            </ul> 
+        </div>
+    </div>
+} 
+<script>
+    $(document).ready(function () {
+        
+        //【动态检查】（规则： SeoHtmlContextAdd.js）
+        $("#SeorchStringResult").click(function (e) {
+            //参数
+            DropdownMenuID = "#DivDownMenu1";
+            Tree_DropdownMenuID = "#Tree_dropdown_menu1";
+            forNodeID = "#ParentsSeoExtandID";
+            forNodeTxt = "#SeorchStringResult";
+            searchString = $("#SeorchStringResult").val(); //  搜索关键词要素
+            ParentsSeoExtandID = "0"; // 如果入参ParentsSeoExtandID=0,则从根目录起列出(根目录列出用户体验好)
+
+            console.log("输入搜索关键词 :" + searchString);
+            $("#Tree_dropdown_menu1").slimscroll({
+                disableFadeOut: false,
+                height: '600px'
+            });
+            GetNodeOfSeoExtands(DropdownMenuID, Tree_DropdownMenuID, forNodeID, forNodeTxt, searchString, ParentsSeoExtandID);
+        });
+        
+        //提交确认
+        //确认提交
+        $("#btnaddnew").click(function () {
+            $("#Loading").removeClass("hidden");
+            var SeoHtmlContext = $("#editor").html();
+            //alert(escape(SeoHtmlContext));
+            $("#SeoHtmlContext").val(escape(SeoHtmlContext));
+
+            return BootstrapDialog.show({
+                cssClass: 'bootstrap-dialog fade',
+                title: $("#SeorchStringResult").val() + "-" + $("#ParentsSeoExtandID").val(),
+                message: "KeyWord:" + $("#SeoKeyWord").val(),
+                buttons: [{
+                    label: '@Lang.Views_GeneralUI_Submit',
+                    action: function (dialog) {
+                        console.log("提交....");
+                        
+                        $("#btnaddnew").submit();
+                        $("#btnaddnew").val("Waiting...");
+                        $("#btnaddnew").attr("disabled", "true");
+                        dialog.close();
+                    }
+                }, {
+                    label: '@Lang.Views_GeneralUI_Cancel',
+                    action: function (dialog) {
+                        dialog.close();
+                        return false;
+                    }
+                }]
+            });//BootstrapDialog
+
+        }); // click 
+
+        //delete SeoKeyWordDelete
+        $("#SeoKeyWordDelete").click(function () {
+            $("#Loading").removeClass("hidden");
+             
+            
+
+            return BootstrapDialog.show({
+                cssClass: 'bootstrap-dialog fade',
+                title: "@Lang.Views_GeneralUI_Delete",
+
+                message: $("#SeoKeyWord").val(),
+                buttons: [{
+                    label: '@Lang.Views_GeneralUI_Submit',
+                    action: function (dialog) {
+                        console.log("SeoKeyWordDelete 提交....");
+                        var myparamsObject = { "SeoExtandID": "@ViewBag.SeoExtandID"};
+                        $.ajax({
+                            url: "/Mgr/info/SeoExtandDelete",
+                            data: myparamsObject,
+                            type: "post",
+                            success: function (data) {
+                                console.log(JSON.stringify(data));
+                                $("#SeoKeyWordDelete").attr("value","@Lang.Views_GeneralUI_Delete");
+                                return BootstrapDialog.show({
+                                    cssClass: 'bootstrap-dialog fade',
+                                    title:"@Lang.Views_GeneralUI_Delete",
+                                    message: data.Message,
+                                    buttons: [{
+                                        label: 'OK',
+                                        action: function (dialog) {
+                                            $("#SeoKeyWordDelete").val("@Lang.Views_GeneralUI_Delete");
+                                            $("#SeoKeyWordDelete").removeAttr("disabled");
+                                            dialog.close();
+                                            return false;
+                                        }
+                                    }]
+                                });//BootstrapDialog 
+                            }
+                        });//end ajax get json data 
+                        $("#SeoKeyWordDelete").val("Waiting...");
+                        $("#SeoKeyWordDelete").attr("disabled", "true");
+                        dialog.close();
+                    }
+                }, {
+                    label: '@Lang.Views_GeneralUI_Cancel',
+                    action: function (dialog) {
+                        dialog.close();
+                        return false;
+                    }
+                }]
+            });//BootstrapDialog
+             
+
+        }); // click 
+    });
+
+    function HandleSeoHtmlContextAddSuccDialog(data)
+    {
+        if (data.MsgCode === "1") {
+            BootstrapDialog.alert(data.Message);
+            $("#btnaddnew").val("@Lang.Views_GeneralUI_Submit");
+            $("#btnaddnew").removeAttr("disabled");
+            
+        }
+        else
+        {
+            BootstrapDialog.alert(data.Message);
+            $("#btnaddnew").val("@Lang.Views_GeneralUI_Submit");
+            $("#btnaddnew").removeAttr("disabled");
+            
+        } 
+    }
+    //btnSeoExtandEdit
+    function goDetailEdit()
+    {
+        SeoExtandID = $("#ParentsSeoExtandID").val()
+        if (SeoExtandID.length > 0)
+        {
+            window.location = "SeoHtmlContextAdd?SeoExtandID=" + SeoExtandID;
+        }
+        else {
+            alert('@Lang.Views_GeneralUI_SelectParentkeyword');
+        }
+    }
+    function errSeoHtmlContextAdd(data) {
+        BootstrapDialog.alert('@Lang.Views_GeneralUI_SubmitError');
+    }
+    //删除上存项 
+    function del_uploadItem(UploadItemId) {
+        
+        //alert("asdfasfsdfsdfasdfsaf");
+
+        //return;
+         
+        var myparamsObject = { "UploadItemId": UploadItemId };
+        $.ajax({
+            type: "post",
+            data: JSON.stringify(myparamsObject),
+            url: "/mgr/info/DeleteUploadItem",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.MsgCode !== "1")  // 输入数据格式非法
+                {
+                    alert("Error, data.MsgCode=" + data.MsgCode);
+                    return;
+                } 
+                BootstrapDialog.show({
+                    cssClass: 'bootstrap-dialog fade',
+                    title: "Result",
+                    message: "<H3>" + data.Message + "</H3>",
+                    buttons: [{
+                        label: 'OK',
+                        action: function (dialog) {
+                            dialog.close(); 
+                        }
+                    }]
+                });//BootstrapDialog
+            },
+            error: function (err) { 
+                console.log(JSON.stringify(err));
+                alert("Error:" + JSON.stringify(err));
+            }
+        });
+
+    }
+</script>
+
+<script>
+    //获取应用程序根路径
+    //var applicationPath = window.applicationPath === "" ? "" : window.applicationPath || "../../";
+    $(function () {
+        var $ = jQuery,
+        $list = $('#fileList'),
+
+        // Web Uploader实例
+        uploader;
+        uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: '/webuploader/Script/Uploader.swf',
+
+            // 文件接收服务端。
+            server: '/Utilities/UpLoadProcessFile',    // '@Url.Action("UpLoadProcessFile", "Utilities")',
+
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#picker',
+            accept: {
+                title: 'html',
+                extensions: 'jpg,gif,png,mp4,pdf,doc,docx,xlt,xlsx,ppt,pptx,rar,zip,txt,html',
+                mimeTypes: 'image/jpeg,image/gif,image/png,image/bmp,application/zip,application/rar,video/mpeg,video/mp4,application/msword,application/vnd.ms-excel,application/mspowerpoint,text/plain,application/pdf,application/zip,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'                       // 'application/pdf, application/msword'
+            }
+        });
+
+        // 当有文件添加进来的时候
+        uploader.on('fileQueued', function (file) {
+            // 初始化以后添加 参数传入  Prefix, string SubPath, string TargetTalbeKeyID, string ShopID
+
+            uploader.options.formData.Prefix = 'SeoExt';
+            uploader.options.formData.SubPath = 'SeoExtand';
+            uploader.options.formData.TargetTalbeKeyID = '@ViewBag.TempSeoExtandID';
+            uploader.options.formData.shopID = '@WebCookie.ShopID';
+            uploader.options.formData.name = file.name;
+            uploader.options.formData.type = file.type;
+            uploader.options.formData.AcceptType = 'image/jpeg,image/gif,image/png,image/bmp,video/mpeg,video/mp4,application/msword,application/vnd.ms-excel,application/mspowerpoint,text/plain,application/pdf,application/zip,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; //可以接受的文件类型 AcceptType;
+            console.log(JSON.stringify(uploader.options))
+
+            $list.append('<div id="' + file.id + '" class="item">' +
+                '<h4 class="info">' + file.name + '</h4>' +
+                '<p class="state">@Lang.Views_GeneralUI_Uploading</p>' +
+            '</div>');
+            $("#fileLoading").removeClass("hidden");
+        });
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on('uploadProgress', function (file, percentage) {
+            var $li = $('#' + file.id),
+                $percent = $li.find('.progress span');
+
+            // 避免重复创建
+            if (!$percent.length) {
+                $percent = $('<p class="progress"><span></span></p>')
+                        .appendTo($li)
+                        .find('span');
+            }
+
+            $percent.css('width', percentage * 100 + '%');
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on('uploadSuccess', function (file, response) {
+
+            console.log(response.filePath);
+            InsHtml5Video(response.filePath.toString());//插入视频
+
+            // $("#FooterTemplate").val(response.filePath);
+            console.log("FooterTemplate=" + response.filePath);
+            //alert("uploadSuccess" + response.filePath);
+            $('#' + file.id).find('p.state').text('@Lang.Views_GeneralUI_UploadConpleted');
+
+            $("#fileLoading").addClass("hidden");
+        });
+
+        uploader.on('uploadError', function (file) {
+            $('#' + file.id).find('p.state').text('@Lang.Views_GeneralUI_UploadError' + response.message);
+        });
+
+        uploader.on('uploadComplete', function (file) {
+            $('#' + file.id).find('.progress').fadeOut();
+        });
+
+        //所有文件上传完毕
+        uploader.on("uploadFinished", function (response) {
+            //提交表单
+            //$("#submit1").click();
+            //alert("提交表单" + response.filePath);
+
+        });
+
+    });
+</script> 
+<!--插入视频模板-->
+<script>
+    function InsHtml5Video(VideoPath) {
+        VideoPath = VideoPath.toLowerCase();  
+        var myArray = VideoPath.split(".");
+        extend = myArray[myArray.length - 1]; //截断"."之前的，得到后缀
+
+        if (extend === "mp4") {
+            var VideaHtml5 = '<br/><video autoplay="false" controls="controls" width="90%" ><source src="' + VideoPath + '" type="video/mp4"></video><br/>';
+            $("#editor").html($("#editor").html() + VideaHtml5);
+            $("#editor").focus();
+        }
+        return; 
+    }
+     
+</script>

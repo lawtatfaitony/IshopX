@@ -1,0 +1,34 @@
+﻿@using Ishop.Context
+@using Microsoft.AspNet.Identity
+<script>
+     
+    loadLeftMenudata("#treeview_LeftMenu");
+</script>
+ 
+<div id="treeview_LeftMenu" style="height:auto;min-height:1080px;"></div>  
+
+<div class="inline" style="color:#d2c2ff;padding:5px;">&copy;@DateTime.Now.Year @WebCookie.ShopID</div>
+
+<script type="text/javascript">
+    $('#treeview_LeftMenu').slimscroll({
+        disableFadeOut: false,
+        height: '1600px'
+    });
+    function openWindow(url, width, height) {
+        height = height || (screen.availHeight - 60);
+        width = width || (screen.availWidth - 10);
+        var x = (screen.availWidth - width) / 2 - 5; if (x < 0) x = 0;
+        var y = (screen.availHeight - height) / 2 - 25; if (y < 0) y = 0;
+        var winPopup = window.open(url, "", "status=0, toolbar=0, width=" + width + ", height=" + height +
+            ", scrollbars=1, resizable=yes, left=" + x + ", top=" + y);
+    }
+
+    //弹出 
+    function ModalLoadUrl(title , url) {
+          BootstrapDialog.show({
+            title: title,
+            message: $('<div><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>').load(url)
+        }); 
+    }
+</script>
+ 

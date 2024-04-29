@@ -1,0 +1,99 @@
+﻿@using LanguageResource;
+@using Ishop.Context;
+@using Ishop.Utilities;
+@using PagedList;
+@using PagedList.Mvc;
+@using Ishop.AppCode.Utilities;
+@model PagedList.IPagedList<Ishop.Models.User.AccountDownLog>
+@{
+    ViewBag.Title = Lang.LoadAccountDownLog_Title;
+    ViewBag.SubTitle = Lang.Views_GeneralUI_CRM;
+    Layout = null;
+}
+<div id="LoadAccountDownLogForm">
+    <div id="box-widget" class="box  box-default box-solid">
+        <div class="box-body  table-responsive">
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th>
+                        <i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.AccountDownLog_Rank</lable>
+                    </th>
+                    <th>
+                        <i class="fa fa-square-o" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.AccountDownLog_TagName</lable>
+                    </th>
+
+                    <th>
+                        <i class="fa fa fa-key" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@string.Format("{0}1", Lang.Views_GeneralUI_DownLoad)</lable>
+                    </th>
+                    <th>
+                        <i class="fa fa fa-key" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@string.Format("{0}2", Lang.Views_GeneralUI_DownLoad)</lable>
+                    </th>
+                    <th>
+                        <i class="fa fa fa-key" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable>@Lang.Views_GeneralUI_Create</lable>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rank)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TagName)
+                        </td>
+
+                        <td>
+                            <div class="block">
+                                <A id="VcardDownUrl" class="btn btn-default bg-navy-active"
+                                   title="@Lang.LoadAccountDownLog_VcardTitle" target="_blank" href="@Html.DisplayFor(modelItem => item.ResourceFile).ToString()">@Lang.Views_GeneralUI_DownLoad&nbsp;VCARD</A>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="block">
+                                <A id="VcardDownUrl" class="btn btn-default bg-navy-active"
+                                   title="@Lang.LoadAccountDownLog_TextTitle" target="_blank" href="@Html.DisplayFor(modelItem => item.ResourceFile).ToString().Replace("vcf","txt")">@Lang.Views_GeneralUI_DownLoad&nbsp;Text</A>
+                            </div>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+   
+    @if (Model.PageCount > 1)
+    {
+        <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+        @Html.PagedListPager(Model, page => "javascript:LoadPageData('" + Url.Action("LoadAccountDownLog", "User", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, AccountMgrID = ViewBag.AccountMgrID }) + "');")
+    }
+
+    <script>
+
+        function HandleLoadAccountDownLog(data) {
+            $("#LoadAccountDownLogForm").html(data);
+        }
+        function LoadPageData(url) {
+            $.ajax({
+                type: "post",//要用post方式
+                url: url,
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    $("#LoadAccountDownLogForm").html(data);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+        }
+        function errLoadAccountDownLog(data) {
+            alert("@Lang.Views_GeneralUI_ServerError \r\n code:500");
+        }
+        $('[data-toggle="tooltip"]').tooltip(); //初始化提示样式
+    </script>
+
+</div> <!--窗体 LoadAccountDownLogForm -->

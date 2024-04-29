@@ -1,0 +1,34 @@
+﻿@using LanguageResource;
+@model Ishop.Models.ProductMgr.ProdPropertiesValue
+
+@{
+    ViewBag.Title = Lang.Views_GeneralUI_Delete;
+    Layout = "~/Areas/Mgr/Views/Shared/_blankLayout.cshtml";
+}
+
+<h4>@Lang.ModalView_ProductPropertiesValue_Delete_Sure</h4>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt class="list-inline">
+            @Html.DisplayNameFor(model => model.PropertiesValueName)
+        </dt>
+
+        <dd class="h4">
+            <i class="icon-lightbulb" style="color:coral"></i>  @Html.DisplayFor(model => model.PropertiesValueName, new { @class = "H4 control-label  label-primary alert-info" })
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions">
+            <input type="submit" value="@Lang.Views_GeneralUI_Delete" onclick="javascript: confirm('@Lang.ModalView_ProductPropertiesValue_Delete_Sure2');" class="btn btn-default" />
+        </div>
+        <br />
+        <i class="icon-spinner icon-spin"></i> @Html.ActionLink(Lang.Views_GeneralUI_Return, "Index", new { ProdCateID = ViewBag.ProdCateID, ProdCateName = ViewBag.ProdCateName, PropertiesNameID = ViewBag.PropertiesNameID, PropertiesName = ViewBag.PropertiesName })
+    }
+</div>

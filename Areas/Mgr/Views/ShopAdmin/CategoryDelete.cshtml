@@ -1,0 +1,98 @@
+﻿@using LanguageResource;
+@using Ishop.Identity.Models;
+@model Ishop.Models.ProductMgr.Category
+ 
+@Scripts.Render("~/js/Category/ShopCategoryItem.js")
+@{
+    Layout = null;
+}
+<style>
+    .col-md-2 {
+        max-width: 160px;
+    }
+</style>
+@using (Html.BeginForm("CategoryDelete", "ShopAdmin", 
+    new {
+        @class = "form-horizontal",ID = "form1"
+    }))
+{
+    @Html.AntiForgeryToken()
+    <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+    <div id="DelCategoryDialog1" class="container"> 
+            <div class="form-group ">
+                <label class="col-md-2 text-right">@Lang.Views_GeneralUI_LastLevel<!--上一级店铺分类--></label>
+                <div class="col-md-10">
+                    <div class="input-group" style="width:auto;">
+                        <div class="input-group-btn">
+                            <button type="button" id="btn1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" style="width:auto;" aria-expanded="false">
+                               <span id="btn_span1">@ViewBag.ParentsCategoryName</span><span class="caret"></span>
+                            </button>
+                            <ul id="dropdown-menu1" class="dropdown-menu" role="menu" style="width:300px;">
+                                <li>
+                                    <div id="ul-li-div1" style="padding:10px;">
+                                          <i class="fa fa-times pull-right" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                                <li><div id="treeviewCategoryDel" class="treemenucls"></div></li>
+                            </ul>
+                        </div><!--input-group-btn-->
+                    </div><!--input-group-->
+                </div>
+            </div>
+        <br /><br />  
+            <div class="form-group ">
+                <label class="col-md-2 text-right " for="CategoryName">@Html.DisplayNameFor(model => model.CategoryName)</label>
+                <div class="col-md-10 " style="width:auto;">
+                    <strng>@Html.DisplayFor(model => model.CategoryName, new { @class = "form-control label label-primary" })</strng>
+                </div>
+            </div>
+        <br />  <br />  
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="button" id="btnCategoryDelete" class="btn btn-primary btn-danger btn-large" title="@ViewBag.CurrentCategoryID">
+                        @Lang.Views_GeneralUI_Delete
+                    </button> 
+                </div>
+            </div> 
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        LoadCategoryDataByNode("#treeviewCategoryDel", "@ViewBag.CurrentParentsCategoryID"); // 类目节点视图
+        console.log("ParentsNode: " + "@ViewBag.CurrentParentsCategoryID");
+        $('#treeviewCategoryDel').slimscroll({
+            disableFadeOut: false
+        }); 
+        //点击删除按钮 begin
+        $("#btnCategoryDelete").click(function () {
+
+            var myparamsObject = { "CategoryID": "@ViewBag.CurrentCategoryID" };
+            console.log(myparamsObject);
+
+            $.ajax({
+                url: "/Mgr/ShopAdmin/CategoryDelete", /*设置post提交到的页面*/
+                data: myparamsObject,
+                type: "post",
+                error: function (result) {
+                    console.log(result);
+                    alert("btnCategoryDelete Server Error \n\r code:500\n\r" + JSON.stringify(result));
+                },
+                success: function (data) {
+                    console.log("Return data");
+                    console.log(data);
+                    if (data.MsgCode === "1") {
+
+                        $("#DelCategoryDialog1").html(data.Message);
+                        LoadCategoryData("#treeviewCategory1", "0", "#ParentsCategoryID", "#txtCategoryName"); //初始化类目视图
+                    }
+                    else {
+                        alert("CategoryID Not Exists");
+                    }
+                } 
+            }); 
+            setTimeout("golist()", 5000);  // ShopCategory.cshtml 
+        });
+        //====== 点击删除 end
+    });
+ </script>

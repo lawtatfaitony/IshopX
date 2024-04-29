@@ -1,0 +1,186 @@
+﻿@using Ishop.Utilities; 
+@using PagedList.Mvc;
+@using LanguageResource;
+@model PagedList.IPagedList<Ishop.Models.ProductMgr.Order>
+@{
+    ViewBag.Title = Lang.OrderView_Title;
+    ViewBag.SubTitle = Lang.OrderView_SubTitle;
+}
+@Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
+@Styles.Render("~/AdminLTE/plugins/timepicker/css")
+@Scripts.Render("~/AdminLTE/plugins/timepicker/js")
+@Scripts.Render("~/AdminLTE/plugins/daterangepicker/js")
+
+
+@using (Html.BeginForm("Index", "OrderMgt", FormMethod.Get, new { @class = "form-horizontal" }))
+{
+    <div id="box-widget" class="box-header form-inline block col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = Lang.Views_GeneralUI_InputKeyWord, style = "max-width:120px;" })
+        @Html.TextBox("StartDate", ViewBag.CurrentStartDate as string, new { @class = "form-control h6", style = "max-width:120px;" })
+        <label class="label label-info" for="EndDate">TO</label>
+        @Html.TextBox("EndDate", ViewBag.CurrentEndDate as string, new { @class = "form-control h6", style = "max-width:120px;" })
+        <input type="submit" class="btn btn-info" value="@Lang.Views_GeneralUI_Search" /> 
+    </div>
+}
+<div class="box-body table-responsive">
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.Order_OrderId</lable>
+            </th>
+
+            <th>
+                <i class="fa fa-money" aria-hidden="true" style="color:mediumslateblue"></i><lable title="@Lang.Order_UserName" data-toggle="tooltip" data-placement="top">@Lang.Order_UserName</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.Order_UserId</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.Order_Payment</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.Order_TotalRetailPrice</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.Order_AdjustFee</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.Order_DiscountFee</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.Order_RecommUserId</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.Order_TotalCommision</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Lang.Order_StatusId</lable>
+            </th>
+            <th>
+                <i class="fa fa-calendar-check-o" aria-hidden="true" style="color:mediumslateblue"></i>
+                @Html.ActionLink(" ", "Index", "OrderMgt", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter }, htmlAttributes: new { @class = "fa fa-sort pull-right", title = Lang.Views_GeneralUI_OrderByDatetime })
+                <lable>
+                    @Html.DisplayNameFor(modelItem => modelItem.First().CreatedDate)
+                </lable>
+            </th>
+            <th>
+                <i class="fa fa-share-alt-square" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i><lable class="block" style="word-break:keep-all">@Lang.Views_GeneralUI_Details</lable>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Payment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalRetailPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdjustFee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiscountFee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecommUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCommision)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                <ul class="no-padding no-margin list-unstyled">
+                    <li class="no-margin">
+                        @Html.ActionLink(Lang.Views_GeneralUI_Details, "OrderDetails", new { OrderId = item.OrderId }, new { @class = "fa fa-pencil", target = "_blank", style = "color:mediumslateblue;word-wrap:normal;word-break:keep-all" })
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        }
+    </table>
+</div>
+
+<div>
+    @if (Model.PageCount > 1)
+    {
+        <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+        @Html.PagedListPager(Model, page => Url.Action("index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    }
+</div>
+ 
+<script>
+    $(document).ready(function () {
+        datepickerRender("#StartDate");
+        datepickerRender("#EndDate");
+        $('[data-toggle="tooltip"]').tooltip(); 
+    }); 
+</script>
+
+<script> 
+    function datepickerRender(ID) {
+        $(ID).daterangepicker({
+
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "timePicker": true,
+            "locale": {
+                "format": "YYYY-MM-DD",
+                "separator": " - ",
+                "applyLabel": "OK",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Su",
+                    "Mo",
+                    "Tu",
+                    "We",
+                    "Th",
+                    "Fr",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec"
+                ],
+                "firstDay": 1
+            },
+            "linkedCalendars": false,
+            "showCustomRangeLabel": false,
+            "startDate": moment(),
+            "endDate": moment()
+        }, function (start, end, label) {
+            $(ID).val(start.format('YYYY-MM-DD hh:mm'));
+            // console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+        });
+    }
+</script>

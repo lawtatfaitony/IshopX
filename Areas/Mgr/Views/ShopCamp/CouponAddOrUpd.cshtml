@@ -1,0 +1,270 @@
+﻿@using LanguageResource;
+@using Ishop.Context;
+@model Ishop.Models.CampaignMgr.Coupon
+
+@{
+    ViewBag.Title = string.IsNullOrEmpty(ViewBag.CurrentCouponID) ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update;
+    ViewBag.SubTitle = Lang.ModalView_CouponAddOrUpd_Title;
+}
+@Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
+@Styles.Render("~/AdminLTE/plugins/timepicker/css")
+@Scripts.Render("~/AdminLTE/plugins/timepicker/js")
+@Scripts.Render("~/AdminLTE/plugins/daterangepicker/js")
+
+<div class="box box-info">
+    @using (Ajax.BeginForm("CouponAddOrUpd", null, new { CouponID = ViewBag.CurrentCouponID }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleAddOrUpdDialog", OnFailure = "errAddOrUpd", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.CouponID)
+        @Html.HiddenFor(model => model.ShopID, new { Value = WebCookie.ShopID })
+        <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+
+
+        <div id="box-widget" class="box-header with-border">
+            <h3 class="box-title">@Html.ActionLink(Lang.Views_GeneralUI_Return , "CouponList")</h3>
+        </div>
+
+        <div class="box-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CouponName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.CouponName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CouponName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FaceValue, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.DropDownList("FaceValue", null, htmlAttributes: new { @class = "form-control text-danger" })
+                    @Html.ValidationMessageFor(model => model.FaceValue, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Conditions, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.Conditions, "{0:N1}", new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Conditions, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group hidden">
+                @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.HiddenFor(model => model.StartDate, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group hidden">
+                @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.HiddenFor(model => model.EndDate, new { @class = "form-control" })
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">@Lang.ModalView_CouponAddOrUpd_ActivityTime</label>
+                <div class="col-sm-10">
+                    <div id="Dateimerange1" class="datepicker" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; max-width:280px;overflow:hidden">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                        <span class="h6"></span> <b class="caret"></b>
+                    </div>@Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" }) @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IssueQuantity, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.IssueQuantity, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.IssueQuantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mode, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.DropDownList("Mode", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Mode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer col-sm-offset-2">
+            <ul class="list-inline list-unstyled">
+                <li>
+                    <button type="button" id="btnaddnew" class="btn btn-info ">
+                        @(string.IsNullOrEmpty(ViewBag.CurrentCouponID) ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update)
+                    </button>
+                </li>
+                @{if (!string.IsNullOrEmpty(ViewBag.CurrentCouponID))
+                    {
+                        @:<li>
+                            @:<button type="button" id="btnDel" class="btn btn-danger">@Lang.Views_GeneralUI_Delete</button>
+                        @:</li>
+                    }
+                }
+                <li>
+                    @Html.ActionLink(Lang.Views_GeneralUI_Return, "CouponList", null, new { @class = "btn btn-info" })
+                </li>
+            </ul> 
+        </div> 
+    }
+</div>
+<script>
+    function HandleAddOrUpdDialog(data)
+    {
+        if (data.MsgCode === "1")  // 输入数据格式非法
+        {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: false,
+                title: $("#CouponName").val(),
+                message: "<H3>" + data.Message + "</H3>",
+                cssClass: 'bootstrap-dialog fade',
+                buttons: [{
+                    label: 'OK!',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        golist();
+                        dialog.close();
+                    }
+                }]
+            });
+        } else {
+            alert("@Lang.Views_GeneralUI_ServerError");
+        }
+    }
+    function golist()
+    {
+        window.location = "@Url.Content("CouponList")";
+
+    }
+    function errAddOrUpd(data) {
+        console.log(JSON.stringify(data));
+        alert("@Lang.Views_GeneralUI_ServerError (F12):"+ data.Message);
+    }
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip(); //初始化提示样式
+        //确认提交
+        $("#btnaddnew").click(function () {
+
+            return BootstrapDialog.show({
+                cssClass: 'bootstrap-dialog fade',
+                title: "@Lang.Views_GeneralUI_OperateInfo",
+                message: $("#CouponName").val(),
+                buttons: [{
+                    label: '@Lang.Views_GeneralUI_Submit',
+                    action: function (dialog) {
+                        $("#btnaddnew").submit();
+                        dialog.close();
+                    }
+                }, {
+                    label: '@Lang.Views_GeneralUI_Cancel',
+                    action: function (dialog) {
+                        dialog.close();
+                        return false;
+                    }
+                }]
+            });//BootstrapDialog
+        }); // 确定提交click
+
+        //确认删除
+        $("#btnDel").click(function () {
+
+            return BootstrapDialog.show({
+                cssClass: 'bootstrap-dialog fade',
+                title: "@Lang.Views_GeneralUI_OperateInfo",
+                message: $("#CouponName").val(),
+                buttons: [{
+                    label: '@Lang.Views_GeneralUI_Delete',
+                    action: function (dialog) {
+                        delCoupon("@ViewBag.CurrentCouponID");  //调用删除操作函数
+                        dialog.close();
+                    }
+                }, {
+                    label: '@Lang.Views_GeneralUI_Cancel',
+                    action: function (dialog) {
+                        dialog.close();
+                        return false;
+                    }
+                }]
+            });//BootstrapDialog
+        });  //btnDel.click
+    }); //ready
+
+    function delCoupon(CouponID) {
+        var url = "@Url.Content("CouponDel")";
+        var CouponID = "@ViewBag.CurrentCouponID";
+        var myparamsObject = { "CouponID": CouponID };
+        $.ajax({
+            type: "post",
+            data: JSON.stringify(myparamsObject),
+            url: url,
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.MsgCode !== "1")  // 输入数据格式非法
+                {
+                    alert("@Lang.Views_GeneralUI_ReturnResult,data.MsgCode=" + data.MsgCode);
+                } 
+                BootstrapDialog.show({
+                    cssClass: 'bootstrap-dialog fade',
+                    title: "@Lang.Views_GeneralUI_ReturnResult",
+                    message: "<H3>" + data.Message + "</H3>",
+                    buttons: [{
+                        label: 'OK',
+                        action: function (dialog) {
+                            dialog.close();
+                            golist();
+                        }
+                    }]
+                });//BootstrapDialog
+            },
+            error: function (err) {
+                console.log(JSON.stringify(err));
+                alert("@Lang.Views_GeneralUI_ServerError" + JSON.stringify(err));
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+  //日期时间 http://www.daterangepicker.com/
+ $(function() {
+
+
+     var start = moment("@ViewBag.StartDate");  //reference : http://momentjs.cn/  日期时间多语言国际化  (内置,无须引用)
+     var end = moment("@ViewBag.EndDate");
+
+     function cb(start, end) {
+         $('#Dateimerange1 span').html(start.format('YYYY-MM-DD hh:mm') + ' - ' + end.format('YYYY-MM-DD hh:mm'));
+         $('#StartDate').val(start.format('YYYY-MM-DD hh:mm'));
+         $('#EndDate').val(end.format('YYYY-MM-DD hh:mm'));
+     }
+
+     $('#Dateimerange1').daterangepicker({
+         timePicker: true,
+         startDate: start,
+         endDate: end,
+         ranges: {
+            'Today': [moment(), moment().endOf('days')],
+            '3 Days': [moment(), moment().add(3, 'days')],
+            '7 Days': [moment(), moment().add(6, 'days')],
+            '30 Days': [moment(), moment().add(30, 'days')],
+            'This': [moment().startOf('month'), moment().endOf('month')],
+            'Next': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')]
+         }
+     }, cb);
+     cb(start, end);
+ });
+</script>
+

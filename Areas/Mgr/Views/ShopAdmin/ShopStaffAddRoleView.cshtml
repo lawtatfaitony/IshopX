@@ -1,0 +1,92 @@
+﻿@using LanguageResource;
+@{
+    Layout = null;
+}
+@using (Ajax.BeginForm("ShopStaffAddRole", "ShopAdmin", new { UserId = ViewBag.UserId }, new AjaxOptions { HttpMethod = "post", OnSuccess = "returnActionResult" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <style>
+        .paddingdialog {
+            padding-left: 40px;
+            padding-right: 50px;
+        }
+    </style>
+    <div id="div1" class="constants paddingdialog">
+        <div class="h2">@Lang.Views_GeneralUI_SavedSuccessfully</div>
+        <div class="form-group">
+            <div class="pull-left">
+                <label class="mgr-title">@Lang.Views_GeneralUI_RolePermission</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <table class="table">
+                    <tr>
+                        @{
+                            int cnt = 0;
+                            List<Ishop.Identity.Models.AssignedRoles> userRoles = ViewBag.UserRoles;
+
+                            foreach (var item in userRoles)
+                            {
+                                if (cnt++ % 1 == 0)
+                                {
+                                @:</tr><tr>
+                                } 
+                                <td>
+                                    <input type="checkbox"
+                                           name="selectedRoles"
+                                           value="@item.RoleId"
+                                           @(Html.Raw(item.Assigned ? "checked=\"checked\"" : "")) />
+                                    @item.Name  @item.Description
+                                </td>
+                            }
+                        @:</tr>
+                        }
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <input id="btn1" type="submit" value="@Lang.ShopStaffAddRoleView_AddMember" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+<script>
+    //returnActionResult
+    function returnActionResult(data)
+    {
+        console.log("@Lang.Views_GeneralUI_ReturnResult :" + JSON.stringify(data));
+        if (data.MsgCode === "1")  //wrong format
+        {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: false,
+                title:"@Lang.Views_GeneralUI_OperateInfo",
+                message: "<H3>" + data.Message + "</H3>",
+                cssClass: 'bootstrap-dialog fade',
+                buttons: [{
+                    label: 'OK!',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        golist();
+                        dialog.close();
+                    }
+                }]
+            });
+        } else {
+            alert("@Lang.ShopStaffAddRoleView_JS_returnActionResult_alert\n\n" + data.MsgCode + ":" + data.Message);
+        }
+    }
+    function golist()
+    {
+        window.location = "@Url.Content("ShopStaffList")";
+
+    }
+</script>

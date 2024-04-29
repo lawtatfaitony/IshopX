@@ -1,0 +1,147 @@
+﻿@using Ishop.Context;
+@using PagedList;
+@using PagedList.Mvc;
+@using LanguageResource;
+@using Ishop.Models.ProductMgr;
+@using Ishop.AppCode.Utilities;
+@model PagedList.IPagedList<Ishop.Models.ProductMgr.DispatchNote>
+@{
+
+
+    ViewBag.Title = Lang.Dispatchnote_Index_SubTitle;//"訂單發貨列表";
+    ViewBag.SubTitle = Lang.Dispatchnote_Index_Title;// "財務審核";
+    Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
+}
+
+@using (Html.BeginForm("Index", "dispatchnote", FormMethod.Get))
+{
+    <div id="box-widget" class="box-header with-border container">
+        <div class="form-inline col-xs-12">
+            <div class="input-group">
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "dropdown-toggle form-control margin-r-5", autocomplete = "on", data_toggle = "dropdown", style = "max-width:90px;" })
+            </div><!--input-group-btn-->
+            <input type="submit" class="btn btn-default" value="@Lang.Views_GeneralUI_Search" />
+        </div>
+    </div>
+}
+
+<div class="box-body table-responsive">
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                <lable><span class="inline"><i class="fa fa-shopping-cart active highlight"></i>dNoteId</span></lable>
+            </th>
+            <th>
+                <lable>@Lang.DispatchNote_StyleNo</lable>
+            </th>
+            <th class="hidden-sm">
+                <lable>@Lang.DispatchNote_StatusName</lable>
+            </th>
+
+            <th class="hidden-sm">
+                <lable>@Lang.DispatchNote_Quantity</lable>
+            </th>
+
+            <th class="hidden-xs">
+                <lable>@Lang.DispatchNote_RecommUserId</lable>
+            </th>
+            <th class="hidden-xs">
+                <lable>Address</lable>
+            </th>
+            <th class="hidden-xs">
+                <lable>@Lang.DispatchNote_CreatedDate </lable>
+            </th>
+            <th>
+                <lable class="block" style="word-break:keep-all">@Lang.DispatchNote_Remarks </lable>
+            </th>
+            <th>
+                <lable class="block" style="word-break:keep-all">@Lang.Views_GeneralUI_Audit </lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue">&nbsp;</i>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <ul class="list-unstyled">
+                        <li>
+                            @Html.ActionLink(item.DispatchNoteId, "Details", "DispatchNote", new { DispatchNoteId = item.DispatchNoteId }, new { target = "_Blank", title = "DispatchNoteId" })
+                        </li>
+                        <li>
+                            @Html.DisplayFor(modelItem => item.OrderID, new { @class = "h4 fa fa-shopping-cart active", title = "OrderID" })
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StyleNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusName)
+                </td>
+                <td class="hidden-sm">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+
+                <td class="hidden-sm">
+                    @Html.DisplayFor(modelItem => item.RecommUserId)
+                </td>
+
+                <td class="hidden-sm">
+                    @Html.DisplayFor(modelItem => item.Country) -  @Html.DisplayFor(modelItem => item.State)- @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td class="hidden-sm small">
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td class="hidden-sm">
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DispatchNoteStatus)
+                </td>
+                <td>
+                    @{
+                        DispatchNoteModalView DispatchNoteModalView1 = new DispatchNoteModalView();
+                        DispatchNoteModalView1.DispatchNoteId = item.DispatchNoteId;
+                        DispatchNoteModalView1.DispatchNoteStatus = item.DispatchNoteStatus;
+
+                        @Html.Partial("dNoteFinConfirm", DispatchNoteModalView1);
+                    }
+                    <input type="button" id="button1" onclick="javascript:dNoteAuthorize('@item.DispatchNoteId')" class="btn-danger btn-sm" value="@Lang.Dispatchnote_Index_Authorized" />
+
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+@{
+    if (Model.PageCount > 1)
+    {
+        <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber),Model.PageCount,Model.Count)</label>
+        @Html.PagedListPager(Model, page => Url.Action("InfoIPstatitics", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    }
+}
+<script>
+    function dNoteAuthorize(modalId) {
+        modalId = "#myModalDispatchNoteId_" + modalId;
+        $(modalId).modal({ backdrop: 'static', keyboard: true });
+    }
+    $('[data-toggle="tooltip"]').tooltip(); //初始化提示样式
+</script>
+
+<!-- //以下是组件视图使用的JS 处理返回结果-->
+<script>
+    function HandledNoteFinConfirmSuccDialog(data) {
+        if (data.MsgCode === "1")  // 输入数据格式非法
+        {
+            console.log("ok" + data.MsgCode + ":" + data.Message);
+            layer.msg(data.Message);
+        }
+    }
+    function errdNoteFinConfirm(data) {
+        console.log(JSON.stringify(data));
+        console.log("ok" + data.MsgCode + ":" + data.Message);
+
+    }
+</script>

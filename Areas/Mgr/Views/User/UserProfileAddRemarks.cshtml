@@ -1,0 +1,67 @@
+﻿@using LanguageResource;
+@using Ishop.Context;
+@model Ishop.ViewModes.Users.UserProfileRemarks
+@{
+    if (Request.Params["Layout"] == null)
+    {
+        Layout = null;
+    } 
+}
+@using (Ajax.BeginForm("UserProfileAddRemarks", null, new { UserProfileID = ViewBag.CurrentUserProfileID }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleUserProfileAddRemarksResult", OnFailure = "err", LoadingElementId = "Loading" }, new { id = "form1", @class = "form-horizontal  bg-gray-light" }))
+{
+    <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span></div> 
+    @Html.AntiForgeryToken() 
+    <div id="box-widget" class="box box-default box-solid">
+        <div class="box-header with-border">
+            <h3 class="box-title">@Html.DisplayFor(model => model.UserProfileID) - @Html.DisplayFor(model => model.NickName)</h3>
+            <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" id="Close" data-widget="collapse"><i class="fa fa-plus"></i></button>
+            </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+
+        <div class="box-body">
+
+            @Html.HiddenFor(model => model.UserProfileID, new { @value = ViewBag.CurrentUserProfileID })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-sm-4 control-label" })
+                <div class="col-sm-6">
+                    @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", Rows = 5, placeHolder = Html.DisplayNameFor(model => model.Remarks), title = Html.DisplayNameFor(model => model.Remarks) })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="box-footer">
+            <div id="err_message"></div>
+            &nbsp;&nbsp;<input type="submit" id="Savechanges" class="btn btn-default bg-navy-active col-sm-offset-4" value="@Lang.Views_GeneralUI_Submit" />
+        </div>
+    </div>
+}
+<script>
+
+    function HandleUserProfileAddRemarksResult(data) {
+
+        return BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_SUCCESS,
+            cssClass: 'bootstrap-dialog fade',
+            title:"@Lang.Views_GeneralUI_ReturnResult :",
+            message: data.Message,
+            buttons: [{
+                label: 'Close',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+        });//BootstrapDialog
+    }
+    function err(data) {
+        console.log(data);
+        console.log("@Lang.Views_GeneralUI_ServerError ([HttpPost]UserProfileAddRemarks)");
+        $("#err_messages").html("@Lang.Views_GeneralUI_ServerError Function([HttpPost]UserProfileAddRemarks)<br>,Failed to load resource: the server responded with a status of 500 (Internal Server Error)");
+    }
+</script>
+
+
+
+

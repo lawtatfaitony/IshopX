@@ -1,0 +1,263 @@
+﻿@using Ishop.Context;
+@using LanguageResource;
+@model Ishop.Models.PubDataModal.AccountMgr
+
+@Styles.Render("~/AdminLTE/plugins/daterangepicker/css")
+@Styles.Render("~/AdminLTE/plugins/timepicker/css")
+@Styles.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/css")
+@Scripts.Render("~/AdminLTE/plugins/timepicker/js")
+@Scripts.Render("~/AdminLTE/plugins/daterangepicker/js")
+@Scripts.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/js")
+@{
+    ViewBag.Title = string.IsNullOrEmpty(ViewBag.CurrentAccountMgrID) ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update;
+    ViewBag.SubTitle = Lang.ModalView_AccountMgrAddOrUpd_SubTitle;
+}
+
+<div class="box box-info">
+    @using (Ajax.BeginForm("AccountMgrAddOrUpd", null, new { AccountMgrID = ViewBag.CurrentAccountMgrID, CurrentCerPassword = ViewBag.CurrentCerPassword }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleAccountMgrAddOrUpdSuccDialog", OnFailure = "erAccountCreate", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ShopID, new { Value = WebCookie.ShopID })<!--隐藏ShpID-->
+        @Html.HiddenFor(model => model.CreatedByUserID)
+
+        <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+
+        if ((bool)ViewBag.ViewDeails == true)
+        {
+            <div id="box-widget" class="box-header with-border">
+                <h3 class="box-title">@Html.ActionLink(Lang.Views_GeneralUI_ReturnToList, "AccountMgrList")</h3>
+            </div>
+
+            <div class="box-body">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SiteName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.HiddenFor(model => model.SiteName)
+                        @Html.DropDownList("WebSite", null, Lang.GeneralUI_Select, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.WebSite), title = Html.DisplayNameFor(model => model.WebSite) })
+                        @Html.ValidationMessageFor(model => model.WebSite, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LoginID, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.LoginID, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.LoginID), title = Html.DisplayNameFor(model => model.LoginID) })
+                        @Html.ValidationMessageFor(model => model.LoginID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.Password), title = Html.DisplayNameFor(model => model.Password) })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password2, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.Password2, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.Password2), title = Html.DisplayNameFor(model => model.Password2) })
+                        @Html.ValidationMessageFor(model => model.Password2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IsCer, htmlAttributes: new { @class = "col-sm-2 control-label", data_toggle = "tooltip", title = @Lang.AccountMgrAddOrUpd_ShowTitleThumbNail_IsInUseCer })
+                    <div class="col-sm-10">
+                        @Html.CheckBoxFor(model => model.IsCer, htmlAttributes: new { @checked = "checked", @readonly = true })
+                        <label for="ShowTitleThumbNail" class="h6" data_toggle="tooltip" , title="@Lang.AccountMgrAddOrUpd_ShowTitleThumbNail_IsInUseCer">（@Lang.AccountMgrAddOrUpd_ShowTitleThumbNail_IsInUseCer）</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LoginEmail, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.LoginEmail, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.LoginEmail), title = Html.DisplayNameFor(model => model.LoginEmail) })
+                        @Html.ValidationMessageFor(model => model.LoginEmail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ScurityEmail, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.ScurityEmail, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.ScurityEmail), title = Html.DisplayNameFor(model => model.ScurityEmail) })
+                        @Html.ValidationMessageFor(model => model.ScurityEmail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.Mobile), title = Html.DisplayNameFor(model => model.Mobile) })
+                        @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NickName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.NickName, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.NickName), title = Html.DisplayNameFor(model => model.NickName) })
+                        @Html.ValidationMessageFor(model => model.NickName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PrivacyQuestion, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.PrivacyQuestion, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.PrivacyQuestion), title = Html.DisplayNameFor(model => model.PrivacyQuestion) })
+                        @Html.ValidationMessageFor(model => model.PrivacyQuestion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PrivacyAnswer, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.PrivacyAnswer, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Html.DisplayNameFor(model => model.PrivacyAnswer), title = Html.DisplayNameFor(model => model.PrivacyQuestion) })
+                        @Html.ValidationMessageFor(model => model.PrivacyAnswer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AssignedToUserID, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        <table  title = "@Lang.ModalView_AccountMgrAddOrUpd_Table_Tooltip"  data_toggle="tooltip" style="margin-top:6px;">
+                            <tr>
+                                @{
+                                    int cnt = 0;
+                                    List<Ishop.Areas.Mgr.ModelView.ShopStaffView> shopStaffs = ViewBag.ShopStaffs;
+
+                                    foreach (var item in shopStaffs)
+                                    {
+                                        if (cnt++ % 3 == 0)
+                                        {
+                                        @:</tr><tr>
+                                        }
+
+                                        <td>
+                                            <input type="checkbox"
+                                                   name="selectedAssignedToUserID"
+                                                   value="@item.UserName"
+                                                   @(Html.Raw(item.Assigned ? "checked=\"checked\"" : "")) />
+                                            @item.StaffName
+                                        </td>
+                                    }
+                                @:</tr>
+                                } <!--代码段-->
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", data_toggle = "tooltip", placeHolder = Lang.Views_GeneralUI_Remarks, title = Lang.Views_GeneralUI_Remarks, style = "max-width:500px;max-height:200px;" })
+                            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer col-sm-offset-2">
+                    <ul class="list-inline list-unstyled">
+                        <li>
+                            <button type="button" id="btnaddnew" class="btn btn-info ">
+                                @(string.IsNullOrEmpty(ViewBag.CurrentAccountMgrID) ? Lang.Views_GeneralUI_Create : Lang.Views_GeneralUI_Update)
+                            </button>
+                        </li>
+                        <li>
+                            @Html.ActionLink(Lang.Views_GeneralUI_Return, "AccountMgrList", null, new { @class = "btn btn-info" })
+                        </li>
+                    </ul>
+
+                </div>
+            }
+            <div class="box-title col-sm-offset-2" style="padding-left:15px">
+
+                <ul class="list-unstyled">
+                    <li>
+                        <p>Rule:</p>
+                    </li>
+                    <li>
+                        <p>1、StoreAdmin</p>
+                    </li>
+                    <li>
+                        <p>2、Account Owner</p>
+                    </li>
+                </ul>
+
+            </div>
+        }
+</div>
+<script>
+    function HandleAccountMgrAddOrUpdSuccDialog(data)
+    {
+        if (data.MsgCode === "1")  // 输入数据格式非法
+        {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: false,
+                title: $("#LoginID").val() + "-" + $("#WebSite").val(),
+                message: "<H3>" + data.Message + "</H3>",
+                cssClass: 'bootstrap-dialog fade',
+                buttons: [{
+                    label: 'OK!',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        golist();
+                        dialog.close();
+                    }
+                }]
+            });
+        } else {
+            alert("@Lang.Views_GeneralUI_ServerError");
+        }
+    }
+    function golist()
+    {
+        window.location = "@Url.Content("AccountMgrList")";
+
+    }
+    function erAccountCreate(data) {
+        console.log(JSON.stringify(data));
+    }
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip(); //初始化提示样式
+        //确认提交
+        $("#btnaddnew").click(function () {
+
+            return BootstrapDialog.show({
+                cssClass: 'bootstrap-dialog fade',
+                title: $("#LoginID").val() + "-" + $("#WebSite").val(),
+                message: "备注:" + $("#Remarks").val(),
+                buttons: [{
+                    label: '提交',
+                    action: function (dialog) {
+                        console.log("提交....");
+                        $("#btnaddnew").submit();
+                        dialog.close();
+                    }
+                }, {
+                    label: '取消',
+                    action: function (dialog) {
+                        dialog.close();
+                        return false;
+                    }
+                }]
+            });//BootstrapDialog
+
+        }); // click
+
+    });
+</script>
+
+
+

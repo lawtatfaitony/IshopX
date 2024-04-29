@@ -1,0 +1,385 @@
+﻿@using LanguageResource;
+@using Ishop.Context;
+@model Ishop.Models.User.UserProfile
+@{
+    ViewBag.Title = string.IsNullOrEmpty(ViewBag.CurrentAccountMgrID) ? Lang.Views_GeneralUI_Create : Lang.Views_GeneralUI_Update;
+    ViewBag.SubTitle = Lang.UserProfile_Detail_Subtitle;
+}
+@{
+    if (Request.Params["Layout"] == null)
+    {
+        Layout = null;
+    } 
+}
+<style>
+    label {
+        font-size: 1.1em;
+    }
+</style>
+
+<div class="container no-padding no-margin">
+    @using (Ajax.BeginForm("Details", null, new { UserProfileID = ViewBag.CurrentUserProfileID }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleDetailsAddUpdateSuccDialog", OnFailure = "errDetailsAddUpdate", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+    {
+        <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.UserProfileID)
+        <!-- 客户资源分配--> <!--隐藏 ，不做任何修改-->
+        @Html.HiddenFor(model => model.VipLevelID)
+        @Html.HiddenFor(model => model.UserTagID)
+        @Html.HiddenFor(model => model.AsignAccountMgrIDs)
+        @Html.HiddenFor(model => model.IsMonopoly)
+        @Html.HiddenFor(model => model.ResourceFile)
+
+        @Html.TextBoxFor(model => model.CreatedDate,new {@class="hide", Value = String.Format("{0:yyyy-MM-dd HH:mm:ss}", Model.CreatedDate) })
+        
+        <!--联系资料-->
+        <div id="box-widget" class="box box-solid box-default with-border">
+            <div class="box-header with-border">
+                <h3 class="box-title">Contact</h3>
+                <div class="box-tools pull-right">
+                    <span class="label label-default"><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> @Lang.UserProfile_Views_Detail_ContactInfo</span><button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NickName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.NickName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.NickName) })
+                        @if (string.IsNullOrEmpty(ViewBag.CurrentUserProfileID) == true)
+                        {
+                            <ul class="list-inline list-unstyled ">
+                                <li>
+                                    <a id="linkcity_HongKong" onclick="javascript:UserDetailCityAdd('香港')"><i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i>香港</a>
+                                </li>
+                                <li>
+                                    <a id="linkcity_ShenZhen" onclick="javascript:UserDetailCityAdd('深圳')"><i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i>深圳</a>
+                                </li>
+                                <li>
+                                    <a id="linkcity_GuangZhou" onclick="javascript:UserDetailCityAdd('广州')"><i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i>广州</a>
+                                </li>
+                                <li>
+                                    <a id="linkcityk_ShangHai" onclick="javascript:UserDetailCityAdd('上海')"><i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i>上海</a>
+                                </li>
+                                <li>
+                                    <a id="linkcity_BeiJing" onclick="javascript:UserDetailCityAdd('北京')"><i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i>北京</a>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.WechatID, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.WechatID, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.WechatID) })
+                        <label id="lblWechatID" class="small danger alert-danger">@Lang.UserProfile_Detail_WeChatID_Title</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Email) })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.PhoneNumber) })
+                    </div>
+                </div>
+
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+
+        <!--CRM 客户跟踪-->
+        <div id="box-widget2" class="box box-solid box-default ">
+            <div class="box-header with-border">
+                <h3 class="box-title">@Lang.UserProfile_Detail_CRMFollowUp</h3>
+                <div class="box-tools pull-right">
+                    <span class="label label-default"><i class="glyphicon glyphicon-repeat" aria-hidden="true"></i> Follow Up</span><button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body">
+
+                <div class="form-group hide">
+                    @Html.LabelFor(model => model.QuantizationScore, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.QuantizationScore, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.QuantizationScore) })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Remarks, new { @class = "form-control", data_toggle = "tooltip", rows = "3", multiple = "multiple", placeHolder = Lang.Views_GeneralUI_Remarks, title = Lang.Views_GeneralUI_Remarks })
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+
+        <!--基因资料-->
+        <div id="box-widget3" class="box box-solid box-default ">
+            <div class="box-header with-border">
+                <h3 class="box-title">@Lang.UserProfile_Detail_PersonalInfo</h3>
+                <div class="box-tools pull-right">
+                    <span class="label label-default"><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> Gene</span><button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body collapse">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.FullName) })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Gender, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.Gender, (IEnumerable<SelectListItem>)ViewBag.GenderList)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Birthday, new { Value = Model.Birthday.ToString("yyyy-MM-dd"), @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Birthday) })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Country, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Country) })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.State) })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.City) })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.District, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.District, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.District) })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Address) })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RecievedPhoneNumber, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.RecievedPhoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.RecievedPhoneNumber) })
+                    </div>
+                </div>
+
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+
+        <!--系统资料-->
+        <div id="box-widget" class="box box-solid box-default ">
+            <div class="box-header with-border">
+                <h3 class="box-title">@Lang.Views_GeneralUI_System</h3>
+                <div class="box-tools pull-right">
+                    <span class="label label-default"><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> System</span><button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body collapse">
+
+                <div class="form-group hide">
+                    @Html.LabelFor(model => model.ShopID, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.ShopID, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.ShopID) })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IsBlock, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.CheckBoxFor(m => m.IsBlock, new { @class = "control checkbox" })
+                    </div>
+                </div>
+
+            </div><!-- /.box-body -->
+            <div class="box-footer col-sm-offset-2">
+                <ul class="list-inline list-unstyled">
+                    <li>
+                        <button type="submit" id="btnaddnew" class="btn btn-info ">
+                            @(string.IsNullOrEmpty(ViewBag.CurrentUserProfileID) ? Lang.Views_GeneralUI_Create : Lang.Views_GeneralUI_Update)
+                        </button>
+                    </li>
+                    <li>
+                        @Html.ActionLink(Lang.Views_GeneralUI_Return, "CustQuantization", null, new { @class = "btn btn-info" })
+                    </li>
+                    <li>
+                        @if (string.IsNullOrEmpty(ViewBag.CurrentUserProfileID) == false)
+                        {
+                            <button type="button" id="btnDel" class="btn btn-danger">@Lang.Views_GeneralUI_Delete</button>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div><!-- /.box -->
+    }
+</div>
+
+<script>
+    $(document).ready(function () { 
+
+        UserProfileID = "@ViewBag.CurrentUserProfileID";
+        if (UserProfileID.length < 1) {
+            setTimeout('$("#lblWechatID").html("");', 4000);
+            setTimeout('$("#lblWechatID").html("@Lang.UserProfile_Detail_WeChatID_Title");', 8000);
+           
+        } else {
+            $("#lblWechatID").html("");
+        } 
+
+        $('[data-toggle="tooltip"]').tooltip(); //初始化提示样式 
+    });
+
+</script>
+
+<script> 
+    //截断微信ID 只显示一半长度 lblWechatID  点击事件click ,失去焦点事件 $("input").blur()
+    $("#WechatID").blur(function (e) {
+        UserProfileID = "@ViewBag.CurrentUserProfileID";
+        if (UserProfileID.length < 1) {
+            a = $("#WechatID").val();
+            a = a.substring(0, Math.floor(a.length / 2));
+            $("#lblWechatID").html("@Lang.UserProfile_JS_Detail_WeChatID_Tips" + a);
+            $("#WechatID").val(a);
+            console.log(a + " | " + Math.floor(a.length / 2));
+        }
+    }); // click
+    //city setting
+    function UserDetailCityAdd(city) {
+        console.log(city);
+        $("#City").val(city);
+        $("#linkcity_HongKong,#linkcity_ShenZhen,#linkcity_GuangZhou,#linkcityk_ShangHai,#linkcity_BeiJing").removeClass("bg-blue-active");
+        $(this).addClass("btn btn-link");
+        $(this).html("*" + city );
+
+    } // click
+
+    function HandleDetailsAddUpdateSuccDialog(data)
+    {
+        if (data.MsgCode === "1")  
+        {
+            console.log(JSON.stringify(data));
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: false,
+                title: $("#NickName").val() + "--" + $("#FullName").val(),
+                message: "<H3>" + data.Message + "</H3>",
+                cssClass: 'bootstrap-dialog fade',
+                buttons: [{
+                    label: 'OK!',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+        } else {
+            alert("@Lang.Views_GeneralUI_ServerError \n\r" + data.MsgCode + ":" + data.Message);
+        }
+    }
+    function golist()
+    {
+        window.location = "/mgr/user";
+    }
+    function errDetailsAddUpdate(data) {
+        alert(data.MsgCode + ":" + data.Message);
+    }
+</script>
+
+<!--删除操作-->
+<script>
+    $("#btnDel").click(function () {
+
+        return BootstrapDialog.show({
+            cssClass: 'bootstrap-dialog fade',
+            title: "@Lang.Views_GeneralUI_Delete  : " + $("#NickName").val() + "--" + $("#FullName").val(),
+            message: $("#Remarks ").val(),
+            buttons: [{
+                label: '@Lang.Views_GeneralUI_Delete',
+                action: function (dialog) {
+                    console.log("@Lang.Views_GeneralUI_Delete....");
+                    UserProfile_Delete("@ViewBag.CurrentUserProfileID");  //调用删除操作函数
+                    dialog.close();
+                }
+            }, {
+                label: '@Lang.Views_GeneralUI_Cancel',
+                action: function (dialog) {
+                    dialog.close();
+                    return false;
+                }
+            }]
+        });//BootstrapDialog
+
+    }); // click
+
+    function UserProfile_Delete(Delete) {
+
+        var url = "/mgr/user/UserProfile_Delete";
+        var UserProfileID = "@ViewBag.CurrentUserProfileID";
+        var myparamsObject = { "UserProfileID": UserProfileID };
+        $.ajax({
+            type: "post",
+            data: JSON.stringify(myparamsObject),
+            url: url,
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.MsgCode !== "1")  // 输入数据格式非法
+                {
+                    alert("@Lang.GeneralUI_Fail ,data.MsgCode=" + data.MsgCode);
+                    return;
+                }
+
+                BootstrapDialog.show({
+                    cssClass: 'bootstrap-dialog fade',
+                    title: "@Lang.Views_GeneralUI_Return",
+                    message: "<H3>" + data.Message + "</H3>",
+                    buttons: [{
+                        label: 'OK',
+                        action: function (dialog) {
+                            dialog.close();
+                            setTimeout("golist()",10000);
+                        }
+                    }]
+                });//BootstrapDialog
+            },
+            error: function (err) {
+                console.log(JSON.stringify(err));
+                alert("@Lang.Views_GeneralUI_ServerError" + JSON.stringify(err));
+            }
+        }); 
+    }
+</script>

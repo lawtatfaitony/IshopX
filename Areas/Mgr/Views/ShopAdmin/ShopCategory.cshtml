@@ -1,0 +1,251 @@
+﻿@using LanguageResource;
+@using Ishop.Identity.Models;
+@using LanguageResource
+@using System.Text;
+@using Ishop.Context;
+@model Ishop.Models.ProductMgr.Category
+
+@Styles.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/css")
+@Scripts.Render("~/js/Category/ShopCategoryItem.js")
+@Scripts.Render("~/AdminLTE/plugins/bootstrap-wysiwyg/js")
+
+<style>
+    .col-md-2 {
+        max-width: 160px;
+    }
+    label {
+        font-size: 1.1em;
+    }
+    span {
+        font-family: micosoft 'Microsoft YaHei'
+    }
+</style> 
+@{
+    ViewBag.Title = string.IsNullOrEmpty(ViewBag.CurrentCategoryID) ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update;
+    ViewBag.SubTitle = Lang.ShopCategoryList_ShopCategory_Title;
+}
+
+<!--菜单管理界面-->
+@using (Ajax.BeginForm("ShopCategoryAddOrUpdate", null, new { CategoryID = ViewBag.CurrentCategoryID }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleSeccessDialog", OnFailure = "err", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="form-group ">
+                <label class="col-md-2 text-right" for="txt_MenuItemID">@Lang.Views_GeneralUI_LastLevel</label>
+                <div class="col-md-10">
+                    <div class="input-group" style="width:auto;">
+                        <div class="input-group-btn">
+                            <button type="button" id="btn1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" style="width:auto;" aria-expanded="false">
+                                @Lang.GeneralUI_Select
+                                <span id="btn_span1">@Html.DisplayNameFor(model => model.ParentsCategoryID)</span><span class="caret"></span>
+                            </button>
+                            <ul id="dropdown-menu1" class="dropdown-menu" role="menu" style="width:300px;">
+                                <li>
+                                    <div id="ul-li-div1" style="padding:10px;">
+                                        <button type="button" id="btnAddCategoryItemRoot" onclick="setCategoryRoot()" data-toggle="tooltip" data-placement="top" title="@Lang.Views_GeneralUI_MainCategoryDefaults0" class="btn btn-danger btn-xs">
+                                            @Html.DisplayNameFor(model => model.ParentsCategoryID)
+                                        </button>
+                                        @Html.TextBoxFor(model => model.ParentsCategoryID, new { @class = "text-info dropdawn_txtbox", placeholder = Lang.Views_GeneralUI_MainCategoryDefaults0 })
+                                        @Html.HiddenFor(model => model.ShopID)<!--隐藏ShpID-->
+                                        <i class="fa fa-times pull-right" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                                <li><div id="treeviewCategory1" class="treemenucls"></div></li>
+                            </ul>
+                        </div><!--input-group-btn-->
+                        <input ID="txtCategoryName" type="text" maxlength="50" placeholder="@Lang.Views_GeneralUI_DefaultRoot" style="width:auto" class="form-control " value="@ViewBag.ParentsCategoryName" />
+                        <div class="row"> @Html.ValidationMessageFor(model => model.ParentsCategoryID, "", new { @class = "text-danger" })</div>
+                    </div><!--input-group-->
+                </div>
+            </div>
+        </div><!--row-->
+        <br />
+        <div class="row ">
+            <div class="form-group ">
+                <label class="col-md-2 text-right" for="CategoryName">@Html.DisplayNameFor(model => model.CategoryName)</label>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.CategoryName, new { @class = "form-control", placeholder = @Html.DisplayNameFor(model => model.CategoryName) })
+                    @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div><!--row-->
+        <br /> 
+        <div class="row ">
+            <div class="form-group ">
+                <label class="col-md-2 form-inline text-right" for="MenuLink">@Html.DisplayNameFor(model => model.CategoryDesc)</label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.CategoryDesc, new { @class = "form-control hidden", style = "max-width:800px", placeholder = "-" })
+                    @Html.ValidationMessageFor(model => model.CategoryDesc, "", new { @class = "text-danger" })
+
+                    <!--文本编辑器开始-->
+                    <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font" aria-hidden="true"></i><b class="caret"></b></a>
+                            <ul class="dropdown-menu"></ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default  btn-sm dropdown-toggle" data-toggle="dropdown" title="Text Highlight Color"><i class="fa fa-paint-brush"></i>&nbsp;<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <!--<p>&nbsp;&nbsp;&nbsp;Text Highlight Color:</p>-->
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FFFF"><i class="fa fa-stop" style="color:#808080;font-weight:700;">&nbsp;Gray</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FFFF"><i class="fa fa-stop" style="color:#00FFFF;font-weight:700;">&nbsp;Blue</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #00FF00"><i class="fa fa-stop" style="color:#00FF00;font-weight:700;">&nbsp;Green</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #FF7F00"><i class="fa fa-stop" style="color:#FF7F00;font-weight:700;">&nbsp;Orange</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #FF0000"><i class="fa fa-stop" style="color:#FF0000;font-weight:700;">&nbsp;Red</i></a></li>
+                                <li class="list-inline" style="background-color:#ebf3f3"><a data-edit="backColor #9a8383"><i class="fa fa-stop" style="color:#9a8383;font-weight:700;">&nbsp;Brown</i></a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height" aria-hidden="true"></i>&nbsp;<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a data-edit="fontSize 7"><font size="7">7</font></a></li>
+                                <li><a data-edit="fontSize 6"><font size="6">6</font></a></li>
+                                <li><a data-edit="fontSize 5"><font size="5">5</font></a></li>
+                                <li><a data-edit="fontSize 4"><font size="4">4</font></a></li>
+                                <li><a data-edit="fontSize 3"><font size="3">3</font></a></li>
+                                <li><a data-edit="fontSize 2"><font size="2">2</font></a></li>
+                                <li><a data-edit="fontSize 1"><font size="1">1</font></a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-outdent" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link" aria-hidden="true"></i></a>
+                            <div class="dropdown-menu input-append">
+                                <input class="span2" placeholder="URL" type="text" data-edit="createLink" style="max-width:150px" />
+                                <button class="btn btn-default btn-sm " type="button">Add</button>
+                            </div>
+                            <a class="btn btn-default btn-sm" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-chain-broken" aria-hidden="true"></i></a>
+
+                        </div> 
+                        <div class="btn-group">
+                            <a class="btn-default btn-sm btn" title="@Lang.Views_GeneralUI_UploadToServer" id="pictureBtn2">
+                                <i class="fa fa-file-image-o" aria-hidden="true">
+                                    <input type="file" id="pictureInput" data-Prefix="Ca"
+                                           SrvUrl="/Utilities/UpLoadProcess2?Prefix=SCSC&SubPath=Category&TargetTalbeKeyID=0&ShopID=@WebCookie.ShopID"
+                                           data-role="magic-overlay" data-target="#pictureBtn2" multiple="multiple" accept="image/*" data-edit="insertImage" width="30" />
+                                </i>
+                            </a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm " data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                            <a class="btn btn-default btn-sm " data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="btn-group">
+                            <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
+                        </div> 
+                    </div><!--文本编辑器结束-->
+                    <div id="editor" style="font-family: 'Microsoft YaHei','Microsoft YaHei UI' ;overflow:scroll; max-height:600px;height:450px;">
+                        @(Html.Raw(ViewBag.CategoryDesc))
+                    </div> 
+                </div><!--col-md-10结束--> 
+            </div><!--row-->
+            <br /> 
+            <div class="col-md-10 col-md-offset-1 box-footer" style="margin-left:160px;">
+                <button type="button" id="btnaddnew" class="btn btn-primary btn-large" title="@ViewBag.CurrentCategoryID">
+                    @(string.IsNullOrEmpty(ViewBag.CurrentCategoryID) ? Lang.Views_GeneralUI_AddNew : Lang.Views_GeneralUI_Update)
+                </button>
+                <button type="button" id="btnDelete" class="@(string.IsNullOrEmpty(ViewBag.CurrentCategoryID) ? " hidden" : "btn btn-primary btn-large btn-danger pull-right")" title="@ViewBag.CurrentCategoryID">
+                    @Lang.Views_GeneralUI_Delete
+                </button>
+            </div> 
+        </div>
+    </div> 
+} <!-- form end--> 
+<script>
+    $(document).ready(function () {
+        LoadCategoryData("#treeviewCategory1", "0", "#ParentsCategoryID", "#txtCategoryName"); //Initialization
+        $('#treeviewCategory1').slimscroll({
+            disableFadeOut: false
+        });
+
+        $("#btnaddnew").click(function () {
+            var txtCategoryDesc = $("#editor").html();
+            $("#CategoryDesc").val(escape(txtCategoryDesc));
+
+            if (confirm("@Lang.GeneralUI_OK")) {
+                $("#btnaddnew").submit();
+            }
+        });
+    });
+
+     function HandleSeccessDialog(data)
+     {
+         if (data.MsgCode === "1")  // 输入数据格式非法
+         {
+             BootstrapDialog.show({
+                 type: BootstrapDialog.TYPE_SUCCESS,
+                 resizable: true,
+                 size: 'size-normal',
+                 closeByBackdrop: false,
+                 closeByKeyboard: false,
+                 draggable: true,
+                 closable: false,
+                 title: $("#CategoryName").val(),
+                 message: "<H3>" + data.Message + "</H3>",
+                 cssClass: 'login-dialog fade',
+                 buttons: [{
+                     label: 'OK!',
+                     cssClass: 'btn-primary',
+                     action: function (dialog) {
+                         golist();
+                         dialog.close();
+                     }
+                 }]
+             });
+         } else {
+             alert(" add  or update  fail");
+         }
+
+     } // end for HandleSeccessDialog
+     function err(data) {
+         alert("@Lang.Views_GeneralUI_SubmitError,console.log");
+         console.log(JSON.stringify(data));
+     }
+     function golist()
+     {
+         console.log("@Url.Content("ShopCategoryList")");
+         window.location = "@Url.Content("ShopCategoryList")";
+     }
+     function HandleError(data) {
+         console.log("AJAX Form @Lang.Views_GeneralUI_ServerError" + JSON.stringify(data));
+     }
+
+     function setCategoryRoot() {
+         $("#ParentsCategoryID").val("0");
+         $("#txtCategoryName").val("@Lang.ShopCategoryList_ShopCategory_Category1");
+     }
+     //保存 新增
+    $("#btnDelete").click(function () {
+
+        Url_NodeSelectForDel = "@System.Web.HttpUtility.UrlDecode(Url.Action("CategoryDelete",new { ParentsCategoryID = Html.DisplayFor(Model => Model.ParentsCategoryID ).ToString(), CategoryID = ViewBag.CurrentCategoryID }), Encoding.GetEncoding("utf-8"))";
+        console.log("popup link:" + Url_NodeSelectForDel);
+        BootstrapDialog.show({
+            BootstrapDialog: BootstrapDialog.TYPE_WARNING,
+            closable: true,
+            closeByBackdrop: false,
+            closeByKeyboard: false,
+            title: "@Lang.ShopCategoryList_ShopCategory_btnDelete_Title" + $("#txtCategoryName").val(),
+            message: $('<div></div>').load(Url_NodeSelectForDel.replace("&amp;", "&"))
+        });
+    });
+
+</script>

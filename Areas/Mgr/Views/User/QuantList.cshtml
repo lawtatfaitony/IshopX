@@ -1,0 +1,36 @@
+﻿@using LanguageResource;
+<script src="~/js/MgrUser/UserQuantization.js"></script>
+@{
+    ViewBag.Title = Lang.QuantList_Title  ;
+    ViewBag.SubTitle = Lang.Views_GeneralUI_CRM;
+}
+<style>
+    .col-md-2 {
+        max-width: 160px;
+    }
+</style>
+<div class="row ">
+    <div class="form-group ">
+        <label class="col-md-2 text-right" for="treeviewQuantList">@Lang.QuantList_QuantFator</label>
+        <div class="col-md-10">
+            <div id="treeviewQuantList"></div>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="form-group ">
+        <div class="col-md-10 col-lg-offset-2">
+            <ul class="list-inline list-unstyled">
+                <li>
+                    @Html.ActionLink(Lang.Views_GeneralUI_AddNew, "QuantFactor", null, new { @class = "btn btn-info" })
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        LoadQuantList("#treeviewQuantList", "0");  
+
+    })
+</script>

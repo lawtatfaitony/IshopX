@@ -1,0 +1,183 @@
+﻿@using Ishop.Context;
+@using PagedList;
+@using PagedList.Mvc;
+@using Ishop.Models.ProductMgr;
+@using Ishop.AppCode.Utilities;
+@using LanguageResource;
+@model PagedList.IPagedList<Ishop.Models.PubDataModal.AccountMgr>
+@{
+    ViewBag.Title = Lang.AccountMgrList_Accountlist;
+    ViewBag.SubTitle = Lang.ModalView_AccountMgrAddOrUpd_SubTitle;
+    Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
+}
+@using (Html.BeginForm("AccountMgrList", "AccountMgr", FormMethod.Get))
+{
+    <div id="box-widget" class="box-header with-border">
+        <div class="form-inline">
+            <div class="input-group">
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "dropdown-toggle form-control margin-r-5", autocomplete = "on", data_toggle = "dropdown", placeholder = "网站、登录ID", style = "max-width:90px;" })
+                <input type="text" id="txtAccountMgrID" class="hidden" />
+                <ul id="Div_AccountMgrID" class="dropdown-menu" role="menu" style="width:250px;" aria-labelledby="dLabel">
+                    <li class="pad"><div id="AccountMgrID_dropdown_menu1" class="h6 small treeview">@Lang.AccountMgrList_Inputtogetdata</div></li>
+                </ul>
+            </div><!--input-group-btn-->
+
+            @Html.DropDownList("WebSite", null, Lang.GeneralUI_Select, new { @class = "form-control", data_toggle = "tooltip", title = Lang.AccountMgrList_Whichplatformpromotion, style = "max-width:90px;" })
+
+            <input type="submit" class="btn btn-default" value="@Lang.Views_GeneralUI_Search" />
+            <input type="button" id="btnIsBlock" class="btn btn-default pull-right  margin-r-5" value="@Lang.Views_GeneralUI_Block" />
+            @Html.ActionLink(Lang.Views_GeneralUI_Create, "AccountMgrAddOrUpd", null, new { @class = "btn btn-info  pull-right  margin-r-5", target = "_Blank" })
+
+        </div>
+    </div>
+}
+
+<div class="box-body table-responsive">
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>
+                <lable>Web</lable>
+            </th>
+            <th>
+                <i class="fa fa fa-key" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().LoginID)</lable>
+            </th>
+            <th>
+                <i class="fa fa-map-marker" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().NickName)</lable>
+            </th>
+            <th>
+                <i class="fa fa-caret-square-o-right" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().IsCer)</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa fa fa-envelope" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().LoginEmail)</lable>
+            </th>
+
+            <th class="hidden-sm">
+                <i class="fa fa-volume-control-phone" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().Mobile)</lable>
+            </th>
+
+            <th class="hidden-sm">
+                <i class="fa fa-home" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().AssignedToUserID)</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa fa-user" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().OperatedUserName)</lable>
+            </th>
+            <th class="hidden-sm">
+                <i class="fa fa-calendar" aria-hidden="true" style="color:mediumslateblue"></i><lable>@Html.DisplayNameFor(modelItem => modelItem.First().OperatedDate)</lable>
+            </th>
+            <th>
+                <i class="fa fa-share-alt-square" aria-hidden="true" style="color:mediumslateblue"></i><lable class="block" style="word-break:keep-all">@Lang.Views_GeneralUI_Details</lable>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.SiteName, "AccountMgrAddOrUpd", new { AccountMgrID = item.AccountMgrID }, new { target = "_Blank" })
+                </td>
+                <td>
+                    <ul class="list-inline list-unstyled">
+                        <li>
+                            <button class="btn btn-danger btn-xs margin-r-5" onclick="javascript: DownloadVcardData('@item.AccountMgrID');">
+                                <i class="fa fa-download"></i>
+                            </button>
+                        </li>
+                        <li> @Html.DisplayFor(modelItem => item.LoginID, new { @class = "h4" })</li>
+                    </ul>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NickName)
+                </td>
+                <td>
+                    @{
+                        if (bool.Parse(Html.ValueFor(modelItem => item.IsCer).ToString()))
+                        {
+                            <i class="glyphicon glyphicon-certificate"></i>
+                        }
+                        else
+                        {
+                            <i class="glyphicon glyphicon-lock"></i>
+                        }
+                    }
+                </td>
+                <td class="hidden-sm">
+                    @Html.DisplayFor(modelItem => item.LoginEmail)
+                </td>
+
+                <td class="hidden-sm">
+                    @Html.DisplayFor(modelItem => item.Mobile)
+                </td>
+
+                <td class="hidden-sm">
+                    <ul class="h6 popover-title list-inline no-padding no-margin"  title="Createdby:@Html.DisplayFor(modelItem => item.CreatedByUserID)" data-toggle="tooltip" style="word-wrap:break-word">
+
+                        @{ ShopStaff a = new ShopStaff(); }
+                        @foreach (var i in item.AssignedToUserID.ToString().Split(',').ToList())
+                        {
+
+                            a = db.ShopStaffs.Where(c => c.UserName == i).FirstOrDefault();
+
+                            if (a != null)
+                            {
+                                <li class="h6 no-margin">
+                                    @a.StaffName
+                                </li>
+                            }
+                        }
+                    </ul>
+                </td>
+                <td class="hidden-sm">
+                    @Html.DisplayFor(modelItem => item.OperatedUserName)
+                </td>
+                <td class="hidden-sm">
+                    @Html.DisplayFor(modelItem => item.OperatedDate)
+                </td>
+                <td>
+                    @Html.ActionLink(Lang.Views_GeneralUI_Edit, "AccountMgrAddOrUpd", new { AccountMgrID = item.AccountMgrID }, new { target = "_Blank", @class = "fa fa-pencil", @style = "color:mediumslateblue;word-break:keep-all" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+ 
+@if (Model.PageCount > 1)
+{
+    <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+    @Html.PagedListPager(Model, page => Url.Action("AccountMgrList", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
+<script>
+    $(document).ready(function () {
+        // （rule： ~Ishop/js/TreeMenuItem.js）
+        $("#SearchString").on('input', function (e) {
+            DropdownMenuID = "#AccountMgrID_dropdown_menu1";
+            searchString = $("#SearchString").val(); // 帐号搜索关键要素
+            txtID = "txtAccountMgrID";
+            txtName = "SearchString";
+            console.log(searchString);
+            LoadAccountMgrDropDownData(DropdownMenuID, txtID, txtName, searchString);
+        });
+    });
+    function DownloadVcardData(AccountMgrID) {
+        Url_LoadAccountDownLog = "@Url.Action("LoadAccountDownLog", "User")" + "?AccountMgrID=" + AccountMgrID;
+        BootstrapDialog.show({
+            title: "@Lang.AccountMgrList_JS_AccountDownloadFormat",
+            message: $('<div><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>').load(Url_LoadAccountDownLog)
+        }); 
+    }
+    $("#btnIsBlock").click(function OpenAsignToAccountMgrID() {
+        IsBlockPhoneNumberUrl = '@Url.Action("IsBlockPhoneNumber","User")';
+        var $message = $('<div  class="h4"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="h4">@Lang.Views_GeneralUI_Pleasewait</span><br><span class="sr-only">Loading...</span></div><br/>').load(IsBlockPhoneNumberUrl);
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_SUCCESS,
+            resizable: true,
+            size: 'size-normal',
+            closeByBackdrop: true,
+            closeByKeyboard: false,
+            draggable: true,
+            closable: true,
+            title: "@Lang.Views_GeneralUI_OperateInfo",
+            message: $message,
+            cssClass: 'bootstrap-dialog fade'
+        });
+    });
+    $('[data-toggle="tooltip"]').tooltip(); 
+</script>

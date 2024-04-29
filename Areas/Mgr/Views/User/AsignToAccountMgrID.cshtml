@@ -1,0 +1,95 @@
+﻿@using LanguageResource;
+@model Ishop.ViewModes.Users.AsignToAccountMgrID
+@{
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("AsignToAccountMgrID", null, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleAsignToAccountMgrIDResult", OnFailure = "err", LoadingElementId = "Loading" }, new { id = "form1", @class = "form-horizontal  bg-gray-light" }))
+{
+    <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span></div>
+
+    @Html.AntiForgeryToken()
+
+    <div id="box-widget" class="box box-default box-solid">
+        <div class="box-header with-border">
+            <h3 class="box-title">@Lang.AsignToAccountMgrID_h3</h3>
+            <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+
+        <div class="box-body">
+
+            @Html.HiddenFor(m => m.AccountMgrID)
+            <div class="form-group">
+                @Html.LabelFor(m => m.SiteName, new { @class = "col-sm-4 control-label h4" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.SiteName, new { @class = "form-control h4", placeholder = Html.DisplayNameFor(m => m.SiteName) })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LoginID, new { @class = "col-sm-4 control-label h4" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.LoginID, new { @class = "form-control h4", placeholder = Html.DisplayNameFor(m => m.LoginID) })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Mobile, new { @class = "col-sm-4 control-label h4" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control h4", placeholder = Html.DisplayNameFor(m => m.Mobile) })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LoginEmail, new { @class = "col-sm-4 control-label h4" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.LoginEmail, new { @class = "form-control h4", placeholder = Html.DisplayNameFor(m => m.LoginEmail) })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Take, new { @class = "col-sm-4 control-label h4" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Take, new { @class = "form-control h4 disabled", placeholder = Html.DisplayNameFor(m => m.Take), maxlength = "5" })
+                    @Html.ValidationMessageFor(m => m.Take, "", new { @class = "text-danger" })
+                    <!--"@Lang.AsignToAccountMgrID_ValidationMsg"-->
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserTagID, new { @class = "col-sm-4  control-label h4" })
+                <div class="col-sm-6">
+                    @Html.DropDownList("UserTagID", null, Lang.GeneralUI_Select, new { @class = "form-control", data_toggle = "tooltip", title = Lang.UserProfile_UserTagID_select })
+                    @Html.ValidationMessageFor(m => m.UserTagID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.IsMonopoly, new { @class = "col-sm-4 control-label h4" })
+                <div class="col-sm-6 bottom">
+                    @Html.CheckBoxFor(m => m.IsMonopoly)
+                    @Html.ValidationMessageFor(model => model.IsMonopoly, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="box-footer">
+            <div id="err_message"></div>
+            &nbsp;&nbsp;<input type="submit" id="Savechanges" class="btn btn-default bg-navy-active col-sm-offset-4" value="@Lang.Views_GeneralUI_Submit" />
+        </div>
+    </div>
+}
+<script> 
+    $("#Savechanges").click(function () {
+        $("#Savechanges").removeClass("Loading");  
+    });// click
+
+
+    function HandleAsignToAccountMgrIDResult(data) {
+
+        $("#form1").html(data);
+        $("#Loading").addClass("hidden");
+    }
+    function err(data) {
+        console.log(data);
+        console.log("@Lang.Views_GeneralUI_ServerError Func:([HttpPost]AsignToAccountMgrID)");
+        $("#err_messages").html("@Lang.Views_GeneralUI_ServerError ([HttpPost]AsignToAccountMgrID)<br>,Failed to load resource: the server responded with a status of 500 (Internal Server Error)");
+    }
+</script>
