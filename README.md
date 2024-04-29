@@ -36,11 +36,11 @@ Shared/TemplateB/AdMainAiBox.zh-HK.cshtml
 
 ## 目前的店鋪
 
-| sh0001 | 三个小情人的爸爸—香港投资移民保险 | /Upload/ShopLogo/Shplogo_20171101063317284.png |
-| ------ | --------------------------------- | ---------------------------------------------- |
-| sh0006 | 翔輝計算機系統                    | /Upload/ShopLogo/Shplogo_20180826132306638.png |
-| SH2006 | HK安防  LTD.                      | /Upload/ShopLogo/Shplogo_20180826132306638.png |
-| SH2028 | STAT BILLIANT AI TECH LTD.        | /Upload/ShopLogo/Shplogo_20180826132306638.png |
+| sh0001 | 三个小情人的爸爸           | /Upload/ShopLogo/Shplogo_20171101063317284.png |
+| ------ | -------------------------- | ---------------------------------------------- |
+| sh0006 | 翔輝計算機系統             | /Upload/ShopLogo/Shplogo_20180826132306638.png |
+| SH2006 | HK安防  LTD.               | /Upload/ShopLogo/Shplogo_20180826132306638.png |
+| SH2028 | STAT BILLIANT AI TECH LTD. | /Upload/ShopLogo/Shplogo_20180826132306638.png |
 
 Update in 2024-4-28
 
