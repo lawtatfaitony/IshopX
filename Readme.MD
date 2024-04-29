@@ -60,6 +60,6 @@ Update in 2024-4-28
 //由於github限制 不能直接寫 三個參數 cn-hangzhou=====", "LTAIZtZo=====jbLbxadL========", "BWvGVZRo88cKoK===========QAu71RFusXNNsAM5"
 line 112 : IClientProfile profile = DefaultProfile.GetProfile("xxx", "xxx", "xxx");  //裡面的參數值xxx是虛假的
 
-![rendersuccess_2024_4_29](README_IMGs\rendersuccess_2024_4_29.jpg)
+![rendersuccess_2024_4_29](README_IMGs/rendersuccess_2024_4_29.jpg)
 
 最後生成記錄 2024-4-29
