@@ -1,0 +1,7 @@
+N:\ClientIshop_Ishop_AD\Ishop\ConsoleAppMailTest\bin\Debug\ConsoleAppMailTest.exe.config
+N:\ClientIshop_Ishop_AD\Ishop\ConsoleAppMailTest\bin\Debug\ConsoleAppMailTest.exe
+N:\ClientIshop_Ishop_AD\Ishop\ConsoleAppMailTest\bin\Debug\ConsoleAppMailTest.pdb
+N:\ClientIshop_Ishop_AD\Ishop\ConsoleAppMailTest\obj\Debug\ConsoleAppMailTest.csproj.AssemblyReference.cache
+N:\ClientIshop_Ishop_AD\Ishop\ConsoleAppMailTest\obj\Debug\ConsoleAppMailTest.csproj.CoreCompileInputs.cache
+N:\ClientIshop_Ishop_AD\Ishop\ConsoleAppMailTest\obj\Debug\ConsoleAppMailTest.exe
+N:\ClientIshop_Ishop_AD\Ishop\ConsoleAppMailTest\obj\Debug\ConsoleAppMailTest.pdb
