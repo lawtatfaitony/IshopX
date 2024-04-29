@@ -109,7 +109,7 @@ namespace Ishop
             aliyunsms_localPath = System.IO.Path.Combine(HttpRuntime.AppDomainAppPath, "aliyunsms.log");
             StreamWriter sw = new StreamWriter(aliyunsms_localPath, true);
 
-           
+            //由於github限制 不能直接寫 三個參數 cn-hangzhou=====", "LTAIZtZo=====jbLbxadL========", "BWvGVZRo88cKoK===========QAu71RFusXNNsAM5"
             IClientProfile profile = DefaultProfile.GetProfile("xxx", "vvvv", "vvv"); //如何获得a-c-c-e-s-s-k-e-y  ：https://ak-console.a-l-i-y-u-n.com/#/a-c-c-e-s-s-k-e-y 受github敏感信息,原文需要去除符號: -
             IAcsClient client = new DefaultAcsClient(profile);
             SingleSendSmsRequest request = new SingleSendSmsRequest();
