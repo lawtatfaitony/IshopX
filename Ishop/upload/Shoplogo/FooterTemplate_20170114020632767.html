@@ -1,0 +1,78 @@
+﻿@using Ishop.Context;
+@using Ishop.Utilities;
+@using LanguageResource;
+@using Ishop.Models.ProductMgr
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+    string Language = LangUtilities.LanguageCode; 
+    Shop shop = db.Shops.Find(WebCookie.ShopID);
+}
+<ul class="center list-unstyled small" style="padding:10px">
+    <li class="copyright">
+        <p>
+            &copy; @DateTime.Now.Year -  @shop.ShopName
+        </p>
+    </li>
+    <li>
+        <h5>@Lang.Home_DefinitedTag_KeyWord</h5>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">seo搜索优化</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">seo推广</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">网络营销优化</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">优化教程</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">白帽优化教程</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">黑帽算法优化</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">网站推广</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">网站策划</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">内容优化</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">关键词优化</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">SEO内容搜索</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">搜索排名优化</a>
+        <a href="http://www.sunwaylink.com/" target="_blank" title="">网站维护</a>
+    </li>
+    <li>
+        <h6>Version 5.59 &copy;params @LangUtilities.LanguageCode - @WebCookie.ShopID</h6> 
+    </li>
+    <li> 
+                @if (!mvcCommeBase.IsChinaArea())
+                {
+                    <div class="fb-like"
+                         data-share="true"
+                         data-width="450"
+                         data-show-faces="true">
+                    </div>
+                }
+         
+    </li>
+</ul>
+@if (!mvcCommeBase.IsChinaArea()) //中国地区不显示
+{
+            <!--FaceBook 分享配置-->
+    <script>
+                            window.fbAsyncInit = function () {
+                                FB.init({
+                                    appId: '270944283258433',
+                                    xfbml: true,
+                                    version: 'v2.8'
+                                });
+                            };
+
+                            (function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)) { return; }
+                                js = d.createElement(s); js.id = id;
+                                js.src = "//connect.facebook.net/en_US/sdk.js";
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
+}
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6de35c7ba67bf67be24fdbe4b5cadfb6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>

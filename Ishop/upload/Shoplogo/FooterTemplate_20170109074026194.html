@@ -1,0 +1,11 @@
+ $(document).ready(function()
+        {
+            console.log("ready========================");
+            //参数说明 1.图片队列fileList , 2.图片选择器 filePicker, 3.文件名前缀Shoplogo_ ,4.上存upload文件夹的子文件名称 Shoplogo ,
+            //5.返回图片url存储到 txtboxId   6.目标表主键ID:TargetTalbeKeyID, 7.店铺ID: ShopID ,8.排序 RankOrder默认=0
+            var TargetTalbeKeyID = $("#ShopID").val(); //可以留空 获取TextBox   $("#TargetTalbeKeyID").val()
+            var ShopID = $("#ShopID").val();  //必需的 $("#ShopID").val()  除了 Shop 表,
+            var RankOrder = 1;  //单个图片无须排序=0|1  $("#RankOrder").val()
+            $(WebUploader1("fileList", "filePicker", "Shplogo_", "ShopLogo", "ShopLogo", TargetTalbeKeyID, ShopID, RankOrder));
+
+        })

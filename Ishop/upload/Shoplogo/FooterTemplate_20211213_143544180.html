@@ -1,0 +1,31 @@
+﻿@using Ishop.Context;
+@using Ishop.Utilities;
+@using LanguageResource;
+@model Ishop.Models.ProductMgr.Shop
+
+@{
+    string Language = LangUtilities.LanguageCode;
+    bool IsChinaArea1 = mvcCommeBase.IsChinaArea();
+}
+<!--sh0001_FooterTemplate-->
+<ul class="center list-unstyled no-margin no-pad-top">
+    <li class="copyright" title="sh0001">
+        &copy; @DateTime.Now.Year -  @Html.DisplayFor(model => model.ShopName) <span class="small">粤ICP备17024931号</span><!--@WebCookie.ShpID--><span id="loadTime"></span>
+    </li>
+</ul>
+<script>
+    window.onload = function () {
+        var loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+        document.getElementById("loadTime").innerHTML = 'loading:' + loadTime + 'ms';
+        console.log('loading:' + loadTime);
+    }
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6de35c7ba67bf67be24fdbe4b5cadfb6";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
