@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>图片序列成base64</title>
+
+    <script type='text/javascript' src='//code.jquery.com/jquery-2.0.2.js'></script>
+     
+    <style type='text/css'>
+        @import url('//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css');
+
+        body {
+            padding: 20px;
+        }
+    </style>
+
+    <script type='text/javascript'>
+//<![CDATA[
+        $(window).load(function () {
+            /**
+            * convertImgToBase64
+            * @param {String} url
+            * @param {Function} callback
+            * @param {String} [outputFormat='image/png']
+            * @author HaNdTriX
+            * @example
+            convertImgToBase64('http://goo.gl/AOxHAL', function(base64Img){
+            console.log('IMAGE:',base64Img);
+            })
+            */
+            function convertImgToBase64(url, callback, outputFormat) {
+                var canvas = document.createElement('CANVAS'),
+                    ctx = canvas.getContext('2d'),
+                    img = new Image;
+                img.crossOrigin = 'Anonymous';
+                img.onload = function () {
+                    canvas.height = img.height;
+                    canvas.width = img.width;
+                    ctx.drawImage(img, 0, 0);
+                    var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+                    callback.call(this, dataURL);
+                    canvas = null;
+                };
+                img.src = url;
+            }
+
+            $('#form1').submit(function (event) {
+                alert("提交");
+                var imageUrl = $(this).find('input[name=url]').val();
+                console.log('imageUrl', imageUrl);
+                convertImgToBase64(imageUrl, function (base64Img) {
+                    $('.output')
+                    .find('textarea')
+                    .val(base64Img)
+                    .end()
+                    .find('a')
+                    .attr('href', base64Img)
+                    .text(base64Img)
+                    .end()
+                    .find('img')
+                    .attr('src', base64Img);
+                });
+
+                event.preventDefault();
+            });
+
+        });//]]>
+
+    </script>
+</head>
+<body>
+    <h2>Input</h2>
+    <form class="input-group" id="form1">
+        <input type="url"
+               name="url"
+               class="form-control"
+               placeholder="Insert an IMAGE-URL"
+               value="https://www.baidu.com/img/baidu_jgylogo3.gif"
+               required>
+        <span class="input-group-btn">
+            <input type="submit"
+                   class="btn btn-default">
+        </span>
+    </form>
+    <hr>
+    <h2>Output</h2>
+    <div class="output">
+        <textarea class="form-control"></textarea><br>
+        <a></a><br><br>
+        <img><br>
+    </div>
+    <div>
+
+        C#
+
+        Convert image to base64 with C# code example. The following example demonstrates how to use the ToBase64String method to encode the byte array to a base64 string representation.
+
+        using (Image image = Image.FromFile(Path))
+        {
+        using (MemoryStream m = new MemoryStream())
+        {
+        image.Save(m, image.RawFormat);
+        byte[] imageBytes = m.ToArray();
+        // Convert byte[] to Base64 String
+        string base64String = Convert.ToBase64String(imageBytes);
+        return base64String;
+        }
+        }
+    </div>
+</body>
+</html>

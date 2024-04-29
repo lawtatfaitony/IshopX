@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <script src="/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<body>
+    
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            alert("ready");
+            $('#mySelect').change(function () {
+                alert($(this).children('option:selected').val());
+                var p1 = $(this).children('option:selected').val();//这就是selected的值
+                var p2 = $('#param2').val();//获取本页面其他标签的值
+                window.location.href = "/test/jqueryPrependInsertJPG.html?param1=" + p1 + "&param2=" + p2 + "";//页面跳转并传参
+            })
+        })
+    </script>
+
+    <select id="mySelect" >
+        <option value="1">one</option>
+        <option value="2" selected="selected">two</option>
+        <option value="3">three</option>
+    </select>
+    
+    <input type="text" value="ooo" name="param2" id="param2" />
+</body>
+</html>

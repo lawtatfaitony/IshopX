@@ -1,0 +1,32 @@
+﻿ 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试 jquery 语法</title>
+    <style>
+        div, span, p {
+            width: 126px;
+            height: 60px;
+            float: left;
+            padding: 3px;
+            margin: 2px;
+            background-color: #EEEEEE;
+            font-size: 14px;
+        }
+    </style>
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body>
+    <div>div</div>
+
+    <p class="myClass">p class="myClass"</p>
+    <p class="notMyClass">p class="notMyClass"</p>
+    <span>span</span>
+    <script>$("div,span,p.myClass").css("border", "3px solid red");</script>
+    <p> is what I said... </p><div id="foo">FOO!</div>
+    <script>$("p").insertAfter("#foo");
+        alert("sdfasfs");
+        $("#foo").html("这个是什么来的");
+        // check after() examples</script>
+</body>
+</html>

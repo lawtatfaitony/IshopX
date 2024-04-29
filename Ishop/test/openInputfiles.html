@@ -1,0 +1,88 @@
+﻿ 
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>文件上载样式与JS </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/bootstrap/3.3.5/css/bootstrap.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="/bootstrap/3.3.5/css/bootstrap-theme.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- 图标集 -->
+    <link href="/font/font-awesome.css" rel="stylesheet" />
+
+</head>
+<body>
+    
+
+    <style>
+        inputfile_a {
+            display: inline-block;
+            width: 100px;
+            height: 40px;
+            background: url("../images/picunload.jpg"); 
+            background-size: 100px 24px; 
+            background-repeat:no-repeat; 
+            position: relative;
+            overflow: hidden;
+        }
+
+            a:hover {
+                background: green; 
+            }
+
+        input {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 100px;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            
+        }
+        /*  自定义样式  opacity: 40;<!--透明度设置-->*/
+        .input_decorate {
+            display: inline-block;
+            width: 100px;
+            height:100px;
+            background: url("../images/picunload.jpg");
+            background-size: 200px 64px;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+            opacity: 40; 
+            filter: alpha(opacity=100);
+        }
+    </style>
+    <script>
+        $("#InputA").click(function () {
+            alert("InputA-click");
+            console.log("InputA-click");
+            $("#file2").click();
+        });
+    </script>
+
+    <a id="InputA"  class="icon-camera-retro icon-2x">
+          <input type="file" id="file2" value="" multiple="multiple" accept="image/*" contenteditable="false" onchange="javascript: alert('正在上存中。。。');" />
+    </a>
+    <br /><hr />
+    <label>用 A 连接 定义 一个背景图掩盖input标签，input 的onchange事件促发上存ajax</label>
+
+    <hr />
+    <span>单独标签 input 测试</span>
+    <input type="file" value="浏览" id="file2" class="input_decorate" onchange="javascript: alert('测试单独标签input/n正在上存中。。。');" />
+    <hr /> 
+</body>
+</html>

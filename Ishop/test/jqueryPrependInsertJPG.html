@@ -1,0 +1,50 @@
+﻿<html>
+<head>
+    <title> 在被选元素的开头插入图片</title>
+    <style>
+        h3 {
+            margin: 0;
+        }
+
+        div, span, p {
+            width: 180px;
+            height: 40px;
+            float: left;
+            padding: 10px;
+            margin: 10px;
+            background-color: #EEEEEE;
+        }
+
+        #test {
+            width: auto;
+            height: auto;
+            background-color: transparent;
+        }
+    </style>
+    <script src="/jquery/1.11.3/jquery.min.js"></script>
+    
+</head>
+<body>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            alert("tst");
+            $("#btn1").click(function () {
+                alert("ul_img_1" + $("#ul_img_1").toString());
+                $("#ul_img_1").innerHTML("<p>11111111222222222</p>");
+                $("#ul_img_1").contents("<b>Hello world!</b> ");
+
+
+            });
+        });
+    </script>
+
+    <div id="ul_img_1" style="width:100%;">
+        <ul>
+            <li id="11"> 插入内容图片</li>
+
+        </ul>
+    </div>
+    <button id="btn1"> 插入内容图片</button>
+
+</body>
+</html>

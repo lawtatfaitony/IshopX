@@ -1,0 +1,58 @@
+﻿<html>
+<head>
+    <title> 在被选元素的开头插入内容 P标签插入元素</title>
+    <style>
+        h3 {
+            margin: 0;
+        }
+
+        div, span, p {
+            width: 180px;
+            height: 40px;
+            float: left;
+            padding: 10px;
+            margin: 10px;
+            background-color: #EEEEEE;
+        }
+
+        #test {
+            width: auto;
+            height: auto;
+            background-color: transparent;
+        }
+    </style>
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("button").click(function () {
+                $("p").prepend("<b>Hello world!</b> ");
+
+                var elementCount = $("#test").find("*").css("border","21px solid red").length;
+                $("body").prepend("<h3>" + elementCount + " elements found</h3>");
+                alert("标签数量=" + elementCount );
+            });
+        });
+    </script>
+</head>
+<body>
+    <div style="width:100%;">
+        <ul>
+           
+           <li>append() - 在被选元素的结尾插入内容</li>
+            <li> prepend() - 在被选元素的开头插入内容</li>
+            <li> after() - 在被选元素之后插入内容</li>
+            <li>before() - 在被选元素之前插入内容</li>
+               
+                
+</ul>
+    </div>
+    <div id="test">
+        <div>DIV</div>
+        <span>SPAN</span>
+        <p>P <button>Button</button></p>
+    </div>
+    <p>This is a paragraph.</p>
+    <p>This is another paragraph.</p>
+    <button>在每个 p 元素的开头插入内容</button>
+</body>
+</html>
