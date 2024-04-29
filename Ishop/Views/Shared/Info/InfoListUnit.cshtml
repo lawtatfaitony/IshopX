@@ -1,0 +1,41 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+@using Ishop.ViewModes.Info
+@model InfoListView
+@if (!string.IsNullOrEmpty(Model.TitleThumbNail))
+{
+    <row>
+        <div class="iph-infobox-unit InfoListUnit-max-height">
+            <div class="col-lg-8 col-md-8 col-xs-8 no-margin no-padding">
+                <div class="h4 iph-text-omit2 no-padding no-margin">@Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.Title).ToString()), "InfoDetails", "InfoList", new { Id = Html.DisplayFor(model => model.InfoID) }, htmlAttributes: new { @class = "text-primary", title = ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.Title).ToString()) })</div>
+                <div class="h6 iph-text-omit2 hidden-md hidden-sm hidden-xs">@ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.SubTitle).ToString())</div>
+                <ul class="h6 list-unstyled list-inline no-margin no-padding">
+                    <!--Lang.InfoList_InfoListUnit_DefinitedTag_Comment-->
+                    <li class="small  no-margin no-padding">@Lang.InfoDetail_Views @Html.DisplayFor(model => model.Views)</li>
+                    <li class="small  no-margin no-padding  hidden-lg hidden-md">@Lang.InfoList_InfoListUnit_DefinitedTag_Author @ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.Author).ToString())</li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-xs-4 col-md-4  no-padding no-margin">
+                <div class="iph-infolist-img1">
+                    <a href="@Url.Action("InfoDetails", "InfoList",new { Id = Html.DisplayFor(model => model.InfoID).ToString() })" class="no-padding no-margin" target="_blank">
+                        <img src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.TitleThumbNail).ToString(), PictureSize.s310X310)" class="img-responsive pull-right">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </row>
+}
+else
+{
+    <row>
+        <div class="iph-infobox-unit" style="min-height:120px;">
+            <div class="h4 iph-text-omit2">@Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.Title).ToString()), "InfoDetails", "InfoList", new { Id = Html.DisplayFor(model => model.InfoID) }, htmlAttributes: new { @class = "text-primary", title = ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.Title).ToString()) })</div>
+            <div class="h6 iph-text-omit3 hidden-md hidden-sm hidden-xs">@ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.SubTitle).ToString())</div>
+            <ul class="h6 list-unstyled list-inline no-margin no-padding">
+                <!--Lang.InfoList_InfoListUnit_DefinitedTag_Comment-->
+                <li class="small  no-margin no-padding">@Lang.InfoDetail_Views @ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.Views).ToString())</li>
+                <li class="small  no-margin no-padding">@Lang.InfoList_InfoListUnit_DefinitedTag_Author @ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.Author).ToString())</li>
+            </ul>
+        </div>
+    </row>
+}

@@ -1,0 +1,24 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+@model Ishop.Models.ProductMgr.ProductUnit
+ 
+@if (!string.IsNullOrEmpty(Model.Title))
+{
+    <div class="d-flex flex-column bd-highlight">
+        <div class="p-1 bd-highlight" style="width:160px;height:160px;margin-bottom:10px;">
+            <a href='@Url.Action("p","Home",new { id=Model.ProductID,Language = ViewBag.Language,area=""} )' target="_blank">
+                  <img src="@string.Format("{0}s160X160.jpg",Model.ProductImg)" width="160" class="img-responsive">
+            </a>
+        </div>
+        <div class="p-1 bd-highlight" style="height:60px;overflow-y:hidden;">
+            <ul class="list-unstyled list-inline">
+                <li>
+                    <a href='@Url.Action("p","Home",new { id=Model.ProductID,Language = ViewBag.Language,area=""} )' target="_blank">@ChineseStringUtility.ToAutoTraditional(Model.ProductName)</a>
+                </li>
+                <li> 
+                    <a href='@Url.Action("p","Home",new { id=Model.ProductID,Language = ViewBag.Language,area=""} )' class="btn btn-success btn-xs" target="_blank">@Lang.Views_GeneralUI_Details</a>
+                </li>
+            </ul>
+        </div> 
+    </div> 
+}

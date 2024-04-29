@@ -1,0 +1,40 @@
+﻿@using LanguageResource
+@using Ishop.Utilities 
+@using Ishop.ViewModes.Info
+@model IEnumerable<MyOriginTopView >
+
+@{ 
+    if (Model.Count<MyOriginTopView>() > 0)
+    {
+        <div class="container box box-default box-header box-solid padding-left5 padding-bottom10">
+            <div class="box-header padding-left5">
+                <div class="pull-left">更多...</div>
+            </div>
+            <div class="box-body">
+                <ul class="list-unstyled no-margin">
+                    @foreach (var Item in Model)
+                    {
+                        <li style="line-height:25px;">
+                            <i class="fa fa-angle-double-right"></i> @Html.ActionLink(Item.Title, "wx", "i", new { id = Item.UserTraceID }, new { @class = "h5 text-primary" }) 
+                        </li> 
+                    }
+                    @if (ViewBag.UserId == "620000")
+                    {
+                        <li>
+                            <i class="fa fa-angle-double-right"></i> <a href="https://mp.weixin.qq.com/s/zbuPWhGFWqTj4FJ-w2OtdA" class="h5 text-primary">赌球热情与人间杯具，到底我们缺了什么？</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-angle-double-right"></i> <a href="https://mp.weixin.qq.com/s/LtpkE5yWvIfLDRKOd8r8sA" class="h5 text-primary">香港社区与社交网络时代杂谈</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-angle-double-right"></i> <a href="https://mp.weixin.qq.com/s/sdmXmFy1J-rYIj4gMAMtOA" class="h5 text-primary">父爱如山，女儿果然是爸爸上辈子的小情人</a>
+                        </li>  
+                    }
+                </ul>
+                
+
+            </div>
+        </div>
+    }
+}
+

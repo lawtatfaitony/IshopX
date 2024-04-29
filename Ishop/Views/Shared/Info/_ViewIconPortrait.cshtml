@@ -1,0 +1,53 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+@using Ishop.Models.ProductMgr
+@model Ishop.Models.ProductMgr.ShopStaff
+
+ <div class="container box box-success box-header box-solid  padding-left5 padding-bottom10">
+    <div class="box-header">
+        <div class="box-title inline"> <blockquote style="padding-top:5px;padding-bottom:10px;padding-left:5px;margin-bottom:5px;"><i class="fa fa-user text-gray"><span>&nbsp;</span></i>@ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.StaffName).ToString()) <p class="h4">@ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.ContactTitle).ToString())</p> </blockquote></div>
+    </div>
+    <div class="box-body">
+        <ul class="list-unstyled no-margin no-padding"> 
+            <li> 
+                <div class="center-block">
+                    <p align="center" ><img src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.IconPortrait).ToString(), PictureSize.s160X160)" alt="" width="146" height="149" class="img-circle"></p>
+                    <p align="center" id="_ViewconPortrait_Introduction" class="no-margin">
+                        @Html.Raw(ViewBag.vIntroduction)
+                    </p>
+                </div>
+            </li>
+        </ul>
+             
+    </div>
+
+     <div class="box-footer">
+         <div class="container-fluid"> 
+             <div class="row">
+                      
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> 
+                                <a href="@Html.DisplayFor(model => model.Qrcode).ToString()" target="_blank">
+                                    <blockquote>
+                                        <span class="h6" style="padding-left:10px;">@ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.ChannelID).ToString())</span>
+                                    </blockquote>
+                                </a>
+                                <a href="@Html.DisplayFor(model => model.Qrcode).ToString()" target="_blank">
+                                    <img style="vertical-align:bottom;" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.Qrcode).ToString(), PictureSize.s160X160)" class="img-responsive" />
+                                </a> 
+                        </div>
+                      
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <a href="@Html.DisplayFor(model => model.OtherQrcode).ToString()" target="_blank">
+                                <blockquote>
+                                    <span class="h6" style="padding-left:10px;">@ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.OtherChannelName).ToString())</span>
+                                </blockquote>
+                            </a>
+                            <a href="@Html.DisplayFor(model => model.OtherQrcode).ToString()" target="_blank">
+                                    <img style="vertical-align:bottom;" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.OtherQrcode).ToString(), PictureSize.s160X160)" class="img-responsive" />
+                            </a>
+                        </div>
+                  
+                </div>
+           </div>
+     </div>
+</div> 

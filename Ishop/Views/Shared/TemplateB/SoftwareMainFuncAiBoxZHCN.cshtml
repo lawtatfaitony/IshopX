@@ -1,0 +1,412 @@
+﻿<style>
+    .list-group {
+        border: none; /* 去掉 ul 元素的边框 */
+    }
+</style>
+<div class="h1" style="margin-bottom:50px;font-weight:500">翔辉AI-BOX目标识别与警报盒子功能概述</div>
+
+<ul class="list-unstyled no-margin no-margin">
+    <li class="no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i> OVERVIEW 概述
+            </summary>
+            <div class="" style="padding-left: 20px; padding-bottom: 20px;">
+
+                <ul class="list unstyled margin" style="list-style-type:decimal;margin-left:40px;">
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持基于国外NVIDIA CUDA 框架或国内HUAWEI华为ASCEND框架。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        全球顶尖识别算法技术,效率非常高，仅需一次识别即可完成所有对象的分类识别。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        可以应用到云端服务器中，也可以应用于小型边缘计算硬件中，部署Windows/Ubuntu,支持CUDA显卡以及华为升腾显卡等,可选不同档次的硬件。
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </li>
+    <li class="no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i> CCTV安全与监控领域研究与积累
+            </summary>
+            <div class="" style="padding-left: 20px; padding-top: 15px;">
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    基于多年的音视频编解码开发和全球顶尖识别算法的开发时间，AI应用取得更多积累的技术成功，但随着技术的成熟，这些应用也变得越来越多，结合实施商业需求的场景 开发了相当多的商业案例，例如
+                </p>
+                <ul class="list unstyled margin" style="list-style-type:decimal;margin-left:40px;margin-bottom:30px;">
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        非法闯入：夜间无人值守或重要地点进出监控。
+                    </li>
+
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        摔倒侦测：关怀老人，老人跌倒侦测或打架斗殴跌倒侦测，可用于社区、监狱、广场、学校等场所。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        明火辨识：严禁烟火的第三方辨识火焰，防止火灾，可用于大厦、森林、工场、化工产、卡拉OK等场所。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        烟雾排放：同明火场景。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        越界侦测：越过指定边界，产生警报，一般用于行人辨识与闯入侦测，结合视讯区域侦测。 可用于无人值守场景。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        工作瞌睡检测：工作期间睡觉检测，避免安全事故发生。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        离岗检测：工作期间离开岗位侦测，避免安全事故发生。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        公众场地聚众：侦测人员聚集，避免聚众群殴、人群密集避免踩踏事件发生。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        攀高侦测：侦测人员是否进行攀爬，避免安全事故发生。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        人脸抓拍：人脸资料抓拍，可推送给人脸辨识服务进行1&1辨识及陌生人辨识。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        遮挡侦测：侦测摄影机是否被人为遮蔽或损坏。 协调维运人员进行维修。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        垃圾满溢：侦测垃圾桶垃圾是否满溢，协助环卫人员智慧调度环卫车辆，节省人力与物力。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        霸占公共地方经营：侦测是否有占用道路非法经营，协助管理部门管理，减轻工作量。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        安全帽识别：工地安全帽识别，提高工地安全。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        反光衣识别：工地反光衣识别，防止非工作人员闯入工地区域。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        电动车进电梯：侦测电动车进出电梯，防止火灾发生。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        口罩检测：明厨亮灶，检测食品从业人员是否有戴口罩。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        虫害辨识：智慧园林,屋苑绿化，透过AI辨识虫害，智能指导园丁作业。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        动物辨识：公众场所管理方面，对协助保全人员实施动物闯入警报,对郊野公园\泳滩等警报非常有效的管理手段。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        电梯超员侦测：电梯人员是否超载工作,地铁升降机,旧式工厂升降机等等比较特殊的实施案例非常有效。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        海边钓鱼检测：严禁公园钓鱼,危险海边,检测人员是否有公园钓鱼或捕鱼行为。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        海边游泳检测：严禁游泳海边检测人员是否有下水游泳行为。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        人数统计：人数统计或客流统计，透过AI方式统计绘制市场的客流热力图。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        抽烟检测：明厨亮灶，检测从业人员是否有吸烟行为,烟火警报等等。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        泥头车辨识：街道泥头车随意、掉土的事件。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        打电话辨识：侦测开车是否有打电话行为。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        机动车/非机动车识别：机动车和非机动车识别。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        车流量统计：辨识车辆及统计车流量,统计屋苑车辆出入。
+                    </li>
+                </ul>
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    以上是总结的商业需求的AI应用，非常实用的场景，这些算法与应用都是通过我们多年技术研究和实践成功实现并应用,具有非常可行性,可实施性的。
+                </p>
+            </div>
+        </details>
+    </li>
+    <li class="no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i> 翔辉AI-BOX 功能列表
+            </summary>
+            <div class="" style="padding-left:20px;">
+                <div>
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        以下是Python版本或C++版本的翔辉AI-BOX的功能列表:
+                    </p>
+
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;font-weight:400; ">
+                        Web Front-End List:
+                    </p>
+                </div>
+               
+                <dl>
+                    <dt>模型管理</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持将训练好的模型文件上传到AI盒子。 <br />
+                        支持模型的添加、修改、更新、删除。 <br />
+                        支持模型查询和检索。
+                    </dd>
+
+                    <dt>设备管理</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持动态添加实时分析设备（rtsp视频流）。 <br />
+                        支持设备的动态修改、更新和删除。 <br />
+                        支持设备查询和检索。 <br />
+                        支持查看设备分析的最新图片和时间。 <br />
+                        支持设备分析多边形范围检测参数配置。 <br />
+                        支持设备周界检测参数配置。
+                    </dd>
+
+                    <dt>场景管理</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持一台分析设备添加多个场景（模型）。 <br />
+                        支持场景内设备的动态修改、更新和删除。 <br />
+                        支持高级查询和检索。
+                    </dd>
+
+                    <dt>用户身份验证</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持用户密码登录后台管理系统。 <br />
+                        支持用户密码修改。 <br />
+                        支持用户密码加密登录。 <br />
+                        支持用户注销
+                    </dd>
+                    <dt>系统管理</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持动态配置box编码。 <br />
+                        支持盒子数据存储天数配置。 <br />
+                        支持盒子并发分析设备通道数配置。 <br />
+                        支持识别结果标签显示配置。 <br />
+                        支持报警联动录像配置。 <br />
+                        支持报警数据推送第三方平台地址配置。
+                    </dd>
+                    <dt>其他功能</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持分析报警推送和预览。 <br />
+                        支持报警语音播报分析。<br />
+                        支持夜间和白天主题模式切换。
+                    </dd>
+                </dl>
+                <div>
+                    <p class="pb-0 pt-0 mb-0 Lead" style="font-size: 24px; margin-top: 10px; margin-bottom: 15px; border-bottom-color: #f1dfdf; border-bottom-width: 1px; border-bottom-style: dashed; font-weight: 500; ">
+                        后端功能列表：
+                    </p>
+                </div>
+              
+                <dl> 
+                    <dt>API接口开发</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        提供基于restful风格的http接口。<br />
+                        提供模型、设备、场景、配置等管理相关接口<br />
+                        提供用户登录、token验证等接口。<br />
+                        提供文件上传、下载、图片预览接口。
+                    </dd>
+
+                    <dt>动态模型管理</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持一台设备添加多种分析场景算法。<br />
+                        支持动态分析场景算法的添加、更新和删除。
+                    </dd>
+
+                    <dt>动态设备管理</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持设备动态添加、修改、更新、删除。<br />
+                        支持设备动态启用、禁用以及视频分析。<br />
+                        支持设备多边形、线段周界检测参数配置和检测控制。<br />
+                        支持设备分析及最新图片存储和更新。<br />
+                        支持设备分析视频断线重连。<br />
+                        支持设备连通性检测和实时分析。
+                    </dd>
+
+                    <dt>动态场景管理</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持一台设备添加多种分析场景算法。<br />
+                        支持动态分析场景算法的添加、更新和删除。
+                    </dd>
+
+                    <dt>动态系统配置</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持动态配置box编码。<br />
+                        支持盒子数据存储天数配置。<br />
+                        支持盒子并发分析设备通道数配置。<br />
+                        支持识别结果标签显示配置。<br />
+                        支持报警联动录像配置。<br />
+                        支持报警数据推送第三方平台地址配置。
+                    </dd>
+
+                    <dt>报警实时广播</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持向客户端广播报警。
+                    </dd>
+
+                    <dt>报警临时存储</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持不同场景算法的报警存储。<br />
+                        支持定时统计和报警清理。
+                    </dd>
+
+                    <dt>系统报警记录rding</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持设备报警联动录像（报警前后5秒）。<br />
+                        支持设备分析和报警图片存储。<br />
+                        支持通过USB或GPIO联动进行视频录制和存储。
+                    </dd>
+
+                    <dt>报警异步推送</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持配置第三方平台地址（http、websocket）。<br />
+                        支持报警信息实时上传至第三方平台（信息、图片、视频）。
+                    </dd>
+
+                    <dt>对接接口协议</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持相同的LAN HTTP通信协议管理模型、设备、场景、报警等<br />
+                        支持子网-云websocket+http通讯协议，适应外网使用需求。
+                    </dd>
+
+                    <dt>AI预警应用平台</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        基于Java/Vue.js/Python AI盒子对接的第三方应用平台（多租户sass云平台）。
+                    </dd>
+
+                    <dt>工作分类帐/客户余额</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        能够实时查看所有警告总数和待处理警告数量（警告类别可动态扩展）。<br />
+                        能够实时显示待报警信息，包括报警时间、位置、图片、视频。<br />
+                        能够处理未决的早期警告，这些警告可以被忽略或变成个人任务来处理..<br />
+                        能够查看警告图片并播放警告短片。<br />
+                        能够显示个人待处理任务信息，包括任务名称、截止时间、发布时间 6.能够处理个人待处理任务。
+                    </dd>
+
+                    <dt>综合云图</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        能够以地图的形式显示所有分析视频设备的点分布。<br />
+                        能够播放分布式视频设备的实时视频、录制视频、截图。<br />
+                        能够查看、分析视频的报警信息并进行处理。<br />
+                        能够实时接收后台推送的实时预警信息并显示在地图上。<br />
+                        能够实时查看视频设备的在线、离线状态。<br />
+                        能够在地图上查看设备信息和运维信息。<br />
+                        能够将视频点保存到收藏夹并播放收藏的视频。<br />
+                        可以通过移动设备来调整设备的实时位置。<br />
+                        能够查看管理员分配的个人任务并处理它们。
+                    </dd>
+
+                    <dt>预警管理</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        提供预警历史追溯和搜索查询。<br />
+                        能够查看警告的图片、视频和处理状态。<br />
+                        早期警告可以被忽略并转移到个人任务中。<br />
+                        所有警告信息均可导出。
+                    </dd>
+
+                    <dt>报警实时广播</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持向客户端广播报警。
+                    </dd>
+
+                    <dt>设备管理</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        提供任务的搜索查询。<br />
+                        可以查看任务的图片和处理状态。<br />
+                        任务可实时处理 4.所有任务信息均可导出。
+                    </dd>
+
+                    <dt>系统配置</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        可配置系统预警短信推送规则（时间、时段, 静默期、警告方式、通知对象等等)。<br />
+                        可以查看和检索个人警告消息通知。
+                    </dd>
+
+                    <dt>系统设置</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        可以管理当前租户的项目区树（个人组织结构）。<br />
+                        可以管理系统的设备（AI盒子、视频设备。<br />
+                        可以查看视频状态结构视图（一张图显示接入架构和设备状态）。<br />
+                        可以查看和检索设备的上下线日志。<br />
+                        可以管理当前租户的所有项目信息（不同项目之间动态切换）。<br />
+                        可以管理当前租户的系统角色和角色权限配置。<br />
+                        可以管理当前租户系统的子账号权限分配。<br />
+                        可以查看当前租户系统的操作日志。
+                    </dd>
+
+                    <dt>预警大数据（管理驾驶舱）</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持系统词典管理（多类型预警词典动态管理）。<br />
+                        支持系统对接app和秘密分发。<br />
+                        支持系统菜单和权限的动态控制。<br />
+                        支持系统用户部门的管理。
+                    </dd>
+                </dl>
+            </div>
+
+        </details>
+    </li>
+    <li class="list-unstyled no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i> 测试效果与应用
+            </summary>
+            <div class="" style="padding-left:20px;">
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    测试包括Linux系统和Windows系统的c++和Python两个语言版本的测试 <br />
+                </p>
+
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    NVIDIA 顯卡環境的測試 <br />
+                </p>
+
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    華為升騰顯卡/CPU環境的測試 <br />
+                </p>
+
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    Unbuntu 20.4/22.0/windows 11/10的測試 <br />
+                </p>
+
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    硬体选购：
+                </p>
+                <ul class="list unstyled margin" style="list-style-type:decimal;margin-left:40px;margin-bottom:30px;">
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        低配jetson naco（b01替换版本），ubuntu，价格1500元（含外壳），0.5tops，分析实时视频约4路；一张图约200ms~300ms耗时；
+                    </li>
+
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        中配jetson orin nano，ubuntu，价格3500元上下，20tops，分析实时视频约8路；一张图约100ms耗时；
+                    </li>
+
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        高配jetson orin nano，Ubuntu，价格在5500元上下，70-100tops，分析实时视频约16路；一张图约30ms耗时；
+                    </li>
+
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        国产华为晶片orange PI，4G，16核心，价格在1000元左右，分析影片预估在16路；
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        以上价位是基于2024年的市场参考价格,随时变动,具体查阅官方售价。
+                    </li>
+                </ul>
+            </div>
+
+            <dl>
+                <dt>Orange PI Base On Ascend GPU 基於華為升騰GPU的運算測試</dt>
+                <dd class="center-block">
+                    <video width="600" controls loop>
+                        <source src="/upload/AIBOX/OrangePIdemo_ Crop0409.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </dd>
+            </dl>
+        </details>
+    </li>
+</ul>

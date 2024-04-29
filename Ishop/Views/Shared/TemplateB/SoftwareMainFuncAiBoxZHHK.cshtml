@@ -1,0 +1,409 @@
+﻿<style>
+    .list-group {
+        border: none; /* 去掉 ul 元素的邊框 */
+    }
+</style>
+<div class="h1" style="margin-bottom:50px;font-weight:500">翔輝AI-BOX目標識別與警報盒子功能概述</div>
+
+<ul class="list-unstyled no-margin no-margin">
+    <li class="no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i> OVERVIEW 概述 
+            </summary>
+            <div class="" style="padding-left: 20px; padding-bottom: 20px;"> 
+
+                <ul class="list unstyled margin" style="list-style-type:decimal;margin-left:40px;"> 
+
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        支持基於國外NVIDIA CUDA 框架或國內HUAWEI華為ASCEND框架。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        全球頂尖識別算法技術,效率非常高，仅需一次识别即可完成所有对象的分类识别。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        可以应用到雲端服务器中，也可以应用於小型邊緣計算硬件中，部署Windows/Ubuntu,支持CUDA顯卡以及華為升騰顯卡等,可選不同檔次的硬件。
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </li>
+    <li class="no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i> CCTV安全與監控领域研究與積累
+            </summary>
+            <div class="" style="padding-left: 20px; padding-top: 15px;">
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    基于多年的音视频編解碼開發和全球頂尖識別算法的開發時間，AI应用取得更多積累的技術成功，但随着技术的成熟，这些应用也变得越来越多，结合实施商業需求的场景開發了相當多的商業案例，例如
+                </p>
+                <ul class="list unstyled margin" style="list-style-type:decimal;margin-left:40px;margin-bottom:30px;">
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        非法闖入：夜間無人值守或重要地點進出監控。
+                    </li>
+
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        摔倒偵測：關懷老人，老人跌倒偵測或打架鬥毆跌倒偵測，可用於社區、監獄、廣場、學校等場所。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        明火辨識：嚴禁煙火的第三方辨識火焰，防止火災，可用於大廈、森林、工場、化工產、卡拉OK等場所。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        煙霧排放：同明火場景。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        越界偵測：越過指定邊界，產生警報，一般用於行人辨識與闖入偵測，結合視訊區域偵測。 可用於無人值守場景。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        工作瞌睡檢測：工作期間睡覺檢測，避免安全事故發生。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        離崗檢測：工作期間離開崗位偵測，避免安全事故發生。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        公眾場地聚眾：偵測人員聚集，避免聚眾群毆、人群密集避免踩踏事件發生。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        攀高偵測：偵測人員是否進行攀爬，避免安全事故發生。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        人臉抓拍：人臉資料抓拍，可推送給人臉辨識服務進行1&1辨識及陌生人辨識。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        遮擋偵測：偵測攝影機是否被人為遮蔽或損壞。 協調維運人員進行維修。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        垃圾滿溢：偵測垃圾桶垃圾是否滿溢，協助環衛人員智慧調度環衛車輛，節省人力與物力。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        霸佔公共地方經營：偵測是否有佔用道路非法經營，協助管理部門管理，減輕工作量。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        安全帽識別：工地安全帽識別，提高工地安全。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        反光衣識別：工地反光衣識別，防止非工作人員闖入工地區域。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        電動車進電梯：偵測電動車進出電梯，防止火災發生。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        口罩檢測：明廚亮灶，檢測食品從業人員是否有戴口罩。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        蟲害辨識：智慧園林,屋苑綠化，透過AI辨識蟲害，智能指導園丁作業。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        動物辨識：公眾場所管理方面，對協助保全人員實施動物闖入警報,對郊野公園\泳灘等警報非常有效的管理手段。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        電梯超員偵測：電梯人員是否超載工作,地鐵升降機,舊式工廠升降機等等比較特殊的實施案例非常有效。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        海邊釣魚檢測：嚴禁公園釣魚,危險海邊,檢測人員是否有公園釣魚或捕魚行為。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        海邊游泳檢測：嚴禁游泳海邊檢測人員是否有下水游泳行為。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        人數統計：人數統計或客流統計，透過AI方式統計繪製市場的客流熱力圖。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        抽菸檢測：明廚亮灶，檢測從業人員是否有吸菸行為,煙火警報等等。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        泥頭車辨識：街道泥頭車隨意、掉土的事件。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        打電話辨識：偵測開車是否有打電話行為。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        機動車/非機動車識別：機動車和非機動車識別。
+                    </li>
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        車流量統計：辨識車輛及統計車流量,統計屋苑車輛出入。
+                    </li>
+                </ul> 
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    以上是总结的商業需求的AI應用，非常实用的场景，这些算法與應用都是通過我們多年技術研究和實踐成功實現並應用,具有非常可行性,可實施性的。
+                </p>
+            </div>
+        </details>
+    </li>
+    <li class="no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i> 翔輝AI-BOX 功能列表
+            </summary>
+            <div class="" style="padding-left:20px;">
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    以下是Python版本或C++版本的翔輝AI-BOX的功能列表:
+                </p>
+
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;font-weight:400;">
+                    Web Front-End List:
+                </p>
+                <dl>
+                    <dt>Model Management</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support uploading trained model files to the AI box.  <br />
+                        Support the addition, modification, update and deletion of models.  <br />
+                        Supported model query and retrieval.
+                    </dd>
+
+                    <dt>Device management</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support dynamic addition of real-time analysis equipment (rtsp video stream).  <br />
+                        Support dynamic modification, update and deletion of equipment.  <br />
+                        Support device query and retrieval.  <br />
+                        Support viewing the latest pictures and time of device analysis.  <br />
+                        Support device analysis polygon range detection parameter configuration.  <br />
+                        Support device perimeter detection parameter configuration.
+                    </dd>
+
+                    <dt>Scene Management</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support adding multiple scenes (models) to one analysis device. <br />
+                        Support dynamic modification, update and deletion of equipment in scenes. <br />
+                        Support advanced query and retrieval.
+                    </dd>
+                     
+                    <dt>User Authentication</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support user password to log in to the backend management system. <br />
+                        Support user password modification. <br />
+                        Support user password encrypted login. <br />
+                        Support user logout
+                    </dd>
+                    <dt>System Management</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support dynamic configuration of box encoding. <br />
+                        Support box data storage days configuration. <br />
+                        Support box concurrent analysis device channel number configuration. <br />
+                        Support recognition result label display configuration. <br />
+                        Support alarm linkage recording configuration. <br />
+                        Support alarm data push third-party platform address configuration.
+                    </dd>
+                    <dt>Other functions</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support analysis alarm push and preview. <br />
+                        Support analysis of alarm voice broadcast.<br />
+                        Support night and day theme mode switching.
+                    </dd>
+                </dl>
+                <p class="pb-0 pt-0 mb-0 lead" style="margin-top:10px;border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;font-weight:500;">
+                    Back-End Functions List:
+                </p>
+                <dl>
+                    <dt>Web Interface Development</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Provide an http interface based on restful style.<br />
+                        Provide management-related interfaces for models, equipment, scenarios, configurations, etc.<br />
+                        Provide user login, token verification and other interfaces.<br />
+                        Provide file upload, download, and image preview interfaces.
+                    </dd>
+
+                    <dt>Dynamic Model Management</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support one device to add multiple analysis scenario algorithms.<br />
+                        Support the addition, update and deletion of dynamic analysis scene algorithms.
+                    </dd>
+
+                    <dt>Dynamic Device  Management</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support dynamic addition, modification, update and deletion of equipment.<br />
+                        Support device dynamic enabling, disabling and video analysis.<br />
+                        Support device polygon and line segment perimeter detection parameter configuration and detection control.<br />
+                        Support device analysis and latest picture storage and update.<br />
+                        Support device analysis video disconnection and reconnection.<br />
+                        Support device connectivity detection and real-time analysis.
+                    </dd>
+
+                    <dt>Dynamic Scene  Management</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support one device to add multiple analysis scenario algorithms.<br />
+                        Support the addition, update and deletion of dynamic analysis scene algorithms.
+                    </dd>
+
+                    <dt>Dynamic System Configuration</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support dynamic configuration of box encoding.<br />
+                        Support box data storage days configuration.<br />
+                        Support box concurrent analysis device channel number configuration.<br />
+                        Support recognition result label display configuration.<br />
+                        Support alarm linkage recording configuration.<br />
+                        Support alarm data push third-party platform address configuration.
+                    </dd>
+
+                    <dt>Alarm Real-Time Broadcast</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support broadcasting alarms to clients.
+                    </dd>
+
+                    <dt>Alarm Temporary Storage</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support alarm storage for different scene algorithms.<br />
+                        Support timing statistics and cleaning of alarms.
+                    </dd>
+
+                    <dt>System Alarm Recording</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support device alarm linkage video recording (5 seconds before and after the alarm).<br />
+                        Support device analysis and alarm picture storage.<br />
+                        Support video recording and storage via USB or GPIO linkage.
+                    </dd>
+
+                    <dt>Alarm Asynchronous Push</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support configuration of third-party platform address (http and websocket).<br />
+                        Support real-time uploading of alarm information to third-party platforms (information, pictures, videos).
+                    </dd>
+
+                    <dt>Docking Interface Protocol</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support the same LAN HTTP communication protocol management model, equipment, scenes, alarms, etc.<br />
+                        Support subnet-cloud websocket+http communication protocol to adapt to external network usage needs.
+                    </dd>
+
+                    <dt>AI early warning app platform</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Third-party application platform based on Java/Vue.js/Python AI box docking (multi-tenant sass cloud platform).
+                    </dd>
+
+                    <dt>Work Ledger/Client Balance</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Ability to view the total number of all warnings and the number of pending warnings in real time (warning categories can be dynamically expanded).<br />
+                        Ability to display pending warning information in real time, including warning time, location, pictures, and videos.<br />
+                        Ability to handle pending early warnings, which can be ignored or turned into personal tasks for processing..<br />
+                        Ability to view warning pictures and play short warning videos.<br />
+                        Ability to display personal to-be-processed task information, including task name, deadline, and release time 6. Able to handle personal pending tasks.
+                    </dd>
+
+                    <dt>Comprehensive Cloud Atlas	</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Ability to display the point distribution of all analysis video equipment in the form of a map.<br />
+                        Ability to play real-time video from distributed video equipment, record videos, and take screenshots.<br />
+                        Ability to view and analyze the alarm information of the video and process it.<br />
+                        Ability to receive real-time warning information pushed in the background in real time and display it on the map.<br />
+                        Ability to see the online and offline status of video equipment in real time.<br />
+                        Ability to view equipment information and operation and maintenance information on the map.<br />
+                        Ability to save video points to favorites and play favorites videos.<br />
+                        The real-time position of the device can be adjusted by moving it.<br />
+                        Ability to view the personal tasks assigned by the administrator and process them.
+                    </dd>
+
+                    <dt>Early Warning Management</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Provide historical tracing and search query of early warnings.<br />
+                        Ability to view the pictures, videos and processing status of the warning.<br />
+                        Early warnings can be ignored and transferred to personal tasks.<br />
+                        All warning information can be exported.
+                    </dd>
+
+                    <dt>Alarm Real-Time Broadcast</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support broadcasting alarms to clients.
+                    </dd>
+
+                    <dt>Device Management</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Provide search queries for tasks.<br />
+                        Can view pictures and processing status of tasks.<br />
+                        Tasks can be processed in real time 4. All task information can be exported.
+                    </dd>
+
+                    <dt>System Configuration</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Configurable system warning SMS push rules (time, warning type, silent period, warning method, notification objects, etc.).<br />
+                        Can view and retrieve personal warning message notifications.
+                    </dd>
+
+                    <dt>System settings</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Can manage the project area tree of the current tenant (personal organizational structure).<br />
+                        Equipment that can manage the system (AI box, video equipment.<br />
+                        Can view the video status structure view (one picture shows the access architecture and device status).<br />
+                        Can view and retrieve the online and offline logs of the device.<br />
+                        Can manage all project information of the current tenant (dynamically switch between different projects).<br />
+                        Can manage the current tenant’s system roles and role permission configurations.<br />
+                        Can manage sub-account permission allocation of the current tenant system.<br />
+                        Can view the operation logs of the current tenant system.
+                    </dd>
+
+                    <dt>Early Warning Big Data (Management Cockpit)	</dt>
+                    <dd style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        Support the management of system dictionaries (dynamic management of multi-type early warning dictionaries).<br />
+                        Support system docking app and secret distribution.<br />
+                        Support dynamic control of system menu and permissions.<br />
+                        Support the management of system user departments.
+                    </dd>
+                </dl>
+            </div>
+
+        </details>
+    </li>
+    <li class="list-unstyled no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i> 測試效果與應用
+            </summary>
+            <div class="" style="padding-left:20px;">
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    測試包括Linux系統和Windows系統的c++和Python兩個語言版本的測試 <br />
+                </p>
+
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    NVIDIA 顯卡環境的測試 <br />
+                </p>
+
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    華為升騰顯卡/CPU環境的測試 <br />
+                </p>
+
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    Unbuntu 20.4/22.0/windows 11/10的測試 <br />
+                </p>
+
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    硬體選購：
+                </p>
+                <ul class="list unstyled margin" style="list-style-type:decimal;margin-left:40px;margin-bottom:30px;">
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        低配jetson naco（b01替換版本），ubuntu，價格1500元（含外殼），0.5tops，分析實時視頻約4路；一張圖約200ms~300ms耗時；
+                    </li>
+
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        中配jetson orin nano，ubuntu，價格3500元上下，20tops，分析實時視頻約8路；一張圖約100ms耗時；
+                    </li>
+
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        高配jetson orin nano，Ubuntu，價格在5500元上下，70-100tops，分析實時視頻約16路；一張圖約30ms耗時；
+                    </li>
+
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        國產華為晶片orange PI，4G，16核心，價格在1000元左右，分析影片預估在16路；
+                    </li>
+
+                    <li class="unstyled" style="line-height: 28px; font-size: 16px; padding: 5px;">
+                        以上價位是基於2024年的市場參考價格,隨時變動,具體查閱官方售價。
+                    </li>
+
+                </ul>
+            </div>
+
+            <dl>
+                <dt>Orange PI Base On Ascend GPU 基於華為升騰GPU的運算測試</dt>
+                <dd class="center-block">
+                    <video width="600" controls loop>
+                        <source src="/upload/AIBOX/OrangePIdemo_ Crop0409.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </dd>
+            </dl>
+        </details>
+    </li> 
+</ul>

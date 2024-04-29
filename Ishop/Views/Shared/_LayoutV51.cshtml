@@ -1,0 +1,64 @@
+﻿@using System.Net
+@using System.Globalization
+@using System.Threading
+@using Ishop.Context
+@using Ishop.Utilities
+@using LanguageResource
+@using Ishop.Models.ProductMgr
+@{
+    Layout = null;
+
+    mvcCommeBase.CheckInitialize();
+    Shop Client_Shop = mvcCommeBase.ReturnClient_Shop();
+    
+}
+<html>
+<head>
+    <!-- 必须的 meta 标签 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @Scripts.Render("~/AdminLTE/plugins/jquery/js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax")
+    @Scripts.Render("~/Scripts/jquery.validate")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive")
+    <script src="~/AdminLTE/plugins/layer-v3.1.1/layer/layer.js"></script>
+    <!-- Bootstrap 的 CSS 文件 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0XzksJoDzv4oTZJH7DKIK/fZoGejdHrb3yIs5Qngl76cTerG8Ict9988A07jw0G5" crossorigin="anonymous">
+    <!-- 选项 1：包含 Popper 的 Bootstrap 集成包 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+    <title>@Client_Shop.ShopName</title>
+</head>
+<!--新版主页2021-10-19-->
+   
+<body class="hold-transition sidebar-mini body-content" style="height:100%">
+    <div id="top" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand navbar-left" style="margin-top:-12px;">
+                    <img src="@Client_Shop.ShopLogo" class="img-responsive" />
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink(Lang.Views_GeneralUI_Home, "Index", "Home")</li>
+                    <li><a href="@Url.Action("Index","Helper")"><i class="fa fa-question-circle" style="font-size:20px;color:#ffffff;margin-right:5px;"></i>HELP CENTER</a></li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div id="mainbody" class="container" style="padding-top:50px;padding-left:0px;padding-right:0px;padding-bottom:5px;min-height:100%">
+        @RenderBody()
+    </div>
+    <div id="footer" class="container">
+        @Html.Partial("~/Views/Shared/ShopFootTemplate/" + WebCookie.ShpID + "_FooterTemplate.cshtml", Client_Shop)
+    </div>
+     
+</body>
+</html>

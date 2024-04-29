@@ -1,0 +1,32 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+@using Ishop.Models.ProductMgr
+@using System.IO
+@model Shop
+@{
+    Layout = null;
+    string shopviewtemplate1 = string.Format("~/views/shared/shopviewtemplate1/{0}_{1}.cshtml", Model.ShopID, LanguageResource.LangUtilities.LanguageCode);
+    string shopviewtemplate1PathFile = Server.MapPath(shopviewtemplate1);
+}
+<div class="box box-success">
+    <div class="box-header with-border">
+        <div class="box-title inline"> <blockquote style="padding-top:5px;padding-bottom:10px;padding-left:5px;margin-bottom:5px;"><i class="fa fa-user text-gray"><span>&nbsp;</span></i>@ChineseStringUtility.ToAutoTraditional(Model.ShopName) </blockquote></div>
+    </div>
+    <div class="box-body">
+        <ul class="list-unstyled no-margin no-padding">
+            <li>
+                <div class="center-block">
+                    <p align="center">
+                        <img src="@Model.ShopLogo" alt="" style="max-width:100px;"  class="img-thumbnail">
+                    </p><br />
+                    <p align="center" class="no-margin"> 
+                        @if (File.Exists(shopviewtemplate1PathFile))
+                        {
+                            @Html.Partial(shopviewtemplate1)
+                        }
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div> 
+</div>

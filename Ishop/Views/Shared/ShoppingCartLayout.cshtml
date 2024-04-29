@@ -1,0 +1,92 @@
+﻿@using System.Net
+@using System.Globalization
+@using System.Threading
+@using Ishop.Context
+@using Ishop.Utilities
+@using LanguageResource
+@using Ishop.Models.ProductMgr
+@{ 
+    string Language = LangUtilities.LanguageCode;
+    mvcCommeBase.ChkShpID();
+    Shop Client_Shop = mvcCommeBase.ReturnClient_Shop();
+    ViewBag.Title = Client_Shop.ShopName;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta lang="@Language">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="keywords" content="@ViewBag.KeyWords">
+    <meta name="description" content="@ViewBag.Description @ViewBag.KeyWordDescription">
+
+    <link rel="bookmark" type="image/x-icon" href="/favicon.ico" />
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    @Styles.Render("~/AdminLTE/bootstrap/css")
+    @Styles.Render("~/AdminLTE/plugins/font-awesome/css")
+
+    @Styles.Render("~/AdminLTE/plugins/ionicons/css")
+    @Styles.Render("~/AdminLTE/plugins/bootstrap-treeview/css")
+    @Styles.Render("~/AdminLTE/dist/css")
+    @Styles.Render("~/AdminLTE/dist/css/skins")
+    @Styles.Render("~/AdminLTE/plugins/bootstrap-dialog/css")
+    @Styles.Render("~/AdminLTE/plugins/icheck/css/sqare/blue")
+
+    @Scripts.Render("~/AdminLTE/plugins/jquery/js")
+
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax")
+    @Scripts.Render("~/Scripts/jquery.validate")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive")
+
+    @RenderSection("menu", required: false)
+    @Scripts.Render("~/AdminLTE/bootstrap/js")
+
+    @Scripts.Render("~/AdminLTE/plugins/fastclick/js")
+    @Scripts.Render("~/AdminLTE/plugins/slimscroll/js")
+    @Scripts.Render("~/Scripts/Shared/_Layout")
+    @Scripts.Render("~/AdminLTE/dist/js")
+    @Scripts.Render("~/AdminLTE/plugins/bootstrap-dialog/js")
+    @Scripts.Render("~/AdminLTE/plugins/bootstrap-treeview/js")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/js/TreeMenuItem")
+    @Styles.Render("~/Content/Main") <!--include IPstatics.js-->
+    @Scripts.Render("~/js/Order/ShoppingCart")
+    @Scripts.Render("~/js/LayerUI/mobile")
+    @Scripts.Render("~/js/MainJS")
+    @Scripts.Render("~/Scripts/angular")
+    @RenderSection("scripts", required: false)
+
+</head>
+<body class="hold-transition sidebar-mini body-content">
+    <div id="top" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand navbar-left" style="margin-top:-12px;">
+                    <img src="@Client_Shop.ShopLogo" class="img-responsive" />
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink(Lang.Views_GeneralUI_Home, "Index", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div id="mainbody" class="container" style="padding-top:50px;padding-left:0px;padding-right:0px;padding-bottom:5px;height:100%">
+        @RenderBody()
+    </div>
+     
+</body>
+</html>

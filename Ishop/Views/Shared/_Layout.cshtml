@@ -1,0 +1,130 @@
+﻿@using System.Net
+@using System.Globalization
+@using System.Threading
+@using Ishop.Context
+@using Ishop.Utilities
+@using LanguageResource
+@using Ishop.Models.ProductMgr
+@using Ishop.AppCode.EnumCode
+@{  
+    mvcCommeBase.CheckInitialize();
+    Shop Client_Shop = mvcCommeBase.ReturnClient_Shop();
+    ViewBag.Title = Client_Shop.ShopName;
+}
+<!DOCTYPE html>
+<html> 
+<head>
+    <meta lang="@LangUtilities.LanguageCode">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="keywords" content="@ViewBag.KeyWords">
+    <meta name="description" content="@ViewBag.Description @ViewBag.KeyWordDescription">
+    <link rel="bookmark" type="image/x-icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    @Styles.Render("~/AdminLTE/bootstrap/css")
+    @Styles.Render("~/AdminLTE/plugins/font-awesome/css")
+
+    @Styles.Render("~/AdminLTE/plugins/ionicons/css")
+    @Styles.Render("~/AdminLTE/plugins/bootstrap-treeview/css")
+    @Styles.Render("~/AdminLTE/dist/css")
+    @Styles.Render("~/AdminLTE/dist/css/skins")
+    @Styles.Render("~/AdminLTE/plugins/bootstrap-dialog/css")
+    @Styles.Render("~/AdminLTE/plugins/icheck/css/sqare/blue")
+
+    <link href="~/Content/mainStyle.css" rel="stylesheet" />
+
+    @Scripts.Render("~/AdminLTE/plugins/jquery/js")
+
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax")
+    @Scripts.Render("~/Scripts/jquery.validate")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive")
+
+    @RenderSection("menu", required: false)
+    @Scripts.Render("~/AdminLTE/bootstrap/js")
+
+    @Scripts.Render("~/AdminLTE/plugins/fastclick/js")
+    @Scripts.Render("~/AdminLTE/plugins/slimscroll/js")
+    @Scripts.Render("~/Scripts/Shared/_Layout")
+    @Scripts.Render("~/AdminLTE/dist/js")
+    @Scripts.Render("~/AdminLTE/plugins/bootstrap-dialog/js")
+    @Scripts.Render("~/AdminLTE/plugins/bootstrap-treeview/js")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/js/TreeMenuItem")
+
+    @Styles.Render("~/Content/Main")  <!--include IPstatics.js-->
+
+    @RenderSection("scripts", required: false)
+
+    <!--Share Button-->
+    <!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=tonylaw"></script>-->
+
+    @Scripts.Render("~/js/LayerUI/mobile")
+    @Scripts.Render("~/Scripts/angular")
+    <script src="~/js/clipboard/clipboard.min.js"></script>
+    <script src="~/js/clipboard/V2/clipboard.js"></script>
+    <script src="~/js/Main.js"></script>
+    <script src="~/AdminLTE/plugins/layer-v3.1.1/layer/layer.js"></script>
+
+</head>
+    <body class="hold-transition sidebar-mini body-content" style="height:100%">
+        <div id="top" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="@Url.Action("Index", "Home")" class="navbar-brand navbar-left" style="margin-top:-12px;">
+                        <img src="@Client_Shop.ShopLogo" class="img-responsive" />
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink(Lang.Views_GeneralUI_Home, "Index", "Home")</li>
+
+                        @if (Client_Shop.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY || ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
+                        {
+                            <li><a href="@Url.Action("Index","Helper")"><i class="fa fa-question-circle" style="font-size:20px;color:#ffffff;margin-right:5px;" aria-hidden="true"></i>HELP CENTER</a></li>
+
+                            <li> <a href="@Url.Action("ServiceFlow","Home")"><i class="fa fa-phone-square" style="font-size:20px;color:#ffffff;margin-right:5px;" aria-hidden="true"></i>SERVICE</a></li>
+
+                            <li> <a href="@Url.Action("Downloadpage","Helper")"><i class="fa fa-download" style="font-size:20px;color:#ffffff;margin-right:5px;" aria-hidden="true"></i>DOWNLOAD CENTER</a></li>
+                        }
+                        <li>
+                            <div class="btn-group padding-10">
+                                <span  class="dropdown-toggle round " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img  src="~/images/multilanguage.png" width="30"/> <span class="caret bg-black" style="color:#ffffff;"> </span>
+                                </span>
+                                <ul class="dropdown-menu text-warning">
+                                    <li><a href="@ViewBag.ZhCnUriPath">简体</a></li>
+                                    <li><a href="@ViewBag.ZhHkUriPath">繁體</a></li>
+                                    <li><a href="@ViewBag.EnUsUriPath">English</a></li>
+                                    @if (LangUtilities.LanguageCode != "zh-CN")
+                                    {
+                                        <li role="separator" class="divider"></li>
+                                        <li class="h5"><a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A", mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber))">
+                                            <i class="fa fa-whatsapp text-green" aria-hidden="true" tiltle="歡迎WhatsApp資訊"></i> 歡迎咨詢
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                        </li>
+                    </ul> 
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+        <div id="mainbody" class="container-fluid" style="padding-top:50px;padding-left:0px;padding-right:0px;padding-bottom:5px;min-height:100%">
+            @RenderBody()
+        </div>
+        <div id="footer" class="container"> 
+            @Html.Partial("~/Views/Shared/ShopFootTemplate/" + WebCookie.ShpID + "_FooterTemplate.cshtml", Client_Shop)
+        </div> 
+    </body>
+    </html>

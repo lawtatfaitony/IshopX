@@ -1,0 +1,28 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+<!--AI-BOX 目標識別盒子-->
+<div class="container-fluid" style="background-image: url(/content/Images/AdMainAiBox_SloganP1.png); background-size: 100% 100%; background-repeat: no-repeat; height: 410px;">
+
+    <div class="text-white text-center AdMain_SloganP1">
+        <div class="text-white text-center AdMain_SloganP1">
+            翔輝 AI-BOX目標識別盒子
+        </div>
+        <div class="text-white text-center" style="font-size:22px;color:whitesmoke">
+            全方位視頻目標識別與警報系統,
+            <br />顛覆視頻監控新模式,減省人力成本。
+            <span>
+                <a class="badge badge-success"
+                   href="@Url.Action("MainFuncAiBox","Helper",new { Language = LangUtilities.LanguageCode})" target="_blank">
+                    <i class="fa fa-link margin-r-5"></i>功能簡述
+                </a>
+                <a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A",mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber)))">
+                    <i class="fa fa-whatsapp text-green" aria-hidden="true" tiltle="歡迎WhatsApp資訊"></i> 歡迎咨詢
+                </a>
+            </span>
+        </div>
+        <div class="center-block text-white text-center margin-top10" style="color:antiquewhite;font-size:14px;line-height:22px;width:700px;opacity:0.8;">
+            翔輝智慧視訊分析盒是自主研發的智慧邊緣運算盒，為網路攝影機、抓拍機等多種前端設備提供視訊分析能力，支援人臉、人體偵測、追蹤、1:N辨識、屬性分析（ 人體屬性種類多達20+）、戴口罩辨識等多種演算法。社區、建築、園區、校園、商場等多個場景建置無感考勤、通行管理、陌生人識別、電子圍籬等「端雲一體」解決方案。
+        </div>
+    </div>
+
+</div>

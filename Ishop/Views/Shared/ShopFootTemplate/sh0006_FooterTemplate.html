@@ -1,0 +1,32 @@
+@using Ishop.Context;
+@using Ishop.Utilities;
+@using LanguageResource;
+@model Ishop.Models.ProductMgr.Shop
+
+@{
+    string Language = LangUtilities.LanguageCode;
+    bool IsChinaArea1 = mvcCommeBase.IsChinaArea();
+}
+<ul class="center list-unstyled">
+    <li class="copyright"> 
+        &copy; @DateTime.Now.Year -  @Html.DisplayFor(model => model.ShopName)  
+    </li>
+    <li>
+        &nbsp;@Lang.Home_DefinitedTag_KeyWord
+    </li>
+    
+    <li>
+        &nbsp;<h6 class="small">Version 5.59 &copy;params @LangUtilities.LanguageCode -Shp: @WebCookie.ShpID -Sh: @WebCookie.ShopID  </h6>
+    </li>
+     
+</ul>
+
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6de35c7ba67bf67be24fdbe4b5cadfb6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>

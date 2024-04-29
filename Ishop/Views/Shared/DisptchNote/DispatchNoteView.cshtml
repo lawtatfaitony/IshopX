@@ -1,0 +1,254 @@
+﻿@using System.Net
+@using Ishop.Models
+@using LanguageResource
+@model Ishop.Models.ProductMgr.DispatchNote
+
+<style>
+    .PropSeleted {
+        display: block;
+        text-align: center;
+        border:solid 2px #666;
+        height: 40px;
+        padding-left:5px;
+        padding-right:5px;
+        min-width: 40px;
+        line-height: 40px
+    }
+    .PropSeleted2 {
+        background-color:antiquewhite;
+        display: block;
+        text-align: center;
+        border: solid 2px #666;
+        height: 40px;
+        padding-left: 5px;
+        padding-right: 5px;
+        min-width: 40px;
+        line-height: 40px
+    }
+    dl {
+        zoom: 1;
+        overflow: hidden
+    }
+
+    dt, li {
+        float: left;
+        list-style: none;
+        margin-left: 10px;
+        line-height: 30px
+    }
+
+    dt a, li a {
+        display: block;
+        text-align: center;
+        border: solid 1px #666;
+        width: 40px;
+        height: 30px;
+        line-height: 30px
+    }
+
+        li a.disabled {
+            color: #800000;
+            border: dotted 1px #aaa;
+            cursor: default
+        }
+
+    li a.selected {
+        border: solid 2px red;
+        height: 30px;
+        width: 40px;
+        line-height: 30px
+    }
+</style>
+<div class="box box-success">
+    <div class="box-header with-border">
+        <span class="text-muted h3">Welcome !</span>
+        <br />
+        <p class="login-box-msg h3 pull-left">@Lang.DispatchNoteModalView_DefinitedTag_BoxTitle</p>
+    </div>
+    <div class="box-body with-border">
+
+        @using (Ajax.BeginForm("DispatchNoteView", "Home", new { ProductId = ViewBag.ProductId }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleDispatchNoteAddUpdateSuccDialog", OnFailure = "errDispatchNote", LoadingElementId = "Loading" }, new { @class = "form-horizontal", id = "formDispatchNoteView" }))
+        {
+            <!-- DispatchNoteId OrderID Quantity RecommUserId  CreatedDate -->
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger", id = "ValidationSummary1" })
+            @Html.HiddenFor(m => m.ShopID);
+            @Html.HiddenFor(m => m.OrderID);
+            @Html.HiddenFor(m => m.CreatedDate, new { Value = DateTime.Now })
+            @Html.HiddenFor(m => m.RecommUserId);
+            @Html.HiddenFor(m => m.StyleNo);
+            <div class="form-group">
+                <div class="sys_item_spec">
+                    <!--请选择尺寸-->
+                    @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })<br />
+                    <dl>
+                        <dt>尺寸：</dt>
+                        <dd>
+                            <ul id="prop1" class="list-inline">
+                                <li id="S"><a href="javascript:setColorSize('#Country','S','#sku1');" title="S">S</a><i></i></li>
+                                <li id="M"><a href="javascript:setColorSize('#Country','M','#sku1');" title="M">M</a><i></i></li>
+                                <li id="L"><a href="javascript:setColorSize('#Country','L','#sku1');" title="L">L</a><i></i></li>
+                                <li id="XL"><a href="javascript:setColorSize('#Country','XL','#sku1');" title="XL">XL</a><i></i></li>
+                                <li id="XXL"><a href="javascript:void(0)" onclick="setColorSize('#Country','XXL','#sku1');" title="XXL">XXL</a><i></i></li>
+                            </ul>
+                        </dd>
+                    </dl><br />
+                    <dl>
+                        <!--请选择颜色-->
+                        <dt>颜色：<br />@Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })</dt>
+                        <dd>
+                            <ul class="sys_spec_text" id="prop2">
+                                <li id="b"><a href="javascript:setColorSize('#State','黑色','#sku2');" title="黑色">黑色</a><i></i></li>
+                                <li id="w"><a href="javascript:setColorSize('#State','白色','#sku2');" title="白色">白色</a><i></i></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <ul class="list-inline" style="margin-left:25px">
+                        <li class="list-group-item-text list-inline">@Html.Label("已选：", htmlAttributes: new { @class = "hide", name = "Seleted", id = "Seleted" })</li>
+                        <li class="list-group-item-text list-inline">@Html.Label("-", htmlAttributes: new { name = "sku1", id = "sku1" })</li>
+                        <li class="list-group-item-text list-inline">@Html.Label("-", htmlAttributes: new { name = "sku2", id = "sku2" })</li>
+                        <li class="list-group-item-text list-inline">
+                            @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control small", Value = "1", style = "width:35px; height:25px", data_toggle = "tooltip", title = Html.DisplayNameFor(m => m.Quantity) })
+                            @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        &nbsp;@Lang.Views_GeneralUI_TradePrice
+                    </div>
+                    <div class="col-md-6 col-sm-6 pull-left h2">
+                        @string.Format("{0:C0}", (int)ViewBag.TradePrice)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group hide">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        @Html.TextBoxFor(m => m.Country, new { @class = "form-control", width = "40px" })
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        @Html.TextBoxFor(m => m.State, new { @class = "form-control", width = "40px" })
+                    </div>
+                </div>
+            </div>
+            <!--已选尺寸颜色 隐藏 for 系统 使用-->
+            <div class="form-group hide">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        @Html.TextBoxFor(m => m.Country, new { @class = "form-control", width = "40px" })
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        @Html.TextBoxFor(m => m.State, new { @class = "form-control", width = "40px" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-inline">
+                <div class="row">
+                    @Html.HiddenFor(m => m.OrderID)
+                    <ul class="list-inline">
+                        <li>
+                            &nbsp; &nbsp;@Html.Label(Lang.HomeShopIndex2_Views_DefinitedUI_StyleNo, htmlAttributes: new { @class = "control-label" })
+                        </li>
+                        <li>
+                            <label class="control-label pull-left">&nbsp;@Html.DisplayTextFor(m => m.StyleNo)<!-- "貨號Style No"--></label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.PhoneNumber) })
+                <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.Recipient, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Recipient) })
+                <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+                @Html.ValidationMessageFor(m => m.Recipient, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.TextAreaFor(m => m.Address, new { @class = "form-control", row = 2, placeholder = Html.DisplayNameFor(m => m.Address) })
+                <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+                @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.TextAreaFor(m => m.Remarks, new { @class = "form-control", row = 5, placeholder = Html.DisplayNameFor(m => m.Remarks) })
+                <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+                @Html.ValidationMessageFor(m => m.Remarks, "", new { @class = "text-danger" })
+            </div>
+            <div class="row">
+                <div>
+                    <button type="button" id="BtnSubmitAndPay" class="btn btn-danger btn-flat">@Lang.DispatchNoteModalView_DefinitedTag_SubmitAndPay<!--DispatchNoteModalView_DefinitedTag_SubmitAndPay--></button>&nbsp;&nbsp;
+                </div>
+            </div>
+        }
+    </div>
+</div> 
+ 
+<script>
+    $("#BtnSubmitAndPay").click(function () {  
+            var renderHteml1 = "<ul class='sys_spec_text' id='renderHteml1'><li><div class='PropSeleted'>" + $("#Country").val() + "</div></li>";
+            renderHteml1 += "<li><div class='PropSeleted'>" + $("#State").val() + "</div></li></ul><br/><br/><br/>"
+            renderHteml1 += "@Html.DisplayNameFor(c=>c.Quantity) = " + "@Html.DisplayFor(c => c.Quantity)";
+
+            if ($("#Country").val().length < 1 || $("#State").val().length < 1) { 
+                $("#ValidationSummary1").html("请颜色和尺寸哦");
+                layer.open({
+                    content: '请颜色和尺寸哦'
+                    , btn: 'OK'
+                });
+                return;
+            }
+            else {  
+                
+                    return BootstrapDialog.show({
+                        cssClass: 'bootstrap-dialog fade',
+                        title: '@Lang.HomeShopIndex2_Views_ConfirmInfo' ,
+                        message:  renderHteml1,
+                        buttons: [{
+                            label: '@Lang.Views_GeneralUI_Submit',
+                            action: function (dialog) {  
+                        
+                                $("#BtnSubmitAndPay").submit();
+                                dialog.close();
+                            }
+                        }, {
+                            label: '@Lang.Views_GeneralUI_Cancel',
+                            action: function (dialog) {
+                                dialog.close();
+                                console.log("formDispatchNoteView");
+                                $("#formDispatchNoteView").submit();
+
+                                console.log("formDispatchNoteView_submit()");
+                                return false;
+                            }
+                        }]
+                    });//BootstrapDialog
+            } 
+        }) // click
+      
+</script>
+<!--处理返回结果-->
+<script>
+    function HandleDispatchNoteAddUpdateSuccDialog(data) {
+        if (data.MsgCode == "1")  // 输入数据格式非法
+        { 
+            alert("ok \n\r\  HandleDispatchNoteAddUpdateSuccDialog \n\r " + data.MsgCode + ":" + data.Message);
+
+            AddToCart("1");
+
+            console.log("AddToCart")
+        }
+    }   
+    function errDispatchNote(data) {
+        console.log(JSON.stringify(data));
+        console.log("errDispatchNote" + data.MsgCode + ":" + data.Message);
+         
+    } 
+</script>

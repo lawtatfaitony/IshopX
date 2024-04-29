@@ -1,0 +1,40 @@
+﻿@using LanguageResource
+@using Ishop.Context
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", null, htmlAttributes: new { title = "ID=" + User.Identity.GetUserId() })
+            </li>
+            <li>
+                <a href="@Url.Action("Index","My")"><i class="fa fa-user"></i></a>
+            </li>
+            <li>
+                <a href="@Url.Action("SeoExt","i")"><i class="glyphicon glyphicon-indent-right"></i></a>
+            </li>
+            @if (!string.IsNullOrEmpty(WebCookie.ShopID))
+            {
+                <li>
+                    <a href="@Url.Action("Index","Admin",new { Language = LangUtilities.LanguageCode })" title="BACK END">
+                        <i class="fa fa-desktop text-success"></i>
+                    </a>
+                </li>
+            }
+
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">@Lang.GeneralUI_LogOut</a></li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink(Lang.GeneralUI_Registration, "Register", "Account")</li>
+        <li>@Html.ActionLink(Lang.GeneralUI_Login, "Login", "Account")</li>
+        <li>@Html.ActionLink(Lang.GeneralUI_ForgotPassword, "ForgotPassword", "Account")</li>
+    </ul>
+}

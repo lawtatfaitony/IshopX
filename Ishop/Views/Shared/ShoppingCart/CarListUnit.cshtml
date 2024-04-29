@@ -1,0 +1,31 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+@model Ishop.Models.ProductMgr.Cart 
+
+   <ul class="list-unstyled list-inline" style="filter:alpha(opaity=100);margin-left:5px;">
+       <li class="h4 list-unstyled " style="float:left;text-wrap:normal;word-break:break-all;word-wrap:break-word">
+            <ul class="h4 list-unstyled list-inline">
+                <li class="list-inline" style="float:left;text-wrap:normal;word-break:break-all;word-wrap:break-word">
+                    <input type="checkbox" checked="checked" id="@Html.DisplayFor(model => model.CartId)" name="@Html.DisplayFor(model => model.CartId)"  value="@Html.DisplayFor(model => model.ProductSkuId)" style="padding-left:10px" />
+                    @Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.ProductName).ToString()), "p", "home", new { Id = Html.DisplayFor(model => model.ProductSkuId).ToString().Substring(0,6)}, htmlAttributes: new { @class = "text-primary", title = ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.ProductName).ToString()) })
+                </li>
+                <li class="list-inline">
+                    <ul class="h5 list-unstyled list-inline" style="float:left;display:block;text-wrap:normal;word-break:break-all;word-wrap:break-word">
+                        <li style="padding-top:10px;padding-bottom:10px;">
+                            @Html.DisplayFor(model => model.PropertyDesc)
+                        </li>
+                        <li>
+                            @Lang.Views_GeneralUI_Quantity<strong>@Html.DisplayFor(model => model.Quantity)</strong><span>X</span>
+                        </li>
+                        <li class="h4" style="color:red;">
+                            <strong>@Html.DisplayFor(model => model.TradePrice)</strong>
+                        </li>
+                    </ul>
+                </li> 
+            </ul>
+       </li>
+       <li class="list-inline top pull-right" style="margin-top:-60px;padding-top:0;">
+           <img src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100)" class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px"/>
+       </li>
+   </ul>
+ 
