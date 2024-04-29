@@ -1,0 +1,48 @@
+﻿body 
+    {
+        padding-top: 40px;
+        padding-bottom: 1px;
+        margin-left:1px;
+        margin-right:1px;
+    }
+
+/* Set padding to keep content from hitting the edges */
+.body-content 
+    {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt 
+    {
+        white-space: normal;
+    }
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea 
+    {
+        max-width: 280px;
+    }
+.text-omit
+    {
+    width:100px; 
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    }
+ .text-omit-defined
+    {
+                overflow : hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+    } 
+  
+ 
+ 
