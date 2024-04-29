@@ -1,0 +1,187 @@
+﻿@using Ishop.Context;
+@using LanguageResource
+@using Microsoft.AspNet.Mvc.Rendering
+@model Ishop.Models.ShopViewTemplateModel
+@{
+    ViewBag.Title = Lang.UpShopViewTemplate_Title;
+    Layout = "~/Areas/Mgr/Views/Shared/_Layout.cshtml";
+} 
+<link href="~/webuploader/CSS/webuploader.css" rel="stylesheet" />
+<script src="~/webuploader/Script/webuploader.js"></script>
+ 
+ 
+<div class="container" style="max-width:620px;">
+    <div> <br><br></div>   
+   
+@using (Ajax.BeginForm("UpShopViewTemplate", "Manage", new AjaxOptions { HttpMethod = "post", OnSuccess = "GetResult", OnFailure = "err", LoadingElementId = "imgLoad" }, new {id="form1", enctype = "multipart/form-data", @class = "form-horizontal" }))
+{
+        <hr /><br>
+         @Html.HiddenFor(model => model.ShopID)
+        <div id="box-widget" class="box box-solid box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">@Lang.UpShopViewTemplate_Title</h3>
+                <div class="box-tools pull-right">
+                    <span class="label label-default"><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Template</span><button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <label class="control-label" for="FooterTemplate">模板 (上存*.html格式文件)</label>
+                        @Html.HiddenFor(model => model.ShopViewTemplate)
+                        <hr class="col-md-10">
+                        <textarea id="ShopViewTemplateHtml" class="form-control">@ViewBag.ShopViewTemplate1</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <label class="control-label" for="FooterTemplate">Language Code @LangUtilities.LanguageCode.Split('-')[1]</label>
+                        @Html.DropDownListFor(model=>model.LanguageCode, Html.LangEnumCodeDropDownList(LangUtilities.LanguageCode.Split('-')[1]), Lang.GeneralUI_Select, new { @class = "form-control" })
+                        <span>必须选择其中一种语言标识,不是选择无设置,否则导致系统崩溃!</span>
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.LabelFor(m => m.ShopViewTemplate, new { @class = "control-label" }) 
+                        <div id="uploader" class="wu-example">
+                            <!--用来存放文件信息-->
+                            <div id="fileList" class="uploader-list"></div>
+                            <div class="btns">
+                                <div id="picker" class="btn btn-default bg-black-gradient">选择文件</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <!--没用上 js submit-->
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" id="submit1" class="btn btn-default btn-flat" value="@Lang.Views_GeneralUI_Submit" />
+                        <a class="badge badge-success p-2 " href="@Url.Action("CreateShop","Manage",new { Language = LangUtilities.LanguageCode})">@Lang.Views_GeneralUI_Return</a>
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    }
+</div>
+
+<script>
+    //获取应用程序根路径
+    //var applicationPath = window.applicationPath === "" ? "" : window.applicationPath || "../../";
+    $(function () {
+        var $ = jQuery,
+        $list = $('#fileList'),
+
+        // Web Uploader实例
+        uploader;
+        uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: '/webuploader/Script/Uploader.swf',
+
+            // 文件接收服务端。
+            server: '/@LangUtilities.LanguageCode/Utilities/UpLoadProcessFile',    // '@Url.Action("UpLoadProcessFile", "Utilities")',
+
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#picker',
+            accept: {
+                title: 'html',
+                extensions: 'html',
+                mimeTypes: '.html'                       // 'application/pdf, application/msword'
+            }
+        });
+
+        // 当有文件添加进来的时候
+        uploader.on('fileQueued', function (file) {
+            // 初始化以后添加 参数传入
+            uploader.options.formData.SubPath = 'ShopView';  //设置SubPath
+            uploader.options.formData.Prefix = 'ShopViewTemplate_';
+            uploader.options.formData.shopID = '@WebCookie.ShopID';
+            uploader.options.formData.TargetTalbeKeyID = '@WebCookie.ShopID'; 
+            uploader.options.formData.name = file.name;
+            uploader.options.formData.type = file.type;
+            uploader.options.formData.AcceptType = 'text/html'; //可以接受的文件类型 AcceptType;
+            console.log(JSON.stringify(uploader.options))
+
+            $list.append('<div id="' + file.id + '" class="item">' +
+                '<h4 class="info">' + file.name + '</h4>' +
+                '<p class="state">等待上传...</p>' +
+            '</div>');
+        });
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on('uploadProgress', function (file, percentage) {
+            var $li = $('#' + file.id),
+                $percent = $li.find('.progress span');
+
+            // 避免重复创建
+            if (!$percent.length) {
+                $percent = $('<p class="progress"><span></span></p>')
+                        .appendTo($li)
+                        .find('span');
+            }
+
+            $percent.css('width', percentage * 100 + '%');
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on('uploadSuccess', function (file, response) {
+           
+            console.log(response.filePath);
+            $("#ShopViewTemplate").val(response.filePath);
+            console.log("ShopViewTemplate=" + response.filePath);
+            $('#' + file.id).find('p.state').text('文件已上传');
+        });
+
+        uploader.on('uploadError', function (file) {
+            $('#' + file.id).find('p.state').text('上传出错' + response.message);
+        });
+
+        uploader.on('uploadComplete', function (file) {
+            $('#' + file.id).find('.progress').fadeOut();
+        });
+
+        //所有文件上传完毕
+        uploader.on("uploadFinished", function (response) {
+            //提交表单 
+            $("#submit1").click();
+            
+        })
+
+    });
+</script> 
+
+<script> 
+        function GetResult(data) {
+            if (data.MsgCode == "0")  // 输入数据格式非法
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_SUCCESS,
+                    resizable: true,
+                    size: 'size-normal',
+                    closeByBackdrop: false,
+                    closeByKeyboard: false,
+                    draggable: true,
+                    closable: false, 
+                    message: "<H5>" + data.Message + "</H5>",
+                    cssClass: 'bootstrap-dialog fade',
+                    buttons: [{
+                        label: 'OK!',
+                        cssClass: 'btn-primary',
+                        action: function (dialog) { 
+                            dialog.close();
+                            $("#submit1").attr("disabled", "disabled");  //屏蔽按钮
+                        }
+                    }]
+                });
+            } else {
+                alert("SERVER ERROR\n\n" + data.MsgCode + ":" + data.Message);
+            }
+        }
+        
+        function err(data)
+        {
+            alert("Submit error");
+        }
+
+</script>

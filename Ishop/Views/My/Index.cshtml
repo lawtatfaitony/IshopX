@@ -1,0 +1,280 @@
+﻿@using LanguageResource;
+@using Ishop.Utilities;
+@using Ishop.Context;
+@using Ishop.Models;
+@using Ishop.Controllers;
+@using System.Security.Claims;
+@using Ishop.Models.User;
+@using Ishop.Models.ProductMgr;
+@model Ishop.ViewModes.Order.OrderDetailView
+@{
+    BaseController baseController = new BaseController();
+    Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
+    ViewBag.Title = Lang.Views_GeneralUI_MemberCenter;
+    Layout = "~/Views/Shared/CreateOrderLayout.cshtml";
+
+    ApplicationUser applicationUser = ViewBag.applicationUser as ApplicationUser;
+    UserProfile userProfile = ViewBag.userProfile as UserProfile;
+
+    decimal LastMonthTotalAmount = baseController.CalcCurrentMonthFinanceTotalAmount(ViewBag.UserId as string, DateTime.Now.AddMonths(-1).Month, "Invalid");
+    decimal CurrenMonthTotalAmount = baseController.CalcCurrentMonthFinanceTotalAmount(ViewBag.UserId as string, DateTime.Now.Month, "Created");
+    decimal SubmittedMonthTotalAmount = baseController.CalcCurrentMonthFinanceTotalAmount(ViewBag.UserId as string, DateTime.Now.AddMonths(-1).Month, "Submitted");
+    string UnPaid = baseController.GetTableStateStatusName("UserFinance", "UnPaid", LangUtilities.LanguageCode);
+
+    ViewBag.SwitchToNickName = "-";
+    if (userProfile!=null)
+    {
+        ViewBag.SwitchToNickName = string.IsNullOrEmpty(userProfile.NickName) ? string.Format("{0}({1})", Lang.My_Index_SwitchToNickName, User.Identity.Name) : userProfile.NickName ?? string.Empty;
+    }
+    string userId = userProfile?.UserId??string.Empty;
+}
+<script src="~/js/Product/Product.js"></script>
+<div class="container no-padding" style="margin-top:5px;margin-left:0;margin-right:0;margin-bottom:0px;">
+    <div class="container no-margin">
+        <div class="pull-left image col-lg-1 col-md-1 col-sm-2 col-xs-2  no-margin no-padding">
+           
+            <div class="info">
+                <ul class="list-unstyled ">
+                    <li>
+                        <div>
+                            <a id="OpenDialog" style="display:block;">
+                                @if (string.IsNullOrEmpty(userProfile?.UserIcon))
+                                {
+                                    <img id="uploadPicResult" src="@Url.Content("~/AdminLTE/dist/img/user.svg")" class="img-thumbnail img-responsive img-circle" style="max-width:60px;" />
+                                }
+                                else
+                                {
+                                    <img id="uploadPicResult" src="@PictureSuffix.ReturnSizePicUrl(userProfile.UserIcon, PictureSize.s100X100)" alt="@Lang.Views_GeneralUI_Browse" class="img-thumbnail  img-responsive  img-circle" style="max-width:60px;" />
+                                }
+                            </a>
+                            <input type="file" value="@Lang.Views_GeneralUI_Browse" id="file_uploadPic" SrvUrl="/@LangUtilities.LanguageCode/Utilities/UpLoadProcess2?Prefix=P&SubPath=user&TargetTalbeKeyID=@userId&ShopID=@WebCookie.ShpID"
+                                   mime_type="image/jpeg" accept="image/jpeg" class="input-group-sm hidden" />
+                        </div>
+                    </li>
+                    <li class="center">
+                        <div id="myIdentityName" class="bg-black-gradient radius5 padding-left5 padding-right5 margin-top5 " style="cursor:pointer;overflow-x:visible">@ViewBag.SwitchToNickName</div>
+                    </li>
+                    <li>
+                        <span class="padding-left5 small" title="User ID"><i class="fa fa-asterisk small"></i>@ViewBag.UserId</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container no-margin padding-top10 padding-bottom10" style="border-radius:5px;background-color:blanchedalmond">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 block" style="margin-left:0;padding-left:0;margin-right:0;margin-bottom:0px;">
+            <ul class="list-unstyled ">
+                <li>
+                    <span class="text-green">@Lang.Views_GeneralUI_LastMonthTotalAmount</span>
+                </li>
+                <li>
+                    <span class="h4" title="@string.Format(Lang.UserFinance_My_Index_LastMonthTotalAmount_Msg,LastMonthTotalAmount)" data-toggle="tooltip" data-placement="top">
+                        <strong><i class="fa fa-circle small" style="color:green"></i>@LangUtilities.ReturnCurrencyFormat(CurrenMonthTotalAmount)</strong>
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 block" style="margin-left:0;padding-left:0 ;margin-right:0;margin-bottom:0px;">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="text-green">@Lang.Views_GeneralUI_ThisMonthTotalAmount</span>
+                </li>
+                <li class="list-inline">
+                    <span class="h4" title="@string.Format(Lang.UserFinance_My_Index_SubmittedMonthTotalAmount_Msg,LangUtilities.ReturnCurrencyFormat(SubmittedMonthTotalAmount))" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-circle small" style="color:green"></i><strong>@LangUtilities.ReturnCurrencyFormat(CurrenMonthTotalAmount)</strong>
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 block text-center btn-group inline" style="margin-left:0;padding-left:0; margin-right:0;margin-bottom:0px;">
+            @if (CurrenMonthTotalAmount > 20)
+            {
+                <botton id="btn_withdraw" CurrenMonthTotalAmount=@CurrenMonthTotalAmount class="btn btn-info btn-flat btn-sm" title="withdraw>20">@Lang.Views_GeneralUI_withdraw</botton>
+            }
+            else
+            {
+                <span class="small  h5">(@UnPaid)</span>
+            }
+            @Html.ActionLink(Lang.GeneralUI_Record, "UserFinanceList", new { EnUserId = ViewBag.EnUserId }, new { @class = "btn btn-success btn-flat btn-sm pull-left" })
+        </div>
+    </div>
+    <br />
+    @if (ViewBag.MyListOrder != null)
+    {
+        List<Order> MyListOrder = ViewBag.MyListOrder;
+        int j = 0;
+        foreach (var Item in MyListOrder)
+        {
+            <div class="container no-margin no-padding">
+                <!--Order list-->
+                @if (j == 0)
+                {
+                    <div class="block bg-success" style="border-top-left-radius:5px;border-top-right-radius:5px;padding:10px;">
+                        <h4 class="box-title"><i class="fa fa-list-ul"></i>&nbsp;@Lang.My_Index_OrderList</h4>
+                    </div>
+                }
+                <div id="box-widget" class="box box-solid" style="background-color:blanchedalmond">
+                    <div class="box-header with-border">
+                        <ul class="list-unstyled list-inline">
+                            <li class="list-unstyled list-inline no-padding">
+                                <h4 class="box-title" style="padding-right:10px;">@baseController.GetShop(Item.ShopID).ShopName</h4>
+                            </li>
+                            <li class="list-unstyled list-inline no-padding no-margin hidden-xs hidden-sm">
+                                <h6 style="padding-right:5px;">@Lang.Views_GeneralUI_OrderId</h6>
+                            </li>
+                            <li class="list-unstyled list-inline  no-padding no-margin">
+                                <h5 class="text small">@Item.OrderId</h5>
+                            </li>
+                            <li class="list-unstyled list-inline  no-margin">
+                                <h5 class="text small"><i class="fa fa-calendar"></i>&nbsp;@string.Format("{0:d}", Item.CreatedDate)</h5>
+                            </li>
+                        </ul>
+                        <div class="box-tools pull-right">
+                            @if (Item.StatusId.ToLower() == "unpaid")
+                            {
+                                @:<a href="#" target="_blank" class="btn btn-link"> <i class="fa fa-angle-double-right"></i>Pay</a>
+                            }
+                            else
+                            {
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>@baseController.GetTableStateStatusName("Order", Item.StatusId, LangUtilities.LanguageCode)</span>
+                            }
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body ">
+                        <!--Item-->
+                        @{
+                            var OrderItems = db.OrderItems.Where(c => c.OrderId == Item.OrderId).ToList();
+
+                            foreach (var item2 in OrderItems)
+                            {
+                                <div class="container  no-padding padding-bottom5 no-margin ">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 block no-margin no-padding">
+                                        <img src="@item2.SkuImageUrl" class="img-responsive img-rounded img-thumbnail pull-left" style="padding-left:0;margin-left:0;margin-right:10px;max-width:90px;" />
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 block no-margin no-padding">
+                                        <ul class="list-unstyled padding-left5">
+                                            <li class="no-margin no-padding">
+                                                <span class="text-green text-overflow">@item2.PropertyDesc</span>
+                                            </li>
+                                            <li class="list-inline no-margin no-padding">
+                                                <span></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 block no-margin no-padding">
+                                        <ul class="list-unstyled">
+                                            <li class="no-margin no-padding">
+                                                <strong><span class="text-black">@LangUtilities.ReturnCurrencyFormat(item2.ItemAmount)</span></strong>
+                                            </li>
+                                            <li class="list-inline no-margin no-padding">
+                                                <span>x</span><span>@item2.Quantity</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
+            {
+                j = j + 1;
+            }
+        }
+    }
+</div>
+ 
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"  id="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content padding-10 radius5 bg-info ">
+            <div class="form-group">
+                <input type="text" id="NewNickName" class="padding-left5 margin-bottom-10 margin-top10" /> 
+            </div>
+            <div class="form-group"> 
+                <input type="button" id="Btn_newNickName_Submit" class="margin-top5" value="@Lang.GeneralUI_OK" />
+            </div>
+        </div>
+    </div>
+</div>
+ 
+
+    <script>
+        $('#mySmallModalLabel').on('shown.bs.modal', function () {
+            $('#NewNickName').focus();
+        });
+        $('#myIdentityName').click(function () {
+            console.log("mySmallModalLabel");
+            $('#mySmallModalLabel').modal('show');
+            //$('#mySmallModalLabel').modal({ backdrop: 'static', keyboard: true });
+        });
+    </script>
+
+    <script>
+//  /Mgr/UserFinance/CalcUserFinanceCurrentMonth
+    var EnUserId = "@ViewBag.EnUserId";
+    var myDate = new Date();
+    var Month = myDate.getMonth() + 1; //0-11
+    console.log(Month);
+    $("#btn_withdraw").click(function () {
+        var myparamsObject = { "Month": Month, "EnUserId": EnUserId };
+        $.ajax({
+            url: "/Mgr/UserFinance/CalcUserFinanceCurrentMonth",
+            data: myparamsObject,
+            type: "get",
+            dataType: "json",
+            error: function (result) {
+                console.log("error ::/Mgr/UserFinance/CalcUserFinanceCurrentMonth \n\r code:500" + JSON.stringify(result));
+            },
+            success: function (result) {
+                console.log("CalcUserFinanceCurrentMonth return :" + result);
+
+                layer.open({
+                    content: result.Message
+                    , skin: 'footer'
+                });
+            }
+        });
+    }); // click
+    </script>
+
+    <!--Picture Upload-->
+    <script>
+    $("#OpenDialog").click(function () {
+        console.log("Open file Dialog ");
+        $("#file_uploadPic").click();
+    });
+    $("#file_uploadPic").change(function uploadPic() {
+        var fileInfo = document.getElementById("file_uploadPic").files[0];
+        var SrvUrl = $("#file_uploadPic").attr('SrvUrl');
+        console.log("title picture::" + SrvUrl);
+        var form = new FormData();
+        form.append("file", fileInfo);
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", SrvUrl, false);
+        //uploading
+        indexuploading = layer.open({ type: 2, time: 8 });
+        xhr.send(form);
+        var json1 = JSON.parse(xhr.responseText);
+        if (json1.UploadItemId === "0") {
+            console.log("Error \n\r Server has no any file recieve \n" + xhr.responseText);
+            return;
+        }
+        else {
+            console.log(json1.filePathName);
+            $("#uploadPicResult").attr("src", json1.filePathName);
+            UpdateUserProfileNickNameOrUserIcon("@ViewBag.UserId" , json1.filePathName ,"UserIcon");
+        }
+        console.log(xhr.responseText);
+        layer.closeAll(indexuploading);
+    });
+
+    //NickName
+    $("#Btn_newNickName_Submit").click(function () {
+        newNickName = $("#NewNickName").val();
+        UpdateUserProfileNickNameOrUserIcon("@ViewBag.UserId", newNickName,"NickName");
+        $("#myIdentityName").html(newNickName);
+        $('#mySmallModalLabel').modal('toggle');
+    });
+    </script>

@@ -1,0 +1,98 @@
+﻿@using LanguageResource
+@model Ishop.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "用户角色授权";
+    ViewBag.SubTitle = "店铺授权及管理";
+    Layout = "~/Areas/Mgr/Views/Shared/_Layout.cshtml";
+}  
+ 
+
+
+
+ 
+@using (Ajax.BeginForm("UserRolesAssignedUpdate", "Account", new { UserId = Model.Id },new AjaxOptions { HttpMethod = "post", OnSuccess = "OpenRolesAssignedResult" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <br />
+    <div class="form-horizontal"> 
+        <div class="form-group">
+            <label for="UserId" class="col-sm-2 control-label"><i class="icon-user" style="color:mediumslateblue">  </i>用户ID</label>
+            <div class="col-sm-10">
+                <input type="text" readonly="readonly" class="form-control" id="UserId" placeholder="UserId" value="@Html.DisplayFor(model => model.Id, new { htmlAttributes = new { @class = "form-control" } })">
+                 <small>@Html.DisplayFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } }) </small> 
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="UserName" class="col-sm-2 control-label"><i class="icon-user" style="color:mediumslateblue">  </i>UserName</label>
+            <div class="col-sm-10">
+                <input type="text"  readonly="readonly" class="form-control" id="UserName"  placeholder="UserName" value="@Html.DisplayFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="UserId" class="col-sm-2 control-label"><i class="icon-check" style="color:mediumslateblue">  </i>角色授权</label> 
+        </div>
+    </div>
+
+    <div class="form-group">
+        
+          <div class="col-md-offset-2 col-md-10"> 
+                  <table>
+                    <tr>
+                        @{
+                            int cnt = 0;
+                            List<Ishop.Identity.Models.AssignedRoles> userRoles = ViewBag.UserRoles;
+
+                            foreach (var item in userRoles)
+                            {
+                                if (cnt++ % 3 == 0)
+                                {
+                                    @:</tr><tr>
+                                }
+
+                                <td>
+                                    <input type="checkbox" 
+                                           name="selectedRoles"
+                                           value="@item.RoleId"
+                                           @(Html.Raw(item.Assigned ? "checked=\"checked\"" : "")) />
+                                            @item.Name @item.Description
+                                </td>
+                            }
+                            @: </tr>
+                        } <!--代码段-->
+                    </table>
+              <br/>
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                @if (ViewBag.Result == true)
+                {
+                     <label>OK!</label>
+                }
+                <button type="submit" id="btnRoleAssignedUpd" class="btn btn-default" onclick="javascript: return confirm('重要操作，确定吗？')">提交</button>
+            </div>
+        </div>
+                            }  <!--BeginForm-->
+        <br />
+        <br />
+        <br />
+        <a  class="col-lg-offset-2" href="~/images/RolesDefine.jpeg" target="_blank">角色定义说明图</a><br /><br />
+        <div class="col-lg-offset-2">
+            @Html.ActionLink("返回列表", "userlist","Account")
+        </div>
+
+<script> 
+ //弹出角色授权
+    function OpenRolesAssignedResult(data) {
+         
+        BootstrapDialog.show({
+            title: "角色(职位)管理",
+            message: $('<div>loading...</div>').html(data)
+        });
+        $("#btnRoleAssignedUpd").attr("disabled", "disabled");
+        //setTimeout('window.location = "/account/userlist"',6000);
+    }
+</script>
+ 
+
+         
+ 

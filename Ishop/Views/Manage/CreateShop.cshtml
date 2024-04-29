@@ -1,0 +1,211 @@
+﻿@using LanguageResource;
+@using Microsoft.AspNet.Mvc.Rendering;
+@using Ishop.Utilities;
+@{
+    ViewBag.Title = Lang.Manage_CreateShop_Title;
+} 
+    @section Scripts { 
+        @Scripts.Render("~/Scripts/webuploader")  
+    }
+    @Styles.Render("~/Content/webuploader")
+   
+@model Ishop.Models.ProductMgr.Shop
+
+<style type="text/css">
+    #Loading {
+       display: none; 
+    }
+</style> 
+<br />
+<div class="row">
+    <div class="container">
+        <div class="box box-solid box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">@ViewBag.Title [@ViewBag.ShopID]</h3>
+                <div class="box-tools pull-right">
+                    <span class="label label-default"><i class="fa fa-lock" aria-hidden="true"></i> Shop</span>
+                </div><!-- /.box-tools -->
+            </div>
+            @using (Ajax.BeginForm("CreateShopReturn", null, new AjaxOptions { HttpMethod = "post", OnSuccess = "GetResult", OnFailure = "err", LoadingElementId = "imgLoad" }, new { @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.CreatedDate)
+                <div class="box-body with-border">
+                    <div id="form1" class="form-horizontal">
+                        <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+                        @Html.HiddenFor(model => model.ShopID, new { Value = ViewBag.ShopID, data = ViewBag.ShopID, data_shopID = ViewBag.ShopID }) @*<!--//属性Value 大写开头, 或者通过data写入data属性--->*@
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ShopName, new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.ShopName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ShopName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ShopCurrency, new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.ShopCurrency, new { @class = "form-control", Value = "zh-CN" })
+                                @Html.ValidationMessageFor(model => model.ShopCurrency, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label(Lang.Manage_CreateShop__DefinitedTag_ShopLogo, new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.ShopLogo, new { @class = "form-control hidden" })
+                                @Html.ValidationMessageFor(model => model.ShopLogo, "", new { @class = "text-danger" })
+
+                                <div id="fileList">
+                                    @{ if (!string.IsNullOrEmpty(Html.DisplayFor(model => model.ShopLogo).ToString()))
+                                        {
+                                            <img class="img-circle thumbnail pull-left" title="@Lang.DefinitedTag_ProperSize" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.ShopLogo).ToString(), PictureSize.s160X160)" style="margin-right:15px;max-width:200px" />
+                                        }
+                                    }
+                                </div> <div class="cp_img_jia" id="filePicker"></div>
+
+                            </div>
+                        </div>
+                        <!--wechat qr code-->
+                        <div class="form-group">
+                            @Html.Label(Html.DisplayNameFor(model => model.WeixinQRcode).ToString(), new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.WeixinQRcode, new { @class = "form-control hidden" })
+                                @Html.ValidationMessageFor(model => model.WeixinQRcode, "", new { @class = "text-danger" })
+
+                                <div id="fileList_WeixinQRcode">
+                                    @{ if (!string.IsNullOrEmpty(Html.DisplayFor(model => model.WeixinQRcode).ToString()))
+                                        {
+                                            <img class="img-circle thumbnail pull-left" src="@Html.DisplayFor(model => model.WeixinQRcode).ToString()" style="margin-right:15px;max-width:90px" />
+                                        }
+                                    }
+                                </div>
+                                <button id="filePicker_WeixinQRcode" class="btn btn-default bg-black-gradient btn-sm">@Lang.GeneralUI_Select</button>
+                            </div>
+                        </div>
+                        <!--weibo qr code-->
+                        <div class="form-group">
+                            @Html.Label(Html.DisplayNameFor(model => model.WeiboQRcode).ToString(), new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.WeiboQRcode, new { @class = "form-control hidden" })
+                                @Html.ValidationMessageFor(model => model.WeiboQRcode, "", new { @class = "text-danger" })
+
+                                <div id="fileList_WeiboQRcode">
+                                    @{ if (!string.IsNullOrEmpty(Html.DisplayFor(model => model.WeiboQRcode).ToString()))
+                                        {
+                                            <img class="img-circle thumbnail pull-left" src="@Html.DisplayFor(model => model.WeiboQRcode).ToString()" style="margin-right:15px;max-width:90px" />
+                                        }
+                                    }
+                                </div>
+                                <button id="filePicker_WeiboQRcode" class="btn btn-default bg-black-gradient btn-sm">@Lang.GeneralUI_Select</button>
+                            </div>
+                        </div>
+
+                        <!--toutiao-->
+                        <div class="form-group">
+                            @Html.Label(Html.DisplayNameFor(model => model.ToutiaoQRcode).ToString(), new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.ToutiaoQRcode, new { @class = "form-control hidden" })
+                                @Html.ValidationMessageFor(model => model.ToutiaoQRcode, "", new { @class = "text-danger" })
+
+                                <div id="fileList_ToutiaoQRcode">
+                                    @{ if (!string.IsNullOrEmpty(Html.DisplayFor(model => model.ToutiaoQRcode).ToString()))
+                                        {
+                                            <img class="img-circle thumbnail pull-left" src="@Html.DisplayFor(model => model.ToutiaoQRcode).ToString()" style="margin-right:15px;max-width:90px" />
+                                        }
+                                    }
+                                </div>
+                                <button id="filePicker_ToutiaoQRcode" class="btn btn-default bg-black-gradient btn-sm">@Lang.GeneralUI_Select</button>
+                            </div>
+                        </div>
+                        <!--fb qr code-->
+                        <div class="form-group">
+                            @Html.Label(Html.DisplayNameFor(model => model.fbQRcode).ToString(), new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.fbQRcode, new { @class = "form-control hidden" })
+                                @Html.ValidationMessageFor(model => model.fbQRcode, "", new { @class = "text-danger" })
+
+                                <div id="fileList_fbQRcode">
+                                    @{ if (!string.IsNullOrEmpty(Html.DisplayFor(model => model.fbQRcode).ToString()))
+                                        {
+                                            <img class="img-circle thumbnail pull-left" src="@Html.DisplayFor(model => model.fbQRcode).ToString()" style="margin-right:15px;max-width:90px" />
+                                        }
+                                    }
+                                </div>
+                                <button id="filePicker_fbQRcode" class="btn btn-default bg-black-gradient btn-sm">@Lang.GeneralUI_Select</button>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.HostName, htmlAttributes: new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.HostName, new { @class = "form-control", placeholder = "For example: www.abc123.com" })
+                                @Html.ValidationMessageFor(model => model.HostName, "", new { @class = "text-danger" })
+                                <span class="text-primary small-box small margin-top10 margin-bottom-10">Like: abc.com</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            @Html.LabelFor(model => model.IsInfoMode, htmlAttributes: new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-3">
+                                @Html.DropDownList("IsInfoMode", Html.IsInfoModeDropDownList(Model.IsInfoMode.ToString()), Lang.GeneralUI_Select, new { @class = "form-control"}) 
+                               
+                                @Html.ValidationMessageFor(model => model.IsInfoMode, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.ActionLink(Lang.UpShopViewTemplate_Title, "UpShopViewTemplate", "manage", new { Language = LangUtilities.LanguageCode }, new { @class = "btn btn-primary  btn-flat" })
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="col-md-offset-2 col-sm-10 ">
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <input id="btn1" type="submit" value="@Lang.Views_GeneralUI_Submit" class="btn btn-default btn-sm" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+        $(document).ready(function()
+        {
+            console.log("ready========================");
+            //参数说明 1.图片队列fileList , 2.图片选择器 filePicker, 3.文件名前缀Shoplogo_ ,4.上存upload文件夹的子文件名称 Shoplogo ,
+            //5.返回图片url存储到 txtboxId   6.目标表主键ID:TargetTalbeKeyID, 7.店铺ID: ShopID ,8.排序 RankOrder默认=0
+            var TargetTalbeKeyID = $("#ShopID").val(); //可以留空 获取TextBox   $("#TargetTalbeKeyID").val()
+            var ShopID = $("#ShopID").val();  //必需的 $("#ShopID").val()  除了 Shop 表,
+            var RankOrder = 1;  //单个图片无须排序=0|1  $("#RankOrder").val()
+            $(WebUploader1("fileList", "filePicker", "Shplogo_", "ShopLogo", "ShopLogo", TargetTalbeKeyID, ShopID, RankOrder));
+
+            //--WeixinQRcode
+            $(WebUploader1("fileList_WeixinQRcode", "filePicker_WeixinQRcode", "ShopLogo", "ChannelQRcode_", "WeixinQRcode", TargetTalbeKeyID, ShopID, RankOrder));
+            //--WeiboQRcode
+            $(WebUploader1("fileList_WeiboQRcode", "filePicker_WeiboQRcode", "QRcode_", "ChannelQRcode_", "WeiboQRcode", TargetTalbeKeyID, ShopID, RankOrder));
+            //--ToutiaoQRcode
+            $(WebUploader1("filePicker_ToutiaoQRcode", "filePicker_ToutiaoQRcode", "ChannelQRcode_", "ShopLogo", "ToutiaoQRcode", TargetTalbeKeyID, ShopID, RankOrder));
+            //--fbQRcode
+            $(WebUploader1("fileList_fbQRcode", "filePicker_fbQRcode", "ChannelQRcode_", "ShopLogo", "fbQRcode", TargetTalbeKeyID, ShopID, RankOrder));
+
+        })
+        function GetResult(data)
+        {
+            $("#btn1").attr("disabled", "disabled");
+             
+            $("#form1").html(data);
+          
+        }
+        function err(data)
+        { 
+            console.log("ajax form return error = " + JSON.stringify(data)); 
+        }
+       
+</script>
+  

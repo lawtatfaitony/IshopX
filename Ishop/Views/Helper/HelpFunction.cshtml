@@ -1,0 +1,22 @@
+﻿@using Ishop.Utilities;
+@using Ishop.Context;
+@using PagedList;
+@using PagedList.Mvc;
+@using LanguageResource;
+@using Ishop.ViewModes.Info;
+@model  IEnumerable<InfoListView>
+  
+<div class="container no-padding">
+    @{
+        
+        if (Model.ToList().Count > 0)
+        {
+            foreach (var Item in Model.ToList())
+            {
+                <div class="col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
+                    @Html.Partial("Info/InfoListUnit", Item)
+                </div>
+            }
+        }
+    }
+</div>

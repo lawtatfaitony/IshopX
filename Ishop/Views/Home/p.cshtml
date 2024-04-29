@@ -1,0 +1,322 @@
+﻿@using LanguageResource
+@using Ishop.Models.ProductMgr
+@using Ishop.Utilities
+@using Ishop.Models.Info
+@using Ishop.ViewModes.Info
+@using Ishop.AppCode.EnumCode
+@model Ishop.Models.ProductMgr.Product
+<script>
+    //提示
+    var Onloading = layer.open({
+        type: 2
+        , content: 'Loading...'
+        , skin: 'msg'
+        , time: 1
+    });
+</script>
+@{
+    //Layout = "~/Views/Shared/_homeLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/js/Info/IPstatitics.js"></script>
+
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+<script>
+    wx.config({
+        debug: false,
+        appId: '@ViewBag.appId',
+        timestamp: '@ViewBag.timestamp',
+        nonceStr: '@ViewBag.nonceStr',
+        signature: '@ViewBag.signature',
+        jsApiList: [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage'
+        ]
+    });
+    wx.ready(function () {
+        //点击分享到朋友圈
+        $('.sharetopengyouquan').click(function (msg) {
+            sharetopyq();
+        });
+        //点击分享到朋友
+        $('.sharetopengyou').click(function (msg) {
+            sharetopyq();
+        });
+        //页面加载分享到朋友
+
+        wx.onMenuShareAppMessage({
+            title: '@ViewBag.Title', // 分享标题
+            desc: '@ViewBag.Description', //描述
+            link: location.href.split('#')[0],
+            imgUrl: '@ViewBag.imgUrl', // 分享图标
+            type: 'link', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function (res) {
+                console.log("weixin share ok");// 用户确认分享后执行的回调函数
+            },
+            cancel: function (res) {
+                console.log("weixin share cansel");// 用户取消分享后执行的回调函数
+            },
+            fail: function (res) {
+                alert(JSON.stringify(res));
+            }
+        });
+        wx.error(function (res) {
+            alert(JSON.stringify(res));
+            //错误提示
+        });
+    });
+
+    function sharetopyq() {
+        //分享到朋友圈
+        wx.onMenuShareTimeline({
+            title: '@ViewBag.Title', // 分享标题
+            desc: '@ViewBag.Description', //描述
+            link: '@ViewBag.Link',
+            imgUrl: '@ViewBag.imgUrl', // 分享图标
+            success: function () {
+                console.log("weixin share ok");// 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                console.log("weixin share cancel");// 用户取消分享后执行的回调函数
+            },
+            fail: function (res) {
+                alert(JSON.stringify(res));
+            }
+        });
+        //alert('接下来，请点击微信右上角分享菜单，然后点击"分享到朋友圈"');
+    }
+
+    function sharetopy() {
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '@ViewBag.Title', // 分享标题
+            desc: '@ViewBag.Description', //描述
+            link: location.href.split('#')[0],
+            imgUrl: '@ViewBag.imgUrl', // 分享图标
+            type: 'link', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function (res) {
+                console.log("weixin share ok");// 用户确认分享后执行的回调函数
+            },
+            cancel: function (res) {
+                console.log("weixin share cansel");// 用户取消分享后执行的回调函数
+            },
+            fail: function (res) {
+                alert(JSON.stringify(res));
+            }
+        });
+        //alert('接下来，请点击微信右上角分享菜单，然后点击“发送给朋友”');
+    }
+</script>
+<div class="container margin-top10">
+    <div class="row">
+        <!--ProductMain-->
+        <div class="col-lg-8 col-md-8">
+            <ul class="list-unstyled">
+                <li class="no-padding no-margin">
+                    @{
+                        List<ProductImageView> productImageViews = new List<ProductImageView>();
+                        if (ViewBag.productImageViews != null)
+                        {
+                            productImageViews = ViewBag.productImageViews as List<ProductImageView>;
+                        }
+                    }
+                    <div id="myCarousel" class="carousel slide">
+                        <!--  Carousel setting -->
+                        <ol class="carousel-indicators">
+                            @{
+                                int i = 0;
+                                foreach (var item in productImageViews)
+                                {
+                                    if (i == 0)
+                                    {
+                                        @:<li data-target="#myCarousel" data-slide-to="@i.ToString()" class="active"></li>
+                                    }
+                                    else
+                                    {
+                                        @:<li data-target="#myCarousel" data-slide-to="@i.ToString()"></li>
+                                    }
+                                    i++;
+                                }
+                            }
+                        </ol>
+                        <!--  Carousel item -->
+                        <div class="carousel-inner">
+                            @{
+                                int j = 0;
+                                foreach (var item in productImageViews)
+                                {
+                                    if (j == 0)
+                                    {
+                                        @:<div class="item active">
+                                            <img src="@item.ProductImg" alt="" data-UploadItemId="@item.UploadItemId" class="img-responsive">
+                                        @:</div>
+                                    }
+                                    else
+                                    {
+                                        @:<div class="item">
+                                            <img src="@item.ProductUploadItemImg" data-UploadItemId="@item.UploadItemId" alt="" class="img-responsive">
+                                        @:</div>
+                                    }
+                                    j++;
+                                }
+                            }
+                        </div>
+                        <!-- Carousel guide -->
+                        <a class="left carousel-control " href="#myCarousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control " href="#myCarousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="block" style="padding-top:5px;">
+                        <blockquote>
+                            <h3 class="left">
+                                <span style="padding-right:5px;padding-left:5px;"><i class="fa fa-angle-right"></i></span>
+                                @Html.Raw(ChineseStringUtility.ToAutoTraditional(Model.Title)) <a href="@Url.Action("UserTrace", "Home", new { TableKeyID = ViewBag.ProductId ,Act="p",Ctrl="Home" })"><i class="fa fa-share-alt-square"></i></a>
+                            </h3>
+                        </blockquote>
+                        <hr style="margin-bottom:3px;margin-top:10px;padding-bottom:1px;padding-top:1px;" />
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        @Html.TextBoxFor(m => m.StyleNo, new { @class = "hide", width = "60" })
+                        <div id="ProDDescription1" class="margin-bottom-10">
+                            <p style="padding-bottom:60px;">
+                                @Html.Raw(ChineseStringUtility.ToAutoTraditional(ViewBag.vProdDesc))
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-4 col-md-4">
+            @if (ViewBag.IsInfoMode != null)
+            {
+                if (ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
+                {
+                    Shop shop = ViewBag.ClientShop as Shop;
+                    @:<row>
+                        Html.RenderPartial("Info/ViewIsInfoMode", shop);
+                    @:</row>
+                }
+                else if (!string.IsNullOrEmpty(ViewBag.ShopStaffID))
+                {
+                    @:<row>
+                        Html.RenderAction("ViewIconPortrait", "InfoList", new { ShopStaffID = ViewBag.ShopStaffID });
+                    @:</row>
+                }
+            }
+            <row class="margin-top5">
+                <div class="box box-solid  with-border box-success ">
+                    <div class="box-header with-border">
+                        <h4 class="text-center">@Lang.InfoList_InfoDetails_DefinitedTag_RelateInfo</h4>
+                    </div>
+                    <div class="box-body">
+                        <!--Related information: Most viewed information-->
+                        @{
+                            List<InfoListView> TopView = ViewBag.TopView;
+                            if (TopView.Count > 0)
+                            {
+                                foreach (var Item in TopView)
+                                {
+                                    Item.Title = ChineseStringUtility.ToAutoTraditional(Item.Title);
+                                    Item.SubTitle = ChineseStringUtility.ToAutoTraditional(Item.SubTitle);
+                                    Item.Author = ChineseStringUtility.ToAutoTraditional(Item.Author);
+                                    @Html.Partial("Info/InfoListUnit", Item)
+                                }
+                            }
+                        }
+                    </div>
+                    <div class="box-footer with-border bg-gray-light">
+
+                    </div>
+                </div>
+            </row>
+        </div>
+    </div>
+</div>
+
+<!--Space between main product details and footer-->
+<div class="container">-<<br /></div>
+<footer class="floatFooter">
+    <div class="BtmFunLayer container-fluid bg-black-active">
+        <ul class="list-unstyled list-inline no-padding">
+            <li>
+
+                <a href="@Url.Action("Index","Home",new { area=""})" class="btn btn-info btn-link text-info"><i class="fa fa-home" style="color:#ffffff"></i></a>
+            </li>
+            <li>
+                <button type="button" id="BtnCart_homelayout" class="btn btn-info">
+                    <i class="fa fa-cart-arrow-down"></i>
+                </button>
+            </li>
+            <li>
+                <a href="@Url.Action("UserTrace", "Home", new { TableKeyID = ViewBag.ProductId ,Act="p",Ctrl="Home" })" class="btn btn-info btn-link text-info" style="color:#ffffff"><i class="fa fa-share-alt-square"></i></a>
+            </li>
+            <li class="padding-left5">
+                <botton class="h3 text-bold">&nbsp;@string.Format("{0:F1}", (decimal)ViewBag.TradePrice)</botton>
+            </li>
+        </ul>
+    </div>
+</footer>
+
+<script>
+
+    $("#BtnCart_homelayout").click(function () {
+
+        var ProductId = "@ViewBag.ProductId";
+        var AddToCartUrl = "/" + "@ViewBag.Language" + "/Cart/AddToCart?GotoPay=1&ProductId=" + ProductId;
+        console.log(AddToCartUrl);
+        AddToCartUrl = "<iframe src='" + AddToCartUrl + "' width='100%' height='320' frameborder='0' border='0' marginwidth='0' marginheight='0' scrolling='no' allowtransparency='true'></iframe>";
+        var ShoppingCartLayerIndex = layer.open({
+            type: 1
+            , content:AddToCartUrl
+            , anim: 'up'
+            , style: 'position:fixed; bottom:0px; left:0; width: 100%; height: 320px; padding:5px 0; border:none;'
+        });
+    }); // click
+
+    function AddToShoppingCartOK() {
+        layer.open({
+            content: '<h2>ok</h2>'
+            , skin: 'msg'
+            , time: 12
+        });
+    }
+</script>
+
+<script>
+    var ProductId = "@ViewBag.ProductId";
+    var IntervalMinutes = 1;
+    var SourceStatisticsID = "@ViewBag.SourceStatisticsID";
+    var IpStatitics_StartDate_Token = "@ViewBag.IpStatitics_StartDate_Token";
+
+    ProductViewCount(ProductId, IpStatitics_StartDate_Token);
+
+    console.log('\n\r SourceStatisticsID：' + '@ViewBag.SourceStatisticsID ');
+    console.log("\n\r SourceIP：" + '@ViewBag.SourceIP ');
+    console.log('\n\r UserId：' + '@ViewBag.UserId ');
+
+    $(document).ready(function () {
+
+        //加载页面耗时计算  loadTime
+        var loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+        PageLoadingTimesCounter(SourceStatisticsID, loadTime);
+
+        //浏览次数统计
+        setTimeout("ProductViewCount(ProductId,IpStatitics_StartDate_Token)", 10000);
+    })
+
+    setInterval("SourceStatistics(SourceStatisticsID, IntervalMinutes, IpStatitics_StartDate_Token)", 60000); //Time Interval : 60s
+</script>

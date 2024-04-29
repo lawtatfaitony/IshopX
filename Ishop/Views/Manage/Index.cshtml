@@ -1,0 +1,100 @@
+﻿@using LanguageResource
+@model Ishop.Models.IndexViewModel
+@{
+    ViewBag.Title = Lang.Manage_Index_Title;
+ }
+<div class="container padding-10">
+    
+    <div class="box box-default  box-solid with-border">
+        <div class="box-header">
+            <h3 class="box-title">@ViewBag.Title</h3>
+            <div class="box-tools pull-right">
+                <!-- Here is a label for example -->
+                <span class="label label-default" style="color:rebeccapurple"><i class="fa fa-user fa-2x" aria-hidden="true"></i> </span>
+            </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+        <div class="box-body ">
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>@Lang.Views_GeneralUI_Password</dt>
+                    <dd>
+                        [
+                        @if (Model.HasPassword)
+                        {
+                            @Html.ActionLink(Lang.Views_GeneralUI_ChangePassword, "ChangePassword")
+                        }
+                        else
+                        {
+                            @Html.ActionLink(Lang.Views_GeneralUI_Create, "SetPassword")
+                        }
+                        ]
+                    </dd>
+
+
+                    <dt>@Lang.Manage_Index_DefinitedTag_AddMobileProtected</dt>
+                    <dd>
+                        @(Model.PhoneNumber ?? "None")
+                        @if (Model.PhoneNumber != null)
+                        {
+                            <br />
+                            <text>[&nbsp;&nbsp;@Html.ActionLink(@Lang.Views_GeneralUI_Change, "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                            using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <text>[<input type="submit" value="@Lang.Views_GeneralUI_Remove" class="btn-link" />]</text>
+                            }
+                        }
+                        else
+                        {
+                            <text>[&nbsp;&nbsp;@Html.ActionLink(Lang.Manage_Index_DefinitedTag_AddMobile, "AddPhoneNumber")]</text>
+                        }
+                    </dd>
+                    <!--如下不使用-->
+                    @if (!(bool)ViewBag.IsSupervisor && 1 != 1)
+                    {
+
+                        <dt>外部登录名:</dt>
+                        <dd hidden>
+                            @Model.Logins.Count [
+                            @Html.ActionLink("管理", "ManageLogins") ]
+                        </dd>
+
+                        <dt>双因素身份验证:</dt>
+                        <dd>
+                            @if (Model.TwoFactor)
+                            {
+                                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <text>已启用
+                                        <input type="submit" value="禁用" class="btn btn-link" />
+                                    </text>
+                                }
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <text>已禁用
+                                        <input type="submit" value="启用" class="btn btn-link" />
+                                    </text>
+                                }
+                            }
+                        </dd>
+                    }
+
+                    <dd>
+                        <p class="text-success h3">@ViewBag.StatusMessage</p>
+                    </dd>
+                </dl>
+            </div>
+        </div><!-- /.box-body -->
+        <div class="box-footer">
+
+        </div><!-- box-footer -->
+    </div><!-- /.box -->
+
+</div>
+
+

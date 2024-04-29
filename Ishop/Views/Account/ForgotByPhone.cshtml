@@ -1,0 +1,132 @@
+﻿@using LanguageResource
+@model Ishop.Models.ForgotByPhoneViewModel
+@{
+    Layout = null;
+}
+<div class="container">
+    @using (Ajax.BeginForm("ForgotByPhone", "Account",  new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleForgotByPhone", OnFailure = "errForgotByPhone", LoadingElementId = "Loading" }, new { @class = "form-horizontal",id="formByPhone" } ))
+    {
+        @Html.AntiForgeryToken()
+
+        <div  class="box box-solid box-default">
+           
+            <div class="box-header with-border">
+                <h3 class="box-title">@Lang.Account_ForgotPassword_ByPhoneNumber</h3>
+                <div class="box-tools pull-right">
+                    <span class="label label-default"><i class="fa fa-phone-square" aria-hidden="true"></i> Phone</span>
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="form-group"> 
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.PhoneNumber) })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 "> 
+                        <ul class="list-unstyled ">
+                            <li>
+                                <ul class="list-inline list-unstyled ">
+                                    <li>
+                                        <button type="button" id="BtnSendVerifyCode" class="btn btn-danger btn-block btn-flat">@LangUtilities.GetString("获取验证码", "Account_ForgotByPhone_BtnCode", KeyType.DefinitedTag)</button>
+                                    </li>
+                                    <li>
+                                        @Html.TextBoxFor(m => m.Code, new { @class = "form-control", style = "max-width:100px;", placeholder = Html.DisplayNameFor(m => m.Code), maxlength = "6"})
+
+                                    </li>
+                                    <li>
+                                        @Html.ValidationMessageFor(m => m.Code, "", new { @class = "text-danger" })
+                                    </li>
+                                    <li>
+                                        <div id="verifyResult"></div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div id="returnCodeResult" style="margin:6px 10px 5px 0px;max-width:300px;"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit"  id="btnsubmit_formByPhone" class="btn box-default" value="@Lang.Views_GeneralUI_Submit" />
+                         
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box --> 
+    }
+</div> 
+<script>
+
+    function HandleForgotByPhone(data) {
+        if (data.MsgCode == "1")  // 处理 手机验证码服务器返回的提示
+        {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: true,
+                title: "@Lang.Account_ForgotByPhone_HandleForgotByPhone_title",
+                message: "<H3>" + data.Message + "</H3>",
+                cssClass: 'bootstrap-dialog fade',
+                buttons: [{
+                    label: 'Close',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+        } else {
+            var msg_HandleForgotByPhone = "@Lang.Account_ForgotByPhone_Alertmsg_HandleForgotByPhone"
+            alert(msg_HandleForgotByPhone + "\n\n" + data.Message);
+
+        }
+    }
+    function errForgotByPhone(data) {
+        console.log(JSON.stringify(data));
+        var msg_errForgotByPhone = "@Lang.Account_ForgotByPhone_Alert_msg_errForgotByPhone"
+        alert(msg_errForgotByPhone + data.Message);
+
+    }
+    //保存 新增
+    $("#BtnSendVerifyCode").click(function () {
+
+
+        var PhoneNumber = $('#PhoneNumber').val(); //发送手机号码返回服务器
+
+        var myparamsObject = { "PhoneNumber": PhoneNumber };
+        $.ajax({
+            url: "/Account/SendVerifyCode", /*获取验证码*/
+            data: myparamsObject,
+            type: "get",
+            dataType: "text", /*设置返回值类型为文本*/
+            error: function (result) {
+                console.log(JSON.stringify(result));
+                alert("@Lang.Account_ForgotByPhone_BtnSendVerifyCodeClick_Alert" + JSON.stringify(result));
+
+            },
+            success: function (result) {
+
+                json = JSON.parse(result);
+                if (json.MsgCode == "1") {
+                    console.log(json.Message);
+                    var insertHtmlmsg = "<span style='color:red;'>" + json.Message + "</span>";
+                    $('#returnCodeResult').html(insertHtmlmsg);
+                }
+                else {
+                    var insertHtmlmsg = "<span style='color:red;'>" + json.Message + "</span>";
+                    $('#returnCodeResult').html(insertHtmlmsg);
+                }
+            }
+        });
+    })
+
+</script>

@@ -1,0 +1,224 @@
+﻿@using LanguageResource
+@using Ishop.Models.ProductMgr
+@using Ishop.Utilities
+@model Ishop.Models.Info.InfoDetail
+
+<style>
+    img {
+            display: block;
+            margin: auto;
+            display:inline-block;
+            -webkit-transition: all .2s ease-in-out;
+            -o-transition: all .2s ease-in-out;
+            transition: all .2s ease-in-out;   
+        }
+    #div_TitleThumbNail {
+        position:relative;
+        text-align:center; 
+    }
+    #div_TitleThumbNail img{  position:relative;  }
+
+    #InfoDescription1  p {   font-family:'Microsoft YaHei ,Microsoft JhengHei UI';font-size:1.2em;line-height:1.6em !important;   } 
+    #InfoDescription1  p > span {   font-family:'Microsoft YaHei ,Microsoft JhengHei UI';font-size:1.2em;line-height:1.6em !important;   } 
+    #InfoDescription1 div span{  font-family:'Microsoft YaHei ,Microsoft JhengHei UI';font-size:1.2em;line-height:1.6em !important;  } 
+    #InfoDescription1 div > font span{  font-family:'Microsoft YaHei ,Microsoft JhengHei UI';font-size:1.2em;line-height:1.6em !important;  }
+    #InfoDescription1 div > p span{  font-family:'Microsoft YaHei ,Microsoft JhengHei UI';font-size:1.2em;line-height:1.6em !important;  }
+    #InfoDescription1 font{  font-family:'Microsoft YaHei ,Microsoft JhengHei UI';font-size:1.2em;line-height:1.6em !important;  }
+
+    .center_infodetail{   
+                display:-webkit-box; 
+                -webkit-box-orient:horizontal; 
+                -webkit-box-pack:center; 
+                -webkit-box-align:center; 
+                display:-moz-box; 
+                -moz-box-orient:horizontal; 
+                -moz-box-pack:center; 
+                -moz-box-align:center; 
+                display:-o-box; 
+                -o-box-orient:horizontal; 
+                -o-box-pack:center; 
+                -o-box-align:center; 
+                display:-ms-box; 
+                -ms-box-orient:horizontal; 
+                -ms-box-pack:center; 
+                -ms-box-align:center; 
+                display:box; 
+                box-orient:horizontal; 
+                box-pack:center; 
+                box-align:center; 
+        } 
+</style>
+
+<div class="container">
+
+
+    <div ng-app="App_InfoDetails" ng-controller="Ctrl_InfoDetails" ng-init="init('@Model.InfoID')" class="box box-default">
+        <div class="box-header with-border" ng-model="Title">
+            <h2 class="box-title "><a id="titleTop" href="#titleTop"><i class="fa fa-info-circle" style="margin-top:5px;margin-right:10px;"></i></a>{{Title}}</h2>
+        </div>
+        <div class="box-body" style="min-height:800px;">
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+                    <div class="d-flex flex-column bd-highlight mb-3">
+                        <div ng-model="Author" class="p-2 bd-highlight">
+                            <ul class="list-unstyled list-inline no-margin no-padding">
+                                <li>
+                                    <div class="small">
+                                        <i class="fa fa-user-o  text-gray" aria-hidden="true"></i>
+                                        <span>HELP CENTER </span><i class="glyphicon glyphicon-menu-right small"></i> <span hidden>{{Author}} </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div ng-model="Views" class="small"><i class="fa fa-eye  text-gray" aria-hidden="true">&nbsp;</i>{{Views}}</div>
+                                </li>
+                                <li>
+                                    @Html.ActionLink(" ", "UserTrace", "Home", new { TableKeyID = Model.InfoID, Act = "wx", Ctrl = "i" }, new { @class = "glyphicon glyphicon-share" })
+                                </li>
+                            </ul>
+                        </div>
+                        <div ng-model="SubTitle" ng-bind-html="SubTitle" class="h5 bg-blue-gradient SubTitle" style="padding:10px 15px 12px 15px;line-height:1.4em;">
+                        </div>
+                        <div ng-model="TitleThumbNail" class="center_infodetailt">
+
+                        </div>
+                        <div id="InfoDescription1" class="bd-highlight pb-3 InfoDescription" ng-model="InfoDescription" ng-bind-html="InfoDescription">
+                            <p ng-bind="InfoDescription"></p>
+                        </div>
+
+                        <div class="p-2 bd-highlight"></div>
+                        <div class="p-2 bd-highlight"></div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4">
+                    <row>
+                        <div class="box box-solid  with-border bg-light-blue-active">
+
+                            <div class="box-header with-border">
+                                <h4 class="text-center">HELP CENTER</h4>
+                            </div>
+                            <div class="box-body">
+                                @using (Html.BeginForm("Index", "Helper", FormMethod.Get, new { @class = "form-horizontal form-inline no-padding no-margin mb-3" }))
+                                {
+                                    <div id="box-widget" class="box-header">
+                                        <ul class="list-unstyled list-inline no-margin no-padding">
+                                            <li>
+                                                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control form-control-sm input-sm", placeholder = Lang.Views_GeneralUI_InputKeyWord, style = "max-width:120px;" })
+                                            </li>
+                                            <li>
+                                                <input type="submit" class="btn btn-sm btn-info" value="@Lang.Views_GeneralUI_Search" />
+                                            </li>
+                                        </ul> 
+                                    </div>
+                                }
+                                @Html.Action("HelpList", "Helper", new { searchString = ViewBag.SearchString, page = ViewBag.CurrnetPage })
+                            </div>
+                            <div class="box-footer with-border bg-gray-light">
+
+                            </div>
+                        </div>
+                    </row>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/js/Info/IPstatitics.js"></script>
+
+<script>
+    var InfoID = "@Model.InfoID";
+    var IntervalMinutes = 1; //1mins
+    var SourceStatisticsID = "@ViewBag.SourceStatisticsID";
+    var IpStatitics_StartDate_Token = "@ViewBag.IpStatitics_StartDate_Token";
+    console.log('SourceStatisticsID：' + '@ViewBag.SourceStatisticsID ');
+    console.log("SourceIP：" + '@ViewBag.SourceIP ');
+    console.log('UserId：' + '@ViewBag.UserId ');
+    setInterval("SourceStatistics(SourceStatisticsID, IntervalMinutes, IpStatitics_StartDate_Token)", 60000); //每隔60秒
+
+
+    var app = angular.module('App_InfoDetails', []);
+    app.controller('Ctrl_InfoDetails', function ($scope,$sce, $http) {
+
+        $scope.Author = "";
+        $scope.SubTitle = "";
+        $scope.Views = 0;
+        $scope.ShowTitleThumbNail = false;
+
+        $scope.TitleThumbNail = "";
+        $scope.InfoDescription = "";
+
+        $scope.init = function (infoId) {
+            onBeginSubmit();
+            var url_info = "/@LangUtilities.LanguageCode" + '/Helper/GetInfoDetails/' + infoId;
+            $http({
+                method: 'GET',
+                url: url_info,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).then(function successCallback(response) {
+                
+                InfoID = response.data.InfoID;
+                $scope.Title = response.data.Title;
+                $scope.Author = response.data.Author;
+                $scope.SubTitle = $sce.trustAsHtml(response.data.SubTitle);
+                $scope.Views = response.data.Views;
+                $scope.ShowTitleThumbNail = response.data.ShowTitleThumbNail;
+                if ($scope.ShowTitleThumbNail === true) {
+
+                    $scope.TitleThumbNail = $sce.trustAsHtml("<img id=\"img_titleThumbNail\" class=\"img-responsive\" src=\"" + response.data.TitleThumbNail + "\" />");
+                } else {
+                    $scope.TitleThumbNail = "";
+                }
+
+                $scope.InfoDescription = $sce.trustAsHtml(response.data.InfoDescription);
+
+                setTimeout(function () {
+                    layer.closeAll();
+
+                    window.requestAnimationFrame = window.requestAnimationFrame || function (fn) {
+                        return setTimeout(fn, 1000 / 60);
+                    };
+                    var target = document.getElementById("titleTop").offsetTop;
+                    if (location.href.indexOf('#titleTop') > 0 && parseInt(target) > 0) {
+                        (function animation() {
+                            var init = 0;
+                            (function fn() {
+                                init += 40;
+                                if (init >= target) {
+                                    init = target;
+                                } else {
+                                    requestAnimationFrame(fn);
+                                }
+                                document.body.scrollTop = document.documentElement.scrollTop = init;
+                            })();
+                        })();
+                    }
+                }, 1000);
+                 
+
+            }, function errorCallback(response) {
+                console.log("[Callback ERROR] GetContractorJSON  : \n\r" + response.data);
+            });
+        };
+
+        //$scope.name = "John Doe XXXXXXSS";
+    });
+
+
+    $(document).ready(function () {
+
+        //加载页面耗时计算  loadTime
+        var loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+        PageLoadingTimesCounter(SourceStatisticsID, loadTime);
+
+        //浏览次数统计
+        setTimeout("InfoViewCount(InfoID,IpStatitics_StartDate_Token)", 10000);
+         
+    })
+
+
+
+
+</script>

@@ -1,0 +1,90 @@
+﻿@using LanguageResource;
+@using Ishop.Context;
+@model Ishop.ViewModes.Order.OrderDetailView
+@{ 
+        ViewBag.Title = Lang.Views_GeneralUI_ConfirmOrder;
+        Layout = "~/Views/Shared/CreateOrderLayout.cshtml";
+}
+@using (Ajax.BeginForm("Index", "Order", new { CurrentOrderId = ViewBag.CurrentOrderId }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleOrderIndexSuccDialog", OnFailure = "errOrderIndex", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+{
+    <div class="box box-info"> 
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.OrderId)
+        @Html.HiddenFor(model => model.Payment)
+        @Html.HiddenFor(model => model.Country)
+        <div id="box-widget" class="box-header with-border">
+            <h5 class="box-title"><i class="fas fa-angle-down"></i>@Lang.ControllerName_Views_DefinitedUI_ConfirmOrderAnouncement</h5>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Recipient, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.Recipient, new { @class = "form-control", autocomplete = "on", style = "width:60%;" })
+                    @Html.ValidationMessageFor(model => model.Recipient, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", autocomplete = "on", style = "width:60%;" })
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger", style = "width:60%;" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control", row = 2, style = "width:100%; overflow:visible;" })
+                </div>
+            </div>
+
+            <div id="MyShoppingCart1" style="margin-top:15px">
+                @{
+                    List<Ishop.Models.ProductMgr.OrderItem> OrderItems = ViewBag.OrderItems;
+                    if (OrderItems.Count > 0)
+                    {
+                        foreach (var Item in OrderItems)
+                        {
+                            <div id="@Item.OrderItemId" style="padding:5px 0px 5px 0px; border-bottom-color:crimson;border-bottom-width:4px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
+                                @Html.Partial("~/Views/Shared/ShoppingCart/OrderItemListUnit.cshtml", Item)
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div> 
+    </div>
+     
+    <footer class="floatFooter">
+        <div class="BtmFunLayer  container-fluid bg-black-active" style="width:70%;margin-bottom:10px;">
+            <table style="padding:5px 5px 5px 5px;width:100%">
+                <tr>
+                    <td style="padding:5px 5px 5px 5px;width:50%" class="h4 text-red text-bold"> 
+                        @string.Format("{0:C0}", Decimal.Parse(Html.DisplayFor(m => m.Payment).ToString()))
+                    </td>
+                    <td style="width:50%;padding:5px 5px 5px 5px;">
+                        <button type="submit" id="BtnOKGotoPay" class="btn btn-info btn-flat text-bold">@Lang.Order_Index_DefinitedUI_OkAndGotoPay<!--Order_Index_DefinitedUI_OkAndGotoPay--></button>&nbsp;&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </footer>
+}
+<script>
+     
+    function HandleOrderIndexSuccDialog(data) {
+
+        if (data.MsgCode == "1") {
+            console.log("data.Message :"+ data.Message);
+            layer.open({
+                content: data.Message
+                , skin: 'msg'
+                , time: 2
+            }); 
+        }
+    }
+</script>
+

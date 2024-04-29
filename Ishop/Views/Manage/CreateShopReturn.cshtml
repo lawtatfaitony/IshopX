@@ -1,0 +1,78 @@
+﻿@using LanguageResource
+@using Ishop.Context
+@using Ishop.Utilities
+@using Microsoft.AspNet.Mvc.Rendering
+@{  
+    Layout = null;
+}
+@model Ishop.Models.ProductMgr.Shop
+<div class="container">
+
+    <div class="form-group  form-inline">
+        <div class="col-sm-2 form-inline">@Html.LabelFor(model => model.ShopID, new { @class = "control-label" })</div>
+        <div class="col-sm-10">
+            @Html.DisplayFor(model => model.ShopID, new { @class = "control-label" })
+        </div>
+    </div>
+    <div class="form-group form-inline">
+        <div class="col-sm-2 form-inline ">@Html.LabelFor(model => model.ShopName, new { @class = "control-label" })</div>
+        <div class="col-sm-10 ">
+            @Html.DisplayFor(model => model.ShopName, new { @class = "control-label", placeholder = Html.DisplayNameFor(model => model.ShopName) })
+        </div>
+    </div>
+    <div class="form-group form-inline">
+        <div class="col-sm-2 form-inline ">@Html.LabelFor(model => model.ShopCurrency, new { @class = "control-label" })</div>
+        <div class="col-sm-10 ">
+            @Html.DisplayFor(model => model.ShopCurrency, new { @class = "control-label", placeholder = Html.DisplayNameFor(model => model.ShopCurrency) })
+        </div>
+    </div>
+    <div class="form-group form-inline">
+        <div class="col-sm-2 form-inline">@Html.LabelFor(model => model.ShopLogo, new { @class = "control-label" })</div>
+        <div class="col-sm-10">
+            <img class="img-circle thumbnail" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.ShopLogo).ToString(), PictureSize.s160X160)" style="max-width:200px" />
+        </div>
+    </div>
+    <div class="form-group form-inline">
+        <div class="col-sm-2 form-inline">@Html.LabelFor(model => model.WeixinQRcode, new { @class = "control-label" })</div>
+        <div class="col-sm-10">
+            <img class="img-circle thumbnail" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.WeixinQRcode).ToString(), PictureSize.s160X160)" style="max-width:90px" />
+        </div>
+    </div>
+    <div class="form-group form-inline">
+        <div class="col-sm-2 form-inline">@Html.LabelFor(model => model.WeiboQRcode, new { @class = "control-label" })</div>
+        <div class="col-sm-10">
+            <img class="img-circle thumbnail" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.WeiboQRcode).ToString(), PictureSize.s160X160)" style="max-width:90px" />
+        </div>
+    </div>
+    <div class="form-group form-inline">
+        <div class="col-sm-2 form-inline">@Html.LabelFor(model => model.ToutiaoQRcode, new { @class = "control-label" })</div>
+        <div class="col-sm-10">
+            <img class="img-circle thumbnail" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.ToutiaoQRcode).ToString(), PictureSize.s160X160)" style="max-width:90px" />
+        </div>
+    </div>
+    <div class="form-group form-inline">
+        <div class="col-sm-2 form-inline">@Html.LabelFor(model => model.fbQRcode, new { @class = "control-label" })</div>
+        <div class="col-sm-10">
+            <img class="img-circle thumbnail" src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.fbQRcode).ToString(), PictureSize.s160X160)" style="max-width:90px" />
+        </div>
+    </div>
+    <div class="form-group form-inline">
+        <div class="col-sm-2 form-inline">@Html.LabelFor(model => model.UserName, new { @class = "control-label" })</div>
+        <div class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName, new { @class = "control-label", placeholder = Html.DisplayNameFor(model => model.UserName) })
+        </div>
+    </div>
+
+   
+
+    <div class="form-group form-inline">
+        <div class="col-sm-2 form-inline">@Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label", placeholder = Html.DisplayNameFor(model => model.PhoneNumber) })</div>
+        <div class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber, new { @class = "control-label" })
+        </div>
+    </div>
+    <div>
+        @Html.ActionLink(Lang.Manage_CreateShopReturn_DefinitedTag_ViewMyShop, "Index", "home", new { ShpID = @Html.DisplayFor(model => model.ShopID) }, new { target = "_blank", @class = "btn btn-primary  btn-flat" })
+        @Html.ActionLink(Lang.Manage_CreateShopReturn_DefinitedTag_ReturnToModify, "CreateShop", "manage", new { ShpID = @Html.DisplayFor(model => model.ShopID) }, new { @class = "btn btn-primary  btn-flat" })
+    </div>
+</div>  

@@ -1,0 +1,63 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+@using Ishop.ViewModes.Info  
+<div class="container">
+    <row>
+        <ul class="nav nav-tabs no-padding" style="margin-top:5px;" role="tablist">
+            <li role="presentation" class="list-inline">
+                <a href="@Url.Action("Index", "home")">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li role="presentation" class="active">
+                <a href="@Url.Action("Index", "Infolist")">
+                    @ChineseStringUtility.ToAutoTraditional(ViewBag.HotTopicName)
+                </a>
+            </li>
+        </ul>
+    </row>
+
+    <row>
+        <div class="col-lg-4 no-padding no-margin">
+            @{
+                List<InfoListView> HotTopic = ViewBag.HotTopic;
+                if (HotTopic.Count > 0)
+                {
+                    foreach (var Item in HotTopic)
+                    {
+                        @Html.Partial("~/Views/Shared/Info/InfoListUnit.cshtml", Item)
+                    }
+                }
+            }
+        </div>
+
+        <div class="col-lg-4  no-padding no-margin">
+            @{
+                List<InfoListView> HeadLines = ViewBag.HeadLines;
+                if (HotTopic.Count > 0)
+                {
+                    foreach (var Item in HeadLines)
+                    {
+                        @Html.Partial("~/Views/Shared/Info/InfoListUnit.cshtml", Item)
+                    }
+
+                }
+            }
+        </div>
+
+        <div class="col-lg-4  no-padding no-margin">
+            @{
+                List<InfoListView> SpecialTopic = ViewBag.SpecialTopic;
+                if (HotTopic.Count > 0)
+                {
+                    foreach (var Item in SpecialTopic)
+                    {
+                        @Html.Partial("~/Views/Shared/Info/InfoListUnit.cshtml", Item)
+                    }
+
+                }
+            }
+        </div>
+    </row>
+
+</div> 

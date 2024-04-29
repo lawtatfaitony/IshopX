@@ -1,0 +1,106 @@
+﻿@using Ishop.Utilities
+@using Ishop.Models.Info
+@using LanguageResource
+@using Ishop.Models.ProductMgr
+@using Ishop.ViewModes.Info
+<!--业务推广模式  服务平台推广模式-->
+
+@Html.Partial(string.Format("TemplateB/AdMainAiBox.{0}", LangUtilities.LanguageCode))
+
+@Html.Partial(string.Format("TemplateB/AttAndDevice.{0}", LangUtilities.LanguageCode))
+
+@Html.Partial(string.Format("TemplateB/AdMain.{0}", LangUtilities.LanguageCode))
+
+@Html.Partial(string.Format("Download/LisenceCreator.{0}", LangUtilities.LanguageCode))
+
+@Html.Partial(string.Format("TemplateB/AiService.{0}", LangUtilities.LanguageCode))
+
+@Html.Partial(string.Format("TemplateB/PaintPointCompare.{0}", LangUtilities.LanguageCode))
+
+
+
+<!--Product-->
+
+@if (ViewBag.ProductList != null)
+{
+    <div class="container" style="margin-bottom: 10px;">
+        <div class="container" style="border-top: dashed; border-top-width: 2px; border-top-color: #fbf7d2;"></div>
+        <div class="row">
+            <blockquote class="blockquote bg-gray-light" style="padding:10px;font-size:16px;">
+                @Lang.ProductView_Title
+            </blockquote>
+        </div>
+    </div>
+    List<ProductUnit> productList = ViewBag.ProductList;
+    if (productList.Count > 0)
+    {
+        <div class="container no-padding">
+            @foreach (var Item in productList)
+            {
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    @Html.Partial("Product/ProductUnit", Item)
+                </div>
+            }
+        </div>
+        <div class="container" style="padding:5px 5px 5px 15px;">
+            <a class="badge badge-success pull-right" href="@Url.Action("Get","InfoList")" target="_blank">
+                +more
+            </a>
+        </div>
+    }
+}
+
+<!--Help-->
+@{
+    List<InfoListView> listOfHelpFunction = ViewBag.ListOfHelpFunction;
+    if (listOfHelpFunction.Count > 0)
+    {
+        <div class="container no-padding" style="margin-top:10px;">
+            <div class="row">
+                <blockquote class="blockquote bg-gray-light" style="padding:10px;font-size:16px;margin-left:15px;margin-right:15px;">
+                    HELP
+                </blockquote>
+            </div>
+            <div class="row">
+                <div class="container">
+                    @foreach (var Item in listOfHelpFunction)
+                    {
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.Partial("Info/InfoListUnit", Item)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<!--Infomation-->
+<div class="container" style="margin-bottom: 10px;">
+    <div class="container" style="border-top: dashed; border-top-width: 2px; border-top-color: #fbf7d2;"></div>
+    <div class="row">
+        <blockquote class="blockquote bg-gray-light" style="padding:10px;font-size:16px;">
+            @Lang.InfoList_InfoDetailsIndustryDynamic
+        </blockquote>
+    </div>
+</div>
+@{
+    List<InfoListView> InfoList = ViewBag.InfoList;
+    if (InfoList.Count > 0)
+    {
+        <div class="container no-padding">
+            @foreach (var Item in InfoList)
+            {
+                @:<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    @Html.Partial("Info/InfoListUnit", Item)
+                @:</div>
+            }
+        </div>
+        <div class="container" style="padding:5px 5px 5px 15px;">
+            <a class="badge badge-success pull-right" href="@Url.Action("Get","InfoList")" target="_blank">
+                +more
+            </a>
+        </div>
+    }
+}
+

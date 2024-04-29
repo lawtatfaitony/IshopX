@@ -1,0 +1,107 @@
+﻿@using LanguageResource
+@model Ishop.ViewModes.Public.CompoundInterestView
+@{
+    ViewBag.Title = "复利终值与利率的计算公式";
+    ViewBag.SubTitle = "复利计算公式";
+}
+
+<div class="container">
+    @using (Ajax.BeginForm("CompoundInterest", null, null, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleCompoundInterestForiSuccDialog", OnFailure = "errCompoundInterestFori", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+    {
+        <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
+        @Html.AntiForgeryToken()
+
+
+        <!--系统资料-->
+        <div id="box-widget" class="box box-solid box-default ">
+            <div class="box-header with-border">
+                <h3 class="box-title">利率计算</h3>
+                <div class="box-tools pull-right">
+                    <span class="label label-default"><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> System</span><button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.P, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.P, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.F, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.F, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.n, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.n, new { @class = "form-control" })
+                    </div>
+                </div>
+             
+                <div class="form-group">
+                    @Html.LabelFor(model => model.i, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        <div class="input-group" style="max-width:280px;">
+                            @Html.TextBoxFor(model => model.i, new { @class = "form-control", autocomplete = "on" })
+                            <div class="input-group-btn">
+                                <button type="button" id="btn1" class="btn btn-default" aria-haspopup="true" aria-expanded="false">
+                                    <span id="btn_span1"><strong>%</strong></span>
+                                </button>
+                            </div><!--input-group-btn-->
+                        </div><!--input-group-->
+                        <div class="row padding-left15 "> @Html.ValidationMessageFor(model => model.i, "", new { @class = "text-danger" })</div>
+                    </div>
+                </div>
+
+            </div><!-- /.box-body -->
+            <div class="box-footer col-sm-offset-2">
+                <button type="submit" id="btnCalcInterest" class="btn btn-info ">
+                    计算利率
+                </button>
+            </div>
+        </div><!-- /.box -->
+
+    }
+</div>
+
+<script>
+
+    function HandleCompoundInterestForiSuccDialog(data) {
+
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_SUCCESS,
+                resizable: true,
+                size: 'size-normal',
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                draggable: true,
+                closable: false,
+                title: "@Lang.Views_GeneralUI_ReturnResult",
+                message: "<H3>" + data.Message + "</H3>",
+                cssClass: 'bootstrap-dialog fade',
+                buttons: [{
+                    label: 'OK!',
+                    cssClass: 'btn-primary',
+                    action: function (dialog) {
+                        console.log("利率:" + data.MsgCode);
+                        $("#i").val(data.MsgCode);
+
+                        dialog.close();
+                    }
+                }]
+            });
+
+    }
+    function errCompoundInterestFori(data) {
+        alert(data.MsgCode + ":" + data.Message);
+    }
+
+</script>
+
+
+
+

@@ -1,0 +1,26 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+@using PagedList;
+@using PagedList.Mvc;
+@using Ishop.ViewModes.Info
+@model PagedList.IPagedList<InfoListView>
+<div class="container" style="margin-top:10px;">
+    <row>
+        <blockquote style="background-color:#f3f2db;padding:15px; font-size:18px;font-weight:600;margin-bottom:15px;">INDUSTRY INFORMATION</blockquote>
+    </row>
+    <row style="min-height:800px;">
+        @foreach (var Item in Model)
+        {
+            <div class="col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
+                @Html.Partial("~/Views/Shared/Info/InfoListUnit.cshtml", Item)
+            </div>
+        }
+    </row> 
+</div> 
+<div  class="container">
+    @if (Model.PageCount > 1)
+    {
+        <label>@string.Format(Lang.GeneralUI_PagerInfo, Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber, Model.PageCount, Model.Count)</label>
+        @Html.PagedListPager(Model, page => Url.Action("index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    }
+</div>

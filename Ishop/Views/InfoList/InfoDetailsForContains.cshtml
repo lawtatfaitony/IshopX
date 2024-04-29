@@ -1,0 +1,119 @@
+﻿@using LanguageResource
+@using Ishop.Models.ProductMgr
+@using Ishop.Utilities
+@using Ishop.Context
+@using Ishop.ViewModes.Info
+@model Ishop.Models.Info.InfoDetail
+
+<style>
+    img {
+        display: block;
+        margin: auto;
+        display: inline-block;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    }
+
+    #div_TitleThumbNail {
+        position: relative;
+        text-align: center;
+    }
+
+        #div_TitleThumbNail img {
+            position: relative;
+        }
+
+    #InfoDescription1 p {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+        #InfoDescription1 p > span {
+            font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+            font-size: 1.2em;
+            line-height: 1.6em !important;
+        }
+
+    #InfoDescription1 div span {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    #InfoDescription1 div > font span {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    #InfoDescription1 div > p span {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    #InfoDescription1 font {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    .center_infodetail {
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        display: -moz-box;
+        -moz-box-orient: horizontal;
+        -moz-box-pack: center;
+        -moz-box-align: center;
+        display: -o-box;
+        -o-box-orient: horizontal;
+        -o-box-pack: center;
+        -o-box-align: center;
+        display: -ms-box;
+        -ms-box-orient: horizontal;
+        -ms-box-pack: center;
+        -ms-box-align: center;
+        display: box;
+        box-orient: horizontal;
+        box-pack: center;
+        box-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h2 class="box-title "><i class="fa fa-info-circle" style="margin-top: 5px; margin-right: 5px; margin-left:1px;"></i>@Html.Raw(Html.DisplayFor(model => model.Title))</h2>
+        </div>
+        <div class="box-body" style="min-height:800px;"> 
+                @Html.Raw(ViewBag.InfoDescription)
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Info/IPstatitics.js"></script>
+
+<script>
+    var InfoID = "@ViewBag.InfoID";
+    var IntervalMinutes = 1; //1mins
+    var SourceStatisticsID = "@ViewBag.SourceStatisticsID";
+    var IpStatitics_StartDate_Token = "@ViewBag.IpStatitics_StartDate_Token";
+    console.log('SourceStatisticsID：' + '@ViewBag.SourceStatisticsID ');
+    console.log("SourceIP：" + '@ViewBag.SourceIP ');
+    console.log('UserId：' + '@ViewBag.UserId ');
+    setInterval("SourceStatistics(SourceStatisticsID, IntervalMinutes, IpStatitics_StartDate_Token)", 60000); //每隔60秒
+
+    $(document).ready(function () {
+
+        //加载页面耗时计算  loadTime
+        var loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+        PageLoadingTimesCounter(SourceStatisticsID, loadTime);
+
+        //浏览次数统计
+        setTimeout("InfoViewCount(InfoID,IpStatitics_StartDate_Token)", 10000);
+    })
+</script>

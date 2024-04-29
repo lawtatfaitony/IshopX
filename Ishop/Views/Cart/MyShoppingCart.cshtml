@@ -1,0 +1,100 @@
+﻿@using Ishop.Utilities
+@using LanguageResource
+@{
+    Layout = "~/Views/Shared/ShoppingCartLayout.cshtml";
+}
+<div id="MyShoppingCart1" style="margin-top:15px">
+    @{
+        List<Ishop.Models.ProductMgr.Cart> CartList = ViewBag.CartList;
+        if (CartList.Count > 0)
+        {
+            foreach (var Item in CartList)
+            {
+                <div id="@Item.ProductSkuId" style="padding:5px 0px 5px 0px; border-bottom-color:crimson;border-bottom-width:4px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
+                    @Html.Partial("~/Views/Shared/ShoppingCart/CarListUnit.cshtml", Item)
+                    <hr style=" border-top:3px thick #808080;width:90%" />
+                </div>
+            }
+            <div class="container pull-left"><a id="seletedOK" href="javascript:void(0)">@Lang.Views_GeneralUI_seletedOK</a></div>
+        }
+    }
+</div>
+ 
+<footer class="floatFooter">
+    <div class="BtmFunLayerMyShoppingCart container-fluid bg-black-active">
+        <ul class="list-unstyled list-inline no-padding">
+            <li class="">
+                <a href="@Url.Action("Index","Home",new { LangUtilities.LanguageCode,area="default"})" class="btn btn-info btn-link text-info"><i class="fa fa-home" style="color:#ffffff"></i></a>
+            </li>
+            <li class="">
+                <button type="button" id="BtnSubmitCheeckOut" class="btn btn-info">@Lang.DispatchNoteModalView_DefinitedTag_SubmitAndPay<!--微信支付 DispatchNoteModalView_DefinitedTag_SubmitAndPay--></button>
+            </li> 
+        </ul>
+    </div>
+</footer>
+
+<script>
+
+    $("#seletedOK").click(function () {
+        console.log("BtnSubmitCheeckOut click");
+        var CheeckedItem = $("input[type='checkbox']:checked").serialize();
+        console.log(CheeckedItem);
+
+        var groupCheckbox = $("input[type='checkbox']:checked");
+        var _list = new Array();
+        for (i = 0; i < groupCheckbox.length; i++) {
+            if (groupCheckbox[i].checked) {
+                var val = groupCheckbox[i].value;
+                _list[i] = val;
+                console.log(val);
+            }
+        }
+        if (_list.length < 1) {
+
+            layerTips("<h3>No Select</h3>");
+        }
+        $.ajax({
+            url: "@Url.Action("SubmitCartItem", "cart",new { area="default",Language=ViewBag.Language})",
+            type: "post",
+            data: { "selectedSkuIDs": _list },
+            success: function (NotSelectedList) {
+                console.log(JSON.stringify(NotSelectedList));
+
+                for (var i = 0, l = NotSelectedList.length; i < l; i++) {
+
+                    for (var key in NotSelectedList[i]) {
+                        console.log(key + ':' + NotSelectedList[i][key]);
+                    }
+
+                    var skuId1 = NotSelectedList[i]["ProductSkuId"]
+                    var RemoveID = "#" + skuId1;
+                    $(RemoveID).html("");
+                }
+
+                layerTips("<h4>OK</h4>");
+            }
+        });
+    })
+</script>
+<script>
+    $("#BtnSubmitCheeckOut").click(function () {
+        var groupCheckbox = $("input[type='checkbox']:checked");
+
+        var _list = "" ;
+        for (i = 0; i < groupCheckbox.length; i++) {
+            if (groupCheckbox[i].checked) {
+                var val = groupCheckbox[i].value;
+                _list += val + "|";
+                console.log("list=" + _list);
+            }
+        }
+        if (_list.length == 0) {
+
+            layerTips("<h4>@Lang.ControllerName_ActionMethod_MyShoppingCart_layerTips</h4>"); //沒有選擇要購買的商品哦~~~
+        }
+        else {
+            window.location ="@Url.Action("Index", "Order", new { area="default",Language=ViewBag.Language})" + "?list=" + _list;
+        }
+
+    })
+</script>

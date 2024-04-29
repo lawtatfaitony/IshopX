@@ -1,0 +1,282 @@
+﻿
+@using LanguageResource
+@using Ishop.Models.ProductMgr
+@using Ishop.Utilities
+@model Ishop.Models.PubDataModal.SeoExtand
+<!--角色：BusinessPromotion -->
+@Styles.Render("~/AdminLTE/plugins/bootstrap-treeview/css")
+@Scripts.Render("~/AdminLTE/plugins/bootstrap-treeview/js")
+<style>
+    img {
+        display: block;
+        margin: auto;
+        display: inline-block;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    }
+
+    #div_TitleThumbNail {
+        position: relative;
+        text-align: center;
+    }
+
+        #div_TitleThumbNail img {
+            position: relative;
+        }
+
+    #InfoDescription1 p {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+        #InfoDescription1 p > span {
+            font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+            font-size: 1.2em;
+            line-height: 1.6em !important;
+        }
+
+    #InfoDescription1 div span {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    #InfoDescription1 div > font span {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    #InfoDescription1 div > p span {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    #InfoDescription1 font {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    .center_infodetail {
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        display: -moz-box;
+        -moz-box-orient: horizontal;
+        -moz-box-pack: center;
+        -moz-box-align: center;
+        display: -o-box;
+        -o-box-orient: horizontal;
+        -o-box-pack: center;
+        -o-box-align: center;
+        display: -ms-box;
+        -ms-box-orient: horizontal;
+        -ms-box-pack: center;
+        -ms-box-align: center;
+        display: box;
+        box-orient: horizontal;
+        box-pack: center;
+        box-align: center;
+    }
+</style>
+<div class="container">
+
+
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h2 class="box-title "><i class="fa fa-info-circle" style="margin-top:5px;"><span>&nbsp;</span></i>@Html.Raw(Html.DisplayFor(model => model.SeoKeyWord))</h2>
+            <div class="box-tools pull-right inline">
+                <div class="dropdown">
+                    <a href="/mgr/Info/SeoHtmlContextAdd?SeoExtandID=@ViewBag.SeoExtandID" target="_blank"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        <i class="glyphicon glyphicon-indent-right" aria-hidden="true"></i>
+                        @Html.Label(Lang.Views_GeneralUI_Top50, htmlAttributes: new { @class = "label" })
+                        <span class="glyphicon glyphicon-minus"></span>
+                        <span id="TopRank50" class="h4 bold">@Html.DisplayFor(model => model.TopRank50)</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+
+                        @{
+                            for (int i = 1; i < 50; i++)
+                            {
+                                <li><a onclick="javascript:UpdTopRank50('@ViewBag.SeoExtandID','@i.ToString()')" style="cursor:pointer;">Top @i.ToString()</a></li>
+                            }
+                        }
+                    </ul>
+
+                </div>
+
+
+            </div>
+        </div>
+        <div class="box-body" style="min-height:800px;">
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+
+                    <div class="row" style="padding:10px;">
+                        <div id="SeoHtmlContext1">
+                            <p>
+                                @Html.Raw(ViewBag.SeoHtmlContext)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" style="padding:10px;">
+                        @Html.Label(Lang.Views_GeneralUI_RelateFile, htmlAttributes: new { @class = "col-sm-2 control-label" })<br />
+
+                        @{
+                            List<Ishop.Models.UploadItem.UploadItem> uploadItems = ViewBag.UploadItemList;
+                            if (uploadItems != null)
+                            {
+                                @:<table class="table"><tr>
+                                        int cnt = 0;
+
+                                        foreach (var item in uploadItems)
+                                        {
+                                            if (cnt++ % 1 == 0)
+                                            {
+                                            @:</tr><tr>
+                                            } 
+                                            <td>
+                                                <a id="Rawname" href="@item.Url" target="_blank" class="btn-large  active">@item.RawName</a>&nbsp;&nbsp;<a id="@item.UploadItemId" href="javascript:del_uploadItem('@item.UploadItemId')">DELETE</a>
+                                            </td>
+                                        }
+                                    @:</tr></table>
+                                }
+                        }
+                    </div>
+                    <div class="row" style="padding:10px;">
+                        <div id="role_BusinessPromotion">
+                            <p>
+                                @Html.DisplayFor(model => model.UserId)  role: BusinessPromotion
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-4 col-md-4">
+                    <row>
+                        <div class="box box-solid  with-border box-success">
+
+                            <div class="box-header with-border">
+                                <h3 class="text-center">@Lang.Views_GeneralUI_ContentLabrary</h3>
+                            </div>
+                            <div class="box-body">
+                                <span>Click To View Details</span>
+                            </div>
+                            <div class="box-footer with-border bg-gray-light">
+
+                                <div id="Tree_dropdown_menu1" class="h6 small treeview" style="padding-left:5px;padding-right:5px;"><div id="Loading2"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div></div>
+
+                            </div>
+                        </div>
+                    </row>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script>
+
+     LoadAllSeoExtands("#Tree_dropdown_menu1");
+
+    //加载全部Treeview 加载关键词
+    function LoadAllSeoExtands(TreeViewID) {
+
+        $.ajax({
+            url: "/Mgr/info/GetNodeOfSeoExtands",
+            success: function (data) {
+                //console.log(TreeViewID + "data返回成功:" + JSON.stringify(data));
+                $(TreeViewID).treeview({
+                    enableLinks: false,
+                    expandIcon: "glyphicon glyphicon glyphicon-plus",
+                    collapseIcon: "glyphicon glyphicon glyphicon-minus", //expand Icon
+                    showBorder: true,
+                    levels: @ViewBag.intExtandLevel,
+                    showTags: true,
+                    data: data,
+                    nodeCollapsed: function (event, node) {
+                        console.log("Event:nodeCollapsed");
+
+                    },
+                    onNodeExpanded: function (event, node) {
+                        console.log("Event:onNodeExpanded");
+
+                    },
+                    onNodeSelected: function (event, node) {
+                        console.log("Event:onNodeSelected");
+                        window.location.href = '/@LangUtilities.LanguageCode/i/SeoExt?SeoExtandID=' + node.nodeid;
+                        console.log("LoadAllSeoExtands:" + node.text);
+
+
+                    },
+                });
+            }
+        });//end ajax get json data
+    }
+
+
+    //加载全部Treeview 加载关键词
+    function UpdTopRank50(SeoExtandID, TopRank50) {
+        //alert("test OKUpdTopRank50");
+        var myparamsObject = {"SeoExtandID":SeoExtandID , "TopRank50": TopRank50};
+        $.ajax({
+            type: "post",//要用post方式
+            data: myparamsObject,
+            url: "/@LangUtilities.LanguageCode/i/UpdTopRank50",
+            success: function (data) {
+                $("#TopRank50").html(TopRank50.toString());
+                //alert("OK\n(" + TopRank50 + "-" + data.MsgCode + ")");
+            }
+        });//end ajax get json data
+    }
+
+    //删除上存项
+    function del_uploadItem(UploadItemId) {
+
+        //alert("asdfasfsdfsdfasdfsaf");
+
+        //return;
+
+
+        var myparamsObject = { "UploadItemId": UploadItemId };
+        $.ajax({
+            type: "post",
+            data: JSON.stringify(myparamsObject),
+            url: "/mgr/info/DeleteUploadItem",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.MsgCode != "1")  // 输入数据格式非法
+                {
+                    alert("Errorr,data.MsgCode=" + data.MsgCode);
+                    return;
+                }
+                BootstrapDialog.show({
+                    cssClass: 'bootstrap-dialog fade',
+                    title: "Result",
+                    message: "<H3>" + data.Message + "</H3>",
+                    buttons: [{
+                        label: 'OK',
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });//BootstrapDialog
+            },
+            error: function (err) {
+                debugger;
+                console.log(JSON.stringify(err));
+                alert("deltet error" + JSON.stringify(err));
+            }
+        });
+    }
+</script>

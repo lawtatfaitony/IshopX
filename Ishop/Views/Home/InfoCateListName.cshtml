@@ -1,0 +1,5 @@
+﻿@model IEnumerable<Ishop.Models.Info.InfoCate>
+@foreach (var item in Model)
+{
+    <li>@Html.ActionLink(item.InfoCateName, "Index","Home", new { InfoCateID = item.InfoCateID},new { @class="active" })</li>
+}

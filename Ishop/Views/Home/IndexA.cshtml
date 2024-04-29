@@ -1,0 +1,32 @@
+﻿@using Ishop.Utilities
+@using Ishop.Models.Info
+@using LanguageResource
+@using Ishop.ViewModes.Info
+<!--资讯模式-->
+<!--Jumptron橫屏模板 ~/Views/InfoList/_InfoDetailJumbotronUnit.cshtml -->
+@if (ViewBag.infoDetail_Jumbotron != null)
+{
+    InfoDetail infoDetail_Jumbotron = ViewBag.infoDetail_Jumbotron as InfoDetail;
+    Html.RenderPartial("~/Views/InfoList/_InfoDetailJumbotronUnit.cshtml", infoDetail_Jumbotron);
+}
+
+
+<div class="container no-padding">
+    @{
+        List<InfoListView> InfoList = ViewBag.InfoList;
+        if (InfoList.Count > 0)
+        {
+            foreach (var Item in InfoList)
+            {
+                <div class="col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
+                    @Html.Partial("Info/InfoListUnit", Item)
+                </div>
+            }
+        }
+        <div class="container" style="padding:5px 5px 5px 15px;"> 
+            <a class="badge badge-success" href="@Url.Action("Get","InfoList")" target="_blank" >
+                +more
+            </a> 
+        </div>
+    }
+</div>

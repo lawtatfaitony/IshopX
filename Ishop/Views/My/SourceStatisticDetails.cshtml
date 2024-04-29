@@ -1,0 +1,41 @@
+﻿@using LanguageResource
+@using Ishop.Models.PubDataModal
+@model SourceStatistic
+@{
+    Layout = null;
+} 
+<div class="box box-solid box-default no-margin" style="background-color:#faf2c7">
+    <div class="box-header with-border" style="background-color:#f6d000">
+        <h2 class="box-title">IP</h2>
+        <div class="box-tools pull-right">
+            <span class="label label-default"><i class="fa  fa-arrow-up" aria-hidden="true"></i>@Lang.GeneralUI_Source</span>
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div><!-- /.box-tools -->
+    </div><!-- /.box-header -->
+    <div class="box-body">
+        <div>
+            <dl class="dl-horizontal">
+                <dt>@Html.LabelFor(m => m.UserId)</dt>
+                <dd>
+                    @if (Model.VisitorIcon != string.Empty)
+                    {
+                        <img src="@Html.DisplayFor(m => m.VisitorIcon)" class="img-circle img-responsive" maxwidth="50px" alt="">
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(m => m.UserId)
+                    }
+                </dd>
+
+                <dt>@Html.LabelFor(m => m.IP)</dt>
+                <dd>
+                    @Html.DisplayFor(m => m.IP)
+                </dd>
+                <dt>@Html.LabelFor(m => m.Duration)</dt>
+                <dd>
+                    @Html.DisplayFor(m => m.Duration)
+                </dd>
+            </dl>
+        </div>
+    </div><!-- /.box-body -->
+</div><!-- /.box -->

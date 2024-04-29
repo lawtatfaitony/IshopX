@@ -1,0 +1,44 @@
+﻿@using LanguageResource
+@{
+    Layout = null;
+}
+@using (Ajax.BeginForm("EmailSubscribe", "i", new AjaxOptions { HttpMethod = "post", OnSuccess = "handleEmailSubscribe", OnFailure = "errEmailSubscribe" }, new { @class = "form-horizontal", name = "form_EmailSubscribe", id = "form_EmailSubscribe" }))
+{
+    @Html.AntiForgeryToken() 
+    <ul class="list-unstyled no-margin no-padding list-inline">
+        <li style="margin-left:0px;padding-left:0px;padding-bottom:0px;">
+            <input id="Email" name="Email" type="text" value="" placeholder="Email @Lang.EmailSubscribe_Subscribe" style="max-width:210px;padding-left:2px;margin-left:2px;" />
+            @Html.ValidationMessage("Email", new { @class = "text-danger" })
+        </li>
+        <li style="padding-bottom:0px;display:none;"><a class="btn btn-xs btn-warning" style="margin-bottom:3px;padding-bottom:3px;padding-top:3px;padding-left:5px;padding-right:5px;font-size:12px;" href="javascript:document.getElementById('form_EmailSubscribe').submit()">@Lang.EmailSubscribe_Subscribe</a></li>
+        <li style="padding-bottom:0px;"><button class="btn btn-xs btn-warning" type="submit" style="margin-bottom:3px;padding-bottom:3px;padding-top:3px;padding-left:5px;padding-right:5px;font-size:12px;">@Lang.EmailSubscribe_Subscribe</button></li>
+    </ul>
+}
+<script>
+    function handleEmailSubscribe(result) {
+        console.log(result);
+        layer.closeAll()
+
+        if (result.meta.Success === false) {
+
+            layer.open({
+                title: 'Info'
+                , content: result.meta.Message
+                , btn: 'OK'
+            });
+
+        } else {
+
+            layer.open({
+                title: 'Info'
+                , content: result.meta.Message
+                , btn: 'OK'
+            });
+        }
+    }
+    function errEmailSubscribe(data) {
+        layer.closeAll();
+        console.log(data);
+        alert('Server Error (errEmailSubscribe)');
+    }
+</script>

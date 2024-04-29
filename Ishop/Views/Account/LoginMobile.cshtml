@@ -1,0 +1,80 @@
+﻿@using Ishop.Models
+@using LanguageResource
+@model Ishop.Models.LoginViewMobileModel
+@{
+    Layout = null;
+    ViewBag.Title = Lang.Account_LoginMobile_Title;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    @Styles.Render("~/AdminLTE/bootstrap/css")
+    @Styles.Render("~/AdminLTE/plugins/font-awesome/css")
+    @Styles.Render("~/AdminLTE/plugins/ionicons/css")
+    @Styles.Render("~/AdminLTE/dist/css")
+    @Styles.Render("~/AdminLTE/plugins/icheck/css/sqare/blue")
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="register-logo">
+            <a href="@Url.Action("Index", "Home")">Welcome !</a>
+        </div>
+        <div class="login-box-body">
+            <p class="login-box-msg h3">@Lang.Account_LoginMobile_Title</p>
+            @using (Html.BeginForm("LoginMobile", "Account", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">  
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control fa fa-phone", type ="text", placeholder = Html.DisplayNameFor(m=>m.PhoneNumber) })
+                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    <span class="glyphicon glyphicon-mobile form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", type = "password", placeholder = Html.DisplayNameFor(m => m.Password) })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck">
+                            @Html.CheckBoxFor(m => m.RememberMe, htmlAttributes: new { type = "radio", @checked = "checked", @class = "btn-default icheckbox_flat" })
+                            @Html.LabelFor(m => m.RememberMe) &nbsp;@Html.ActionLink("Email", "login", new {logmode="Email" })
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">@Lang.Views_GeneralUI_Login</button>
+                    </div>
+                </div>
+            }
+            <div class="social-auth-links text-center">
+                <section id="socialLoginForm" hidden>
+                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                </section>
+            </div>
+            <a href="@Url.Action("ForgotPassword", "Account")">@Lang.Account_LoginMobile_DefinitedTag_ForgetPassword</a><br>
+            <a href="@Url.Action("Regmobile", "Account",new { returnUrl = ViewBag.returnUrl })" class="text-center">@Lang.Account_LoginMobile_DefinitedTag_RegNew </a>
+        </div>
+    </div>
+
+    @Scripts.Render("~/AdminLTE/plugins/jquery/js")
+    @Scripts.Render("~/AdminLTE/bootstrap/js")
+    @Scripts.Render("~/AdminLTE/plugins/icheck/js")
+    @Scripts.Render("~/AdminLTE/plugins/jquery-validate/js")
+    @Scripts.Render("~/Scripts/Account/Login")
+
+</body>
+</html>

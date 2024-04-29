@@ -1,0 +1,53 @@
+﻿@using LanguageResource
+@model Ishop.Models.AddPhoneNumberViewModel
+@{
+    ViewBag.Title =Lang.Manage_AddPhoneNumber_Title;
+}
+<script>
+    function getImageCode() {
+        $("#image-code").attr('src', '/Utilities/image?T=' + new Date().getTime());
+    }
+</script>
+<style>
+    .image-code{
+        border:hidden;
+    }
+</style>
+
+ 
+<div class="container">
+    <div style="margin:15px 10px 15px 0">
+        <h2 class="margin-top5">@ViewBag.Title</h2>
+    </div>
+   
+    @using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+          
+        <div class="form-group">
+            @Html.LabelFor(m => m.Number, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group has-feedback">
+            <div class="col-sm-offset-2 col-sm-10 form-inline">
+                @Html.TextBoxFor(m => m.ImageCode, new { @class = "form-control", style = "max-width:100px;", placeholder = Html.DisplayNameFor(m => m.ImageCode) })
+                <img id="image-code" src="/Utilities/image?T=@ViewBag.Ticks" class="image-code img-responsive inline">
+                @Html.ValidationMessageFor(m => m.ImageCode, "", new { @class = "text-danger" })
+                <a href="#" onclick="javascript: getImageCode();">@Lang.Manage_AddPhoneNumber_DefinitedTag_ChangeCode</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                @Html.ValidationSummary("", new { @class = "text-danger list-unstyled" })
+                <br />
+                <input type="submit" class="btn btn-default btn-flat" value="@Lang.Views_GeneralUI_Submit" />
+            </div>
+        </div>
+
+    }
+</div>
+
+ 

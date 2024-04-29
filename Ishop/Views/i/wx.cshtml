@@ -1,0 +1,296 @@
+﻿
+@using LanguageResource
+@using Ishop.Models.ProductMgr
+@using Ishop.Utilities
+@using Ishop.ViewModes.Info
+@model Ishop.Models.Info.InfoDetail
+@{
+    Layout = "~/Views/Shared/_LayoutWX.cshtml";
+}
+<style>
+    img {
+        display: block;
+        margin: auto;
+        display: inline-block;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    }
+
+    #div_TitleThumbNail {
+        position: relative;
+        text-align: center;
+    }
+
+        #div_TitleThumbNail img {
+            position: relative;
+        }
+
+    #InfoDescription1 p {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+        #InfoDescription1 p > span {
+            font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+            font-size: 1.2em;
+            line-height: 1.6em !important;
+        }
+
+    #InfoDescription1 div span {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    #InfoDescription1 div > font span {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    #InfoDescription1 div > p span {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    #InfoDescription1 font {
+        font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+        font-size: 1.2em;
+        line-height: 1.6em !important;
+    }
+
+    .center_infodetail {
+        padding-top: 1px;
+        margin-top: 1px;
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        display: -moz-box;
+        -moz-box-orient: horizontal;
+        -moz-box-pack: center;
+        -moz-box-align: center;
+        display: -o-box;
+        -o-box-orient: horizontal;
+        -o-box-pack: center;
+        -o-box-align: center;
+        display: -ms-box;
+        -ms-box-orient: horizontal;
+        -ms-box-pack: center;
+        -ms-box-align: center;
+        display: box;
+        box-orient: horizontal;
+        box-pack: center;
+        box-align: center;
+    }
+</style>
+
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+<script>
+    wx.config({
+        debug: false,
+        appId: '@ViewBag.appId',
+        timestamp: '@ViewBag.timestamp',
+        nonceStr: '@ViewBag.nonceStr',
+        signature: '@ViewBag.signature',
+        jsApiList: [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage'
+        ]
+    });
+    console.log("wechat Author user code:@ViewBag.code")
+
+    wx.ready(function () {
+         //点击分享到朋友圈
+        $('.sharetopengyouquan').click(function(msg){
+			sharetopyq()
+		})
+		//点击分享到朋友
+		$('.sharetopengyou').click(function(msg){
+		sharetopyq()
+		})
+		//页面加载分享到朋友
+
+        wx.onMenuShareAppMessage({
+            title: '@ViewBag.Title', // 分享标题
+            desc: '@ViewBag.Description', //描述
+			link:location.href.split('#')[0],
+            imgUrl: '@ViewBag.imgUrl', // 分享图标
+            type: 'link', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function (res) {
+                console.log("weixin share ok");// 用户确认分享后执行的回调函数
+            },
+            cancel: function (res) {
+                console.log("weixin share cansel");// 用户取消分享后执行的回调函数
+            },
+			fail: function (res) {
+				alert(JSON.stringify(res));
+			}
+        });
+		wx.error(function(res){
+			//alert(JSON.stringify(res));
+			//错误提示
+            //提示
+            var Onloading = layer.open({
+                type: 2
+                , content: JSON.stringify(res)
+                , skin: 'msg'
+                , time: 2
+            });
+        });
+
+    });
+
+	function sharetopyq()
+	{
+		//分享到朋友圈
+			wx.onMenuShareTimeline({
+					title: '@ViewBag.Title', // 分享标题
+					desc: '@ViewBag.Description', //描述
+					link:'@ViewBag.Link',
+					imgUrl: '@ViewBag.imgUrl', // 分享图标
+					success: function () {
+						console.log("weixin share ok");// 用户确认分享后执行的回调函数
+					},
+					cancel: function () {
+						console.log("weixin share cancel");// 用户取消分享后执行的回调函数
+					},
+					fail: function (res) {
+						alert(JSON.stringify(res));
+					}
+			});
+				alert('接下来，请点击微信右上角分享菜单，然后点击"分享到朋友圈"');
+	}
+	function sharetopy()
+	{
+			//分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '@ViewBag.Title', // 分享标题
+            desc: '@ViewBag.Desc', //描述
+			link:location.href.split('#')[0],
+            imgUrl: '@ViewBag.imgUrl', // 分享图标
+            type: 'link', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function (res) {
+                console.log("weixin share ok");// 用户确认分享后执行的回调函数
+            },
+            cancel: function (res) {
+                console.log("weixin share cansel");// 用户取消分享后执行的回调函数
+            },
+			fail: function (res) {
+				alert(JSON.stringify(res));
+			}
+        });
+		alert('接下来，请点击微信右上角分享菜单，然后点击“发送给朋友”');
+    }
+
+</script>
+<div class="box box-default no-margin">
+    <div class="box-header with-border">
+        <h3 class="box-title">@Html.Raw(Html.DisplayFor(model => model.Title))</h3>
+    </div>
+    <div class="box-body" style="min-height:800px;">
+        <div class="row">
+            <div class="col-lg-8 col-md-8">
+                <ul class="list-unstyled no-margin no-padding">
+                    <li>
+                        <ul class="list-unstyled list-inline no-margin no-padding">
+                            <li>
+                                <span class="text-gray h5">&nbsp;@Html.DisplayFor(model => model.OperatedDate, "{0:yyyy-mm-dd}")  </span>
+                            </li>
+                            <li>
+                                <span class="text-gray h5" style="color:#607fa6">&nbsp;@Html.DisplayFor(model => model.Author)  </span>
+                            </li>
+                            <li>
+                                <div class="h5" style="color:#607fa6"><a id="Modal1">@ViewBag.PublicNo</a></div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                @if (bool.Parse(Html.DisplayTextFor(model => model.ShowTitleThumbNail).ToString()))
+                {
+                    <div id="div_TitleThumbNail" class="center_infodetail">
+                        <img id="TitleThumbNail1" class="img-responsive" src="@Html.DisplayFor(model => model.TitleThumbNail)" />
+                    </div>
+                }
+                <div id="InfoDescription1">
+                    <p style="padding-bottom:30px;">
+                        @Html.Raw(ViewBag.InfoDescription)
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4">
+
+                <row>
+                    @Html.Partial("~/Views/Shared/Info/myOriginTopView.cshtml", ViewBag.myOriginTopViewListNew as List<MyOriginTopView>)
+                </row>
+                @if (ViewBag.ShopStaffID != null)
+                {
+                    @:<row>
+                        Html.RenderAction("ViewIconPortrait", "InfoList", new { ShopStaffID = Html.DisplayFor(model => model.ShopStaffID) });
+                    @:</row>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/js/Info/IPstatitics.js"></script>
+
+<script>
+    var InfoID = "@ViewBag.InfoID";
+    var IntervalMinutes = 1; //1mins
+    var SourceStatisticsID = "@ViewBag.SourceStatisticsID";
+    var IpStatitics_StartDate_Token = "@ViewBag.IpStatitics_StartDate_Token";
+    console.log('SourceStatisticsID：' + '@ViewBag.SourceStatisticsID ');
+    console.log("SourceIP：" + '@ViewBag.SourceIP ');
+    console.log('UserId：' + '@ViewBag.UserId ');
+    setInterval("SourceStatistics(SourceStatisticsID, IntervalMinutes, IpStatitics_StartDate_Token)", 60000); //每隔60秒
+
+    $(document).ready(function () {
+
+        //加载页面耗时计算  loadTime
+        var loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+        PageLoadingTimesCounter(SourceStatisticsID, loadTime);
+
+        //浏览次数统计
+        setTimeout("InfoViewCount(InfoID,IpStatitics_StartDate_Token)", 10000);
+    })
+</script>
+
+<!--modal-->
+<!-- Modal for用户角色授权-->
+<div class="modal fade" id="myModal_PublicNo" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title h4" title="@ViewBag.PublicNo" data-toggle="tooltip" id="myModal_header_lbl_title">@ViewBag.PublicNo</span>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label class="form-inline" for="txt_prod_cate_name_upd">长按扫描二维码</label><img scr="http://abcd.com/Upload/Shoplogo/chn20171023212610366.jpg" width="160" /><br />
+                    <div>
+                        <img id="ShopQrcode123" class="img-responsive" src="@ViewBag.ShopQrcode" style="box-sizing:border-box;border:0px;vertical-align:middle;margin:auto; padding:0px;display:block;transition:all 0.2s ease-in-out;max-width:100%;height:auto;position:relative;color:rgb(51,51,51);orphans:2;text-align:center;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);text-decoration-style:initial;text-decoration-color:initial;"><br class="Apple-interchange-newline">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    $("#Modal1").click(
+        function ModalPopUp() {
+            $('#myModal_PublicNo').modal({ backdrop: 'static', keyboard: true });
+        });
+
+</script>

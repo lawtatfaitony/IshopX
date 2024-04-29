@@ -1,0 +1,44 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+@model Ishop.Models.Info.InfoDetail
+
+<!--_InfoDetailJumbotronUnit-->
+<style type="text/css">
+    #father {
+        position: relative;
+        margin-top: 0px;
+        margin-bottom: 15px;
+        border-radius: 0px;
+        max-height: 600px;
+        overflow-y:hidden;
+    }
+
+    #child {
+        padding-top: 15px;
+        background-color: #000;
+        opacity: 0.7;
+        filter: alpha(opacity=70);
+        color: #fff;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+    }
+
+    #child a {
+        color: #fff;
+    }
+</style>
+@if (!string.IsNullOrEmpty(Html.DisplayFor(model => model.TitleThumbNail).ToString()))
+{
+    <div class="container" id="father" style="margin-bottom:10px;padding-left:0px;padding-right:0px;">
+        <a href="@Url.Action("InfoDetails","InfoList",new { id= Html.DisplayFor(model => model.InfoID).ToString() })">
+            <img src="@Html.DisplayFor(model => model.TitleThumbNail).ToString()" class="img-responsive">
+        </a>
+        <div id="child" class="container">
+            <h3>
+                <a href="@Url.Action("InfoDetails","InfoList",new { id= Html.DisplayFor(model => model.InfoID).ToString() })">@ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.Title).ToString()) </a>
+            </h3>
+            <div class="lead hidden-sm hidden-md hidden-xs">@ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.SubTitle).ToString())</div>
+        </div>
+    </div>
+}
