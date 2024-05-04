@@ -29,7 +29,7 @@ namespace Ishop.Controllers
         }
         private readonly string WebSiteUrl = ConfigurationManager.AppSettings["WebSiteUrl"].ToString();
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
-        
+
         /// <summary>
         /// 
         /// </summary>

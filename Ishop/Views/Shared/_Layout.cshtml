@@ -89,11 +89,11 @@
 
                         @if (Client_Shop.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY || ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
                         {
-                            <li><a href="@Url.Action("Index","Helper")"><i class="fa fa-question-circle" style="font-size:20px;color:#ffffff;margin-right:5px;" aria-hidden="true"></i>HELP CENTER</a></li>
+                            <li><a href="@Url.Action("Index","Helper")"><i class="fa fa-question-circle" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>HELP CENTER</a></li>
 
-                            <li> <a href="@Url.Action("ServiceFlow","Home")"><i class="fa fa-phone-square" style="font-size:20px;color:#ffffff;margin-right:5px;" aria-hidden="true"></i>SERVICE</a></li>
+                            <li> <a href="@Url.Action("ServiceFlow","Home")"><i class="fa fa-phone-square" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>SERVICE</a></li>
 
-                            <li> <a href="@Url.Action("Downloadpage","Helper")"><i class="fa fa-download" style="font-size:20px;color:#ffffff;margin-right:5px;" aria-hidden="true"></i>DOWNLOAD CENTER</a></li>
+                            <li> <a href="@Url.Action("Downloadpage","Helper")"><i class="fa fa-download" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>DOWNLOAD CENTER</a></li>
                         }
                         <li>
                             <div class="btn-group padding-10">
@@ -107,11 +107,12 @@
                                     @if (LangUtilities.LanguageCode != "zh-CN")
                                     {
                                         <li role="separator" class="divider"></li>
-                                        <li class="h5"><a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A", mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber))">
-                                            <i class="fa fa-whatsapp text-green" aria-hidden="true" tiltle="歡迎WhatsApp資訊"></i> 歡迎咨詢
+                                        <li class="h5">
+                                            <a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A", mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber))">
+                                                <span><i class="fa fa-whatsapp text-green padding-right5" aria-hidden="true" tiltle="歡迎WhatsApp資訊"></i>歡迎咨詢</span>
+                                            </a>
                                         </li>
                                     }
-
                                 </ul>
                             </div>
                         </li>

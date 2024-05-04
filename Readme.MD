@@ -21,6 +21,12 @@ Shared/TemplateB/AdMainAiBox.zh-HK.cshtml
 /upload/AIBOX/OrangePIdemo_ Crop0409.mp4
 ```
 
+## 主頁參數
+
+Index(string id,string InfoCateID ,string Index2,string code,string state)
+
+參考:
+
 
 
 ## 計劃GOOGLE/BAIDU/FB 廣告頁面
@@ -32,6 +38,21 @@ Shared/TemplateB/AdMainAiBox.zh-HK.cshtml
 默認店鋪在 /Context/WebSiteCookie.cs  line : 348
 規則 如果從uri請求在數據庫無法查詢到對應的域名 則使用默認值 ShopId ="sh0006"
 
+**測試的店鋪和對應的ID** 
+
+```
+C:\Windows\System32\drivers\etc\host 系統文件,配置域名和 IP 地址的映射
+127.0.0.1 sunwaylink.com 		# sh0001
+127.0.0.1 xguard.cn 			# sh0006
+127.0.0.1 dataguardxcore.com 	# sh0016
+127.0.0.1 dataguard.com 		# SH2028
+127.0.0.1 starbilliant.cn 		# SH2028
+```
+
+   
+
+
+
 ## 目前的店鋪
 
 | sh0001 | 三个小情人的爸爸           | /Upload/ShopLogo/Shplogo_20171101063317284.png |
@@ -41,7 +62,7 @@ Shared/TemplateB/AdMainAiBox.zh-HK.cshtml
 | SH2028 | STAT BILLIANT AI TECH LTD. | /Upload/ShopLogo/Shplogo_20180826132306638.png |
 
 sh0006  翔輝系統
-香港考勤薪酬、安防业务：
+考勤薪酬、安防业务：
 http://81.71.74.135:8081/?ShpID=sh0006 
 
 sh0016 
@@ -50,7 +71,7 @@ http://81.71.74.135:8081/?ShpID=sh0016
 
 SH2028
 http://81.71.74.135:8081/?ShpID=SH2028
-NAME: STAR BILLIANT LTD. 安防业务
+安防业务 dataguard.com
 
  **For 音響工程**
 

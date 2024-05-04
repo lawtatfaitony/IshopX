@@ -25,7 +25,7 @@ namespace Ishop.Models
         [EnumDisplayName("INFOCATE_TOP_HEADER")] //HelperList 中排除 
         TOP_HEADER = 9001,
 
-        [EnumDisplayName("INFOCATE_SOFTWARE_HELPER")] //HelperList 包含
+        [EnumDisplayName("INFOCATE_SOFTWARE_HELPER")] //HelperList 包含  DataGuardCore 默認=軟件幫助說明分類
         SOFTWARE_HELPER = 9002,
 
         [EnumDisplayName("INFOCATE_HOME_PAGE_MIDDLE_AD")] //HelperList 中排除
@@ -38,7 +38,20 @@ namespace Ishop.Models
         HELP_FUNCTUON = 9005,
 
         [EnumDisplayName("INFOCATE_COMMON_INFO")] //通用资讯类
-        INFOCATE_COMMON_INFO = 9006
+        INFOCATE_COMMON_INFO = 9006,
+
+        [EnumDisplayName("INFOCATE_SOFTWARE_HELPER_AIGUARD")] //HelperList 包含  軟件[AIGUARD]幫助說明分類
+        INFOCATE_SOFTWARE_HELPER_AIGUARD = 9007,
+
+        [EnumDisplayName("INFOCATE_SOFTWARE_HELPER_AIBOX")] //HelperList 包含  軟件[AIBOX]幫助說明分類
+        INFOCATE_SOFTWARE_HELPER_AIBOX = 9008,
+
+        [EnumDisplayName("INFOCATE_SOFTWARE_HELPER_STARXCORE")] //HelperList 包含  軟件[STARX-CORE]海康拍卡同步 幫助說明分類
+        INFOCATE_SOFTWARE_HELPER_STARXCORE = 9009,
+
+        //預留給其他
+        [EnumDisplayName("INFOCATE_INFO_SERVICE")]              //HelperList 包含 服務 INFO_SERVICE
+        INFOCATE_INFO_SERVICE = 9020
     }
 
     public enum SenderOfCompanyEnumCode

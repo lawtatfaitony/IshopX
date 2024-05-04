@@ -1114,8 +1114,6 @@
     <Content Include="AdminLTE\plugins\jquery-ui\js\jquery-ui.js" />
     <Content Include="AdminLTE\plugins\jquery-ui\js\jquery-ui.min.js" />
     <Content Include="AdminLTE\plugins\bootstrap-dialog\less\bootstrap-dialog.less" />
-    <Content Include="AccountSignCer.pfx" />
-    <Content Include="AccountSignCerOpen.snk" />
     <Content Include="AdminLTE\plugins\jquery-validate\js\jquery.validate.js" />
     <Content Include="AdminLTE\plugins\jquery-validate\js\jquery.validate.min.js" />
     <Content Include="AdminLTE\plugins\jquery-validate\js\jquery.validate.unobtrusive.js" />
@@ -1234,7 +1232,6 @@
     <Content Include="Content\Images\5.png" />
     <Content Include="Content\Images\6.png" />
     <Content Include="Content\Images\Admain.png" />
-    <Content Include="Content\Images\AdMainAiBox_SloganP1.jpg" />
     <Content Include="Content\Images\AdMainAiBox_SloganP1.png" />
     <Content Include="Content\Images\cp_img_sc75.png" />
     <Content Include="Content\Images\cp_img_tj75.png" />
@@ -2075,6 +2072,8 @@
     <Content Include="Views\Shared\TemplateB\AiService.zh-CN.cshtml" />
     <Content Include="Views\Shared\TemplateB\AiService.zh-HK.cshtml" />
     <Content Include="Views\Shared\TemplateB\AiService.en-US.cshtml" />
+    <Content Include="Views\Shared\ShopFootTemplate\SH2006_FooterTemplate.cshtml" />
+    <Content Include="Views\Shared\ShopFootTemplate\SH2028_FooterTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -2122,7 +2121,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>AccountSignCer.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
