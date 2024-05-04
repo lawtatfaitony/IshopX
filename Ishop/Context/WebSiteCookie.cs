@@ -107,82 +107,90 @@ namespace Ishop.Context
             get
             {
                 if (Request.Cookies["ShopID"] == null)
-                { 
+                {
+                    if (Request.QueryString["ShopID"] != null)
+                    {
+                        string shopId = Request.QueryString["ShopID"].ToString().Trim();
+                        return shopId;
+                    }
                     return "-";
                 }
                 return Request.Cookies["ShopID"].Value.ToLower();
             }
             set
-            {
+            { 
                 HttpCookie ck_ShopID = new HttpCookie("ShopID", value); 
                 ck_ShopID.Expires = DateTime.Now.AddYears(3);
                 HttpContext.Current.Response.Cookies.Add(ck_ShopID);
                 Response.Cookies["ShopID"].Expires = DateTime.Now.AddYears(3); //设置过期方式2 
             }
         }
-        public static string ShpIdX
-        {
-            get
-            {
-                //string HostName = HttpContext.Current.Request.ServerVariables["HTTP_HOST"];
-                string HostName = HttpContext.Current.Request.Url.ToString().ToLower().IndexOf("localhost") == -1 ? HttpContext.Current.Request.Url.Host.ToLower() : "localhost";  //Host值，  www.abc.com ; sh0001.abc.com ; abc.com 
-                
-                string DomainName = ConfigurationManager.AppSettings["DomainName"];
-                HostName = HostName.Replace(DomainName, "");  //filter : abc.com  
-                HostName = HostName.Replace(".", "");
-                if (mvcCommeBase.IsNumber(HostName) || HostName == "localhost")
-                {
-                    HostName = string.Empty;
-                }
-                string _ShpID = HostName;
-                HostName = "sh0006"; //硬性定义为店铺 "sh0006"  需要多店铺时，去掉，并测试响应业务逻辑。
-                switch (HostName)
-                {
-                    case "sh0001":
-                        _ShpID = "sh0001";
-                        break;
-                    case "sh0006":
-                        _ShpID = "sh0006";
-                        break;
-                    case "www":
-                        _ShpID = "sh0001";
-                        break;
-                    case "seo":
-                        _ShpID = "sh0006";
-                        break;
-                    case "wwwxguardtop":
-                        _ShpID = "sh0006";
-                        break;
-                    case "xguardtop":
-                        _ShpID = "sh0006";
-                        break;
-                    case "starbilliantcn":
-                        _ShpID = "sh0006";
-                        break;
-                    default:
-                        _ShpID = "sh0001";
-                        break;
-                }
-                HttpCookie ck_ShpID = new HttpCookie("ShpID", _ShpID);
-                ck_ShpID.Expires.AddYears(3);
-                try
-                {
-                    HttpContext.Current.Response.Cookies.Add(ck_ShpID);
-                }
-                catch
-                {
-                    throw;
-                }
-                return _ShpID;
-            }
-            set
-            {
-                HttpCookie ck_ShpID = new HttpCookie("ShpID", value);
-                ck_ShpID.Expires.AddYears(3);
-                HttpContext.Current.Response.Cookies.Add(ck_ShpID);
-                Response.Cookies["ShpID"].Expires = DateTime.Now.AddYears(3);
-            }
-        }
+        //作廢 2024-5-4
+        //public static string ShpIdX
+        //{
+        //    get
+        //    {
+        //        //string HostName = HttpContext.Current.Request.ServerVariables["HTTP_HOST"];
+        //        string HostName = HttpContext.Current.Request.Url.ToString().ToLower().IndexOf("localhost") == -1 ? HttpContext.Current.Request.Url.Host.ToLower() : "localhost";  //Host值，  www.abc.com ; sh0001.abc.com ; abc.com 
+
+        //        string DomainName = ConfigurationManager.AppSettings["DomainName"];
+        //        HostName = HostName.Replace(DomainName, "");  //filter : abc.com  
+        //        HostName = HostName.Replace(".", "");
+        //        if (mvcCommeBase.IsNumber(HostName) || HostName == "localhost")
+        //        {
+        //            HostName = string.Empty;
+        //        }
+        //        string _ShpID = HostName;
+        //        HostName = "sh0006"; //硬性定义为店铺 "sh0006"  需要多店铺时，去掉，并测试响应业务逻辑。
+        //        switch (HostName)
+        //        {
+        //            case "sh0001":
+        //                _ShpID = "sh0001";
+        //                break;
+        //            case "sh0006":
+        //                _ShpID = "sh0006";
+        //                break;
+        //            case "www":
+        //                _ShpID = "sh0001";
+        //                break;
+        //            case "seo":
+        //                _ShpID = "sh0006";
+        //                break;
+        //            case "wwwxguardtop":
+        //                _ShpID = "sh0006";
+        //                break;
+        //            case "xguardtop":
+        //                _ShpID = "sh0006";
+        //                break;
+        //            case "starbilliantcn":
+        //                _ShpID = "sh0006";
+        //                break;
+        //            default:
+        //                _ShpID = "sh0001";
+        //                break;
+        //        }
+        //        HttpCookie ck_ShpID = new HttpCookie("ShpID", _ShpID);
+        //        ck_ShpID.Expires.AddYears(3);
+        //        try
+        //        {
+        //            HttpContext.Current.Response.Cookies.Add(ck_ShpID);
+        //        }
+        //        catch
+        //        {
+        //            throw;
+        //        }
+        //        return _ShpID;
+        //    }
+        //    set
+        //    {
+        //        HttpCookie ck_ShpID = new HttpCookie("ShpID", value);
+        //        ck_ShpID.Expires.AddYears(3);
+        //        HttpContext.Current.Response.Cookies.Add(ck_ShpID);
+        //        Response.Cookies["ShpID"].Expires = DateTime.Now.AddYears(3);
+        //    }
+        //}
+
+        //作廢 2024-5-4
         //创建ShpID前端使用 
         public static string ShpID_OLD
         {
@@ -326,31 +334,53 @@ namespace Ishop.Context
         public static string ShpID
         {
             get
-            {
+            { 
+                //優先使用Cookie, 首次使用 和Shop 表比較獲得ShopId
+                if (Request.Cookies["ShpID"] != null)
+                {
+                    if (Request.Cookies["ShpID"].Value == string.Empty)
+                    {
+                        string shopID = Request.Cookies["ShpID"].Value.Trim();
+                        return shopID;
+                    } 
+                }
+
                 Uri uri = HttpContext.Current.Request.Url;
 
-                string hostName = uri.Host;
-                  
+                string hostName = uri.Host.ToLower(); //Uri.Host 會返回 www.example.com，而不包括端口號 8080。
+
+                //localhost的情況下返回config設置的默認店鋪ID
+                if (hostName == "localhost")
+                {
+                    string defaultDomainName = ConfigurationManager.AppSettings["DomainName"]; //格式  "www.sunwaylink.com"
+                    string defaultShopID = ConfigurationManager.AppSettings["defaultShopID"];
+                    return defaultShopID; // "sh0006"; //默認店鋪
+                }
+
+                //去掉www.
+                if(hostName.StartsWith("www"))
+                {
+                    hostName = hostName.Remove(0, 3);
+                } 
+
                 List<Shop> shopList = GetShopList();
 
                 Shop shop = new Shop();
                 
                 if(shopList.Count()>0)
                 {
-#if !DEBUG
-                    shop = shopList.Where(c => c.HostName.Contains(hostName)).FirstOrDefault();
-#endif
-#if DEBUG
-                    shop = shopList.Where(c => c.ShopID.Contains("sh0006")).FirstOrDefault();
-#endif
+                    shop = shopList.Where(c => c.HostName.Contains(hostName)).FirstOrDefault(); //HostName 必須是lower case
                 }
-
+                  
                 if (shop==null)
                 {
-                    return "sh0006"; //默認店鋪
+                    string defaultDomainName = ConfigurationManager.AppSettings["DomainName"]; //格式  "www.sunwaylink.com"
+                    string defaultShopID = ConfigurationManager.AppSettings["defaultShopID"];
+                    return defaultShopID; // "sh0006"; //默認店鋪
                 }
                 else
                 {
+                    //測試 http://sunwaylink.com:34322/HK/home/index
                     return shop.ShopID;
                 }
             }
