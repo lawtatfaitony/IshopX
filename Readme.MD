@@ -40,6 +40,20 @@ Shared/TemplateB/AdMainAiBox.zh-HK.cshtml
 | SH2006 | HK安防  LTD.               | /Upload/ShopLogo/Shplogo_20180826132306638.png |
 | SH2028 | STAT BILLIANT AI TECH LTD. | /Upload/ShopLogo/Shplogo_20180826132306638.png |
 
+sh0006  翔輝系統
+香港考勤薪酬、安防业务：
+http://81.71.74.135:8081/?ShpID=sh0006 
+
+sh0016 
+http://81.71.74.135:8081/?ShpID=sh0016
+薪酬与考勤系统 、安防业务： starbilliant.cn
+
+SH2028
+http://81.71.74.135:8081/?ShpID=SH2028
+NAME: STAR BILLIANT LTD. 安防业务
+
+++++++++++++++++++++++++++++++++++++++++++++
+
 Update in 2024-4-28
 
 ## 丟失引用文件/shop/bin 
