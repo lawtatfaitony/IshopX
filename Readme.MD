@@ -52,6 +52,13 @@ SH2028
 http://81.71.74.135:8081/?ShpID=SH2028
 NAME: STAR BILLIANT LTD. 安防业务
 
+ **For 音響工程**
+
+Template C Sample : 
+
+1. https://www.mxcamera.com/  參考
+2. https://shop.hivihk.com/products/jbl-mk08-karaoke-speaker 這個比較複雜大型
+
 ++++++++++++++++++++++++++++++++++++++++++++
 
 Update in 2024-4-28
