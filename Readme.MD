@@ -18,6 +18,16 @@ Shared\ShopViewTemplate1\sh0006_zh-HK.cshtml
 
 類似這樣格式的,在Shared文件夾下的,需以此規則排查
 
+## 增加TemplateC/IndexC
+
+ RadioEngin [TemplateC] 主要的模版文件在 Shared/TemplateC
+
+共有三個模版,由 Shop.InfoMode控制, 更改-> ShopUdate->InfoMode
+
+1.  IndexA.cshtml 模版  Shared/TemplateA
+2.  IndexB.cshtml 模版  Shared/TemplateB
+3.  IndexC.cshtml 模版  Shared/TemplateC
+
 ## 主頁的AI-BOX 的專題廣告
 
 2024-4-25 增加AI-BOX 的主頁的專題廣告以及產品功能說明,繁簡英三個版本
