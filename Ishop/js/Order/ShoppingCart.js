@@ -5,6 +5,8 @@
     var myparamsObject = { "Id": ProductSkuId, Quantity :1 }; 
     
     $.ajax({
+        alert("\js\Order\ShoppingCart.js AddToCart(ProductSkuId)");
+
         url: "/cn/Cart/AddToCart", /*设置post提交到的页面*/
         data: myparamsObject,
         type: "post",

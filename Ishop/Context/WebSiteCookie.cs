@@ -14,8 +14,8 @@ using LanguageResource;
 using Common;
 
 namespace Ishop.Context
-{
-    public class WebCookie 
+{ 
+public class WebCookie 
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
 
@@ -123,6 +123,8 @@ namespace Ishop.Context
                 ck_ShopID.Expires = DateTime.Now.AddYears(3);
                 HttpContext.Current.Response.Cookies.Add(ck_ShopID);
                 Response.Cookies["ShopID"].Expires = DateTime.Now.AddYears(3); //设置过期方式2 
+                Response.Cookies["ShopID"].Secure = true;
+                Response.Cookies["ShopID"].SameSite = SameSiteMode.None;
             }
         }
         //作廢 2024-5-4
@@ -269,6 +271,8 @@ namespace Ishop.Context
                 //HttpContext.Current.Session["Language"] = value;  
                 HttpContext.Current.Response.Cookies.Add(ck_Language);
                 Response.Cookies["Language"].Expires = DateTime.Now.AddYears(3);
+                Response.Cookies["Language"].SameSite = SameSiteMode.None;
+                Response.Cookies["Language"].Secure = true;
             }
         }
 

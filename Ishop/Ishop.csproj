@@ -2074,6 +2074,30 @@
     <Content Include="Views\Shared\TemplateB\AiService.en-US.cshtml" />
     <Content Include="Views\Shared\ShopFootTemplate\SH2006_FooterTemplate.cshtml" />
     <Content Include="Views\Shared\ShopFootTemplate\SH2028_FooterTemplate.cshtml" />
+    <Content Include="Views\Order\MyNoOrderTips.cshtml" />
+    <Content Include="Views\Home\IndexC.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AdMain.en-US.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AdMain.zh-CN.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AdMain.zh-HK.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AdMainAiBox.en-US.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AdMainAiBox.zh-CN.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AdMainAiBox.zh-HK.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AiService.en-US.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AiService.zh-CN.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AiService.zh-HK.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AttAndDevice.en-US.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AttAndDevice.zh-CN.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AttAndDevice.zh-HK.cshtml" />
+    <Content Include="Views\Shared\TemplateC\AttAndDeviceA.zh-CN.cshtml" />
+    <Content Include="Views\Shared\TemplateC\PaintPointCompare.en-US.cshtml" />
+    <Content Include="Views\Shared\TemplateC\PaintPointCompare.zh-CN.cshtml" />
+    <Content Include="Views\Shared\TemplateC\PaintPointCompare.zh-HK.cshtml" />
+    <Content Include="Views\Shared\TemplateC\SoftwareMainFuncAiBoxENUS.cshtml" />
+    <Content Include="Views\Shared\TemplateC\SoftwareMainFuncAiBoxZHCN.cshtml" />
+    <Content Include="Views\Shared\TemplateC\SoftwareMainFuncAiBoxZHHK.cshtml" />
+    <Content Include="Views\Shared\TemplateC\SoftwareMainFuncENUS.cshtml" />
+    <Content Include="Views\Shared\TemplateC\SoftwareMainFuncZHCN.cshtml" />
+    <Content Include="Views\Shared\TemplateC\SoftwareMainFuncZHHK.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

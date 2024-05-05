@@ -23,7 +23,16 @@
                     <hr style=" border-top:3px thick #808080;width:90%" />
                 </div>
             }
-            <div class="row pull-left padding-left15"><a id="seletedOK" href="javascript:void(0)">@Lang.Views_GeneralUI_seletedOK</a></div>
+            <div class="row pull-left padding-left15 seletedOK"><a id="seletedbtn" href="javascript:void(0)">@Lang.Views_GeneralUI_seletedOK</a></div>
+        }
+        else
+        {
+                <div class="container">
+                    <span class="h3 padding-left15 h4" style="font-weight:600;">
+                        <i class="fa fa-exclamation-triangle text-danger"></i> There are no items in your shopping cart !!!
+                    </span>
+                    
+                </div>
         }
     }
 </div>
@@ -35,11 +44,11 @@
                 <li class="">
                     <a href="@Url.Action("Index","Home",new { LangUtilities.LanguageCode,area="default"})" class="btn btn-info btn-link text-info"><i class="fa fa-home" style="color:#ffffff"></i></a>
                 </li>
-                <li class="">
+                <li class="hide">
                     <button type="button" id="BtnSubmitNext" class="btn btn-info">Next<!-- 轉入生成訂單 並使用 提供支付銀行等等信息作交易手段 --></button>
                 </li>
                 <li class="">
-                    <button type="button" id="BtnSubmitCheeckOut" class="btn btn-info">@Lang.DispatchNoteModalView_DefinitedTag_SubmitAndPay<!--微信支付 DispatchNoteModalView_DefinitedTag_SubmitAndPay--></button>
+                    <button type="button" id="BtnSubmitCheeckOut" class="btn btn-info">@Lang.Views_GeneralUI_Comfirm<!--Lang.DispatchNoteModalView_DefinitedTag_SubmitAndPay 微信支付 DispatchNoteModalView_DefinitedTag_SubmitAndPay--></button>
                 </li>
             </ul>
         </div>
@@ -48,13 +57,29 @@
 
 <script>
 
-    $("#seletedOK").click(function () {
+    $(".seletedOK").click(function () {
+
+        selectedOK();
+    });
+
+    function selectedOK() {
+
+        var Onloading = layer.open({
+            type: 2
+            , content: 'Loading...'
+            , skin: 'msg'
+            , time: 5
+        });
+
         console.log("BtnSubmitCheeckOut click");
+
         var CheeckedItem = $("input[type='checkbox']:checked").serialize();
         console.log(CheeckedItem);
 
         var groupCheckbox = $("input[type='checkbox']:checked");
+
         var _list = new Array();
+
         for (i = 0; i < groupCheckbox.length; i++) {
             if (groupCheckbox[i].checked) {
                 var val = groupCheckbox[i].value;
@@ -66,11 +91,15 @@
 
             layerTips("<h3>No Select</h3>");
         }
+
+        var SubmitCartItemUrl = "/@ViewBag.Language/cart/SubmitCartItem"; //"@Url.Action("SubmitCartItem", "cart",new { area="default",Language=ViewBag.Language})
         $.ajax({
-            url: "@Url.Action("SubmitCartItem", "cart",new { area="default",Language=ViewBag.Language})",
+            url: SubmitCartItemUrl,
             type: "post",
             data: { "selectedSkuIDs": _list },
             success: function (NotSelectedList) {
+
+                console.log("NotSelectedList :");
                 console.log(JSON.stringify(NotSelectedList));
 
                 for (var i = 0, l = NotSelectedList.length; i < l; i++) {
@@ -84,16 +113,19 @@
                     $(RemoveID).html("");
                 }
 
-                layerTips("<h4>OK</h4>");
+                layerTips("<h4>Checked OK</h4>");
             }
         });
-    })
-</script>
-<script>
-    $("#BtnSubmitCheeckOut").click(function () {
-        var groupCheckbox = $("input[type='checkbox']:checked");
+    }
 
-        var _list = "" ;
+    $("#BtnSubmitCheeckOut").click(function () {
+
+        //如果沒有調用選好了函數,則無論如何重新調用一次
+        selectedOK();
+
+        var groupCheckbox = $("input[type='checkbox']:checked");
+          
+        var _list = "";
         for (i = 0; i < groupCheckbox.length; i++) {
             if (groupCheckbox[i].checked) {
                 var val = groupCheckbox[i].value;
@@ -106,8 +138,9 @@
             layerTips("<h4>@Lang.ControllerName_ActionMethod_MyShoppingCart_layerTips</h4>"); //沒有選擇要購買的商品哦~~~
         }
         else {
-            window.location ="@Url.Action("Index", "Order", new { area="default",Language=ViewBag.Language})" + "?list=" + _list;
+            var orderUrl = "/@ViewBag.Language/Order/Index?list=" + _list; //window.location = "@Url.Action("Index", "Order", new { area="default",Language=ViewBag.Language})" + "?list=" + _list;
+            window.location = orderUrl; 
         }
 
-    })
+    });
 </script>

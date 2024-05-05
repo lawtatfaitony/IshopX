@@ -6,6 +6,18 @@ ISHOP新版开发—2021年12月21日阶段性开发完毕.MD
 
 ISHOP新版开发—2024年4月25日阶段性开发完毕.MD
 
+## 店鋪模版須知
+
+如果沒有對應的店鋪模版,則導致相應店鋪的嚴重錯誤.例如:
+
+Shared\ShopFootTemplate\sh0006_FooterTemplate.cshtml
+
+Shared\ShopFootTemplate\SH2028_FooterTemplate.cshtml
+
+Shared\ShopViewTemplate1\sh0006_zh-HK.cshtml
+
+類似這樣格式的,在Shared文件夾下的,需以此規則排查
+
 ## 主頁的AI-BOX 的專題廣告
 
 2024-4-25 增加AI-BOX 的主頁的專題廣告以及產品功能說明,繁簡英三個版本
@@ -49,9 +61,7 @@ C:\Windows\System32\drivers\etc\host 系統文件,配置域名和 IP 地址的�
 127.0.0.1 starbilliant.cn 		# SH2028
 ```
 
-   
-
-
+ 
 
 ## 目前的店鋪
 
@@ -120,3 +130,19 @@ line 112 : IClientProfile profile = DefaultProfile.GetProfile("xxx", "xxx", "xxx
 ![Mail126Port](README_IMGs/Mail126Port.jpg)
 
 ​				    這個只是一個標準而普遍使用的端口.
+
+## 設置允許第三方 cookie
+
+在 C# .NET 中，要設置允許第三方 cookie，可以通過在 HTTP 響應標頭中添加 `SameSite=None; Secure` 來實現。這樣可以告訴瀏覽器允許第三方 cookie。
+
+以下是一個示例代碼：
+
+```csharp
+Response.Cookies.Append("cookieName", "cookieValue", new CookieOptions
+{
+    Secure = true,
+    SameSite = SameSiteMode.None
+});
+```
+
+通過上面的代碼，你可以在 C# .NET 中設置一個允許第三方 cookie 的 cookie。請確保在使用這個功能時遵循相關的安全最佳實踐。

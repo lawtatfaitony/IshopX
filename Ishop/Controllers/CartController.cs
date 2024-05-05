@@ -179,20 +179,33 @@ namespace Ishop.Controllers
         {
             string CartId = WebCookie.CartId;
             var ListAllSku = db.Carts.Where(c => c.CartId == CartId).ToList();
+
+            //selected Item
             List<Cart> ListSelected = new List<Cart>();
+
             foreach (string item in selectedSkuIDs)
             {
                 Cart cart = ListAllSku.Where(c => c.ProductSkuId == item).FirstOrDefault();
                 ListSelected.Add(cart);
             }
+
             List<Cart> NotSelectedList = new List<Cart>();
             NotSelectedList = ListAllSku;
 
             foreach (Cart item in ListSelected)
             {
                 NotSelectedList.Remove(item);
+               
             }
-            return Json(NotSelectedList);
+
+            //Remove From Cart
+            foreach (Cart item in NotSelectedList)
+            { 
+                db.Carts.Remove(item);
+            }
+            db.SaveChanges(); 
+
+            return Json(NotSelectedList,JsonRequestBehavior.AllowGet);
         }
 
         [AllowAnonymous]

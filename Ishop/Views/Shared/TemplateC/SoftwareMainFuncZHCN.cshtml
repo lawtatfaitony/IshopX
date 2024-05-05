@@ -1,0 +1,399 @@
+﻿
+<div class="h1" style="margin-bottom:50px;">考勤与薪酬系统功能概述</div>
+ 
+    <ul class="list-unstyled no-margin no-margin">
+        <li class="no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black"><i class="fa fa-arrow-right"></i> 系统权限 </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        权限管理与职能委任。<br />
+                        最高权限 SysAdmin 系统管理员 主要是整个系统设置和授权。<br />
+                        管理员 Admin 业务管理员。 <br />
+                        特殊独占角色: Contractor 分公司/店长/等， Department:部门经理  Employee:雇员 手机端 的数据浏览等等。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i>公司组织 与 基础数据
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        部门管理、分公司/连锁店/合约进驻商 管理、<br />
+                        位置管理 描述和定义具体位置 用于需要位置描述的业务,如设备,连锁店,分公司等等都是有具体的位置的<br />
+                        职位管理 具体的职位 例如 经理 员工 副经理<br />
+                        工种 管理 对于比较大型的公司,设计跨行业或纵深细分的行业工种。<br />
+                        行业分类 主要用于总公司属于什么行业的。针对行业在具体的页面功能上加以调整，例如地产建筑业务的，<br />
+                        则提供对接政府资格证的云端数据。如果医疗行业则对接政府卫生处的云端数据进行数据对接<br />
+                        公众假期管理  主要提供标准假期与突发公众假期。包括薪酬比率，如年关加班三工薪酬。<br />
+                        行业字典自定义，对应系统内所有的字词都可以透过字典更改。特别适合行业特定的术语需要。<br />
+                        例如医院、学校等都是有一套行业内的术语规则，和一般的公司体系区别很大。行业字典就是针对以上情况。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i>人事管理
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        主要是人事记录，可以从面试的薪酬评估开始，入职，计算考勤，计算薪酬，资料变动，<br />
+                        到最后离职等一系列流程的数据处理。
+
+                        雇员新增、更新、冻结  头像、身份证号、手机号、入职离职日期、拍卡关联等等<br />
+                        雇员列表 按部门工种 职位等进行查询。<br />
+
+                        关联与取消系统用户（雇员的前端浏览使用，系统用户和雇员是两个完全不同的概念，系统用户是用于系统登录和操作系统的，考勤人员就是雇员，属于所定义的公司下的雇员）<br />
+
+                        分配到所属的设备：指定特定的设备来考勤和下行头像和考勤编号到对应的设备（如适用）。其他设备无效，拒绝进入。<br />
+
+                        拍卡关联与关联: 增加变更拍卡。<br />
+
+                        工作日历视图管理，提供日历方式的阅览，直观简单。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 请假系统与公众假期系统
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        请假：提供补请假与请假。是否有薪假期，等等问题。请假是按照排班为单位请假，<br />
+                        例如：10月26日有排班AA,请假要针对这个排班请假,以方便系统计算准确。<br />
+                        公众假期导入，由Excel格式的假期数据导入到系统，省时省力。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 考勤设置系统
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供日班考勤设置和夜班考勤设置，以适应不同时段的工作要求。<br />
+                        可通过排班设置弹性考勤（自由安排工作时间），对某些行业需要，按需工作，例如：某研究员/教授/高级医生，<br />
+                        一个星期内自由安排两天完成两个工作日即满足公司考勤要求，则可以通过排班设置，并由考勤人员自己申报，即可实现考勤计算的目的。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 排班系统
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        排班是自动每月自动运行，包括自定义排班和全局排班（固定排班，俗称朝玖晚伍是其中一个应用），<br />
+                        自定义排班是短期的，优先级大于全局排班， 一旦冲突,则会以自定义排班替换全局排班。<br />
+                        自定义排班可以手动进行排班，但全局排班是系统每月调度运行。<br />
+                        系统全局设置的排班与自由随意调整的排班，全方位解决人力工作安排。灵活而且省时省力，无需制作复杂的排班计划。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 系统迁移（人员导入）
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供EXCEL格式模板导入数据，以及通过API导入数据，并在导入的同时，进行相应的部门、职位<br />
+                        等等的组织单元编辑，以便对大量考勤人员的多维度的分类管理<br />
+                        年底假期的导入，由于不同公司，假期制度未必相同，这里提供假期导入功能，以平滑过渡到新系统。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 系统字典对照（语言系统）
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        对具体每个页面的字词语句进行自定义以适合本公司文化与术语的设定要求。<br />例如漏打（漏签）
+                        又例如：医院部门成为科室等等情况，可以通过行业自定义设置，适应不同行业的叫法。<br />
+                        同时提供简体、繁体、英文等的界面要求，其他语种可以按需要增加。<br />
+                        本系统从界面问题全部都是可以通过后端语言字典设置更改为更适应自己公司企业文化需要的。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 行业定制功能
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        通过政府注册工人资料库自动导入考勤人员，目前提供建造业的考勤人员导入，
+                        其他需要针对性开发。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 部门考勤报表
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供部门经理的报表查询，包括排班考勤计算报表、日考勤计算报表、月度考勤计算报表，<br />
+                        考勤人员的请假审批等等。<br />
+                        包括以Excel，PDF等多种形式导出报表数据等等功能。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 分公司、经理、店长、代理商等等形式的考勤报表
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供部门经理的报表查询，包括排班考勤计算报表、日考勤计算报表、月度考勤计算报表，<br />
+                        考勤人员的请假审批等等。<br />
+                        包括以Excel，PDF等多种形式导出报表数据等等功能。
+                        报表的数据只会提供所属权限的对应数据，安全可控。
+                        例如：经理，则提供其 <u>下属成员</u> 的对应报表。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 漏签与补签
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供由于忘记打卡而事后做出补救的功能。以及出现有进无出、有出无进的考勤记录情况的规则规律<br />
+                        和解决办法。<br />
+                        漏签，就是忘记打卡，实际有上班的情况。<br />
+                        补签，就是根据实际上班情况，补登记记录。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 我的考勤中心
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        以手机端或电脑前端形式，提供考勤人员查询月度报表、日报表、排班报表、请假申请、<br />
+                        以及其他互动功能。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 报表系统
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供报表EXCEL或PDF下载。<br />
+                        报表的具体功能是分散在对应具体的业务功能上，例如排班考勤报表，查询的同时包括有报表下载。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 考勤报表复核
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供考勤数据记录的列表查询，提供人工复核记录，万无一失。包括排班考勤的复核计算，万无一失。<br />
+                        对考勤数据非常重要的行业，提供记录的复核处理，使用人工复核计算以核对电脑报表是否存在误差。保证绝对准确。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 图表大数据计算
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        图表大数据计算，以目前先进的大数据计算思想，用多种不同的统计数据表现形式来表达数据统计，<br />
+                        例如散点统计，直观的展示迟到和分布的时段的区域。后续的数据统计挖掘，会开发更多功能。
+                    </p>
+                </div>
+            </details>
+        </li>
+
+        <li>
+            <blockquote class="h4 text-bold text-black" style="padding:10px;background-color:#faf6ea">薪酬系统</blockquote>
+        </li>
+        <li class="divider">
+            <hr style="width:60%;align-content:flex-start;" />
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 薪酬评估
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        包括面试情景用的薪酬评估，员工薪酬评估，隽升申请情景的薪酬评估。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 账目分类
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        包括按年月日时四个结算周期的账目，还有一个独立的账目，只有结算后才会建立里一个新的其他账目。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 记账项目
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        系统预设的通用准则的记账项目，例如交通津贴，膳食津贴等等。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 附加记账项目
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        除了预设的记账项目外，还增加了针对特定人员的记账项目。<br />
+                        例如业务经理的董事会酬金，业务员佣金等等。从预设记账项目到特定人员的附加记账项目，完全覆盖<br />
+                        不同变化情况。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 会计货币
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供多种国际货币选择，如欧元，人民币，美元，英镑，日元等等，因应需要可以适当增加。
+
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 所得税
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        减值项目，提供固定减值项和比率减值项混合计算规则。适合任何情况需要。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 财务账目
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供财务账目查询搜索列表以及延伸链接到其他功能。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 财务明细项目
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供财务明细列表。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 个人财务概览
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        针对个人的财务账目以及所有明细项目一目了然。<br />
+                        包括结余项,具体的项目明细(流水项),人员主要资料信息。
+                        <br />
+                    </p>
+                </div>
+            </details>
+        </li>
+    </ul>
+    
+
+    
+     
+ 
+
+
+
+ 
+

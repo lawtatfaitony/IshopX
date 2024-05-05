@@ -18,7 +18,12 @@ namespace Ishop.AppCode.EnumCode
             /// <summary>
             /// 安防行业模式
             /// </summary>
-            SECURITY = 1
+            SECURITY = 1,
+
+            /// <summary>
+            /// 音響廣播工程行业模式
+            /// </summary>
+            RADIOENGINEER = 1
 
         }
     }

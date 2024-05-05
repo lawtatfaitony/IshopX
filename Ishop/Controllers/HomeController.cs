@@ -31,7 +31,7 @@ namespace Ishop.Controllers
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
 
         /// <summary>
-        /// 
+        ///  目前有 IndexA | IndexB | IndexC 三種不同的模版
         /// </summary>
         /// <param name="id"></param>
         /// <param name="InfoCateID"></param>
@@ -173,10 +173,19 @@ namespace Ishop.Controllers
                                               .Take(18);
                 ViewBag.ProductList = productList.ToList();
                 viewTemplate = "IndexB";
-            }else
+            }else if(shop.IsInfoMode == (int)PublicEnumCode.IsInfoMode.RADIOENGINEER)
+            {
+                viewTemplate = "IndexC";
+            }
+            else if(shop.IsInfoMode == (int)PublicEnumCode.IsInfoMode.INSURANCE)
             {
                 viewTemplate = "IndexA";
-            } 
+            }
+            else //default
+            {
+                viewTemplate = "IndexA";
+            }
+
             return View(viewTemplate);  
         }
 
