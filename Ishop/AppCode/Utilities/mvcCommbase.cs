@@ -758,5 +758,43 @@ namespace Ishop.Utilities
 
             return phoneNumber;
         }
+
+        /// <summary>
+        /// 解析店鋪價格表達格式
+        /// </summary>
+        /// <param name="ShopCurrency">zh-CN|zh-HK|en-US</param>
+        /// <returns></returns>
+        public static string GetShopPriceByShopCurrency(string price ,string ShopCurrency)
+        {
+             if(!string.IsNullOrEmpty(ShopCurrency))
+            { 
+                if (string.IsNullOrEmpty(price) )
+                {
+                    return "HK$0.0";
+                }
+                else
+                {
+                    if (price.StartsWith("HK$") || price.StartsWith("CN¥") || price.StartsWith("US$"))
+                    {
+                        return price;
+                    }
+                    switch(ShopCurrency)
+                    {
+                        case "zh-HK":
+                            return $"HK${price}";
+                        case "zh-CN":
+                            return $"CN¥{price}";
+                        case "en-US":
+                            return $"US${price}";
+                        default:
+                            return $"HK${price}";
+                    } 
+                }
+            }
+            else
+            {
+                return price;
+            }
+        }
     }
 }

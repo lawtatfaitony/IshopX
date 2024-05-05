@@ -81,7 +81,7 @@ namespace Ishop.Controllers
             ViewBag.ShopUserId = shop.UserId;
             ViewBag.ShopHostName = shop.HostName;
             ViewBag.IsInfoMode = shop.IsInfoMode;
-
+           
             //路由格式 zh-HK|zh-CN|en-US|hk|cn|en|HK|CN|EN
             // 獲取當前的 URL
             Uri currentUri = new Uri(System.Web.HttpContext.Current.Request.Url.AbsoluteUri);
@@ -117,7 +117,16 @@ namespace Ishop.Controllers
                 ViewBag.EnUsUriPath = $"/en-US{defaultHomeUrl}";
             }
 
-             
+            if (_Language == "zh-HK")
+            {
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-hant-HK");
+                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-hant-HK");
+            }
+            else
+            {
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(_Language);
+                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(_Language);
+            } 
         }
         public string DoPost(string url, string data)
         {

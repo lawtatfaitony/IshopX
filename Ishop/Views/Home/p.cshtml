@@ -251,21 +251,21 @@
 <div class="container">-<<br /></div>
 <footer class="floatFooter">
     <div class="BtmFunLayer container-fluid bg-black-active">
-        <ul class="list-unstyled list-inline no-padding">
-            <li>
-
+        <ul class="list-unstyled list-inline">
+            <li style="padding:5px,5px,5px,5px;"> 
                 <a href="@Url.Action("Index","Home",new { area=""})" class="btn btn-info btn-link text-info"><i class="fa fa-home" style="color:#ffffff"></i></a>
             </li>
-            <li>
+            <li style="padding:5px,5px,5px,5px;">
                 <button type="button" id="BtnCart_homelayout" class="btn btn-info">
                     <i class="fa fa-cart-arrow-down"></i>
                 </button>
             </li>
-            <li>
-                <a href="@Url.Action("UserTrace", "Home", new { TableKeyID = ViewBag.ProductId ,Act="p",Ctrl="Home" })" class="btn btn-info btn-link text-info" style="color:#ffffff"><i class="fa fa-share-alt-square"></i></a>
+            <li style="padding:5px,5px,5px,5px;">
+                <a href="@Url.Action("UserTrace", "Home", new { TableKeyID = ViewBag.ProductId ,Act="p",Ctrl="Home" })"
+                   class="btn btn-info btn-link text-info  bg-danger" style="color:#ffffff"><i class="fa fa-share-alt-square"></i></a>
             </li>
-            <li class="padding-left5">
-                <botton class="h3 text-bold">&nbsp;@string.Format("{0:F1}", (decimal)ViewBag.TradePrice)</botton>
+            <li style="padding:5px,5px,5px,5px;"> 
+                <span class="h3 text-bold text-white">&nbsp;@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", decimal.Parse(Html.DisplayFor(m => m.TradePrice).ToString())), (string)ViewBag.ShopCurrency)</span>
             </li>
         </ul>
     </div>
@@ -275,13 +275,24 @@
 
     $("#BtnCart_homelayout").click(function () {
 
+        //提示
+        var OnloadingBtnCart = layer.open({
+            type: 2
+            , content: 'Loading...'
+            , skin: 'msg'
+            , time: 3
+        });
+          
+        console.log("PRODUCT ID @ViewBag.ProductId");
+
         var ProductId = "@ViewBag.ProductId";
         var AddToCartUrl = "/" + "@ViewBag.Language" + "/Cart/AddToCart?GotoPay=1&ProductId=" + ProductId;
         console.log(AddToCartUrl);
-        AddToCartUrl = "<iframe src='" + AddToCartUrl + "' width='100%' height='320' frameborder='0' border='0' marginwidth='0' marginheight='0' scrolling='no' allowtransparency='true'></iframe>";
+        AddToCartContent = "<iframe src='" + AddToCartUrl + "' width='100%' height='320' frameborder='0' border='0' marginwidth='0' marginheight='0' scrolling='no' allowtransparency='true'></iframe>";
         var ShoppingCartLayerIndex = layer.open({
             type: 1
-            , content:AddToCartUrl
+            , title: "PRODUCT ID @ViewBag.ProductId"
+            , content: AddToCartContent
             , anim: 'up'
             , style: 'position:fixed; bottom:0px; left:0; width: 100%; height: 320px; padding:5px 0; border:none;'
         });
@@ -297,6 +308,7 @@
 </script>
 
 <script>
+    var ShopCurrency = "@ViewBag.ShopCurrency";
     var ProductId = "@ViewBag.ProductId";
     var IntervalMinutes = 1;
     var SourceStatisticsID = "@ViewBag.SourceStatisticsID";

@@ -1,36 +1,49 @@
 ﻿@using Ishop.Utilities
 @using LanguageResource
 @{
-    Layout = "~/Views/Shared/ShoppingCartLayout.cshtml";
+   // Layout = "~/Views/Shared/ShoppingCartLayout.cshtml";  //改回使用主模版
 }
-<div id="MyShoppingCart1" style="margin-top:15px">
+
+<div class="container">
+    <blockquote class="h3 padding-left15">
+       <i class="fa fa-shopping-cart"></i> My Cart
+    </blockquote>
+    <hr />
+</div>
+<div class="container" id="MyShoppingCart1" style="margin-top:15px">
     @{
         List<Ishop.Models.ProductMgr.Cart> CartList = ViewBag.CartList;
+
         if (CartList.Count > 0)
         {
             foreach (var Item in CartList)
             {
-                <div id="@Item.ProductSkuId" style="padding:5px 0px 5px 0px; border-bottom-color:crimson;border-bottom-width:4px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
+                <div id="@Item.ProductSkuId" class="row" style="padding:5px 0px 5px 15px; border-bottom-color:crimson;border-bottom-width:4px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
                     @Html.Partial("~/Views/Shared/ShoppingCart/CarListUnit.cshtml", Item)
                     <hr style=" border-top:3px thick #808080;width:90%" />
                 </div>
             }
-            <div class="container pull-left"><a id="seletedOK" href="javascript:void(0)">@Lang.Views_GeneralUI_seletedOK</a></div>
+            <div class="row pull-left padding-left15"><a id="seletedOK" href="javascript:void(0)">@Lang.Views_GeneralUI_seletedOK</a></div>
         }
     }
 </div>
  
 <footer class="floatFooter">
-    <div class="BtmFunLayerMyShoppingCart container-fluid bg-black-active">
-        <ul class="list-unstyled list-inline no-padding">
-            <li class="">
-                <a href="@Url.Action("Index","Home",new { LangUtilities.LanguageCode,area="default"})" class="btn btn-info btn-link text-info"><i class="fa fa-home" style="color:#ffffff"></i></a>
-            </li>
-            <li class="">
-                <button type="button" id="BtnSubmitCheeckOut" class="btn btn-info">@Lang.DispatchNoteModalView_DefinitedTag_SubmitAndPay<!--微信支付 DispatchNoteModalView_DefinitedTag_SubmitAndPay--></button>
-            </li> 
-        </ul>
-    </div>
+    <div class="container-fluid">
+        <div class="BtmFunLayerMyShoppingCart bg-black-active  center-block">
+            <ul class="list-unstyled list-inline">
+                <li class="">
+                    <a href="@Url.Action("Index","Home",new { LangUtilities.LanguageCode,area="default"})" class="btn btn-info btn-link text-info"><i class="fa fa-home" style="color:#ffffff"></i></a>
+                </li>
+                <li class="">
+                    <button type="button" id="BtnSubmitNext" class="btn btn-info">Next<!-- 轉入生成訂單 並使用 提供支付銀行等等信息作交易手段 --></button>
+                </li>
+                <li class="">
+                    <button type="button" id="BtnSubmitCheeckOut" class="btn btn-info">@Lang.DispatchNoteModalView_DefinitedTag_SubmitAndPay<!--微信支付 DispatchNoteModalView_DefinitedTag_SubmitAndPay--></button>
+                </li>
+            </ul>
+        </div>
+    </div> 
 </footer>
 
 <script>

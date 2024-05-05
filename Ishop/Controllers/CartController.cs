@@ -11,6 +11,7 @@ using System.Data.Entity;
 using Ishop.ViewModes.Order;
 using LanguageResource;
 using System.Threading;
+using System.Data.Entity.Migrations;
 
 namespace Ishop.Controllers
 {
@@ -102,6 +103,34 @@ namespace Ishop.Controllers
             return View(product);
         }
 
+
+        /// <summary>
+        /// 檢查是否只有一個SKU的情況
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns>{"ProductSkuId":"P0000210132","ProductSkuCount":1,"SkuMessage":"Only One SKU"}</returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public JsonResult CheckOnlyOneSkuForCart(string productId)
+        { 
+            int count = db.Products.Where(s => s.ProductID == productId).Count();
+            if (count>0)
+            {
+                int ProductSkuCount = db.ProductSkus.Where(c => c.ProductID == productId).Count();
+
+                if (ProductSkuCount == 1)
+                {
+                    var ProductSku = db.ProductSkus.Where(c => c.ProductID == productId).FirstOrDefault();
+
+                    var checkSkuReturn = new { ProductSkuId = ProductSku.ProductSkuId, ProductSkuCount = ProductSkuCount , SkuTradePrice = ProductSku.TradePrice, SkuMessage = "Only One SKU" };
+                    return Json(checkSkuReturn, JsonRequestBehavior.AllowGet);
+                } 
+            }
+
+            var checkSkuReturn2 = new { ProductSkuId = "", ProductSkuCount = 0, SkuMessage = "NO Any SKU, Backend No Setting" };
+            return Json(checkSkuReturn2, JsonRequestBehavior.AllowGet);
+        }
+
         /// <summary>
         /// 加入购物车 AddToCart 
         /// </summary>
@@ -136,11 +165,10 @@ namespace Ishop.Controllers
         public ActionResult MyShoppingCart()
         {
             ShopInitialize();
-            // this.InitLanguageStateViewBag();  //作廢 2024-4-29
-
+           
             IsAuthenticatedChangeCartId();
 
-            DateTime dt = DateTime.Now.AddDays(-30);
+            DateTime dt = DateTime.Now.AddDays(-360);
             ViewBag.CartList = db.Carts.Where(c => c.CartId == WebCookie.CartId && c.OperatedDate > dt).ToList();
             return View();
         }
@@ -191,10 +219,13 @@ namespace Ishop.Controllers
                 foreach (var Cart in CartItems)
                 {
                     Cart.CartId = UserId;
+                    //db.Carts.AddOrUpdate(Cart); 
                 }
-                db.SaveChanges();
-
-                WebCookie.CartId = UserId;
+                int result  = db.SaveChanges();
+                if(result > 0)
+                {
+                    WebCookie.CartId = UserId;
+                } 
             }
         }
          
@@ -258,6 +289,5 @@ namespace Ishop.Controllers
             return PropNameValue1;
         }
         
-    }
-   
+    } 
 }

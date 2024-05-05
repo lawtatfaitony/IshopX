@@ -57,6 +57,10 @@
 
     @Styles.Render("~/Content/Main")  <!--include IPstatics.js-->
 
+    @Scripts.Render("~/js/LayerUI/mobile")
+    @Scripts.Render("~/js/Order/ShoppingCart")
+
+
     @RenderSection("scripts", required: false)
 
     <!--Share Button-->
@@ -89,16 +93,28 @@
 
                         @if (Client_Shop.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY || ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
                         {
-                            <li><a href="@Url.Action("Index","Helper")"><i class="fa fa-question-circle" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>HELP CENTER</a></li>
+                            <li>
+                                <a href="@Url.Action("Index","Helper")">
+                                    <i class="fa fa-question-circle margin-r-5" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>HELP
+                                </a>
+                            </li>
 
-                            <li> <a href="@Url.Action("ServiceFlow","Home")"><i class="fa fa-phone-square" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>SERVICE</a></li>
+                            <li>
+                                <a href="@Url.Action("ServiceFlow","Home")">
+                                    <i class="fa fa-phone-square margin-r-5" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>SERVICE
+                                </a>
+                            </li>
 
-                            <li> <a href="@Url.Action("Downloadpage","Helper")"><i class="fa fa-download" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>DOWNLOAD CENTER</a></li>
+                            <li>
+                                <a href="@Url.Action("Downloadpage","Helper")">
+                                    <i class="fa fa-download margin-r-5" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>DOWNLOAD
+                                </a>
+                            </li>
                         }
                         <li>
                             <div class="btn-group padding-10">
-                                <span  class="dropdown-toggle round " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img  src="~/images/multilanguage.png" width="30"/> <span class="caret bg-black" style="color:#ffffff;"> </span>
+                                <span class="dropdown-toggle round " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="~/images/multilanguage.png" width="30" /> <span class="caret bg-black" style="color:#ffffff;"> </span>
                                 </span>
                                 <ul class="dropdown-menu text-warning">
                                     <li><a href="@ViewBag.ZhCnUriPath">简体</a></li>
@@ -116,6 +132,12 @@
                                 </ul>
                             </div>
                         </li>
+                        @if (Client_Shop.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
+                        {
+                            <li>
+                                <a href="@Url.Action("MyShoppingCart","Cart")"><i class="fa fa-shopping-cart" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i></a>
+                            </li>
+                        }
                     </ul> 
                     @Html.Partial("_LoginPartial")
                 </div>

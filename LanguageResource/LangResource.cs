@@ -135,8 +135,17 @@ namespace LanguageResource
                 } 
 
                 //Localize
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(_Language);
-                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(_Language);
+                if(_Language == "zh-HK")
+                {
+                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-hant-HK");
+                    Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-hant-HK");
+                }
+                else
+                {
+                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(_Language);
+                    Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(_Language);
+                }
+            
                 return _Language;
             }
             set

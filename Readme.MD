@@ -105,3 +105,18 @@ line 112 : IClientProfile profile = DefaultProfile.GetProfile("xxx", "xxx", "xxx
 ![rendersuccess_2024_4_29](README_IMGs/rendersuccess_2024_4_29.jpg)
 
 最後生成記錄 2024-4-29
+
+## 如何表達店鋪貨幣:
+
+```
+@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", Model.TradePrice), (string)ViewBag.ShopCurrency)  
+// ViewBag.ShopCurrency 由初始化函數 From: BaseController.ShopInitialize()
+```
+
+## 郵件系統:
+
+默認標準端口如:
+
+![Mail126Port](README_IMGs/Mail126Port.jpg)
+
+​				    這個只是一個標準而普遍使用的端口.
