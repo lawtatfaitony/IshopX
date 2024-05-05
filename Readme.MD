@@ -156,3 +156,7 @@ Response.Cookies.Append("cookieName", "cookieValue", new CookieOptions
 ```
 
 通過上面的代碼，你可以在 C# .NET 中設置一個允許第三方 cookie 的 cookie。請確保在使用這個功能時遵循相關的安全最佳實踐。
+
+## 訂單與購物車功能須知:
+
+必須先增加SKU才能選擇交易屬性實現加入購物車功能,如果無法創建SKU,那肯定是類目,屬性,屬性值沒有設置導致的.必須按流程 : 類目,屬性,屬性 > 產品 > SKU > 購物車 > 訂單 > 發貨單 > 支付
