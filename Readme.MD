@@ -75,11 +75,11 @@ Index(string id,string InfoCateID ,string Index2,string code,string state)
 
 ```
 C:\Windows\System32\drivers\etc\host 系統文件,配置域名和 IP 地址的映射
-127.0.0.1 sunwaylink.com 		# sh0001
-127.0.0.1 xguard.cn 			# sh0006
+127.0.0.1 sunwaylink.com 		# sh0001 login Id:Supervisor@xyz.com 
+127.0.0.1 xguard.cn 			# sh0006 login Id:joyercomcn@qq.com
 127.0.0.1 dataguardxcore.com 	# sh0016 not exist
-127.0.0.1 dataguard.com 		# SH2028 no download 
-127.0.0.1 starbilliant.cn 		# SH2028
+127.0.0.1 dataguard.com 		# SH2028 no download login Id:lawtatfaitony@gmail.com
+127.0.0.1 starbilliant.cn 		# SH2028 login Id:lawtatfaitony@gmail.com			
 ```
 
  

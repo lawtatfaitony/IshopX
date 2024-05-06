@@ -1816,7 +1816,6 @@
     <Content Include="Views\Shared\ShopHeaderTemplate\sh0006_LayOutHeader.en-US.cshtml" />
     <Content Include="Views\Shared\ShopHeaderTemplate\sh0006_LayOutHeader.zh-CN.cshtml" />
     <Content Include="Views\Shared\ShopHeaderTemplate\sh0006_LayOutHeader.zh-HK.cshtml" />
-    <Content Include="Views\Shared\ShopHeaderTemplate\SH2028_LayOutHeader.en-USx.cshtml" />
     <Content Include="Views\Shared\ShopHeaderTemplate\SH2028_LayOutHeader.zh-CN.cshtml" />
     <Content Include="Views\Shared\ShopHeaderTemplate\SH2028_LayOutHeader.zh-HK.cshtml" />
     <Content Include="Views\Shared\ShopViewTemplate1\sh0001_zh-HK.cshtml" />
