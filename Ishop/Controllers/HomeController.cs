@@ -42,7 +42,7 @@ namespace Ishop.Controllers
         public ActionResult Index(string id,string InfoCateID ,string Index2,string code,string state)
         {
             ShopInitialize();
-            mvcCommeBase.ChkShpID();
+            //mvcCommeBase.ChkShpID(); //Deprecated 2024-5-6
             string ShpID = WebCookie.ShpID;
             Shop shop = new Shop(); 
             if (!string.IsNullOrEmpty(id))

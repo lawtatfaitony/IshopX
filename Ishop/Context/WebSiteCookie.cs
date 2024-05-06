@@ -106,25 +106,30 @@ public class WebCookie
         {
             get
             {
-                if (Request.Cookies["ShopID"] == null)
-                {
-                    if (Request.QueryString["ShopID"] != null)
-                    {
-                        string shopId = Request.QueryString["ShopID"].ToString().Trim();
-                        return shopId;
-                    }
-                    return "-";
-                }
-                return Request.Cookies["ShopID"].Value.ToLower();
+                //derepcate 2024-5-6
+                //if (Request.Cookies["ShopID"] == null)
+                //{
+                //    if (Request.QueryString["ShopID"] != null)
+                //    {
+                //        string shopId = Request.QueryString["ShopID"].ToString().Trim();
+                //        return shopId;
+                //    }
+                //    return "-";
+                //}
+                //return Request.Cookies["ShopID"].Value.ToLower();
+                return ShpID;
             }
             set
-            { 
-                HttpCookie ck_ShopID = new HttpCookie("ShopID", value); 
-                ck_ShopID.Expires = DateTime.Now.AddYears(3);
-                HttpContext.Current.Response.Cookies.Add(ck_ShopID);
-                Response.Cookies["ShopID"].Expires = DateTime.Now.AddYears(3); //设置过期方式2 
-                Response.Cookies["ShopID"].Secure = true;
-                Response.Cookies["ShopID"].SameSite = SameSiteMode.None;
+            {
+                //derepcate 2024-5-6
+                //HttpCookie ck_ShopID = new HttpCookie("ShopID", value); 
+                //ck_ShopID.Expires = DateTime.Now.AddYears(3);
+                //HttpContext.Current.Response.Cookies.Add(ck_ShopID);
+                //Response.Cookies["ShopID"].Expires = DateTime.Now.AddYears(3); //设置过期方式2 
+                //Response.Cookies["ShopID"].Secure = true;
+                //Response.Cookies["ShopID"].SameSite = SameSiteMode.None;
+
+                ShpID = value;
             }
         }
         //作廢 2024-5-4

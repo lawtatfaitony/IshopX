@@ -32,7 +32,7 @@ namespace Ishop.Info.Controllers
         public ActionResult Index(string Id)
         {
             ShopInitialize();
-            mvcCommeBase.ChkShpID();
+            //mvcCommeBase.ChkShpID(); ////Deprecated 2024-5-6
             string ShpID = WebCookie.ShpID;
 
             //header  TableName   Title  SubTitle KeyWords Description

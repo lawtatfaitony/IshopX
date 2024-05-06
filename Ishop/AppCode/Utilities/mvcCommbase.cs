@@ -85,24 +85,26 @@ namespace Ishop.Utilities
 
             return true;
         }
-        public static void ChkShpID()
-        {
-            HttpContext CurrentHttp = HttpContext.Current;
-            string ShpID;
-            if (string.IsNullOrEmpty(WebCookie.ShpID)) //no ShpId cookie State
-            {
-                if (CurrentHttp.Request.Params["shpid"] != null)
-                {
-                    ShpID = CurrentHttp.Request.Params["shpid"].ToString().ToLower(); //1.get the  Url Param
-                    WebCookie.ShpID = ShpID;
-                }
-                else
-                {
-                    ShpID = ConfigurationManager.AppSettings["DefaultShopID"].ToLower(); //2.get the config ShpId
-                    WebCookie.ShpID = ShpID;
-                }
-            } 
-        }
+        //Deprecated 2024-5-6
+        //public static void ChkShpID()
+        //{
+
+        //    //HttpContext CurrentHttp = HttpContext.Current;
+        //    //string ShpID;
+        //    //if (string.IsNullOrEmpty(WebCookie.ShpID)) //no ShpId cookie State
+        //    //{
+        //    //    if (CurrentHttp.Request.Params["shpid"] != null)
+        //    //    {
+        //    //        ShpID = CurrentHttp.Request.Params["shpid"].ToString().ToLower(); //1.get the  Url Param
+        //    //        WebCookie.ShpID = ShpID;
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        ShpID = ConfigurationManager.AppSettings["DefaultShopID"].ToLower(); //2.get the config ShpId
+        //    //        WebCookie.ShpID = ShpID;
+        //    //    }
+        //    //} 
+        //}
         public static string CreateDynamicToken(string Scret)
         {
             DateTimeOffset dateTimeOffset = new DateTimeOffset(DateTime.Now);
@@ -132,18 +134,7 @@ namespace Ishop.Utilities
                 return string.Empty;
             }
         }
-        public static void CheckInitialize()
-        {
-            //Language Initialize
-            if (WebCookie.Language == string.Empty)
-            {
-                WebCookie.Language = LangUtilities.LanguageCode;
-            }
-            if (WebCookie.ShpID == string.Empty)
-            {
-                mvcCommeBase.ChkShpID();
-            }
-        }
+        
         public static Shop ReturnClient_Shop()
         {
             string ShpID = WebCookie.ShpID;

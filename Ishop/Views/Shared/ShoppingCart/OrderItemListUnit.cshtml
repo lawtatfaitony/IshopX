@@ -31,13 +31,13 @@
                     </li>
 
                     <li class="list-inline pull-right">
-                        <img src="/upload/ProductSku/SKUsh000620240505180431785.jpg" alt="..." class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px;max-width:90px;" />
+                        <img src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100)" alt="..." class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px;max-width:90px;" />
                     </li>
                 </ul> 
             </li>
         </ul>
     </li>
-    <li class="list-inline top pull-right" style="padding-top:0;">
+    <li class="list-inline top pull-right">
         <img src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100)" class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px" />
     </li>
 </ul>

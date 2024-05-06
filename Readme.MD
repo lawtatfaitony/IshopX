@@ -1,5 +1,7 @@
 # 開發日誌
 
+**IshopX --- At the Heart of your Ecosystem!**
+
 立项时间：2021年10月21日
 
 ISHOP新版开发—2021年12月21日阶段性开发完毕.MD
@@ -27,6 +29,15 @@ Shared\ShopViewTemplate1\sh0006_zh-HK.cshtml
 1.  IndexA.cshtml 模版  Shared/TemplateA
 2.  IndexB.cshtml 模版  Shared/TemplateB
 3.  IndexC.cshtml 模版  Shared/TemplateC
+
+## 增加HEADER模版
+
+```
+模版文件在 Shared/ShopHeaderTemplate 使各個店鋪自己風格定義HEADER
+ShopHeaderTemplate/sh0001_LayOutHeader.en-US.cshtml
+ShopHeaderTemplate/sh0001_LayOutHeader.zh-CN.cshtml
+ShopHeaderTemplate/sh0001_LayOutHeader.zh-HK.cshtml
+```
 
 ## 主頁的AI-BOX 的專題廣告
 
@@ -66,8 +77,8 @@ Index(string id,string InfoCateID ,string Index2,string code,string state)
 C:\Windows\System32\drivers\etc\host 系統文件,配置域名和 IP 地址的映射
 127.0.0.1 sunwaylink.com 		# sh0001
 127.0.0.1 xguard.cn 			# sh0006
-127.0.0.1 dataguardxcore.com 	# sh0016
-127.0.0.1 dataguard.com 		# SH2028
+127.0.0.1 dataguardxcore.com 	# sh0016 not exist
+127.0.0.1 dataguard.com 		# SH2028 no download 
 127.0.0.1 starbilliant.cn 		# SH2028
 ```
 

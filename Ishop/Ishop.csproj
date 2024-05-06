@@ -1813,6 +1813,12 @@
     <Content Include="Views\Cart\taobaoTrade\index2.html" />
     <Content Include="Views\Cart\taobaoTrade\jquery.js" />
     <Content Include="Views\i\JS\wxApp.js" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\sh0006_LayOutHeader.en-US.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\sh0006_LayOutHeader.zh-CN.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\sh0006_LayOutHeader.zh-HK.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\SH2028_LayOutHeader.en-USx.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\SH2028_LayOutHeader.zh-CN.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\SH2028_LayOutHeader.zh-HK.cshtml" />
     <Content Include="Views\Shared\ShopViewTemplate1\sh0001_zh-HK.cshtml" />
     <Content Include="Views\Shared\ShopViewTemplate1\sh0006_zh-HK.cshtml" />
     <Content Include="webuploader\Script\WebUploaderforFile.js" />
@@ -2098,6 +2104,13 @@
     <Content Include="Views\Shared\TemplateC\SoftwareMainFuncENUS.cshtml" />
     <Content Include="Views\Shared\TemplateC\SoftwareMainFuncZHCN.cshtml" />
     <Content Include="Views\Shared\TemplateC\SoftwareMainFuncZHHK.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\sh0001_LayOutHeader.en-US.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\sh0001_LayOutHeader.zh-CN.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\sh0001_LayOutHeader.zh-HK.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\SH2006_LayOutHeader.en-US.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\SH2006_LayOutHeader.zh-CN.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\SH2006_LayOutHeader.zh-HK.cshtml" />
+    <Content Include="Views\Shared\ShopHeaderTemplate\SH2028_LayOutHeader.en-US.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

@@ -1,0 +1,76 @@
+﻿@using System.Globalization
+@using System.Threading
+@using Ishop.Context
+@using Ishop.Utilities
+@using LanguageResource
+@using Ishop.Models.ProductMgr
+@using Ishop.AppCode.EnumCode
+
+<div id="top" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="@Url.Action("Index", "Home")" class="navbar-brand navbar-left" style="margin-top:-12px;">
+                <img src="@ViewBag.ShopLogo" class="img-responsive" />
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink(Lang.Views_GeneralUI_Home, "Index", "Home")</li>
+
+                @if ((int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY || (int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
+                {
+                    <li>
+                        <a href="@Url.Action("Index","Helper")">
+                            <i class="fa fa-question-circle margin-r-5" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>HELP
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("ServiceFlow","Home")">
+                            <i class="fa fa-phone-square margin-r-5" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>SERVICE
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("Downloadpage","Helper")">
+                            <i class="fa fa-download margin-r-5" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>DOWNLOAD
+                        </a>
+                    </li>
+                }
+                <li>
+                    <div class="btn-group padding-10">
+                        <span class="dropdown-toggle round " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="~/images/multilanguage.png" width="30" /> <span class="caret bg-black" style="color:#ffffff;"> </span>
+                        </span>
+                        <ul class="dropdown-menu text-warning">
+                            <li><a href="@ViewBag.ZhCnUriPath">简体</a></li>
+                            <li><a href="@ViewBag.ZhHkUriPath">繁體</a></li>
+                            <li><a href="@ViewBag.EnUsUriPath">English</a></li>
+                            @if (LangUtilities.LanguageCode != "zh-CN")
+                            {
+                                <li role="separator" class="divider"></li>
+                                <li class="h5">
+                                    <a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A", mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber))">
+                                        <span><i class="fa fa-whatsapp text-green padding-right5" aria-hidden="true" tiltle="歡迎WhatsApp資訊"></i>歡迎咨詢</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </li>
+                @if ((int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
+                {
+                    <li>
+                        <a href="@Url.Action("MyShoppingCart","Cart")"><i class="fa fa-shopping-cart" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i></a>
+                    </li>
+                }
+            </ul>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</div>

@@ -60,15 +60,17 @@ namespace Ishop.Controllers
             {
                 WebCookie.Language = LangUtilities.LanguageCode;
             }
-            if (string.IsNullOrEmpty(WebCookie.ShpID))
-            {
-                mvcCommeBase.ChkShpID();
-            }
+            //Deprecated 2024-5-6
+            //if (string.IsNullOrEmpty(WebCookie.ShpID))
+            //{
+            //    mvcCommeBase.ChkShpID();
+            //}
 
             ViewBag.Language = Language;
             ViewBag.LanguageCode = Language;
 
-            Shop shop = db.Shops.Find(WebCookie.ShpID); 
+            Shop shop = db.Shops.Find(WebCookie.ShpID);
+            ViewBag.Client_Shop = shop;
             ViewBag.ClientShop = shop;
             ViewBag.ShpID = WebCookie.ShpID;
 
@@ -119,8 +121,8 @@ namespace Ishop.Controllers
 
             if (_Language == "zh-HK")
             {
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-hant-HK");
-                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-hant-HK");
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-Hant");
+                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-Hant");
             }
             else
             {
