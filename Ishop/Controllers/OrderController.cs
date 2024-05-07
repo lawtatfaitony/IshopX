@@ -12,6 +12,8 @@ using Ishop.ViewModes.Order;
 using Ishop.DAL;
 using LanguageResource;
 using Org.BouncyCastle.Asn1.X509;
+using Microsoft.VisualBasic.ApplicationServices;
+using System.Data.Entity.Migrations;
 
 namespace Ishop.Controllers
 {
@@ -24,6 +26,18 @@ namespace Ishop.Controllers
         public ActionResult Index(string list)
         {
             this.ShopInitialize();
+
+            //初始發貨地址
+            var currentDispatchNote = new DispatchNote
+            {
+                OrderID = "",
+                Country = "",
+                District = "",
+                Address = "",
+                PhoneNumber = "",
+                Recipient = "",
+                TelePhoneNumber = ""
+            };
 
             if (!string.IsNullOrEmpty(list))
             {
@@ -64,6 +78,7 @@ namespace Ishop.Controllers
                 {
                     CommissionLogic = 1;
                 }
+                
                 //2.
                 List<OrderItem> orderItems = new List<OrderItem>();
                 int i = 1;
@@ -120,6 +135,8 @@ namespace Ishop.Controllers
                         ,
                         Country = ""
                         ,
+                        StatusId = "UNPAID"  
+                        ,
                         OrderItems = db.OrderItems.Where(c => c.OrderId == order.OrderId).ToList()
                     };
                 ViewBag.CurrentOrderId = order.OrderId;
@@ -128,7 +145,14 @@ namespace Ishop.Controllers
             }
             else
             {
-                var currentOrder = db.Orders.OrderByDescending(c=>c.CreatedDate).FirstOrDefault();
+                string userId = User.Identity.GetUserId();
+                var currentOrder = db.Orders.Where(c=>c.UserId.Contains(userId)).OrderByDescending(c=>c.CreatedDate).FirstOrDefault();
+                
+                if(currentOrder != null)
+                {
+                    currentDispatchNote = db.DispatchNotes.Where(c => c.OrderID == currentOrder.OrderId.ToString()).OrderByDescending(c => c.CreatedDate).FirstOrDefault();
+                }
+
                 if (currentOrder!=null)
                 {
                     //order
@@ -139,7 +163,19 @@ namespace Ishop.Controllers
                             ,
                             Payment = currentOrder.Payment
                             ,
-                            Country = ""
+                            Country = currentDispatchNote?.Country ?? string.Empty
+                            ,
+                            StatusId = currentOrder.StatusId
+                            ,
+                            Recipient = currentDispatchNote?.Recipient ?? string.Empty
+
+                            ,Address = currentDispatchNote?.Address ?? string.Empty
+                            ,
+                            PhoneNumber = currentDispatchNote?.PhoneNumber ?? string.Empty
+                            ,
+                            TelePhoneNumber = currentDispatchNote?.TelePhoneNumber ?? string.Empty
+                            ,
+                            District = currentDispatchNote?.District
                             ,
                             OrderItems = db.OrderItems.Where(c => c.OrderId == currentOrder.OrderId).ToList()
                         };
@@ -151,38 +187,82 @@ namespace Ishop.Controllers
                 {
                     return View("MyNoOrderTips");
                 }
-                
+
             }
-
-           
-        
-
-           
         }
+        /// <summary>
+        /// 目標: 錄入購物流程中,填入的收貨地址 或者 更新最近的訂單收貨信息
+        /// </summary>
+        /// <param name="CurrentOrderId"></param>
+        /// <param name="dispatchNote1"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult Index( int CurrentOrderId , [Bind(Include = "OrderID,Payment,Country,State,Recipient,PhoneNumber,Address")]DispatchNote DispatchNote1)
+        public ActionResult Index( int CurrentOrderId , [Bind(Include = "OrderID,Payment,Country,State,Recipient,TelePhoneNumber,PhoneNumber,Address")]DispatchNote dispatchNote1)
         {
             ModalDialogView ModalDialogView1 = new ModalDialogView();
-
-            int OrderId = int.Parse(DispatchNote1.OrderID);
-
-            DispatchNote1.DispatchNoteId = db.GetTableIdentityID("D", "DispatchNote", 8);
-            DispatchNote1.Quantity = db.OrderItems.Where(c => c.OrderId == OrderId).Sum(s => s.Quantity);
-            DispatchNote1.RecommUserId = WebCookie.RecommUserId;
-            DispatchNote1.ShopID = WebCookie.ShopID;
-            DispatchNote1.CreatedDate = DateTime.Now;
-            try
+             
+            if(!int.TryParse(dispatchNote1.OrderID,out CurrentOrderId))
             {
-                db.DispatchNotes.Add(DispatchNote1);
-                db.SaveChanges();
-                ModalDialogView1.MsgCode = "1";
-                ModalDialogView1.Message = Lang.Order_Index_ReturnMessage; // "收貨地址成功錄入";
+                ModalDialogView1 = new ModalDialogView
+                {
+                    MsgCode = "0",
+                    Message = Lang.Order_Return_Wrong_OrderId
+                };
+                return Json(ModalDialogView1);
             }
-            catch(Exception e )
+             
+            var currentOrder = db.Orders.Where(c => c.OrderId == CurrentOrderId).OrderByDescending(c => c.CreatedDate).FirstOrDefault();
+            if (currentOrder==null)
             {
-                throw e;
+                ModalDialogView1 = new ModalDialogView
+                {
+                    MsgCode = "0",
+                    Message = Lang.Order_Return_Wrong_OrderId
+                };
+                return Json(ModalDialogView1);
+            }
+            var existDispatchNote = db.DispatchNotes.Where(c => c.OrderID == currentOrder.OrderId.ToString()).OrderByDescending(c => c.CreatedDate).FirstOrDefault();
+            if(existDispatchNote==null)
+            {
+                dispatchNote1.DispatchNoteId = db.GetTableIdentityID("D", "DispatchNote", 8);
+                dispatchNote1.Quantity = db.OrderItems.Where(c => c.OrderId == CurrentOrderId).Sum(s => s.Quantity);
+                dispatchNote1.RecommUserId = WebCookie.RecommUserId;
+                dispatchNote1.ShopID = WebCookie.ShopID;
+                dispatchNote1.CreatedDate = DateTime.Now;
+                try
+                {
+                    db.DispatchNotes.Add(dispatchNote1);
+                    db.SaveChanges();
+                    ModalDialogView1.MsgCode = "1";
+                    ModalDialogView1.Message = Lang.Order_Index_ReturnMessage; // "收貨地址成功錄入";
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                return Json(ModalDialogView1);
+            }
+            else
+            {
+                try
+                {
+                    existDispatchNote.Country = dispatchNote1.Country;
+                    existDispatchNote.State = dispatchNote1.State;
+                    existDispatchNote.Recipient = dispatchNote1.Recipient;
+                    existDispatchNote.PhoneNumber = dispatchNote1.PhoneNumber;
+                    existDispatchNote.Address = dispatchNote1.Address;
+                     
+                    db.DispatchNotes.AddOrUpdate(existDispatchNote);
+                    db.SaveChanges();
+                    ModalDialogView1.MsgCode = "1";
+                    ModalDialogView1.Message = Lang.Order_Index_ReturnMessage; // "收貨地址成功錄入";
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                return Json(ModalDialogView1);
             } 
-            return Json(ModalDialogView1);
         }
         public List<Cart> GetCartItem()
         {

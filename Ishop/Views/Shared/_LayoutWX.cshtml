@@ -5,11 +5,10 @@
 @using Ishop.Utilities
 @using LanguageResource
 @using Ishop.Models.ProductMgr
-@{
-    ApplicationDbContext db = new ApplicationDbContext();
-    string Language = LangUtilities.LanguageCode;
-    mvcCommeBase.ChkShpID();  
-    Shop shop = db.Shops.Find(WebCookie.ShpID);
+@{ 
+    string Language = ViewBag.LanguageCode;
+    Shop shop = (Shop)ViewBag.Client_Shop;
+    ViewBag.Title = ViewBag.ShopName;
 }
 <!DOCTYPE html>
 <html>

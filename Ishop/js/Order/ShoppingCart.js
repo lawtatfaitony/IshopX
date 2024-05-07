@@ -5,14 +5,16 @@
     var myparamsObject = { "Id": ProductSkuId, Quantity :1 }; 
     
     $.ajax({
-        alert("\js\Order\ShoppingCart.js AddToCart(ProductSkuId)");
+
+        //alert("\js\Order\ShoppingCart.js AddToCart(ProductSkuId)");
 
         url: "/cn/Cart/AddToCart", /*设置post提交到的页面*/
         data: myparamsObject,
         type: "post",
         dataType: "text", /*设置返回值类型为文本*/
         error: function (result) {
-            console.log("统计：AddToCart 发生服务器程序错误\n\r code:500 \n\r\n\r" + JSON.stringify(result));
+            console.log("统计：AddToCart 发生服务器程序错误 code:500 ");
+            console.log(JSON.stringify(result));
         },
         success: function (result) {
             var newDate = new Date()

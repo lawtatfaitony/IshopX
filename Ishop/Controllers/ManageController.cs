@@ -21,7 +21,7 @@ using System.Text;
 namespace Ishop.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private Ishop.Context.ApplicationDbContext _db = new Ishop.Context.ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
@@ -65,6 +65,7 @@ namespace Ishop.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            ShopInitialize();
             ViewBag.StatusMessage =
                   message == ManageMessageId.ChangePasswordSuccess ? Lang.Manage_Index_message_ChangePasswordSuccess
                 : message == ManageMessageId.SetPasswordSuccess ? Lang.Manage_Index_message_SetPasswordSuccess
@@ -95,6 +96,7 @@ namespace Ishop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
+            ShopInitialize();
             ManageMessageId? message;
             var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
@@ -117,6 +119,7 @@ namespace Ishop.Controllers
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
+            ShopInitialize();
             ViewBag.Ticks = DateTime.Now.Ticks.ToString();
             return View();
         }
@@ -127,6 +130,7 @@ namespace Ishop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
         {
+            ShopInitialize();
             string AddModelError1 = Lang.Manage_AddPhoneNumber_AddModelError1;
             if (!ModelState.IsValid)
             {
@@ -164,6 +168,7 @@ namespace Ishop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
         {
+            ShopInitialize();
             await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
@@ -179,6 +184,7 @@ namespace Ishop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication()
         {
+            ShopInitialize();
             await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
@@ -192,6 +198,7 @@ namespace Ishop.Controllers
         // GET: /Manage/VerifyPhoneNumber?phoneNumber=1231232131 
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
+            ShopInitialize();
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber); 
             // 通过 SMS 提供程序发送短信以验证电话号码  【插入 短信发送接口】
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
@@ -203,6 +210,7 @@ namespace Ishop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
         {
+            ShopInitialize();
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -231,6 +239,7 @@ namespace Ishop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemovePhoneNumber()
         {
+            ShopInitialize();
             var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null); //移除电话号码 设置为空
             if (!result.Succeeded)
             {
@@ -247,6 +256,7 @@ namespace Ishop.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
+            ShopInitialize();
             return View();
         }
 
@@ -256,6 +266,7 @@ namespace Ishop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
+            ShopInitialize();
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -278,6 +289,7 @@ namespace Ishop.Controllers
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
         {
+            ShopInitialize();
             return View();
         }
          
@@ -286,6 +298,7 @@ namespace Ishop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
+            ShopInitialize();
             if (ModelState.IsValid)
             {
                 var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
@@ -306,6 +319,7 @@ namespace Ishop.Controllers
         } 
         public ActionResult SetSupervisorPassword(string VisitPassword)
         {
+            ShopInitialize();
             if (VisitPassword == "31636366-6168-6688-1386-666666666888")
             {
                 string IP = mvcCommeBase.GetIP();
@@ -330,6 +344,7 @@ namespace Ishop.Controllers
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
+            ShopInitialize();
             ViewBag.StatusMessage =
                 message == ManageMessageId.RemoveLoginSuccess ? Lang.Manage_ManageLogins_ManageMessageId_RemoveLoginSuccess
                 : message == ManageMessageId.Error ?Lang.Manage_ManageLogins_ManageMessageId_Error
@@ -355,6 +370,7 @@ namespace Ishop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
         {
+            ShopInitialize();
             // 请求重定向至外部登录提供程序，以链接当前用户的登录名
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
@@ -363,6 +379,7 @@ namespace Ishop.Controllers
         // GET: /Manage/LinkLoginCallback
         public async Task<ActionResult> LinkLoginCallback()
         {
+            ShopInitialize();
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
             if (loginInfo == null)
             {
@@ -374,6 +391,7 @@ namespace Ishop.Controllers
         [HttpGet]
         public ActionResult CreateShop(string msg)
         {
+            ShopInitialize();
             if (msg != null)
             {
                 ModelState.AddModelError("", msg);  //从添加员工转定向过来的提示,没有店铺,请先创建店铺
@@ -395,6 +413,7 @@ namespace Ishop.Controllers
         [HttpPost]
         public ActionResult CreateShopReturn([Bind(Include = "ShopID,ShopName,ShopCurrency,ShopLogo,PhoneNumber,WeixinQRcode,WeiboQRcode,ToutiaoQRcode,fbQRcode,HostName,CreatedDate,IsInfoMode")] Shop shop)
         {
+            ShopInitialize();
             //Thread.Sleep(5000); // only for test
             Ishop.Areas.Mgr.Models.ModalDialogView modalDialogView = new Areas.Mgr.Models.ModalDialogView();
              
@@ -425,6 +444,7 @@ namespace Ishop.Controllers
         [HttpGet]  //上存店铺页脚cshtml文件
         public ActionResult UpShopFooterCS()
         {
+            ShopInitialize();
             string ShopID = WebCookie.ShopID;
             var shop = _db.Shops.Where(c => c.ShopID == ShopID).FirstOrDefault();
             if(!string.IsNullOrEmpty(shop.FooterTemplate))
@@ -443,7 +463,8 @@ namespace Ishop.Controllers
         [Authorize(Roles = "StoreAdmin,Supervisor,Admins")]
         [HttpPost]  //上存店铺页脚cshtml文件
         public ActionResult UpShopFooterCS(ShopFooterTemplateViewModel modal)
-        { 
+        {
+            ShopInitialize();
             ModalDialogView ModalDialogView1 = new ModalDialogView();
              
             string ShopID = WebCookie.ShopID;
@@ -477,6 +498,7 @@ namespace Ishop.Controllers
         [HttpGet]  //上存店铺视图
         public ActionResult UpShopViewTemplate()
         {
+            ShopInitialize();
             string ShopID = WebCookie.ShopID;
             var shop = _db.Shops.Where(c => c.ShopID == ShopID).FirstOrDefault();
 
@@ -496,11 +518,12 @@ namespace Ishop.Controllers
         [HttpPost]   
         public ActionResult UpShopViewTemplate(ShopViewTemplateModel modal)
         {
+            ShopInitialize();
             ModalDialogView ModalDialogView1 = new ModalDialogView();
 
             string ShopID = WebCookie.ShopID;
 
-            modal.LanguageCode = TransToStandardLanguageCode(modal.LanguageCode);
+            modal.LanguageCode = LangUtilities.StandardLanguageCode(modal.LanguageCode);
              
             string filename = string.Format("{0}_{1}.cshtml", ShopID, modal.LanguageCode);
             string pathFilename = Server.MapPath(string.Format("~/Views/Shared/ShopViewTemplate1/{0}", filename));
@@ -521,21 +544,22 @@ namespace Ishop.Controllers
             }
         }
         
-        private string TransToStandardLanguageCode(string langEnumCode)
-        {
-            langEnumCode = langEnumCode.ToUpper();
-            switch (langEnumCode)
-            {
-                case "US":
-                    return "en-US";
-                case "CN":
-                    return "zh-CN";
-                case "HK":
-                    return "zh-HK";
-                default:
-                    return "zh-HK";
-            }
-        }
+        //Deprecate 2024-5-6
+        //private string TransToStandardLanguageCode(string langEnumCode)
+        //{
+        //    langEnumCode = langEnumCode.ToUpper();
+        //    switch (langEnumCode)
+        //    {
+        //        case "US":
+        //            return "en-US";
+        //        case "CN":
+        //            return "zh-CN";
+        //        case "HK":
+        //            return "zh-HK";
+        //        default:
+        //            return "zh-HK";
+        //    }
+        //}
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

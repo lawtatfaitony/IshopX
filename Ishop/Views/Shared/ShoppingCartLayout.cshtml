@@ -5,11 +5,10 @@
 @using Ishop.Utilities
 @using LanguageResource
 @using Ishop.Models.ProductMgr
-@{ 
-    string Language = LangUtilities.LanguageCode;
-    mvcCommeBase.ChkShpID();
-    Shop Client_Shop = mvcCommeBase.ReturnClient_Shop();
-    ViewBag.Title = Client_Shop.ShopName;
+@{  
+    string Language = ViewBag.LanguageCode;
+    Shop Client_Shop = (Shop)ViewBag.Client_Shop;
+    ViewBag.Title = ViewBag.ShopName;
 }
 <!DOCTYPE html>
 <html>

@@ -291,7 +291,7 @@ namespace Ishop.Areas.Mgr.Controllers
         public JsonResult getSenderUserAddressList(string UserID)
         { 
             var userAddresslist = db.UserAddresses.Where(c => c.UserId == UserID && c.ShopID == UserID).OrderByDescending(s => s.OperatedDate); 
-            return Json(userAddresslist);
+            return Json(userAddresslist,JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         [Authorize(Roles = "Supervisor,Admins,StoreAdmin,StorePreSales")]

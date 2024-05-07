@@ -69,7 +69,10 @@ namespace Ishop.ViewModes.Order
 
         [Display(Name = "电话号码")]
         [StringLength(50, ErrorMessage = "电话号码")]
-        public string TelePhoneNumber { get; set; } 
+        public string TelePhoneNumber { get; set; }
+
+        [Display(Name = "支付狀態")] 
+        public string StatusId { get; set; } 
     }
 
     public class ProductSkuPropName1

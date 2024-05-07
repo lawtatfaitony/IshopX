@@ -4004,10 +4004,20 @@ namespace LanguageResource
 
 				 ///<summary>票据时效</summary>
  				  public static string WeiXin_ticket_expires_in{
- 				  get { return LangUtilities.GetString( "WeiXin_ticket_expires_in"); }} 
+ 				  get { return LangUtilities.GetString( "WeiXin_ticket_expires_in"); }}
 
+                    ///<summary>订单详情</summary>
+                    public static string Views_GeneralUI_OrderDetails
+                    {
+                        get { return LangUtilities.GetString("Views_GeneralUI_OrderDetails"); }
+                    }
+                ///<summary>订单ID错误,录入收货信息不成功</summary>
+                public static string Order_Return_Wrong_OrderId
+                {
+                    get { return LangUtilities.GetString("Order_Return_Wrong_OrderId"); }
+                }
         #endregion
-         
+
     }
 
 }
