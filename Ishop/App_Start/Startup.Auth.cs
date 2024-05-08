@@ -61,7 +61,7 @@ namespace Ishop
                 {
                     Uri uri = new Uri(context.RedirectUri, UriKind.Absolute);
                     string returnUrl = HttpUtility.ParseQueryString(uri.Query)[context.Options.ReturnUrlParameter];
-                    routeValues.Add(context.Options.ReturnUrlParameter, returnUrl);
+                    routeValues.Add(context.Options.ReturnUrlParameter, returnUrl); 
                 }
 
                 //Overwrite the redirection uri
