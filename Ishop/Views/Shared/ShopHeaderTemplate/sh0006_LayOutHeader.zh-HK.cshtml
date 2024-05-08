@@ -64,9 +64,11 @@
                     </div>
                 </li>
                 @if ((int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
-                {
+                {  
                     <li>
-                        <a href="@Url.Action("MyShoppingCart","Cart")"><i class="fa fa-shopping-cart" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i></a>
+                        <a href="@Url.Action("MyShoppingCart","Cart")" title="Shopping Cart" data-toggle="tooltip">
+                            <i class="fa fa-shopping-cart" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>
+                        </a>
                     </li>
                 }
             </ul>

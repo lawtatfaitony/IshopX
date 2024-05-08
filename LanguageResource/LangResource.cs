@@ -137,8 +137,13 @@ namespace LanguageResource
                 //Localize
                 if(_Language == "zh-HK")
                 {
-                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-hant-HK");
-                    Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-hant-HK");
+                    try
+                    {
+                        Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-hant-HK");
+                        Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-hant-HK");
+                    }catch(Exception e) {
+                         
+                    }  
                 }
                 else
                 {

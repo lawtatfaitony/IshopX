@@ -1,0 +1,48 @@
+﻿@using LanguageResource;
+@using Ishop.Utilities
+@model Ishop.ViewModes.Order.OrderDetailView
+
+<!--支付服務  -->
+<div class="no-padding no-margin" style="background-image: url('/content/images/gongxiSuccess.png'); background-size: 100% 100%; background-repeat: no-repeat;">
+
+    <div class="container">
+        <div class="row">
+            <blockquote class="h4" style="margin-left:15px;padding:10px;font-weight:600;">
+                <i class="fa fa-microchip"></i>支付服務
+            </blockquote>
+        </div>
+    </div>
+    <div class="container" > 
+            <div class="card" >
+                <div class="card-header text-left padding-bottom10 text-omit">
+                    <blockquote class="text-blue" style="padding-left: 10px; font-weight: 600;  ">
+                        轉數快戶口
+                    </blockquote>
+                </div>
+                <div class="card-body" style="margin-left:10px;">
+                    <p class="text-white text-left h1" style="font-weight:600;">
+                        +852-62595738
+                    </p>
+                    <p class="text-left text-blue">
+                        請備註訂單號<strong class="text-danger"> @Model.OrderId </strong>更方便我們跟進<br />
+                    </p>
+                    @if (string.IsNullOrWhiteSpace(Model.Address))
+                    {
+                        <p class="text-left text-blue">請先填寫訂單收貨地址才能發貨哦!</p>
+                    }
+
+                </div>
+                <div class="card-footer padding-bottom5 margin-top5">
+                    <a class="badge badge-success padding-5" style="margin-left:10px;"
+                       href="@Url.Action("MainFunc","Helper",new { Language = LangUtilities.LanguageCode})" target="_blank">
+                        &nbsp;<i class="fa fa-link margin-r-5"></i>交易細則說明
+                    </a><br />
+                        <p class="h5 padding-10 margin-left15" style="max-width:500px;word-break:break-word;">
+                            交易規則：基於網絡安全考慮,保障客戶私隱,目前不支持在線支付.懇請閣下諒解,請通過線下銀行卡轉賬或轉數快支付。
+                        </p>
+                </div>
+            </div>
+    </div>
+
+</div>
+

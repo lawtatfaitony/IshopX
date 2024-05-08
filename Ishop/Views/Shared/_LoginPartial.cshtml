@@ -1,4 +1,6 @@
 ﻿@using LanguageResource
+@using Ishop.AppCode.EnumCode
+@using Ishop.Utilities
 @using Ishop.Context
 @using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
@@ -8,9 +10,18 @@
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", null, htmlAttributes: new { title = "ID=" + User.Identity.GetUserId() })
+            <li style="max-width:120px;overflow:hidden;">
+                @Html.ActionLink(mvcCommeBase.Substr3Dot(User.Identity.GetUserName(), 9), "Index", "Manage", null, htmlAttributes: new { data_toggle = "tooltip", title = "User Email Login Account, User Id =" + User.Identity.GetUserId() })
             </li>
+            @if ((int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
+            {
+                <li>
+                    <a href="@Url.Action("OrderList","Order")" title="@Lang.My_Index_OrderList" data-toggle="tooltip">
+                        <i class="fa fa-list" style="color: #ffffff;margin-right:3px;" aria-hidden="true"></i>
+                        <span class="no-padding" style="color: #ffffff;">My Order</span>
+                    </a>
+                </li>
+            }
             <li>
                 <a href="@Url.Action("Index","My")"><i class="fa fa-user"></i></a>
             </li>

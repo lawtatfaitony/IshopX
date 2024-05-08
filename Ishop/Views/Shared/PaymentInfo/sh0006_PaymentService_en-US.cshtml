@@ -1,0 +1,49 @@
+﻿@using LanguageResource;
+@using Ishop.Utilities
+@model Ishop.ViewModes.Order.OrderDetailView
+
+<!--支付服務  -->
+<div class="no-padding no-margin" style="background-image: url('/content/images/gongxiSuccess.png'); background-size: 100% 100%; background-repeat: no-repeat;">
+
+    <div class="container">
+        <div class="row">
+            <blockquote class="h4" style="margin-left:15px;;padding:10px;font-weight:600;">
+                <i class="fa fa-microchip"></i>Payment Services
+            </blockquote>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-left padding-bottom10 text-omit">
+                <blockquote class="text-blue" style="padding-left: 10px; font-weight: 600; ">
+                    FPS Account
+                </blockquote>
+            </div>
+            <div class="card-body" style="margin-left:10px;">
+                <p class="text-white text-left h1" style="font-weight:600;">
+                    +852-62595738
+                </p>
+                <p class="text-left text-blue">
+                    Please note the order number @Model.OrderId to make it easier for us to follow up.<br />
+                </p>
+                @if (string.IsNullOrWhiteSpace(Model.Address))
+                {
+                    <p class="text-left text-blue">Please fill in the order delivery address before shipping!</p>
+                }
+
+            </div>
+            <div class="card-footer padding-bottom5 margin-top5">
+                <a class="badge badge-success margin-right10" style="margin-left:10px;"
+                   href="@Url.Action("MainFunc","Helper",new { Language = LangUtilities.LanguageCode})" target="_blank">
+                    &nbsp;<i class="fa fa-link margin-r-5"></i>Transaction Details
+                </a><br />
+                    <p class="h5 padding-10 margin-left15" style="max-width:500px;word-break:break-word;">
+                        Transaction rules: Based on network security considerations to protect customer privacy, online payment is not currently supported. Please understand, please pay via offline bank card transfer or FPS.
+                    </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

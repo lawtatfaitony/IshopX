@@ -1,0 +1,47 @@
+﻿@using LanguageResource;
+@using Ishop.Utilities
+@model Ishop.ViewModes.Order.OrderDetailView
+
+<!--支付服务  -->
+<div class="no-padding no-margin" style="background-image: url('/content/images/gongxiSuccess.png'); background-size: 100% 100%; background-repeat: no-repeat; ">
+
+    <div class="container">
+        <div class="row">
+            <blockquote class="h4" style="margin-left:15px;;padding:10px;font-weight:600;">
+                <i class="fa fa-microchip"></i>支付服务
+            </blockquote>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-left padding-bottom10 text-omit">
+                <blockquote class="text-blue" style="padding-left: 10px; font-weight: 600;">
+                    转数快户口
+                </blockquote>
+            </div>
+            <div class="card-body" style="margin-left:10px;">
+                <p class="text-white text-left h1" style="font-weight:600;">
+                    +852-62595738
+                </p>
+                <p class="text-left text-blue">
+                    请备注订单号<strong class="text-danger"> @Model.OrderId </strong>更方便我们跟进<br />
+                </p>
+                @if (string.IsNullOrWhiteSpace(Model.Address))
+                {
+                    <p class="text-left text-blue">请先填写订单收货地址才能发货哦!</p>
+                }
+
+            </div>
+            <div class="card-footer padding-bottom5 margin-top5">
+                <a class="badge badge-success margin-right10" style="margin-left:10px;"
+                   href="@Url.Action("MainFunc","Helper",new { Language = LangUtilities.LanguageCode})" target="_blank">
+                    &nbsp;<i class="fa fa-link margin-r-5"></i>交易细则说明
+                </a><br />
+                <p class="h5 padding-10 margin-left15" style="max-width:500px;word-break:break-word;">
+                    交易规则：基于网络安全考虑,保障客户私隐,目前不支持在线支付.恳请阁下谅解,请通过线下银行卡转账或转数快支付。
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -68,7 +68,7 @@
             type: 2
             , content: 'Loading...'
             , skin: 'msg'
-            , time: 5
+            , time: 12
         });
 
         console.log("BtnSubmitCheeckOut click");
@@ -124,7 +124,7 @@
         selectedOK();
 
         var groupCheckbox = $("input[type='checkbox']:checked");
-          
+
         var _list = "";
         for (i = 0; i < groupCheckbox.length; i++) {
             if (groupCheckbox[i].checked) {
@@ -135,11 +135,16 @@
         }
         if (_list.length == 0) {
 
-            layerTips("<h4>@Lang.ControllerName_ActionMethod_MyShoppingCart_layerTips</h4>"); //沒有選擇要購買的商品哦~~~
+            //layerTips("<h4>@Lang.ControllerName_ActionMethod_MyShoppingCart_layerTips</h4>"); //沒有選擇要購買的商品哦~~~
+             
+            var myShoppingCart_layerTips = layer.open({
+                content: "<h5>@Lang.ControllerName_ActionMethod_MyShoppingCart_layerTips</h5>"
+            });
+
         }
         else {
             var orderUrl = "/@ViewBag.Language/Order/Index?list=" + _list; //window.location = "@Url.Action("Index", "Order", new { area="default",Language=ViewBag.Language})" + "?list=" + _list;
-            window.location = orderUrl; 
+            window.location = orderUrl;
         }
 
     });

@@ -1225,6 +1225,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\gongxiSuccess.png" />
     <Content Include="Content\Images\1.png" />
     <Content Include="Content\Images\2.png" />
     <Content Include="Content\Images\3.png" />
@@ -1544,7 +1545,6 @@
     <Content Include="Areas\Mgr\Views\ShopAdmin\EmailTaskList.cshtml" />
     <Content Include="Areas\Mgr\Views\ShopAdmin\UpEmailSenderInfo.cshtml" />
     <Content Include="Areas\Mgr\Views\ShopAdmin\SendMailInfoList.cshtml" />
-    <Content Include="Content\Images\logo_front.psd" />
     <Content Include="Areas\Mgr\Views\Info\InfoEditor.cshtml" />
     <Content Include="Content\ueditor\nodejs\config.json" />
     <Content Include="Content\ueditor\third-party\jquery-1.10.2.min.map" />
@@ -2110,6 +2110,13 @@
     <Content Include="Views\Shared\ShopHeaderTemplate\SH2006_LayOutHeader.zh-CN.cshtml" />
     <Content Include="Views\Shared\ShopHeaderTemplate\SH2006_LayOutHeader.zh-HK.cshtml" />
     <Content Include="Views\Shared\ShopHeaderTemplate\SH2028_LayOutHeader.en-US.cshtml" />
+    <Content Include="Views\Order\MyOrderListEmpty.cshtml" />
+    <Content Include="Views\Order\MyCartSelectToOrdererrorTips .cshtml" />
+    <Content Include="Views\Order\OrderList.cshtml" />
+    <Content Include="Views\Shared\ShoppingCart\OrderListItem.cshtml" />
+    <Content Include="Views\Shared\PaymentInfo\sh0006_PaymentService_zh-HK.cshtml" />
+    <Content Include="Views\Shared\PaymentInfo\sh0006_PaymentService_zh-CN.cshtml" />
+    <Content Include="Views\Shared\PaymentInfo\sh0006_PaymentService_en-US.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

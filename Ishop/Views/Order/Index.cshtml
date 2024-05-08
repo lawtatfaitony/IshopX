@@ -1,81 +1,166 @@
 ﻿@using LanguageResource;
-@using Ishop.Context;
+@using Ishop.Utilities
+@using Ishop.Context
 @model Ishop.ViewModes.Order.OrderDetailView
 @{
     ViewBag.Title = Lang.Views_GeneralUI_ConfirmOrder;
     //Layout = "~/Views/Shared/CreateOrderLayout.cshtml";
 }
 <div class="container">
-     
-    @using (Ajax.BeginForm("Index", "Order", new { CurrentOrderId = ViewBag.CurrentOrderId }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleOrderIndexSuccDialog", OnFailure = "errOrderIndex", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
-    { 
-        <div class="box box-info">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(model => model.OrderId)
-            @Html.HiddenFor(model => model.Payment)
-            @Html.HiddenFor(model => model.District)
-            @Html.HiddenFor(model => model.State) 
-            @Html.HiddenFor(model => model.Country)
-            <div id="box-header" class="box-header with-border">
-                <blockquote class="h3 padding-left15 padding-bottom5 padding-top5">
-                    <h5 class="box-title"><i class="fa fa-list-ul margin-right5" title="@Lang.ControllerName_Views_DefinitedUI_ConfirmOrderAnouncement" data_toggle="tooltip"></i>@Lang.DispatchNote_Address </h5>
-                </blockquote>
-                <!-- 付款后三个工作日内发货  改為 訂單列表 ControllerName_Views_DefinitedUI_ConfirmOrderAnouncement-->
-            </div>
-            <div class="box-body">
-                <div class="form-group">
-                    <label class="control-label col-md-2">@Lang.DispatchNote_Recipient</label>
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.Recipient, new { @class = "form-control", autocomplete = "on", style = "max-width:410px;" })
-                        @Html.ValidationMessageFor(model => model.Recipient, "", new { @class = "text-danger" })
+    <div class="container no-margin no-padding">
+        <!--ADDRESS-->
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+            @using (Ajax.BeginForm("Index", "Order", new { CurrentOrderId = ViewBag.CurrentOrderId }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleOrderIndexSuccDialog", OnFailure = "errOrderIndex", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+            {
+                <div class="box box-info">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.OrderId)
+                    @Html.HiddenFor(model => model.Payment)
+                    @Html.HiddenFor(model => model.District)
+                    @Html.HiddenFor(model => model.State)
+                    @Html.HiddenFor(model => model.Country)
+                    <div id="box-header" class="box-header with-border">
+                        <div class="pull-left">
+                            <blockquote class="h3 padding-left15 padding-bottom5 padding-top5  inline">
+                                <h5 class="box-title">
+                                    <i class="fa fa-list-ul margin-right5" title="@Lang.ControllerName_Views_DefinitedUI_ConfirmOrderAnouncement" data_toggle="tooltip"></i>
+                                    @Lang.DispatchNote_Recipient@Lang.DispatchNote_Address
+                                </h5>
+                                <button id="show_collagge" class="btn btn-box-tool" data-widget="collapse">Show</button>
+                            </blockquote>
+                        </div>
+                        <div class="box-tools pull-right">
+                            <button id="show_collagge_plus" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                        </div><!-- /.box-tools -->
                     </div>
-                </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">@Lang.DispatchNote_Recipient</label>
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.Recipient, new { @class = "form-control", autocomplete = "on", style = "max-width:410px;" })
+                                @Html.ValidationMessageFor(model => model.Recipient, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-2">@Lang.DispatchNote_PhoneNumber</label>
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", autocomplete = "on", style = "max-width:410px;" })
-                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger", style = "width:60%;" })
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">@Lang.DispatchNote_PhoneNumber</label>
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", autocomplete = "on", style = "max-width:410px;" })
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger", style = "width:60%;" })
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-2">@Lang.DispatchNote_TelePhoneNumber</label>
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.TelePhoneNumber, new { @class = "form-control", autocomplete = "on", style = "max-width:410px;" })
-                        @Html.ValidationMessageFor(model => model.TelePhoneNumber, "", new { @class = "text-danger", style = "width:60%;" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-2">@Lang.DispatchNote_Address</label>
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control", row = 2, style = "max-width:410px;" })
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">@Lang.DispatchNote_TelePhoneNumber</label>
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.TelePhoneNumber, new { @class = "form-control", autocomplete = "on", style = "max-width:410px;" })
+                                @Html.ValidationMessageFor(model => model.TelePhoneNumber, "", new { @class = "text-danger", style = "width:60%;" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">@Lang.DispatchNote_Recipien_Address</label>
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", style = "max-width:410px;" })
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-lg-offset-2 padding-left15">
-                        <button type="submit" class="btn btn-primary">@Lang.Views_GeneralUI_Submit</button>
-                    </div> 
-                 </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-lg-offset-2 padding-left15">
+                                <button type="submit" class="btn btn-danger">@Lang.Views_GeneralUI_Submit</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            }
+
         </div>
-    }
+        <!--PAYMENT-->
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+            @Html.Partial("PaymentInfo/" + WebCookie.ShpID + "_PaymentService_" + (string)ViewBag.LanguageCode, Model)
+            
+        </div>
 
+    </div>
+
+    <!--訂單詳情(最近一筆訂單)-->
     <div class="box box-info">
         <div id="box-header" class="box-header with-border">
-            <blockquote class="h3 padding-left15 padding-bottom5 padding-top5">
-                <a href="/@ViewBag.LanguageCode/Order/index">
-                    <h5 class="box-title">
-                        <i class="fa fa-list-ul margin-right5"></i>
-                         @Lang.Views_GeneralUI_OrderDetails
-                    </h5>
-                </a>
+            <blockquote class="padding-left15 padding-bottom5 padding-top5">
+                <div class="pull-left">
+                    <a href="/@ViewBag.LanguageCode/Order/index">
+                        <h5 class="box-title">
+                            <i class="fa fa-list-ul margin-right5"></i>
+                            @Lang.Views_GeneralUI_OrderDetails
+                        </h5>
+                    </a>
+                </div>
+                <div class="pull-right margin-right10">
+                    <a id="orderList" class="text-blue" href="@string.Format("/{0}/Order/OrderList",LangUtilities.LanguageCode)">
+                        <i class="fa fa-calendar-times-o margin-r-5"></i><i class="fa fa-list  margin-r-5"></i> @Lang.My_Index_OrderList
+                    </a>
+                </div><!-- /.box-tools -->
             </blockquote>
             <!-- 付款后三个工作日内发货  改為 訂單列表 -->
         </div>
-        <div class="box-body"> 
+        <div class="box-body">
+            <!--Order Header-->
+            <div id="OrderHeader" id=" @Model.OrderId" class="padding-left15">
+                <ul class="unstyledlist-unstyled no-margin no-padding list-group-unbordered" style="padding:0;margin:0;">
+                    <!--Order Header Details-->
+                    <li class="unstyled list-unstyled no-margin no-padding" style="padding:0;margin:0;">
+                        <ul class="unstyled list-inline">
+                            <li>
+                                <ul class="unstyled list-inline">
+                                    <li class="h4 text-danger " style="font-weight:400;padding-right:5px;">
+                                        @Lang.Views_GeneralUI_OrderId &colon;
+                                    </li>
+                                    <li class="h3 text-danger" style="font-weight:400;padding-right:5px;">
+                                        @Model.OrderId
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <ul class="unstyled list-inline">
+                                    <li class="h4 text-danger" style="font-weight:400;padding-right:5px;">
+                                        @Lang.Order_Payment &colon;
+                                    </li>
+                                    <li class="h3 text-danger" style="font-weight:600;padding-right:5px;color:red;">
+                                        @mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", decimal.Parse(Html.DisplayFor(m => m.Payment).ToString())), (string)ViewBag.ShopCurrency)
+                                    </li>
+                                    <li class="h3 text-danger" style="font-weight:600;color:blue;">
+                                        @Model.StatusId
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <ul class="unstyled list-inline">
+                                    <li class="h4 text-danger " style="padding-right:5px;">
+                                        @Lang.DispatchNote_Recipien_Address &colon;
+                                    </li>
+                                    <li>
+                                        <label id="addressDetails" class="h5 text-black">
+                                            @Model.Address
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--Create Date-->
+                    <li class="unstyled list-unstyled no-padding">
+                        <ul class="list-unstyled list-inline h6">
+                            <li class="h5 text-danger " style="padding-right:5px;">
+                                Date Time &colon;
+                            </li>
+                            <li class="h5 text-danger" style="padding-right:5px;">
+                                @string.Format("{0:yyyy-MM-dd HH:mm:ss}", Model.CreatedDate)
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
             <div id="MyOrderAndDetails" style="margin-top:15px">
                 @{
                     List<Ishop.Models.ProductMgr.OrderItem> OrderItems = ViewBag.OrderItems;
@@ -103,7 +188,7 @@
 
     <!--floatFooter 使用現在支付,暫時不用-->
     <footer class="floatFooter hide">
-        <div class="BtmFunLayer  container-fluid bg-black-active" style="width:70%;margin-bottom:10px;">
+        <div class="BtmFunLayer container-fluid bg-black-active" style="width:70%;margin-bottom:10px;">
             <table style="padding:5px 5px 5px 5px;width:100%">
                 <tr>
                     <td style="padding:5px 5px 5px 5px;width:50%" class="h4 text-red text-bold">
@@ -119,12 +204,40 @@
 </div>
 
 <script>
+    var order_address = "@Model.Address";
+
+    $(document).ready(function () {
+
+        console.log("order_address = " + order_address);
+
+        //Add collapse and remove events to boxes
+        if (order_address === null) {
+
+            setTimeout(function () {
+                console.log("show_collagge ！");
+                $("#show_collagge_plus").click();
+            }, 3000);
+
+        } else {
+            $("button[type='submit']").text("Update");
+        }
+    });
+
+    // 監聽刷新事件
+    //window.onbeforeunload = function () {
+    //    return "您確定要離開此頁面嗎？";
+    //};
 
     function HandleOrderIndexSuccDialog(data) {
-          
+        console.log(data);
         var index_order = layer.open({
             content: data.Message
         });
+        if (data.MsgCode) {
+            $("button[type='submit']").text("Update");
+            var address_details = $("#Recipient").val() + "&nbsp;" + $("#PhoneNumber").val() + "&nbsp;" + $("#TelePhoneNumber").val() + "&nbsp;" + $("#Address").val();
+            $("#addressDetails").html(address_details);
+        }
     }
 </script>
 

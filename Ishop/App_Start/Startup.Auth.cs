@@ -48,13 +48,22 @@ namespace Ishop
                 routeValues.Add("Language", routeData.Values["Language"]);
 
                 //Reuse the RetrunUrl 
-                if(!string.IsNullOrEmpty(context.RedirectUri))
+
+                //這段導致格式不能被識別, Invalid URI: The format of the URI could not be determined.
+                //if(!string.IsNullOrEmpty(context.RedirectUri))
+                //{
+                //    Uri uri = new Uri(context.RedirectUri);
+                //    string returnUrl = HttpUtility.ParseQueryString(uri.Query)[context.Options.ReturnUrlParameter];
+                //    routeValues.Add(context.Options.ReturnUrlParameter, returnUrl);
+                //}
+                //modified as :
+                if (!string.IsNullOrEmpty(context.RedirectUri) && Uri.IsWellFormedUriString(context.RedirectUri, UriKind.Absolute))
                 {
-                    Uri uri = new Uri(context.RedirectUri);
+                    Uri uri = new Uri(context.RedirectUri, UriKind.Absolute);
                     string returnUrl = HttpUtility.ParseQueryString(uri.Query)[context.Options.ReturnUrlParameter];
                     routeValues.Add(context.Options.ReturnUrlParameter, returnUrl);
                 }
-                 
+
                 //Overwrite the redirection uri
                 context.RedirectUri = url.Action("Login", "Account", routeValues);
                 originalHandler.Invoke(context);

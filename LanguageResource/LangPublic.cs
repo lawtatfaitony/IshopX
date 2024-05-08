@@ -4016,6 +4016,12 @@ namespace LanguageResource
                 {
                     get { return LangUtilities.GetString("Order_Return_Wrong_OrderId"); }
                 }
+                ///<summary>收件地址</summary>
+                public static string DispatchNote_Recipien_Address
+                {
+                    get { return LangUtilities.GetString("DispatchNote_Recipien_Address"); }
+                }
+        
         #endregion
 
     }

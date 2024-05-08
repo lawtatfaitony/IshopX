@@ -724,6 +724,24 @@ namespace Ishop.Utilities
                 return str;
             }
         }
+
+        public static string Substr3Dot(string str, int Lenght)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return str;
+            }
+            str = str.Replace("\"", ""); 
+            if (str.Length > Lenght)
+            {
+                return str.Substring(0, Lenght) + "..."; //new char[]{ '.' }
+            }
+            else
+            {
+                return str;
+            }
+        }
+
         /// <summary>
         /// 移除電話前面的國家代碼 以適應WhatsApp的格式
         /// </summary>

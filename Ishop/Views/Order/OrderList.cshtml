@@ -1,0 +1,130 @@
+﻿@using LanguageResource;
+@using Ishop.Models.ProductMgr
+@using Ishop.Utilities
+@using Ishop.ViewModes.Order 
+@model IEnumerable<OrderDetailView>
+@{
+    ViewBag.Title = Lang.Views_GeneralUI_ConfirmOrder;
+}
+<div class="container">
+
+    <!--訂單列表-->
+    <div class="box box-info">
+        <div id="box-header" class="box-header with-border">
+            <blockquote class="h3 padding-left15">
+                <a href="/@ViewBag.LanguageCode/Order/index">
+                    <h5 class="box-title">
+                        <i class="fa fa-list-ul margin-right5"></i>
+                        @Lang.My_Index_OrderList
+                    </h5>
+                </a>
+            </blockquote>
+        </div>
+        <div class="box-body">
+            @foreach (var item in Model)
+            {
+                <!--Order Header-->
+                <div id="OrderHeader" id=" @item.OrderId" class="padding-left15">
+                    <ul class="unstyledlist-unstyled no-margin no-padding list-group-unbordered" style="padding:0;margin:0;">
+                        <!--Order Header Details-->
+                        <li class="unstyled list-unstyled no-margin no-padding" style="padding:0;margin:0;">
+                            <ul class="list-unstyled list-inline">
+                                <li>
+                                    <ul class="list-unstyled list-inline">
+                                        <li class="h4 text-danger " style="font-weight:400;padding-right:5px;">
+                                            @Lang.Views_GeneralUI_OrderId &colon;
+                                        </li>
+                                        <li class="h4 text-danger" style="font-weight:400;padding-right:5px;">
+                                            @item.OrderId
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <ul class="list-unstyled list-inline">
+                                        <li class="h4 text-danger" style="font-weight:400;padding-right:5px;">
+                                            @Lang.Order_Payment &colon;
+                                        </li>
+                                        <li class="h3 text-danger" style="font-weight:600;padding-right:5px;color:red;">
+                                            @mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", decimal.Parse(item.Payment.ToString())), (string)ViewBag.ShopCurrency)
+                                        </li>
+                                        <li class="h3 text-danger" style="font-weight:600;color:blue;">
+                                            @item.StatusId
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="list-unstyled margin-left5">
+                                    <ul class="list-unstyled list-inline">
+                                        <li class="text-gray " style="padding-right:5px;">
+                                            @Lang.DispatchNote_Recipien_Address &colon;
+                                        </li>
+                                        <li>
+                                            <label id="addressDetails" class="h5 text-black">
+                                                @item.Address
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <!---Create Date-->
+                        <li class="unstyled list-unstyled margin-left5 no-padding" >
+                            <ul class="list-unstyled list-inline h6">
+                                <li class="h5 text-danger " style="padding-right:5px;">
+                                    Date Time &colon;
+                                </li>
+                                <li class="h5 text-danger" style="padding-right:5px;">
+                                    @string.Format("{0:yyyy-MM-dd HH:mm:ss}", item.CreatedDate)
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                </div>
+                <!--Order Item-->
+                <div id="MyOrderAndDetails" style="margin-left:15px;">
+                    @{
+                        List<OrderItem> OrderItemList = (List<OrderItem>)item.OrderItems;
+
+                        if (OrderItemList.Count > 0)
+                        {
+                            foreach (var subItem in OrderItemList)
+                            {
+                                <div id="@subItem.OrderItemId" style="padding:5px 0px 5px 0px; border-bottom-color:crimson;border-bottom-width:4px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
+                                    @Html.Partial("ShoppingCart/OrderListItem", subItem)
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="container">
+                                <span class="h3 padding-left15 h4" style="font-weight:600;">
+                                    <i class="fa fa-exclamation-triangle text-danger"></i> There are no order records!!!
+                                </span>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="col-lg-12 col-m-12 col-12 no-padding margin-top10" style="border-bottom:solid;border-bottom-color:#cdcbcb;border-bottom-width:3px;">
+                    <hr style="border-block-color:bisque;color:#cac3c3" />
+                </div> 
+            } 
+        </div>
+
+        <div class="box box-footer">
+            <div class="pull-right padding-right5"><span>Total Record :</span> @Model.Count() </div>
+        </div>
+    </div> 
+</div>
+
+<script>
+      
+    $(document).ready(function () {
+
+        console.log("document ready ......");
+
+         
+    });
+      
+</script>
+

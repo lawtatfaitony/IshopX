@@ -72,7 +72,10 @@ namespace Ishop.ViewModes.Order
         public string TelePhoneNumber { get; set; }
 
         [Display(Name = "支付狀態")] 
-        public string StatusId { get; set; } 
+        public string StatusId { get; set; }
+
+        [Display(Name = "訂單創建日期")]
+        public DateTime CreatedDate { get; set; }
     }
 
     public class ProductSkuPropName1
