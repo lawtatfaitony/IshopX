@@ -488,7 +488,7 @@ textarea
     border-bottom: 1px solid #e5e5e5;
 }
 .BtmFunLayer { 
-    max-width: 350px;
+    max-width: 450px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -520,11 +520,38 @@ textarea
     width: 100%;
     text-align: center;
 }
+margin-left15 {
+    margin-left: 15px;
+}
+margin-right15 {
+    margin-left: 15px;
+}
 .margin-top5 {
     margin-top: 5px;
 }
 .margin-top10 {
     margin-top: 10px;
+}
+.margin-top15 {
+    margin-top: 15px;
+}
+.margin-left5 {
+    margin-left: 5px;
+}
+
+.margin-right5 {
+    margin-right: 5px;
+}
+
+.margin-right10 {
+    margin-right: 10px;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
+.margin-bottom-15 {
+    margin-bottom: 15px;
 }
 .padding-top10{
     padding-top:10px;
@@ -550,18 +577,20 @@ textarea
 .padding-10 {
     padding: 10px;
 }
-.margin-left5 {
-    margin-left: 5px;
+
+.padding-15 {
+    padding: 15px;
 }
 
-.margin-right5 {
-    margin-right: 5px;
+.padding-3 {
+    padding: 3px;
 }
-.margin-right10 {
-    margin-right: 10px;
+.padding-5 {
+    padding: 5px;
 }
-.margin-bottom-10 {
-    margin-right: -10px;
+
+.radius3 {
+    border-radius: 3px;
 }
 .radius5{
     border-radius:5px;

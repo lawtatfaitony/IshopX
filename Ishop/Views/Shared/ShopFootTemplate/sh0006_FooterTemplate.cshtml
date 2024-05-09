@@ -7,19 +7,83 @@
     string Language = LangUtilities.LanguageCode;
     bool IsChinaArea1 = mvcCommeBase.IsChinaArea();
 }
-<!--sh0006_FooterTemplate.cshtml-->
-<ul class="center list-unstyled">
-    <li class="copyright" title="sh0001">
-        &copy; @DateTime.Now.Year -  @ChineseStringUtility.ToAutoTraditional(Model.ShopName) <span id="loadTime"></span>
-    </li>
-    <li>
-        &nbsp;@Lang.Home_DefinitedTag_KeyWord
-    </li>
+<!--sh0006_FooterTemplate.cshtml--> 
 
-    <li>
-        &nbsp;<h6 class="small">Version 5.59 &copy;params @LangUtilities.LanguageCode -Shp: @WebCookie.ShpID -Sh: @WebCookie.ShopID  </h6>
-    </li>
-</ul>
+<div class="container">
+    <div class="row">
+        &copy; @DateTime.Now.Year -  @ChineseStringUtility.ToAutoTraditional(Model.ShopName) <span id="loadTime"></span>
+    </div>
+
+    <div class="row">
+        <!--相關業務-->
+        <div class="col-md-4 col-lg-4">
+            <ul class="center list-unstyled">
+                <li class="margin-top10 margin-bottom-15 h5">
+                    @Lang.Home_DefinitedTag_BusinessKeyWord <br />
+                </li>
+                <li class="padding-15">
+                    <ul class="list-unstyled">
+                        <li class="text-omit">
+                            @Lang.Views_GeneralUI_CCTV
+                        </li>
+                        @Lang.Views_GeneralUI_DrivingBehavior
+                        <li>
+                            @Lang.Views_GeneralUI_ArtificialIntelligence
+                        </li>
+                        <li>
+                            @Lang.Views_GeneralUI_VideoAnalysis
+                        </li>
+                        <li>
+                            @Lang.Views_GeneralUI_SmartCity
+                        </li>
+                        <li>
+                            @Lang.Views_GeneralUI_InternetofThings
+                        </li>
+                        <li>
+                            @Lang.Views_GeneralUI_BigData
+                        </li>
+                        <li>
+                            @Lang.Views_GeneralUI_CloudMonitoringAI
+                        </li>
+                        <li>
+                            @Lang.Views_GeneralUI_CloudMonitoring
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!--聯繫 Contact Us-->
+        <div class="col-md-4 col-lg-4">
+            <ul class="center list-unstyled">
+                <li class="margin-top10 h5">
+                    @Lang.Home_DefinitedTag_CaseSupport
+                </li>
+                <li class="padding-10">
+                    <ul class="list-unstyled">
+                        <li class="text-omit">
+                            <a target="_blank" href="/@ViewBag.LanguageCode/Helper/MainFunc">薪酬與考勤系統(HRM)</a>
+                        </li>
+                          
+                        <li>
+                            <a target="_blank" href="/@ViewBag.LanguageCode/Helper/MainFuncAiBox">AI-BOX目標識別盒子(HRM)</a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="#">智能屋苑</a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="#">E-commerce E-Shop</a>
+                        </li> 
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        &nbsp;&nbsp;&nbsp;<h6 class="small  margin-left15">Version 5.59 &copy;params @LangUtilities.LanguageCode -Shp: @WebCookie.ShpID </h6>
+    </div>
+</div>
 
 <script>
     var _hmt = _hmt || [];

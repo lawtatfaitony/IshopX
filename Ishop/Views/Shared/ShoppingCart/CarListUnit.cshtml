@@ -36,7 +36,8 @@
                        </li> 
 
                        <li class="list-inline pull-right">
-                           <img src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100)" alt="..." class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px;max-width:90px;" />
+                           <!-- PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100) -->
+                           <img src="@Html.DisplayFor(model => model.SkuImageUrl).ToString()" alt="..." class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px;max-width:120px;" />
                        </li>
                    </ul>
                </li> 

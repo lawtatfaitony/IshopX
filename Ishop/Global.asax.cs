@@ -15,12 +15,14 @@ using System.Globalization;
 using LanguageResource;
 using System.Web.Caching;
 using System.Collections;
+using System.Web.Helpers;
+
 namespace Ishop
 {
     public class MvcApplication : System.Web.HttpApplication
     { 
         protected void Application_Start()
-        {
+        { 
             AreaRegistration.RegisterAllAreas();
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -36,7 +38,9 @@ namespace Ishop
             System.Data.Entity.Database.SetInitializer<ApplicationDbContext>(null);  //设置初始化 Database.SetInitializer<ApplicationDbContext>(null); 
             //全局 Modal.Require
             DataAnnotationsModelValidatorProvider.RegisterAdapterFactory(typeof(RequiredAttribute), (m, c, a) => new myRequiredAttributeAdapter(m, c, (RequiredAttribute)a));
-             
+
+            // 禁用 Anti-forgery 驗證執行的身份檢查
+            AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
         }
         //protected void Session_Start(object sender,EventArgs e)
         //{ 

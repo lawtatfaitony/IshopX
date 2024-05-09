@@ -7,7 +7,7 @@
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\ClientIshop_Ishop_AD\发布202110</_PublishTargetUrl>
-    <History>True|2024-05-06T04:54:21.7441724Z;True|2024-05-06T04:04:10.8175028+08:00;</History>
+    <History>True|2024-05-09T02:33:46.6145408Z;True|2024-05-09T09:05:13.0366432+08:00;True|2024-05-06T12:54:21.7441724+08:00;True|2024-05-06T04:04:10.8175028+08:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -3027,19 +3027,19 @@
       <publishTime>02/03/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/Ishop.dll">
-      <publishTime>05/08/2024 16:36:29</publishTime>
+      <publishTime>05/09/2024 10:33:43</publishTime>
     </File>
     <File Include="bin/Ishop.pdb">
-      <publishTime>05/08/2024 16:36:29</publishTime>
+      <publishTime>05/09/2024 10:33:43</publishTime>
     </File>
     <File Include="bin/LanguageResource.dll">
-      <publishTime>05/08/2024 14:45:36</publishTime>
+      <publishTime>05/09/2024 09:05:03</publishTime>
     </File>
     <File Include="bin/LanguageResource.dll.config">
       <publishTime>03/25/2021 22:26:46</publishTime>
     </File>
     <File Include="bin/LanguageResource.pdb">
-      <publishTime>05/08/2024 14:45:36</publishTime>
+      <publishTime>05/09/2024 09:05:03</publishTime>
     </File>
     <File Include="bin/Microsoft.ApplicationBlocks.Data.dll">
       <publishTime>01/17/2006 10:13:52</publishTime>
@@ -3957,7 +3957,7 @@
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
     <File Include="Content/mainStyle.css">
-      <publishTime>04/05/2024 20:39:03</publishTime>
+      <publishTime>05/08/2024 21:33:24</publishTime>
     </File>
     <File Include="Content/PagedList.css">
       <publishTime>04/29/2024 17:10:58</publishTime>
@@ -7089,7 +7089,7 @@
       <publishTime>01/01/2017 11:37:12</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
-      <publishTime>10/26/2021 10:10:34</publishTime>
+      <publishTime>05/08/2024 23:13:15</publishTime>
     </File>
     <File Include="Views/Account/LoginMobile.cshtml">
       <publishTime>10/22/2021 14:45:17</publishTime>
@@ -7302,7 +7302,7 @@
       <publishTime>05/12/2021 01:55:50</publishTime>
     </File>
     <File Include="Views/Order/Index.cshtml">
-      <publishTime>05/08/2024 12:26:34</publishTime>
+      <publishTime>05/09/2024 10:32:22</publishTime>
     </File>
     <File Include="Views/Order/MyCartSelectToOrdererrorTips .cshtml">
       <publishTime>05/07/2024 18:57:41</publishTime>
@@ -7314,7 +7314,7 @@
       <publishTime>05/07/2024 21:03:37</publishTime>
     </File>
     <File Include="Views/Order/OrderList.cshtml">
-      <publishTime>05/08/2024 01:25:52</publishTime>
+      <publishTime>05/09/2024 07:47:48</publishTime>
     </File>
     <File Include="Views/Roles/Create.cshtml">
       <publishTime>03/13/2019 04:42:02</publishTime>
@@ -7404,7 +7404,7 @@
       <publishTime>02/08/2022 12:57:46</publishTime>
     </File>
     <File Include="Views/Shared/ShopFootTemplate/sh0006_FooterTemplate.cshtml">
-      <publishTime>02/08/2022 12:56:55</publishTime>
+      <publishTime>05/08/2024 21:25:48</publishTime>
     </File>
     <File Include="Views/Shared/ShopFootTemplate/SH2006_FooterTemplate.cshtml">
       <publishTime>04/05/2024 17:17:02</publishTime>
@@ -7452,13 +7452,13 @@
       <publishTime>05/07/2024 22:38:32</publishTime>
     </File>
     <File Include="Views/Shared/ShoppingCart/CarListUnit.cshtml">
-      <publishTime>05/06/2024 05:13:54</publishTime>
+      <publishTime>05/09/2024 07:34:14</publishTime>
     </File>
     <File Include="Views/Shared/ShoppingCart/OrderItemListUnit.cshtml">
-      <publishTime>05/07/2024 21:40:34</publishTime>
+      <publishTime>05/09/2024 09:00:14</publishTime>
     </File>
     <File Include="Views/Shared/ShoppingCart/OrderListItem.cshtml">
-      <publishTime>05/07/2024 21:42:58</publishTime>
+      <publishTime>05/09/2024 08:53:19</publishTime>
     </File>
     <File Include="Views/Shared/ShoppingCartLayout.cshtml">
       <publishTime>05/06/2024 12:52:47</publishTime>

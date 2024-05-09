@@ -92,17 +92,18 @@ C:\Windows\System32\drivers\etc\host 系統文件,配置域名和 IP 地址的�
 | SH2006 | HK安防  LTD.               | /Upload/ShopLogo/Shplogo_20180826132306638.png |
 | SH2028 | STAT BILLIANT AI TECH LTD. | /Upload/ShopLogo/Shplogo_20180826132306638.png |
 
+```
 sh0006  翔輝系統
 考勤薪酬、安防业务：
 http://81.71.74.135:8081/?ShpID=sh0006 
-
 sh0016 
 http://81.71.74.135:8081/?ShpID=sh0016
 薪酬与考勤系统 、安防业务： starbilliant.cn
-
 SH2028
 http://81.71.74.135:8081/?ShpID=SH2028
 安防业务 dataguard.com
+上述以 [/?ShpID=sh0016]傳入,已經作廢,由於受到規則 WebCookie.ShpID 通過HostName判斷店鋪ID,導致 ID傳入主頁有用,其餘都作廢了.
+```
 
  **For 音響工程**
 

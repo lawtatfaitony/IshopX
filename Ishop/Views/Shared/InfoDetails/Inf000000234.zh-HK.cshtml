@@ -1,0 +1,391 @@
+﻿<div class="container">
+    
+<div class="h1" style="margin-bottom:50px;">考勤與薪酬系統功能概述</div>
+
+<ul class="list-unstyled no-margin no-margin">
+    <li class="no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black"><i class="fa fa-arrow-right"></i> 系統權限 </summary>
+            <div class="" style="padding-left:20px;">
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    權限管理與職能委任。 <br />
+                    最高權限 SysAdmin 系統管理員 主要是整個系統設置和授權。 <br />
+                    管理員 Admin 業務管理員。 <br />
+                    特殊獨占角色: Contractor 分公司/店長/等， Department:部門經理  Employee:僱員 手機端 的數據瀏覽等等。
+                </p>
+            </div>
+        </details>
+    </li>
+    <li class="no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i>公司組織 與 基礎數據
+            </summary>
+            <div class="" style="padding-left:20px;">
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    部門管理、分公司/連鎖店/合約進駐商 管理、<br />
+                    位置管理 描述和定義具體位置 用於需要位置描述的業務,如設備,連鎖店,分公司等等都是有具體的位置的<br />
+                    職位管理 具體的職位 例如 經理 員工 副經理<br />
+                    工種 管理 對於比較大型的公司,設計跨行業或縱深細分的行業工種。 <br />
+                    行業分類 主要用於總公司屬於什麼行業的。針對行業在具體的頁面功能上加以調整，例如地產建築業務的，<br />
+                    則提供對接政府資格證的雲端數據。如果醫療行業則對接政府衛生處的雲端數據進行數據對接<br />
+                    公眾假期管理  主要提供標准假期與突發公眾假期。包括薪酬比率，如年關加班三工薪酬。 <br />
+                    行業字典自定義，對應系統內所有的字詞都可以透過字典更改。特別適合行業特定的術語需要。 <br />
+                    例如醫院、學校等都是有一套行業內的術語規則，和一般的公司體系區別很大。行業字典就是針對以上情況。
+                </p>
+            </div>
+        </details>
+    </li>
+    <li class="no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i>人事管理
+            </summary>
+            <div class="" style="padding-left:20px;">
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    主要是人事記錄，可以從面試的薪酬評估開始，入職，計算考勤，計算薪酬，資料變動，<br />
+                    到最後離職等一系列流程的數據處理。
+
+                    僱員新增、更新、凍結  頭像、身份證號、手機號、入職離職日期、拍卡關聯等等<br />
+                    僱員列表 按部門工種 職位等進行查詢。 <br />
+
+                    關聯與取消系統用戶（僱員的前端瀏覽使用，系統用戶和僱員是兩個完全不同的概念，系統用戶是用於系統登錄和操作系統的，考勤人員就是僱員，屬於所定義的公司下的僱員）<br />
+
+                    分配到所屬的設備：指定特定的設備來考勤和下行頭像和考勤編號到對應的設備（如適用）。其他設備無效，拒絕進入。 <br />
+
+                    拍卡關聯與關聯: 增加變更拍卡。 <br />
+
+                    工作日曆視圖管理，提供日曆方式的閱覽，直觀簡單。
+                </p>
+            </div>
+        </details>
+    </li>
+    <li class="no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i> 請假系統與公眾假期系統
+            </summary>
+            <div class="" style="padding-left:20px;">
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    請假：提供補請假與請假。是否有薪假期，等等問題。請假是按照排班為單位請假，<br />
+                    例如：10月26日有排班AA,請假要針對這個排班請假,以方便系統計算準確。 <br />
+                    公眾假期導入，由Excel格式的假期數據導入到系統，省時省力。
+                </p>
+            </div>
+        </details>
+    </li>
+    <li class="list-unstyled no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                <i class="fa fa-arrow-right"></i> 考勤設置系統
+            </summary>
+            <div class="" style="padding-left:20px;">
+                <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                    提供日班考勤設置和夜班考勤設置，以適應不同時段的工作要求。 <br />
+                    可通過排班設置彈性考勤（自由安排工作時間），對某些行業需要，按需工作，例如：某研究員/教授/高級醫生，<br />
+                    一個星期內自由安排兩天完成兩個工作日即滿足公司考勤要求，則可以通過排班設置，並由考勤人員自己申報，即可實現考勤計算的目的。
+                </p>
+            </div>
+        </details>
+    </li>
+    <li class="list-unstyled no-margin no-margin">
+        <details open class="h5 text-black-50">
+            <!--class="open" or <details open>-->
+            <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 排班系統
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        排班是自動每月自動運行，包括自定義排班和全局排班（固定排班，俗稱朝玖晚伍是其中一個應用），<br />
+                        自定義排班是短期的，優先級大於全局排班， 一旦衝突,則會以自定義排班替換全局排班。 <br />
+                        自定義排班可以手動進行排班，但全局排班是系統每月調度運行。 <br />
+                        系統全局設置的排班與自由隨意調整的排班，全方位解決人力工作安排。靈活而且省時省力，無需製作複雜的排班計劃。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 系統遷移（人員導入）
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供EXCEL格式模板導入數據，以及通過API導入數據，並在導入的同時，進行相應的部門、職位<br />
+                        等等的組織單元編輯，以便對大量考勤人員的多維度的分類管理<br />
+                        年底假期的導入，由於不同公司，假期制度未必相同，這裡提供假期導入功能，以平滑過渡到新系統。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 系統字典對照（語言系統）
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        對具體每個頁面的字詞語句進行自定義以適合本公司文化與術語的設定要求。 <br />例如漏打（漏簽）
+                        又例如：醫院部門成為科室等等情況，可以通過行業自定義設置，適應不同行業的叫法。 <br />
+                        同時提供簡體、繁體、英文等的界面要求，其他語種可以按需要增加。 <br />
+                        本系統從界面問題全部都是可以通過後端語言字典設置更改為更適應自己公司企業文化需要的。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 行業定制功能
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        通過政府註冊工人資料庫自動導入考勤人員，目前提供建造業的考勤人員導入，
+                        其他需要針對性開放。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 部門考勤報表
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供部門經理的報表查詢，包括排班考勤計算報表、日考勤計算報表、月度考勤計算報表，<br />
+                        考勤人員的請假審批等等。 <br />
+                        包括以Excel，PDF等多種形式導出報表數據等等功能。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 分公司、經理、店長、代理商等等形式的考勤報表
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供部門經理的報表查詢，包括排班考勤計算報表、日考勤計算報表、月度考勤計算報表，<br />
+                        考勤人員的請假審批等等。 <br />
+                        包括以Excel，PDF等多種形式導出報表數據等等功能。
+                        報表的數據只會提供所屬權限的對應數據，安全可控。
+                        例如：經理，則提供其<u>下屬成員</u>的對應報表。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 漏簽與補簽
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供由於忘記打卡而事後做出補救的功能。以及出現有進無出、有出無進的考勤記錄情況的規則規律<br />
+                        和解決辦法。 <br />
+                        漏簽，就是忘記打卡，實際有上班的情況。 <br />
+                        補簽，就是根據實際上班情況，補登記記錄。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 我的考勤中心
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        以手機端或電腦前端形式，提供考勤人員查詢月度報表、日報表、排班報表、請假申請、<br />
+                        以及其他互動功能。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 報表系統
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供報表EXCEL或PDF下載。 <br />
+                        報表的具體功能是分散在對應具體的業務功能上，例如排班考勤報表，查詢的同時包括有報表下載。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 考勤報表复核
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供考勤數據記錄的列表查詢，提供人工复核記錄，萬無一失。包括排班考勤的複核計算，萬無一失。 <br />
+                        對考勤數據非常重要的行業，提供記錄的複核處理，使用人工复核計算以核對電腦報表是否存在誤差。保證絕對準確。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 圖表大數據計算
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        圖表大數據計算，以目前先進的大數據計算思想，用多種不同的統計數據表現形式來表達數據統計，<br />
+                        例如散點統計，直觀的展示遲到和分佈的時段的區域。後續的數據統計挖掘，會開發更多功能。
+                    </p>
+                </div>
+            </details>
+        </li>
+
+        <li>
+            <blockquote class="h4 text-bold text-black" style="padding:10px;background-color:#faf6ea">薪酬系統</blockquote>
+        </li>
+        <li class="divider">
+            <hr style="width:60%;align-content:flex-start;" />
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 薪酬評估
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        包括面試情景用的薪酬評估，員工薪酬評估，雋升申請情景的薪酬評估。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 賬目分類
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        包括按年月日時四個結算週期的賬目，還有一個獨立的賬目，只有結算後才會建立裡一個新的其他賬目。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 記賬項目
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        系統預設的通用準則的記賬項目，例如交通津貼，膳食津貼等等。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 附加記賬項目
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        除了預設的記賬項目外，還增加了針對特定人員的記賬項目。 <br />
+                        例如業務經理的董事會酬金，業務員佣金等等。從預設記賬項目到特定人員的附加記賬項目，完全覆蓋<br />
+                        不同變化情況。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 會計貨幣
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供多種國際貨幣選擇，如歐元，人民幣，美元，英鎊，日元等等，因應需要可以適當增加。
+
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 所得稅
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        減值項目，提供固定減值項和比率減值項混合計算規則。適合任何情況需要。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 財務賬目
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供財務賬目查詢搜索列表以及延伸鏈接到其他功能。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 財務明細項目
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        提供財務明細列表。
+                    </p>
+                </div>
+            </details>
+        </li>
+        <li class="list-unstyled no-margin no-margin">
+            <details open class="h5 text-black-50">
+                <!--class="open" or <details open>-->
+                <summary class="h4 text-bold text-black">
+                    <i class="fa fa-arrow-right"></i> 個人財務概覽
+                </summary>
+                <div class="" style="padding-left:20px;">
+                    <p class="pb-0 pt-0 mb-0 lead" style="border-bottom-color:#f1dfdf;border-bottom-width:1px;border-bottom-style:dashed;">
+                        針對個人的財務賬目以及所有明細項目一目了然。<br />
+                        包括結餘項,具體的項目明細(流水項),人員主要資料信息。
+                    </p>
+                </div>
+            </details>
+        </li>
+    </ul>
+
+</div>

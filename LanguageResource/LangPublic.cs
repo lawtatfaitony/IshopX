@@ -10,17 +10,10 @@ namespace LanguageResource
     {
         #region  多语言资源
 
-                /// <summary>
-                /// 货币标准
-                /// </summary>
-                public static string Shop_CurrencySymbol
-                { get { return LangUtilities.GetString("Shop_CurrencySymbol"); } }
-                ///<summary>SendMailInfo_EnablePasswordAuthentication</summary>
-                public static string SendMailInfo_EnablePasswordAuthentication
-                  { get { return LangUtilities.GetString("SendMailInfo_EnablePasswordAuthentication"); }}
+			
 
-                  ///<summary>令牌</summary>
-                  public static string access_token{
+				 ///<summary>令牌</summary>
+ 				  public static string access_token{
  				  get { return LangUtilities.GetString( "access_token"); }} 
 
 				 ///<summary>单击此处登录</summary>
@@ -113,21 +106,10 @@ namespace LanguageResource
 
 				 ///<summary>发送邮箱验证码</summary>
  				  public static string Account_ForgotPassword_SendEmailCode{
- 				  get { return LangUtilities.GetString( "Account_ForgotPassword_SendEmailCode"); }}
+ 				  get { return LangUtilities.GetString( "Account_ForgotPassword_SendEmailCode"); }} 
 
-                  ///<summary>刪除郵件模版任務</summary>
-                  public static string DeleteEmailTask_ComfirmTips
-                  {
-                      get { return LangUtilities.GetString("DeleteEmailTask_ComfirmTips"); }
-                  }
-                  ///<summary>Name</summary>
-                  public static string Views_GeneralUI_Name
-                  {
-                      get { return LangUtilities.GetString("Views_GeneralUI_Name"); }
-                  }
-         
-                  ///<summary>忘记了密码?</summary>
-                  public static string Account_ForgotPassword_Title{
+				 ///<summary>忘记了密码?</summary>
+ 				  public static string Account_ForgotPassword_Title{
  				  get { return LangUtilities.GetString( "Account_ForgotPassword_Title"); }} 
 
 				 ///<summary>查看邮件以重置你的密码</summary>
@@ -722,7 +704,7 @@ namespace LanguageResource
  				  public static string ControllerName_ActionMethod_MyShoppingCart_layerTips{
  				  get { return LangUtilities.GetString( "ControllerName_ActionMethod_MyShoppingCart_layerTips"); }} 
 
-				 ///<summary>付款后三个工作日内发货</summary>
+				 ///<summary>订单列表</summary>
  				  public static string ControllerName_Views_DefinitedUI_ConfirmOrderAnouncement{
  				  get { return LangUtilities.GetString( "ControllerName_Views_DefinitedUI_ConfirmOrderAnouncement"); }} 
 
@@ -826,6 +808,10 @@ namespace LanguageResource
  				  public static string DefiniteTemplateNoteCreate_Title{
  				  get { return LangUtilities.GetString( "DefiniteTemplateNoteCreate_Title"); }} 
 
+				 ///<summary>Email任务删除确认</summary>
+ 				  public static string DeleteEmailTask_ComfirmTips{
+ 				  get { return LangUtilities.GetString( "DeleteEmailTask_ComfirmTips"); }} 
+
 				 ///<summary>详细地址</summary>
  				  public static string DispatchNote_Address{
  				  get { return LangUtilities.GetString( "DispatchNote_Address"); }} 
@@ -869,6 +855,10 @@ namespace LanguageResource
 				 ///<summary>数量</summary>
  				  public static string DispatchNote_Quantity{
  				  get { return LangUtilities.GetString( "DispatchNote_Quantity"); }} 
+
+				 ///<summary>收件地址</summary>
+ 				  public static string DispatchNote_Recipien_Address{
+ 				  get { return LangUtilities.GetString( "DispatchNote_Recipien_Address"); }} 
 
 				 ///<summary>收件人</summary>
  				  public static string DispatchNote_Recipient{
@@ -1086,6 +1076,30 @@ namespace LanguageResource
  				  public static string ForgotPasswordViewModel_Email{
  				  get { return LangUtilities.GetString( "ForgotPasswordViewModel_Email"); }} 
 
+				 ///<summary>韩元</summary>
+ 				  public static string GeneralLogic_deDE{
+ 				  get { return LangUtilities.GetString( "GeneralLogic_deDE"); }} 
+
+				 ///<summary>英镑</summary>
+ 				  public static string GeneralLogic_enUK{
+ 				  get { return LangUtilities.GetString( "GeneralLogic_enUK"); }} 
+
+				 ///<summary>美元</summary>
+ 				  public static string GeneralLogic_enUS{
+ 				  get { return LangUtilities.GetString( "GeneralLogic_enUS"); }} 
+
+				 ///<summary>日元</summary>
+ 				  public static string GeneralLogic_jpJP{
+ 				  get { return LangUtilities.GetString( "GeneralLogic_jpJP"); }} 
+
+				 ///<summary>卢布</summary>
+ 				  public static string GeneralLogic_ruRU{
+ 				  get { return LangUtilities.GetString( "GeneralLogic_ruRU"); }} 
+
+				 ///<summary>港币</summary>
+ 				  public static string GeneralLogic_zhHK{
+ 				  get { return LangUtilities.GetString( "GeneralLogic_zhHK"); }} 
+
 				 ///<summary>出错了~~</summary>
  				  public static string GeneralUI_Fail{
  				  get { return LangUtilities.GetString( "GeneralUI_Fail"); }} 
@@ -1133,6 +1147,18 @@ namespace LanguageResource
 				 ///<summary>参考ID</summary>
  				  public static string GeneralUI_TblKeyId{
  				  get { return LangUtilities.GetString( "GeneralUI_TblKeyId"); }} 
+
+				 ///<summary>人民币</summary>
+ 				  public static string GeneralUI_zhCN{
+ 				  get { return LangUtilities.GetString( "GeneralUI_zhCN"); }} 
+
+				 ///<summary>相关业务</summary>
+ 				  public static string Home_DefinitedTag_BusinessKeyWord{
+ 				  get { return LangUtilities.GetString( "Home_DefinitedTag_BusinessKeyWord"); }} 
+
+				 ///<summary>案例支持</summary>
+ 				  public static string Home_DefinitedTag_CaseSupport{
+ 				  get { return LangUtilities.GetString( "Home_DefinitedTag_CaseSupport"); }} 
 
 				 ///<summary>本网內容关键词</summary>
  				  public static string Home_DefinitedTag_KeyWord{
@@ -1205,6 +1231,10 @@ namespace LanguageResource
 				 ///<summary>更新数据成功</summary>
  				  public static string Info_SeoHtmlContextAdd_Message_UpdateSucc{
  				  get { return LangUtilities.GetString( "Info_SeoHtmlContextAdd_Message_UpdateSucc"); }} 
+
+				 ///<summary>通用资讯类</summary>
+ 				  public static string INFOCATE_COMMON_INFO{
+ 				  get { return LangUtilities.GetString( "INFOCATE_COMMON_INFO"); }} 
 
 				 ///<summary>分类ID</summary>
  				  public static string InfoCate_InfoCateID{
@@ -1958,6 +1988,10 @@ namespace LanguageResource
  				  public static string Order_RecommUserId{
  				  get { return LangUtilities.GetString( "Order_RecommUserId"); }} 
 
+				 ///<summary>订单ID错误,录入收货信息不成功</summary>
+ 				  public static string Order_Return_Wrong_OrderId{
+ 				  get { return LangUtilities.GetString( "Order_Return_Wrong_OrderId"); }} 
+
 				 ///<summary>店铺ID</summary>
  				  public static string Order_ShopID{
  				  get { return LangUtilities.GetString( "Order_ShopID"); }} 
@@ -1986,6 +2020,10 @@ namespace LanguageResource
  				  public static string OrderDetailView_Address{
  				  get { return LangUtilities.GetString( "OrderDetailView_Address"); }} 
 
+				 ///<summary>所在县区</summary>
+ 				  public static string OrderDetailView_District{
+ 				  get { return LangUtilities.GetString( "OrderDetailView_District"); }} 
+
 				 ///<summary>支付金额</summary>
  				  public static string OrderDetailView_Payment{
  				  get { return LangUtilities.GetString( "OrderDetailView_Payment"); }} 
@@ -1997,6 +2035,10 @@ namespace LanguageResource
 				 ///<summary>收件人</summary>
  				  public static string OrderDetailView_Recipient{
  				  get { return LangUtilities.GetString( "OrderDetailView_Recipient"); }} 
+
+				 ///<summary>所在国家</summary>
+ 				  public static string OrderDetailView_State{
+ 				  get { return LangUtilities.GetString( "OrderDetailView_State"); }} 
 
 				 ///<summary>佣金</summary>
  				  public static string OrderItem_Commision{
@@ -2422,6 +2464,10 @@ namespace LanguageResource
  				  public static string SaleStatus_SaleStatusID{
  				  get { return LangUtilities.GetString( "SaleStatus_SaleStatusID"); }} 
 
+				 ///<summary>启用本机认证密码</summary>
+ 				  public static string SendMailInfo_EnablePasswordAuthentication{
+ 				  get { return LangUtilities.GetString( "SendMailInfo_EnablePasswordAuthentication"); }} 
+
 				 ///<summary>启动SSL</summary>
  				  public static string SendMailInfo_EnableSSL{
  				  get { return LangUtilities.GetString( "SendMailInfo_EnableSSL"); }} 
@@ -2525,6 +2571,10 @@ namespace LanguageResource
 				 ///<summary>证书</summary>
  				  public static string Shop_cerPath{
  				  get { return LangUtilities.GetString( "Shop_cerPath"); }} 
+
+				 ///<summary>货币标准</summary>
+ 				  public static string Shop_CurrencySymbol{
+ 				  get { return LangUtilities.GetString( "Shop_CurrencySymbol"); }} 
 
 				 ///<summary>fb二维码</summary>
  				  public static string Shop_fbQRcode{
@@ -3430,9 +3480,17 @@ namespace LanguageResource
  				  public static string Views_GeneralUI_Arrange{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_Arrange"); }} 
 
+				 ///<summary>人工智慧</summary>
+ 				  public static string Views_GeneralUI_ArtificialIntelligence{
+ 				  get { return LangUtilities.GetString( "Views_GeneralUI_ArtificialIntelligence"); }} 
+
 				 ///<summary>审核</summary>
  				  public static string Views_GeneralUI_Audit{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_Audit"); }} 
+
+				 ///<summary>大数据</summary>
+ 				  public static string Views_GeneralUI_BigData{
+ 				  get { return LangUtilities.GetString( "Views_GeneralUI_BigData"); }} 
 
 				 ///<summary>拉 黑</summary>
  				  public static string Views_GeneralUI_Block{
@@ -3450,6 +3508,10 @@ namespace LanguageResource
  				  public static string Views_GeneralUI_CateMgr{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_CateMgr"); }} 
 
+				 ///<summary>安防 闭路电视AI应用</summary>
+ 				  public static string Views_GeneralUI_CCTV{
+ 				  get { return LangUtilities.GetString( "Views_GeneralUI_CCTV"); }} 
+
 				 ///<summary>更 改</summary>
  				  public static string Views_GeneralUI_Change{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_Change"); }} 
@@ -3465,6 +3527,14 @@ namespace LanguageResource
 				 ///<summary>更改为</summary>
  				  public static string Views_GeneralUI_ChangeTo{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_ChangeTo"); }} 
+
+				 ///<summary>云端监控</summary>
+ 				  public static string Views_GeneralUI_CloudMonitoring{
+ 				  get { return LangUtilities.GetString( "Views_GeneralUI_CloudMonitoring"); }} 
+
+				 ///<summary>云端监控人工智慧</summary>
+ 				  public static string Views_GeneralUI_CloudMonitoringAI{
+ 				  get { return LangUtilities.GetString( "Views_GeneralUI_CloudMonitoringAI"); }} 
 
 				 ///<summary>获取验证码</summary>
  				  public static string Views_GeneralUI_Code{
@@ -3530,6 +3600,10 @@ namespace LanguageResource
  				  public static string Views_GeneralUI_DownLoad{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_DownLoad"); }} 
 
+				 ///<summary>驾驶行为智能监视</summary>
+ 				  public static string Views_GeneralUI_DrivingBehavior{
+ 				  get { return LangUtilities.GetString( "Views_GeneralUI_DrivingBehavior"); }} 
+
 				 ///<summary>编 辑</summary>
  				  public static string Views_GeneralUI_Edit{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_Edit"); }} 
@@ -3553,6 +3627,10 @@ namespace LanguageResource
 				 ///<summary>输入关键词</summary>
  				  public static string Views_GeneralUI_InputKeyWord{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_InputKeyWord"); }} 
+
+				 ///<summary>物联网</summary>
+ 				  public static string Views_GeneralUI_InternetofThings{
+ 				  get { return LangUtilities.GetString( "Views_GeneralUI_InternetofThings"); }} 
 
 				 ///<summary>代码无效。</summary>
  				  public static string Views_GeneralUI_InvalidCode{
@@ -3657,6 +3735,10 @@ namespace LanguageResource
 				 ///<summary>按时间排序</summary>
  				  public static string Views_GeneralUI_OrderByDatetime{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_OrderByDatetime"); }} 
+
+				 ///<summary>订单详情</summary>
+ 				  public static string Views_GeneralUI_OrderDetails{
+ 				  get { return LangUtilities.GetString( "Views_GeneralUI_OrderDetails"); }} 
 
 				 ///<summary>订单号</summary>
  				  public static string Views_GeneralUI_OrderId{
@@ -3790,6 +3872,10 @@ namespace LanguageResource
  				  public static string Views_GeneralUI_Share_earning_share_growth{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_Share_earning_share_growth"); }} 
 
+				 ///<summary>智慧城市</summary>
+ 				  public static string Views_GeneralUI_SmartCity{
+ 				  get { return LangUtilities.GetString( "Views_GeneralUI_SmartCity"); }} 
+
 				 ///<summary>按时间排序</summary>
  				  public static string Views_GeneralUI_SortByTime{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_SortByTime"); }} 
@@ -3857,6 +3943,10 @@ namespace LanguageResource
 				 ///<summary>正确格式的url或空白不填</summary>
  				  public static string Views_GeneralUI_UrlFormatOrBlank{
  				  get { return LangUtilities.GetString( "Views_GeneralUI_UrlFormatOrBlank"); }} 
+
+				 ///<summary>视频分析</summary>
+ 				  public static string Views_GeneralUI_VideoAnalysis{
+ 				  get { return LangUtilities.GetString( "Views_GeneralUI_VideoAnalysis"); }} 
 
 				 ///<summary>微信付款購買</summary>
  				  public static string Views_GeneralUI_WeChatPay{
@@ -4004,26 +4094,10 @@ namespace LanguageResource
 
 				 ///<summary>票据时效</summary>
  				  public static string WeiXin_ticket_expires_in{
- 				  get { return LangUtilities.GetString( "WeiXin_ticket_expires_in"); }}
+ 				  get { return LangUtilities.GetString( "WeiXin_ticket_expires_in"); }} 
 
-                    ///<summary>订单详情</summary>
-                    public static string Views_GeneralUI_OrderDetails
-                    {
-                        get { return LangUtilities.GetString("Views_GeneralUI_OrderDetails"); }
-                    }
-                ///<summary>订单ID错误,录入收货信息不成功</summary>
-                public static string Order_Return_Wrong_OrderId
-                {
-                    get { return LangUtilities.GetString("Order_Return_Wrong_OrderId"); }
-                }
-                ///<summary>收件地址</summary>
-                public static string DispatchNote_Recipien_Address
-                {
-                    get { return LangUtilities.GetString("DispatchNote_Recipien_Address"); }
-                }
-        
         #endregion
-
+         
     }
 
 }

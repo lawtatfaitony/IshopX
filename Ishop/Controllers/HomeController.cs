@@ -33,7 +33,7 @@ namespace Ishop.Controllers
         /// <summary>
         ///  目前有 IndexA | IndexB | IndexC 三種不同的模版
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">由於收到規則 WebCookie.ShpID 通過HostName判斷店鋪ID,導致 ID傳入主頁有用,其餘都作廢了.</param>
         /// <param name="InfoCateID"></param>
         /// <param name="Index2"></param>
         /// <param name="code"></param>

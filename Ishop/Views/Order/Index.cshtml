@@ -80,7 +80,6 @@
             @Html.Partial("PaymentInfo/" + WebCookie.ShpID + "_PaymentService_" + (string)ViewBag.LanguageCode, Model)
             
         </div>
-
     </div>
 
     <!--訂單詳情(最近一筆訂單)-->
@@ -104,84 +103,88 @@
             <!-- 付款后三个工作日内发货  改為 訂單列表 -->
         </div>
         <div class="box-body">
-            <!--Order Header-->
-            <div id="OrderHeader" id=" @Model.OrderId" class="padding-left15">
-                <ul class="unstyledlist-unstyled no-margin no-padding list-group-unbordered" style="padding:0;margin:0;">
-                    <!--Order Header Details-->
-                    <li class="unstyled list-unstyled no-margin no-padding" style="padding:0;margin:0;">
-                        <ul class="unstyled list-inline">
-                            <li>
-                                <ul class="unstyled list-inline">
-                                    <li class="h4 text-danger " style="font-weight:400;padding-right:5px;">
-                                        @Lang.Views_GeneralUI_OrderId &colon;
-                                    </li>
-                                    <li class="h3 text-danger" style="font-weight:400;padding-right:5px;">
-                                        @Model.OrderId
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul class="unstyled list-inline">
-                                    <li class="h4 text-danger" style="font-weight:400;padding-right:5px;">
-                                        @Lang.Order_Payment &colon;
-                                    </li>
-                                    <li class="h3 text-danger" style="font-weight:600;padding-right:5px;color:red;">
-                                        @mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", decimal.Parse(Html.DisplayFor(m => m.Payment).ToString())), (string)ViewBag.ShopCurrency)
-                                    </li>
-                                    <li class="h3 text-danger" style="font-weight:600;color:blue;">
-                                        @Model.StatusId
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul class="unstyled list-inline">
-                                    <li class="h4 text-danger " style="padding-right:5px;">
-                                        @Lang.DispatchNote_Recipien_Address &colon;
-                                    </li>
-                                    <li>
-                                        <label id="addressDetails" class="h5 text-black">
-                                            @Model.Address
-                                        </label>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--Create Date-->
-                    <li class="unstyled list-unstyled no-padding">
-                        <ul class="list-unstyled list-inline h6">
-                            <li class="h5 text-danger " style="padding-right:5px;">
-                                Date Time &colon;
-                            </li>
-                            <li class="h5 text-danger" style="padding-right:5px;">
-                                @string.Format("{0:yyyy-MM-dd HH:mm:ss}", Model.CreatedDate)
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+            <div class="container"> 
+                <!--Order Header-->
+                <div id="@string.Format("OrderHeader{0}", Model.OrderId)" class="row padding-left15">
+                    <ul class="unstyledlist-unstyled no-margin no-padding list-group-unbordered" style="padding:0;margin:0;">
+                        <!--Order Header Details-->
+                        <li class="unstyled list-unstyled no-margin no-padding" style="padding:0;margin:0;">
+                            <ul class="unstyled list-inline">
+                                <li>
+                                    <ul class="unstyled list-inline">
+                                        <li class="h4 text-danger " style="font-weight:400;padding-right:5px;">
+                                            @Lang.Views_GeneralUI_OrderId &colon;
+                                        </li>
+                                        <li class="h3 text-danger" style="font-weight:400;padding-right:5px;">
+                                            @Model.OrderId
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <ul class="unstyled list-inline">
+                                        <li class="h4 text-danger" style="font-weight:400;padding-right:5px;">
+                                            @Lang.Order_Payment &colon;
+                                        </li>
+                                        <li class="h3 text-danger" style="font-weight:600;padding-right:5px;color:red;">
+                                            @mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", decimal.Parse(Html.DisplayFor(m => m.Payment).ToString())), (string)ViewBag.ShopCurrency)
+                                        </li>
+                                        <li class="h3 text-danger" style="font-weight:600;color:blue;">
+                                            @Model.StatusId
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <ul class="unstyled list-inline">
+                                        <li class="h4 text-danger " style="padding-right:5px;">
+                                            @Lang.DispatchNote_Recipien_Address &colon;
+                                        </li>
+                                        <li>
+                                            <label id="addressDetails" class="h5 text-black">
+                                                @Model.Address
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--Create Date-->
+                        <li class="unstyled list-unstyled no-padding">
+                            <ul class="list-unstyled list-inline h6">
+                                <li class="h5 text-danger " style="padding-right:5px;">
+                                    Date Time &colon;
+                                </li>
+                                <li class="h5 text-danger" style="padding-right:5px;">
+                                    @string.Format("{0:yyyy-MM-dd HH:mm:ss}", Model.CreatedDate)
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
 
-            </div>
-            <div id="MyOrderAndDetails" style="margin-top:15px">
-                @{
-                    List<Ishop.Models.ProductMgr.OrderItem> OrderItems = ViewBag.OrderItems;
-                    if (OrderItems.Count > 0)
-                    {
-                        foreach (var Item in OrderItems)
+                <div id="MyOrderAndDetails" class="row" style="margin-top:15px">
+                    @{
+                        List<Ishop.Models.ProductMgr.OrderItem> OrderItems = ViewBag.OrderItems;
+                        if (OrderItems.Count > 0)
                         {
-                            <div id="@Item.OrderItemId" style="padding:5px 0px 5px 0px; border-bottom-color:crimson;border-bottom-width:4px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
-                                @Html.Partial("~/Views/Shared/ShoppingCart/OrderItemListUnit.cshtml", Item)
+                            <div class="container">
+                                @foreach (var Item in OrderItems)
+                                {
+                                    <div id="@Item.OrderItemId" class="row" style="padding:5px 0px 5px 0px; border-bottom-color:crimson;border-bottom-width:4px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
+                                        @Html.Partial("ShoppingCart/OrderItemListUnit", Item)
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="container">
+                                <span class="h3 padding-left15 h4" style="font-weight:600;">
+                                    <i class="fa fa-exclamation-triangle text-danger"></i> There are no order records!!!
+                                </span>
                             </div>
                         }
                     }
-                    else
-                    {
-                        <div class="container">
-                            <span class="h3 padding-left15 h4" style="font-weight:600;">
-                                <i class="fa fa-exclamation-triangle text-danger"></i> There are no order records!!!
-                            </span>
-                        </div>
-                    }
-                }
+                </div>
             </div>
         </div>
     </div>
@@ -201,6 +204,7 @@
             </table>
         </div>
     </footer>
+
 </div>
 
 <script>
@@ -219,7 +223,10 @@
             }, 3000);
 
         } else {
-            $("button[type='submit']").text("Update");
+            if (order_address.length > 3) {
+                $("button[type='submit']").text("Update");
+            }
+           
         }
     });
 

@@ -808,6 +808,26 @@ namespace Ishop.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            //目標:The provided anti-forgery token was meant for user "", but the current user is "joxxxx@xxx.com".
+            if (Request.Cookies["__RequestVerificationToken"] != null)
+            {
+                var tokenCookie = new HttpCookie("__RequestVerificationToken")
+                {
+                    Expires = DateTime.Now.AddDays(-1)
+                };
+                Response.Cookies.Add(tokenCookie);
+            }
+            //.AspNet.ApplicationCookie
+            if (Request.Cookies[".AspNet.ApplicationCookie"] != null)
+            {
+                var applicationCookie = new HttpCookie(".AspNet.ApplicationCookie")
+                {
+                    Expires = DateTime.Now.AddDays(-1)
+                };
+                Response.Cookies.Add(applicationCookie);
+            }
+
             return RedirectToAction("Index", "Home"); 
         }
          
