@@ -812,6 +812,10 @@ namespace LanguageResource
  				  public static string DeleteEmailTask_ComfirmTips{
  				  get { return LangUtilities.GetString( "DeleteEmailTask_ComfirmTips"); }} 
 
+				 ///<summary>删除发送邮件信息确认提示</summary>
+ 				  public static string DeleteSendMailInfo_ComfirmTips{
+ 				  get { return LangUtilities.GetString( "DeleteSendMailInfo_ComfirmTips"); }} 
+
 				 ///<summary>详细地址</summary>
  				  public static string DispatchNote_Address{
  				  get { return LangUtilities.GetString( "DispatchNote_Address"); }} 
@@ -1108,6 +1112,10 @@ namespace LanguageResource
  				  public static string GeneralUI_ForgotPassword{
  				  get { return LangUtilities.GetString( "GeneralUI_ForgotPassword"); }} 
 
+				 ///<summary>I see</summary>
+ 				  public static string GeneralUI_Isee{
+ 				  get { return LangUtilities.GetString( "GeneralUI_Isee"); }} 
+
 				 ///<summary>登 录</summary>
  				  public static string GeneralUI_Login{
  				  get { return LangUtilities.GetString( "GeneralUI_Login"); }} 
@@ -1131,6 +1139,10 @@ namespace LanguageResource
 				 ///<summary>注 册</summary>
  				  public static string GeneralUI_Registration{
  				  get { return LangUtilities.GetString( "GeneralUI_Registration"); }} 
+
+				 ///<summary>返回结果</summary>
+ 				  public static string GeneralUI_ReturnResult{
+ 				  get { return LangUtilities.GetString( "GeneralUI_ReturnResult"); }} 
 
 				 ///<summary>选择</summary>
  				  public static string GeneralUI_Select{
