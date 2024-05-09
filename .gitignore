@@ -75,6 +75,7 @@ Ishop/App_Code/WiseCahier/WiseCahierSignature.cs
 ConsoleAppMailTest/obj/Debug/ConsoleAppMailTest.csproj.AssemblyReference.cache
 .vs/Ishop/FileContentIndex/821cee63-212c-4019-bfe3-54cbb5bb2eed.vsidx
 .vs/Ishop/FileContentIndex/03d08978-3759-48a0-b760-8ae21fdb35dc.vsidx
+<<<<<<< Updated upstream
 LanguageResource/obj/Debug/LanguageResource.pdb
 LanguageResource/obj/Debug/LanguageResource.dll
 LanguageResource/obj/Debug/LanguageResource.csproj.FileListAbsolute.txt
@@ -99,3 +100,9 @@ backup_dll_annotationExtensions_and_clientvalid/Readme.MD
 .vs/Ishop/FileContentIndex/31aa5a6e-69df-41f2-a60e-4dd621b29370.vsidx
 *.pdb
 Ishop_160709.vsp
+=======
+.vs/Ishop/FileContentIndex/a4bba8da-6cc1-4754-ab75-c1561dd7e9b7.vsidx
+>>>>>>> Stashed changes
+.vs/Ishop/FileContentIndex/9186614f-b188-4342-af39-181158952d97.vsidx
+.vs/Ishop/v17/.suo
+*.vsp
