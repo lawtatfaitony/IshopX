@@ -4,6 +4,13 @@ a, abbr, acronym, b, bdo, big, br, cite, code, dfn, em, i, img, kbd, q, samp, sm
 	padding: 0; 
 }
 @media(min-width:768px) {
+
+    .logo_font_size_24_white {
+        font-size: 24px;
+        font-weight: 700;
+        color: #FFFFFF;
+    }
+
     .InfoListUnit-max-height {
         max-height: 120px;
         min-height: 120px;
@@ -55,9 +62,21 @@ a, abbr, acronym, b, bdo, big, br, cite, code, dfn, em, i, img, kbd, q, samp, sm
         font-size: 22px;
         font-weight: bold;
     }
+
+    .box_block_area_strong_title {
+        font-size: 24px;
+        font-weight: 600; 
+    }
 }
  
 @media (min-device-width : 375px) and (max-device-width : 667px) and (-webkit-min-device-pixel-ratio : 2) {
+
+    .logo_font_size_24_white {
+        font-size: 24px;
+        font-weight: 700;
+        color: #FFFFFF;
+    }
+
     .AttAndDevice_SloganP1 {
         font-size: 36px;
         color: #FFFFFF;
@@ -106,6 +125,13 @@ a, abbr, acronym, b, bdo, big, br, cite, code, dfn, em, i, img, kbd, q, samp, sm
 }
 
 @media (max-width: 767px) {
+
+    .logo_font_size_24_white {
+        font-size: 24px;
+        font-weight: 700;
+        color: #FFFFFF;
+    }
+
     /*col-xs*/
     .AttAndDevice_SloganP1 {
         font-size: 36px;
@@ -136,8 +162,7 @@ a, abbr, acronym, b, bdo, big, br, cite, code, dfn, em, i, img, kbd, q, samp, sm
         margin-top: 30px;
         height: 200px;
     }
- 
-
+  
     .AdMain_SloganP1 {
         font-size: 24px;
         color: #FFFFFF;
@@ -160,6 +185,13 @@ a, abbr, acronym, b, bdo, big, br, cite, code, dfn, em, i, img, kbd, q, samp, sm
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
+
+    .logo_font_size_24_white {
+        font-size: 24px;
+        font-weight: 700;
+        color: #FFFFFF;
+    }
+
     /*col-sm*/
     .AttAndDevice_SloganP1 {
         font-size: 36px;
@@ -213,6 +245,13 @@ a, abbr, acronym, b, bdo, big, br, cite, code, dfn, em, i, img, kbd, q, samp, sm
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
+
+    .logo_font_size_24_white {
+        font-size: 24px;
+        font-weight: 700;
+        color: #FFFFFF;
+    }
+
     /*col-md*/
     .InfoListUnit-max-height {
         max-height: 120px;
@@ -273,6 +312,13 @@ a, abbr, acronym, b, bdo, big, br, cite, code, dfn, em, i, img, kbd, q, samp, sm
 }
 
 @media (min-width: 1200px) {
+
+    .logo_font_size_24_white {
+        font-size: 24px;
+        font-weight:700;
+        color: #FFFFFF;
+    }
+
     /*col-lg*/
     .InfoListUnit-max-height {
         max-height: 120px;
@@ -520,12 +566,8 @@ textarea
     width: 100%;
     text-align: center;
 }
-margin-left15 {
-    margin-left: 15px;
-}
-margin-right15 {
-    margin-left: 15px;
-}
+
+
 .margin-top5 {
     margin-top: 5px;
 }
@@ -535,16 +577,33 @@ margin-right15 {
 .margin-top15 {
     margin-top: 15px;
 }
+
+.margin-left3 {
+    margin-left: 3px;
+}
 .margin-left5 {
     margin-left: 5px;
 }
+margin-left10 {
+    margin-left: 10px;
+}
 
+margin-left15 {
+    margin-left: 15px;
+}
+
+.margin-right3 {
+    margin-right: 3px;
+}
 .margin-right5 {
     margin-right: 5px;
 }
 
 .margin-right10 {
     margin-right: 10px;
+}
+.margin-right15 {
+    margin-right: 15px;
 }
 
 .margin-bottom-10 {
@@ -553,18 +612,21 @@ margin-right15 {
 .margin-bottom-15 {
     margin-bottom: 15px;
 }
-.padding-top10{
-    padding-top:10px;
-}
-.padding-bottom10{
-    padding-bottom: 10px;
-}
+
 .padding-top5 {
     padding-top: 5px;
 }
+.padding-top10{
+    padding-top:10px;
+}
+
 .padding-bottom5 {
     padding-bottom: 5px;
 }
+.padding-bottom10 {
+    padding-bottom: 10px;
+}
+
 .padding-left5 {
     padding-left: 5px;
 }
@@ -574,6 +636,13 @@ margin-right15 {
 .padding-right5 {
     padding-right: 5px;
 }
+
+.padding-3 {
+    padding: 3px;
+}
+.padding-5 {
+    padding: 5px;
+}
 .padding-10 {
     padding: 10px;
 }
@@ -582,12 +651,6 @@ margin-right15 {
     padding: 15px;
 }
 
-.padding-3 {
-    padding: 3px;
-}
-.padding-5 {
-    padding: 5px;
-}
 
 .radius3 {
     border-radius: 3px;
@@ -595,6 +658,14 @@ margin-right15 {
 .radius5{
     border-radius:5px;
 }
+
+/* 設置title 提示顯示在下方*/
+.title_tooltip_bottom_notWork [data-toggle="tooltip"]::after {
+    bottom: -25px; /* 調整提示框距離元素底部的距離 */
+    top: auto; /* 確保提示框在下方顯示 */
+}
+ 
+
  /*footer Module*/ 
 #footer { padding-top: 15px; padding-bottom: 10px; color: #fff; background: #2e2e2e; border-top:5px solid #ed1b23; font-size:0.725em;}
 #footer a {  color: #fff;}

@@ -34,6 +34,9 @@ namespace Ishop.Models
         [EnumDisplayName("INFOCATE_HELPER_INDEX")] //HelperList 中排除 
         HELP_FIRST = 9004,
 
+        [EnumDisplayName("INFOCATE_HELPER_FUNCTUON_DATAGUARD")] //功能帮助 //HelperList 包含
+        HELP_FUNCTUON_DATAGUARD = 90051,
+
         [EnumDisplayName("INFOCATE_HELPER_FUNCTUON")] //功能帮助 //HelperList 包含
         HELP_FUNCTUON = 9005,
 

@@ -103,7 +103,6 @@ namespace Ishop.Controllers
             return View(product);
         }
 
-
         /// <summary>
         /// 檢查是否只有一個SKU的情況
         /// </summary>

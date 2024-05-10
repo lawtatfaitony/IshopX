@@ -214,7 +214,7 @@ namespace Ishop.Controllers
         public ActionResult p(string ID)
         {
             ShopInitialize();
-            // this.InitLanguageStateViewBag();  //作廢
+            
             //Retrive ProductId
             UserTrace userTrace1 = this.ReturnUserTrace(ID);
             string ProductID = userTrace1.TableKeyID;
@@ -254,9 +254,10 @@ namespace Ishop.Controllers
                     OperatedDate = s.OperatedDate
                 }).OrderByDescending(S => S.OperatedDate).Take(4).ToList();
 
-            Shop shp = db.Shops.Find(WebCookie.ShpID);
-            ViewBag.ClientShop = shp;
-            ViewBag.IsInfoMode = shp.IsInfoMode;
+            //這三句已經在 BaseCotroller.ShopInitialize() 函數有
+            //Shop shp = db.Shops.Find(WebCookie.ShpID);
+            //ViewBag.ClientShop = shp;
+            //ViewBag.IsInfoMode = shp.IsInfoMode;
             ViewBag.TopView = infoDetailList;
 
             //Wechat Share 

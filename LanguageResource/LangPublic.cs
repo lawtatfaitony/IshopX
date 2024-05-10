@@ -16,6 +16,10 @@ namespace LanguageResource
  				  public static string access_token{
  				  get { return LangUtilities.GetString( "access_token"); }} 
 
+				 ///<summary>中国银行户口</summary>
+ 				  public static string ACCOUNT_BOC_OF_HK{
+ 				  get { return LangUtilities.GetString( "ACCOUNT_BOC_OF_HK"); }} 
+
 				 ///<summary>单击此处登录</summary>
  				  public static string Account_ConfirmEmail_ClickHereLogin{
  				  get { return LangUtilities.GetString( "Account_ConfirmEmail_ClickHereLogin"); }} 
@@ -1164,6 +1168,10 @@ namespace LanguageResource
  				  public static string GeneralUI_zhCN{
  				  get { return LangUtilities.GetString( "GeneralUI_zhCN"); }} 
 
+				 ///<summary>考勤与薪酬系统</summary>
+ 				  public static string HELP_FUNCTUON_DATAGUARD{
+ 				  get { return LangUtilities.GetString( "HELP_FUNCTUON_DATAGUARD"); }} 
+
 				 ///<summary>相关业务</summary>
  				  public static string Home_DefinitedTag_BusinessKeyWord{
  				  get { return LangUtilities.GetString( "Home_DefinitedTag_BusinessKeyWord"); }} 
@@ -1279,6 +1287,14 @@ namespace LanguageResource
 				 ///<summary>店铺ID</summary>
  				  public static string InfoCate_ShopID{
  				  get { return LangUtilities.GetString( "InfoCate_ShopID"); }} 
+
+				 ///<summary>AI-BOX目标识别盒子</summary>
+ 				  public static string INFOCATE_SOFTWARE_HELPER_AIBOX{
+ 				  get { return LangUtilities.GetString( "INFOCATE_SOFTWARE_HELPER_AIBOX"); }} 
+
+				 ///<summary>AI GUARD 大廈智能管理系統</summary>
+ 				  public static string INFOCATE_SOFTWARE_HELPER_AIGUARD{
+ 				  get { return LangUtilities.GetString( "INFOCATE_SOFTWARE_HELPER_AIGUARD"); }} 
 
 				 ///<summary>作者</summary>
  				  public static string InfoDetail_Author{

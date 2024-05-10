@@ -14,10 +14,6 @@
         , time: 1
     });
 </script>
-@{
-    //Layout = "~/Views/Shared/_homeLayout.cshtml";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
 <script src="~/js/Info/IPstatitics.js"></script>
 
@@ -205,9 +201,9 @@
             {
                 if (ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
                 {
-                    Shop shop = ViewBag.ClientShop as Shop;
+                    Shop shop = ViewBag.Client_Shop as Shop;
                     @:<row>
-                        Html.RenderPartial("Info/ViewIsInfoMode", shop);
+                        Html.RenderPartial("Info/ViewIsInfoMode", shop); // Shared  folder
                     @:</row>
                 }
                 else if (!string.IsNullOrEmpty(ViewBag.ShopStaffID))

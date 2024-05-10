@@ -3,6 +3,7 @@ using Ishop.Models;
 using Ishop.Models.Info;
 using Ishop.ViewModes.Info;
 using LanguageResource;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,17 @@ namespace Ishop.Controllers
         public HelperController() : base()
         {
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id">信息ID</param>
+        /// <param name="infoCateID">主頁傳遞過來的幫助分類ID</param>
+        /// <param name="searchString"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Default")]
-        public ActionResult Index(string Id, string searchString, int? page)
+        public ActionResult Index(string Id,string infoCateID, string searchString, int? page)
         {
             ShopInitialize();
             if (!string.IsNullOrEmpty(searchString))
@@ -35,19 +44,52 @@ namespace Ishop.Controllers
             // this.InitLanguageStateViewBag();  //作廢 2024-4-29
 
             InfoDetail infoDetail = new InfoDetail(); 
-            //InfoCateEnumCode.HELP_FIRST 默认请求是常量分类第一条 
+           
             if (!string.IsNullOrEmpty(Id))
             {
                 infoDetail = db.InfoDetails.Find(Id);
-            }else
-            {
-                string SOFTWARE_HELPER = InfoCateEnumCode.SOFTWARE_HELPER.ToString();
-                string HELP_FUNCTUON = InfoCateEnumCode.HELP_FUNCTUON.ToString(); 
-                infoDetail = db.InfoDetails.Where(c => c.ShopID.Contains(WebCookie.ShpID) && (c.InfoCateID.Contains(SOFTWARE_HELPER)|| c.InfoCateID.Contains(HELP_FUNCTUON))).OrderByDescending(c=>c.OperatedDate).FirstOrDefault();
+                ViewBag.InfoCateID = infoDetail.InfoCateID;
+            }
+            else
+            { 
+                if(!string.IsNullOrEmpty(infoCateID))
+                {
+                    ViewBag.InfoCateID = infoCateID;
+                    infoDetail = db.InfoDetails.Where(c => c.ShopID.Contains(WebCookie.ShpID)
+                            && (c.InfoCateID.Contains(infoCateID)))
+                            .OrderByDescending(c => c.OperatedDate).FirstOrDefault();
+                }
+                else
+                {
+                    //InfoCateEnumCode 獲取屬於幫助分類的第一條 
+                    //如下都是屬於幫助分類:  (FROM : Models/GeneralEnumCode.cs)
+                    //HELP_FUNCTUON_DATAGUARD = 90051
+                    //HELP_FUNCTUON = 9005
+                    //INFOCATE_SOFTWARE_HELPER_AIGUARD = 9007
+                    //INFOCATE_SOFTWARE_HELPER_AIBOX = 9008
+                    //INFOCATE_SOFTWARE_HELPER_STARXCORE = 9009
+
+                    string HELP_FUNCTUON_DATAGUARD = InfoCateEnumCode.HELP_FUNCTUON_DATAGUARD.ToString();
+                    string HELP_FUNCTUON = InfoCateEnumCode.HELP_FUNCTUON.ToString();
+                    string INFOCATE_SOFTWARE_HELPER_AIGUARD = InfoCateEnumCode.INFOCATE_SOFTWARE_HELPER_AIGUARD.ToString();
+                    string INFOCATE_SOFTWARE_HELPER_AIBOX = InfoCateEnumCode.INFOCATE_SOFTWARE_HELPER_AIBOX.ToString();
+                    string INFOCATE_SOFTWARE_HELPER_STARXCORE = InfoCateEnumCode.INFOCATE_SOFTWARE_HELPER_STARXCORE.ToString();
+
+                    infoDetail = db.InfoDetails.Where(c => c.ShopID.Contains(WebCookie.ShpID)
+                            && c.InfoCateID.Contains(HELP_FUNCTUON_DATAGUARD)
+                            || c.InfoCateID.Contains(HELP_FUNCTUON)
+                            || c.InfoCateID.Contains(INFOCATE_SOFTWARE_HELPER_AIGUARD)
+                            || c.InfoCateID.Contains(INFOCATE_SOFTWARE_HELPER_AIBOX)
+                            || c.InfoCateID.Contains(INFOCATE_SOFTWARE_HELPER_STARXCORE)
+                            || c.InfoCateID.Contains(HELP_FUNCTUON))
+                            .OrderByDescending(c => c.OperatedDate).FirstOrDefault();
+                }
+                
             }
             if(infoDetail==null) //还是为null 避免错误，从表中获取任意一条。
             {
                 infoDetail = db.InfoDetails.Where(c => c.ShopID.Contains(WebCookie.ShpID)).OrderByDescending(c => c.OperatedDate).FirstOrDefault();
+                ViewBag.InfoCateID = infoDetail.InfoCateID;
             }
              
             //IP statitics
@@ -97,14 +139,12 @@ namespace Ishop.Controllers
             return Json(infoDetail,JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Mgr/Info
-        //[Authorize(Roles = "StoreAdmin,StoreProductAdmin,StoreBusinessPromotion,Supervisor,Admins")]
+        // GET: Mgr/Info 
         [HttpGet]
-        public ActionResult HelpList(string searchString, int? page)
+        public ActionResult HelpList(string InfoCateID, string searchString, int? page)
         {
             ShopInitialize();
-            // this.InitLanguageStateViewBag();  //作廢 2024-4-29
-
+           
             var infoDetails = from s in db.InfoDetails.Select(s => new InfoListView
             {
                 InfoID = s.InfoID,
@@ -127,11 +167,8 @@ namespace Ishop.Controllers
                 CreatedDate = s.CreatedDate,
                 OperatedDate = s.OperatedDate
             }) select s;
-             
-            string SOFTWARE_HELPER = InfoCateEnumCode.SOFTWARE_HELPER.ToString();
-            string HELP_FUNCTUON = InfoCateEnumCode.HELP_FUNCTUON.ToString();
-             
-            infoDetails = infoDetails.Where(s => s.ShopID == WebCookie.ShpID && (s.InfoCateID.Contains(SOFTWARE_HELPER) || s.InfoCateID.Contains(HELP_FUNCTUON)));
+              
+            infoDetails = infoDetails.Where(s => s.ShopID == WebCookie.ShpID && (s.InfoCateID.Contains(InfoCateID)));
              
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -146,7 +183,6 @@ namespace Ishop.Controllers
             int pageNumber = (page ?? 1);
             return View(infoDetails.ToPagedList(pageNumber, pageSize));
         }
-
 
         [HttpGet] 
         public ActionResult MainFunc()

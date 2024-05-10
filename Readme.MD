@@ -39,6 +39,25 @@ ShopHeaderTemplate/sh0001_LayOutHeader.zh-CN.cshtml
 ShopHeaderTemplate/sh0001_LayOutHeader.zh-HK.cshtml
 ```
 
+## 銀行與WhatsApp(Wechat) 信息
+
+此模版位於 infodetails頁面和P 產品明細頁面
+
+<img src="README_IMGs/bankaccount.jpg" alt="bankaccount" style="zoom:50%;" />
+
+Shared\Info\ViewIsInfoMode.cshtml 控制傳入Shop對象 
+
+相應的模版
+
+```
+Shared\ShopViewTemplate1\sh0006_en-US.cshtml
+Shared\ShopViewTemplate1\sh0006_zh-CN.cshtml
+Shared\ShopViewTemplate1\sh0006_zh-HK.cshtml
+其他店鋪相應更改ShopId
+```
+
+
+
 ## 主頁的AI-BOX 的專題廣告
 
 2024-4-25 增加AI-BOX 的主頁的專題廣告以及產品功能說明,繁簡英三個版本
