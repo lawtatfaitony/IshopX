@@ -2,6 +2,12 @@
 
 **IshopX --- At the Heart of your Ecosystem!**
 
+## 框架:
+
+使用 .NET Framework 4.8 ，C# 語言的版本通常是 C# 7.3。
+
+------
+
 立项时间：2021年10月21日
 
 ISHOP新版开发—2021年12月21日阶段性开发完毕.MD
@@ -146,16 +152,16 @@ Update in 2024-4-28
 1.  DataAnnotationsExtensions.dll
 2.  DataAnnotationsExtensions.ClientValidation.dll
 
-## github限制
+## SMS發送
 
-文件 App_Start\IdentityConfig.cs
+由於個別平台限制上存敏感資料.accesskey 等保存在Web.config
 
-//由於github限制 不能直接寫 三個參數 cn-hangzhou=====", "LTAIZtZo=====jbLbxadL========", "BWvGVZRo88cKoK===========QAu71RFusXNNsAM5"
+文件 App_Start\IdentityConfig.cs  如何获得accesskey  ：https://ak-console.aliyun.com/#/accesskey
 line 112 : IClientProfile profile = DefaultProfile.GetProfile("xxx", "xxx", "xxx");  //裡面的參數值xxx是虛假的
 
-![rendersuccess_2024_4_29](README_IMGs/rendersuccess_2024_4_29.jpg)
 
-最後生成記錄 2024-4-29
+
+![rendersuccess_2024_4_29](README_IMGs/rendersuccess_2024_4_29.jpg
 
 ## 如何表達店鋪貨幣:
 

@@ -2117,6 +2117,7 @@
     <Content Include="Views\Shared\PaymentInfo\sh0006_PaymentService_zh-HK.cshtml" />
     <Content Include="Views\Shared\PaymentInfo\sh0006_PaymentService_zh-CN.cshtml" />
     <Content Include="Views\Shared\PaymentInfo\sh0006_PaymentService_en-US.cshtml" />
+    <Content Include="Views\Home\UserTrace.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

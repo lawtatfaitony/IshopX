@@ -24,7 +24,7 @@ namespace Ishop.Controllers
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
         // GET: Order
         [HttpGet]
-        public ActionResult Index(string list)
+        public ActionResult Index(string list,string orderId)
         {
             this.ShopInitialize();
 
@@ -193,11 +193,33 @@ namespace Ishop.Controllers
             }
             else
             {  
+                //如果傳入訂單ID,則查詢指定的訂單ID,並返回對應訂單和物流單的相關信息
+                if(!string.IsNullOrEmpty(orderId))
+                {
+                    int iOrderId;
+
+                    if (int.TryParse(orderId,out iOrderId))
+                    {
+                        var thisOrder = db.Orders.Where(c => c.OrderId == iOrderId)
+                                        .OrderByDescending(c => c.CreatedDate).FirstOrDefault();
+
+                        //並返回對應訂單和物流單的相關信息
+                        if (thisOrder != null)
+                        {
+                            var thisDispatchNote = db.DispatchNotes.Where(c => c.OrderID.Contains(thisOrder.OrderId.ToString())).FirstOrDefault();
+
+                            //確保用戶有填入對應地址才會生成物流單的
+                            if(thisDispatchNote != null)
+                            {
+                                theLastDispatchNote = thisDispatchNote;
+                            }
+                        } 
+                    }
+                }
                 if (theLastOrder != null)
                 {
                     //order
-                    OrderDetailView orderDetailView =
-                        new OrderDetailView
+                    OrderDetailView orderDetailView = new OrderDetailView
                         {
                             OrderId = theLastOrder.OrderId
                             ,

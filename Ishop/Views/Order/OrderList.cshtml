@@ -48,9 +48,12 @@
                                                 </li>
                                                 <li class="h3 text-danger" style="font-weight:600;padding-right:5px;color:red;">
                                                     @mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", decimal.Parse(item.Payment.ToString())), (string)ViewBag.ShopCurrency)
-                                                </li>
+                                                </li> 
                                                 <li class="h3 text-danger" style="font-weight:600;color:blue;">
                                                     @item.StatusId
+                                                </li>
+                                                <li class="h4 text-danger" style="font-weight:600;padding-right:5px;color:red;">
+                                                    @Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Lang.Views_GeneralUI_OrderDetails), "Index", "Order", new { OrderId = item.OrderId }, htmlAttributes: new { @class = "text-primary", target = "_blank", title = Lang.Views_GeneralUI_OrderDetails })
                                                 </li>
                                             </ul>
                                         </li>
