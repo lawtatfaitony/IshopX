@@ -208,3 +208,30 @@ Views/Account/MobileRegister.cshtml
 ## login重定向問題
 
 ![NEW_URI_DEBUG](README_IMGs/NEW_URI_DEBUG.png)
+
+**代碼如下:**
+
+```
+    //Our logic to dynamically modify the path (maybe needs some fine tuning)
+    provider.OnApplyRedirect = context =>
+    {
+        //string LanguageCode = LangUtilities.LanguageCode;
+        var mvcContext = new HttpContextWrapper(HttpContext.Current);
+        var routeData = RouteTable.Routes.GetRouteData(mvcContext);
+        //Get the current language  
+        RouteValueDictionary routeValues = new RouteValueDictionary();
+        routeValues.Add("Language", routeData.Values["Language"]);
+
+        //Reuse the RetrunUrl 
+        if (!string.IsNullOrEmpty(context.RedirectUri))  // && Uri.IsWellFormedUriString(context.RedirectUri, UriKind.Absolute)
+        {
+            Uri uri = new Uri(context.RedirectUri, UriKind.Absolute);
+            string returnUrl = HttpUtility.ParseQueryString(uri.Query)[context.Options.ReturnUrlParameter];
+            routeValues.Add(context.Options.ReturnUrlParameter, returnUrl); 
+        }
+
+        //Overwrite the redirection uri
+        context.RedirectUri = url.Action("Login", "Account", routeValues);
+        originalHandler.Invoke(context);
+   };
+```

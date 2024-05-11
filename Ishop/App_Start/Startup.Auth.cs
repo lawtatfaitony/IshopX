@@ -47,14 +47,15 @@ namespace Ishop
                 RouteValueDictionary routeValues = new RouteValueDictionary();
                 routeValues.Add("Language", routeData.Values["Language"]);
 
-                //Reuse the RetrunUrl 
+                //這裡的作用應該是如果沒有重定向的值才通過代碼添加重定向的RedirectUri
                 if (!string.IsNullOrEmpty(context.RedirectUri))  // && Uri.IsWellFormedUriString(context.RedirectUri, UriKind.Absolute)
                 {
                     Uri uri = new Uri(context.RedirectUri, UriKind.Absolute);
                     string returnUrl = HttpUtility.ParseQueryString(uri.Query)[context.Options.ReturnUrlParameter];
-                    routeValues.Add(context.Options.ReturnUrlParameter, returnUrl); 
+                    routeValues.Add(context.Options.ReturnUrlParameter, returnUrl);
                 }
 
+                
                 //Overwrite the redirection uri
                 context.RedirectUri = url.Action("Login", "Account", routeValues);
                 originalHandler.Invoke(context);
