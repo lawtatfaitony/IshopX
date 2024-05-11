@@ -3027,19 +3027,19 @@
       <publishTime>03/02/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/Ishop.dll">
-      <publishTime>05/11/2024 23:08:00</publishTime>
+      <publishTime>05/12/2024 01:23:18</publishTime>
     </File>
     <File Include="bin/Ishop.pdb">
-      <publishTime>05/11/2024 23:08:00</publishTime>
+      <publishTime>05/12/2024 01:23:18</publishTime>
     </File>
     <File Include="bin/LanguageResource.dll">
-      <publishTime>05/11/2024 03:51:31</publishTime>
+      <publishTime>05/12/2024 01:14:52</publishTime>
     </File>
     <File Include="bin/LanguageResource.dll.config">
       <publishTime>03/25/2021 22:26:46</publishTime>
     </File>
     <File Include="bin/LanguageResource.pdb">
-      <publishTime>05/11/2024 03:51:31</publishTime>
+      <publishTime>05/12/2024 01:14:52</publishTime>
     </File>
     <File Include="bin/Microsoft.ApplicationBlocks.Data.dll">
       <publishTime>01/17/2006 10:13:52</publishTime>
@@ -7294,6 +7294,12 @@
     </File>
     <File Include="Views/My/Index.cshtml">
       <publishTime>01/08/2022 22:44:10</publishTime>
+    </File>
+    <File Include="Views/My/ShopCopyShopNotExit.cshtml">
+      <publishTime>05/12/2024 01:04:47</publishTime>
+    </File>
+    <File Include="Views/My/ShopCopySuccess.cshtml">
+      <publishTime>05/12/2024 01:14:40</publishTime>
     </File>
     <File Include="Views/My/SourceStatisticDetails.cshtml">
       <publishTime>11/06/2018 16:06:38</publishTime>

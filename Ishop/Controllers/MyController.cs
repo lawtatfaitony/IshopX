@@ -191,6 +191,13 @@ namespace Ishop.Controllers
             string opUserId = User.Identity.GetUserId();
             string opUserName = User.Identity.GetUserName();
 
+            //檢查是否此店鋪Staff
+            var staffUser = db.ShopStaffs.Where(c=>c.ShopID == WebCookie.ShpID && c.UserId == opUserId).FirstOrDefault();
+            if (staffUser==null)
+            {
+                return View("ShopCopyShopNotExit");
+            }
+
             //判斷店鋪是否存在
             var shop = db.Shops.Find(sourceShopId);
             if(shop == null)
@@ -225,7 +232,7 @@ namespace Ishop.Controllers
                 }
             }
             db.Products.AddRange(productList);
-            db.SaveChanges();
+            int ProductCopyTotal = db.SaveChanges();
 
             //信息複製 --------------------------------------------------------------------
             var infodetails = db.InfoDetails.Where(c => c.ShopID.Contains(sourceShopId)).ToList();
@@ -255,8 +262,9 @@ namespace Ishop.Controllers
                 }
             }
             db.InfoDetails.AddRange(infoDetailLists);
-            db.SaveChanges();
+            int InfCopyTotal = db.SaveChanges();
 
+            ViewBag.ShopCopyMessage = $"Product Copy Total = {ProductCopyTotal} ; InfoDetails Copy Total = {InfCopyTotal}";
             return View("ShopCopySuccess");
         }
 

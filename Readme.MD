@@ -207,33 +207,26 @@ Views/Account/MobileRegister.cshtml
 
 ## login重定向問題
 
-![NEW_URI_DEBUG](README_IMGs/NEW_URI_DEBUG.png)
-
 **代碼如下:**
 
 ```
-    //Our logic to dynamically modify the path (maybe needs some fine tuning)
-    provider.OnApplyRedirect = context =>
+[HttpPost]
+[AllowAnonymous] 
+public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+{
+   ....
+   //重定向登錄到 returnUrl
+    if (!string.IsNullOrEmpty(returnUrl))  //改為這樣,登錄/Redirect沒問題
     {
-        //string LanguageCode = LangUtilities.LanguageCode;
-        var mvcContext = new HttpContextWrapper(HttpContext.Current);
-        var routeData = RouteTable.Routes.GetRouteData(mvcContext);
-        //Get the current language  
-        RouteValueDictionary routeValues = new RouteValueDictionary();
-        routeValues.Add("Language", routeData.Values["Language"]);
-
-        //Reuse the RetrunUrl 
-        if (!string.IsNullOrEmpty(context.RedirectUri))  // && Uri.IsWellFormedUriString(context.RedirectUri, UriKind.Absolute)
-        {
-            Uri uri = new Uri(context.RedirectUri, UriKind.Absolute);
-            string returnUrl = HttpUtility.ParseQueryString(uri.Query)[context.Options.ReturnUrlParameter];
-            routeValues.Add(context.Options.ReturnUrlParameter, returnUrl); 
-        }
-
-        //Overwrite the redirection uri
-        context.RedirectUri = url.Action("Login", "Account", routeValues);
-        originalHandler.Invoke(context);
-   };
+        return RedirectToLocal(returnUrl);
+    }
+    else
+    {
+        Redirect(returnUrl);
+        return View();
+    }
+   ....
+}
 ```
 
 ## 店鋪複製
@@ -248,6 +241,8 @@ Views/Account/MobileRegister.cshtml
 
 具體操作:
 
-打開鏈接 : http://localhost:34322/HK/my/ShopCopy?SourceShopId=SH0006   // SH00006是複製來源店鋪的店鋪ID 
+打開鏈接 : http://localhost:34322/HK/my/ShopCopy?SourceShopId=SH0006   // SH0006是複製來源店鋪的店鋪ID 
 
 這樣,直到返回結果就算是複製成功.
+
+ <img src="README_IMGs/ShopCopySuccess.jpg" alt="ShopCopySuccess" style="zoom:50%;" />

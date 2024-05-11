@@ -1,9 +1,10 @@
 ﻿@using Ishop.Utilities
 @using LanguageResource
- 
+@using System.Security.Principal
+@using Microsoft.AspNet.Identity
 <div class="container">
     <blockquote class="h3 padding-left15">
-       <i class="fa fa-shopping-cart" style="font-size:30px;"></i> @Lang.ShopCopyTitle
+        <i class="fa fa-shopping-cart" style="font-size:30px;"></i> @Lang.ShopCopyTitle
     </blockquote>
     <hr />
 </div>
@@ -14,12 +15,23 @@
             @Lang.ShopCopyShopNotExitResult
 
         </span>
-        <br /> <br />
+        <br /> <br /><br />
+        <span class="h5 text-black padding-left15">
+            Check shop staff UserId Exist
+
+        </span>
+        <br />
+        @if (Request.IsAuthenticated)
+        {
+            <span>@User.Identity.GetUserId()</span> <br />
+            <span>@User.Identity.GetUserName()</span>
+        }
+
+        <br /><br />
         <span class="h4 text-black padding-left15">
             ONLY INFODETAILS AND PRODUCTS
         </span>
     </div>
 </div>
- 
 
- 
+
