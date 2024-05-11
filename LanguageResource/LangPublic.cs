@@ -2712,6 +2712,18 @@ namespace LanguageResource
  				  public static string ShopCategoryList_ShopCategory_Title{
  				  get { return LangUtilities.GetString( "ShopCategoryList_ShopCategory_Title"); }} 
 
+				 ///<summary>店铺复制成功!!!</summary>
+ 				  public static string ShopCopyResultSuccess{
+ 				  get { return LangUtilities.GetString( "ShopCopyResultSuccess"); }} 
+
+				 ///<summary>复制的来源店铺ID或店铺不存在!!!</summary>
+ 				  public static string ShopCopyShopNotExitResult{
+ 				  get { return LangUtilities.GetString( "ShopCopyShopNotExitResult"); }} 
+
+				 ///<summary>店铺复制(ONLY INFODETAILS AND PRODUCTS)</summary>
+ 				  public static string ShopCopyTitle{
+ 				  get { return LangUtilities.GetString( "ShopCopyTitle"); }} 
+
 				 ///<summary>页脚模板</summary>
  				  public static string ShopFooterTemplateViewModel_FooterTemplate{
  				  get { return LangUtilities.GetString( "ShopFooterTemplateViewModel_FooterTemplate"); }} 

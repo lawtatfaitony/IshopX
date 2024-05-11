@@ -112,3 +112,4 @@ Ishop/bin/Ishop.pdb
 Ishop/bin/Ishop.dll
 LanguageResource/obj/Debug/LanguageResource.dll
 LanguageResource/obj/Debug/LanguageResource.pdb
+*.cache

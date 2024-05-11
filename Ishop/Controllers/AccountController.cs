@@ -816,8 +816,7 @@ namespace Ishop.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            SignInManager.AuthenticationManager.SignOut();
-
+              
             //目標:The provided anti-forgery token was meant for user "", but the current user is "joxxxx@xxx.com".
             if (Request.Cookies["__RequestVerificationToken"] != null)
             {

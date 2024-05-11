@@ -100,7 +100,7 @@ Index(string id,string InfoCateID ,string Index2,string code,string state)
 **測試的店鋪和對應的ID** 
 
 ```
-C:\Windows\System32\drivers\etc\host 系統文件,配置域名和 IP 地址的映射
+██ C:\Windows\System32\drivers\etc\host 系統文件,配置域名和 IP 地址的映射
 127.0.0.1 sunwaylink.com 		# sh0001 login Id:Supervisor@xyz.com 
 127.0.0.1 xguard.cn 			# sh0006 login Id:joyercomcn@qq.com
 127.0.0.1 dataguardxcore.com 	# sh0016 not exist
@@ -235,3 +235,19 @@ Views/Account/MobileRegister.cshtml
         originalHandler.Invoke(context);
    };
 ```
+
+## 店鋪複製
+
+把另一個店鋪的Infodetail表和Product表的內容複製到自己店鋪.
+
+**目的:避免重複手工錄入.**
+
+注意:這是一個批量處理,具體的SKU和庫存等等還需要重新到後台設置一下才能有效的,特別對購物流程,必須要手動設置SKU.
+
+回復/還原 : 為了避免誤操作,在 字段 product.OperatedDate = new DateTime(2000,01,01,01,01,01,01); 作為批量處理的標識,配合CreateDate = now ,可以在數據庫mssql studio IDE 工具,批量刪除掉
+
+具體操作:
+
+打開鏈接 : http://localhost:34322/HK/my/ShopCopy?SourceShopId=SH0006   // SH00006是複製來源店鋪的店鋪ID 
+
+這樣,直到返回結果就算是複製成功.

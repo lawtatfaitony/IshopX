@@ -24,6 +24,7 @@ using System.Web.Mvc;
 using Ishop.AppCode.Utilities;
 using Ishop.Models.PubDataModal;
 using System.Threading;
+using Ishop.Models.Info;
 
 namespace Ishop.Controllers
 {
@@ -165,5 +166,99 @@ namespace Ishop.Controllers
             sourceStatistic = db.SourceStatistics.Find(SourceStatisticID); 
             return View(sourceStatistic); 
         }
+
+        /// <summary>
+        /// 複製店鋪的內容
+        /// 包括 InfoDetails / Products
+        /// </summary>
+        /// <param name="shipId">複製來源店鋪的店鋪ID</param>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult ShopCopy(string sourceShopId)
+        {
+            if (string.IsNullOrEmpty(sourceShopId))
+            {
+                return View("ShopCopyShopNotExit");
+            }
+            else {
+                sourceShopId = sourceShopId.Trim();
+            }
+
+            this.ShopInitialize();
+
+            DateTime dt= DateTime.Now;
+
+            string opUserId = User.Identity.GetUserId();
+            string opUserName = User.Identity.GetUserName();
+
+            //判斷店鋪是否存在
+            var shop = db.Shops.Find(sourceShopId);
+            if(shop == null)
+            {
+                return View("ShopCopyShopNotExit");
+            }
+            //產品複製 --------------------------------------------------------------------
+            var products = db.Products.Where(c=>c.ShopID.Contains(sourceShopId)).ToList();
+
+            List<Product> productList = new List<Product>();
+
+            foreach (var product in products)
+            {
+                if (product != null)
+                {
+                    //如果 貨號 StyleNo 在本店鋪不存在,則複製
+                    var existItem = db.Products.Where(c=>c.StyleNo.Contains(product.StyleNo) && c.ShopID.Contains(WebCookie.ShpID)).FirstOrDefault();
+                   if(existItem == null)
+                    {
+                        product.ShopID = WebCookie.ShpID;
+                        product.StaffID = ViewBag.ShopUserId;
+                        product.ProductID =  db.GetTableIdentityID("P", "Product", 5);
+                        product.OperatedUserName = opUserName; 
+                        product.OperatedDate = new DateTime(2000,01,01,01,01,01,01);
+                        product.CreatedDate = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 01, 01);
+                        productList.Add(product);
+
+                    }else
+                    {
+                        continue;
+                    } 
+                }
+            }
+            db.Products.AddRange(productList);
+            db.SaveChanges();
+
+            //信息複製 --------------------------------------------------------------------
+            var infodetails = db.InfoDetails.Where(c => c.ShopID.Contains(sourceShopId)).ToList();
+
+            List<InfoDetail> infoDetailLists = new List<InfoDetail>();
+
+            foreach (var infoDetail in infoDetailLists)
+            {
+                if (infoDetail != null)
+                {
+                    //如果 信息標題 在本店鋪不存在,則複製
+                    var existItem = db.InfoDetails.Where(c => c.Title.Contains(infoDetail.Title) && c.ShopID.Contains(WebCookie.ShpID)).FirstOrDefault();
+                    if (existItem == null)
+                    {
+                        infoDetail.InfoID = db.GetTableIdentityID("Inf", "InfoDetail", 9);
+                        infoDetail.ShopID = WebCookie.ShpID;
+                        infoDetail.Author = ViewBag.ShopUserId;
+                        infoDetail.OperatedUserName = opUserName;
+                        infoDetail.OperatedDate = new DateTime(2000, 01, 01, 01, 01, 01, 01);
+                        infoDetail.CreatedDate = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 01, 01);
+                        infoDetailLists.Add(infoDetail);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+            db.InfoDetails.AddRange(infoDetailLists);
+            db.SaveChanges();
+
+            return View("ShopCopySuccess");
+        }
+
     }
 }
