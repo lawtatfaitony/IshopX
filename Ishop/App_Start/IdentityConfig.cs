@@ -104,19 +104,26 @@ namespace Ishop
     { 
         public Task SendAsync(IdentityMessage message)
         {
+            //SMS RegionID / AccessKey / PWD
+            string regionId = ConfigurationManager.AppSettings["RegionId"];
+            string accessKeyId = ConfigurationManager.AppSettings["AccessKeyId"];
+            string secret = ConfigurationManager.AppSettings["Secret"];
+            string signName = ConfigurationManager.AppSettings["SignName"];
+            string templateCode = ConfigurationManager.AppSettings["TemplateCode"];
+
             //把发送短信失败写入log记录（aliyunsms.log）
             string aliyunsms_localPath = System.IO.Path.Combine(HttpRuntime.AppDomainAppPath, "upload");
             aliyunsms_localPath = System.IO.Path.Combine(HttpRuntime.AppDomainAppPath, "aliyunsms.log");
             StreamWriter sw = new StreamWriter(aliyunsms_localPath, true);
 
-            //由於github限制 不能直接寫 三個參數 cn-hangzhou=====", "LTAIZtZo=====jbLbxadL========", "BWvGVZRo88cKoK===========QAu71RFusXNNsAM5"
-            IClientProfile profile = DefaultProfile.GetProfile("xxx", "vvvv", "vvv"); //如何获得a-c-c-e-s-s-k-e-y  ：https://ak-console.a-l-i-y-u-n.com/#/a-c-c-e-s-s-k-e-y 受github敏感信息,原文需要去除符號: -
+            //短信發送網關
+            IClientProfile profile = DefaultProfile.GetProfile(regionId, accessKeyId, secret); //如何获得accesskey  ：https://ak-console.aliyun.com/#/accesskey
             IAcsClient client = new DefaultAcsClient(profile);
             SingleSendSmsRequest request = new SingleSendSmsRequest();
             try
             {
-                request.SignName = "信汇";//"管理控制台中配置的短信签名（状态必须是验证通过）"
-                request.TemplateCode = "SMS_44715002";//管理控制台中配置的审核通过的短信模板的模板CODE（状态必须是验证通过）"
+                request.SignName = signName; // "信汇";//"管理控制台中配置的短信签名（状态必须是验证通过）"
+                request.TemplateCode = templateCode; //"SMS_44715002";//管理控制台中配置的审核通过的短信模板的模板CODE（状态必须是验证通过）"
                 request.RecNum = message.Destination; //"13000001111";//"接收号码，多个号码可以逗号分隔"
                 request.ParamString = "{code:\"" + message.Body + "\"}"; //"{\"name\":\"123\"}";//短信模板中的变量；数字需要转换为字符串；个人用户每个变量长度必须小于15个字符。"
                 SingleSendSmsResponse httpResponse = client.GetAcsResponse(request);
