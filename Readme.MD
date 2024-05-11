@@ -203,3 +203,7 @@ Response.Cookies.Append("cookieName", "cookieValue", new CookieOptions
 對個人經營的情況下,管理太多資源導致精力有效.
 
 Views/Account/MobileRegister.cshtml
+
+## login重定向問題
+
+![NEW_URI_DEBUG](README_IMGs/NEW_URI_DEBUG.png)
