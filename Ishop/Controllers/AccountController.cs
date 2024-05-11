@@ -88,12 +88,13 @@ namespace Ishop.Controllers
         //
         // POST: /Account/Login
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [AllowAnonymous] 
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
+                // 驗證防偽令牌
+                ModelState.AddModelError("", "防偽令牌驗證失敗"); 
                 return View(model);
             }
 
@@ -104,20 +105,26 @@ namespace Ishop.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    //判断是不是店铺团队成员，如果是则赋值WebCookie.ShopID 
+                    //判断是不是店铺团队成员，如果是则赋值WebCookie.ShopID ,不是店鋪團隊成功,那看看是不是店鋪創始UserId
+                    //如果兩者都不是則肯定不具有後台店鋪管理權限
                     var user = UserManager.FindByEmail(model.Email);
                     var shopStaff = db.ShopStaffs.Where(c => c.UserId == user.Id);
                     if (shopStaff.Count() > 0)
                     {
                         WebCookie.ShopID = shopStaff.SingleOrDefault().ShopID;
                     }
-                    var shop = db.Shops.Where(c => c.UserId == user.Id);
-                    if (shop.Count<Shop>() > 0)
+                    else
                     {
-                        WebCookie.ShopID = shop.SingleOrDefault().ShopID;
+                        var shop = db.Shops.Where(c => c.UserId == user.Id);
+                        if (shop.Count() > 0)
+                        {
+                            //後台管理的店鋪ID
+                            WebCookie.ShopID = shop.SingleOrDefault().ShopID;
+                        }
                     }
-                    //redirect
-                    if (returnUrl == null)
+
+                    //重定向登錄到 returnUrl
+                    if (!string.IsNullOrEmpty(returnUrl))
                     {
                         return RedirectToLocal(returnUrl);
                     }
@@ -136,7 +143,8 @@ namespace Ishop.Controllers
                     ModelState.AddModelError("", Lang.Views_GeneralUI_InvalidLogin); 
                     return View(model);
             }
-        }  
+        }
+         
         // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
@@ -808,6 +816,7 @@ namespace Ishop.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            SignInManager.AuthenticationManager.SignOut();
 
             //目標:The provided anti-forgery token was meant for user "", but the current user is "joxxxx@xxx.com".
             if (Request.Cookies["__RequestVerificationToken"] != null)
@@ -827,6 +836,9 @@ namespace Ishop.Controllers
                 };
                 Response.Cookies.Add(applicationCookie);
             }
+
+            Session.Clear();  
+            Session.Abandon();  
 
             return RedirectToAction("Index", "Home"); 
         }

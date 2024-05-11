@@ -101,35 +101,33 @@ public class WebCookie
 
         ////==独立的cookie==========================================================
 
-        ////创建ShopID后台使用 
+        /// <summary>
+        /// 创建ShopID后台使用 
+        /// </summary>
         public static string ShopID
         {
             get
-            {
-                //derepcate 2024-5-6
-                //if (Request.Cookies["ShopID"] == null)
-                //{
-                //    if (Request.QueryString["ShopID"] != null)
-                //    {
-                //        string shopId = Request.QueryString["ShopID"].ToString().Trim();
-                //        return shopId;
-                //    }
-                //    return "-";
-                //}
-                //return Request.Cookies["ShopID"].Value.ToLower();
-                return ShpID;
+            { 
+                if (Request.Cookies["ShopID"] == null)
+                {
+                    if (Request.QueryString["ShopID"] != null)
+                    {
+                        string shopId = Request.QueryString["ShopID"].ToString().Trim();
+                        return shopId;
+                    }
+                    return "-";
+                }
+                return Request.Cookies["ShopID"].Value.ToLower();
+
             }
             set
-            {
-                //derepcate 2024-5-6
-                //HttpCookie ck_ShopID = new HttpCookie("ShopID", value); 
-                //ck_ShopID.Expires = DateTime.Now.AddYears(3);
-                //HttpContext.Current.Response.Cookies.Add(ck_ShopID);
-                //Response.Cookies["ShopID"].Expires = DateTime.Now.AddYears(3); //设置过期方式2 
-                //Response.Cookies["ShopID"].Secure = true;
-                //Response.Cookies["ShopID"].SameSite = SameSiteMode.None;
-
-                ShpID = value;
+            { 
+                HttpCookie ck_ShopID = new HttpCookie("ShopID", value);
+                ck_ShopID.Expires = DateTime.Now.AddYears(3);
+                HttpContext.Current.Response.Cookies.Add(ck_ShopID);
+                Response.Cookies["ShopID"].Expires = DateTime.Now.AddYears(3); //设置过期方式2 
+                Response.Cookies["ShopID"].Secure = true;
+                Response.Cookies["ShopID"].SameSite = SameSiteMode.None;
             }
         }
         //作廢 2024-5-4
