@@ -51,15 +51,16 @@ ShopHeaderTemplate/sh0001_LayOutHeader.zh-HK.cshtml
 
 <img src="README_IMGs/bankaccount.jpg" alt="bankaccount" style="zoom:50%;" />
 
-Shared\Info\ViewIsInfoMode.cshtml 控制傳入Shop對象 
+Shared\Info\ViewIsInfoMode.cshtml 控制傳入Shop對象,如果簡體版本,可以針對語言版本具體改動上述內容:
 
 相應的模版
 
 ```
-Shared\ShopViewTemplate1\sh0006_en-US.cshtml
-Shared\ShopViewTemplate1\sh0006_zh-CN.cshtml
-Shared\ShopViewTemplate1\sh0006_zh-HK.cshtml
+Shared\ShopViewTemplate1\sh0006_en-US.cshtml (海外或香港信用卡支付方式等等)
+Shared\ShopViewTemplate1\sh0006_zh-CN.cshtml (效果支付方式)
+Shared\ShopViewTemplate1\sh0006_zh-HK.cshtml (國內支付方式)
 其他店鋪相應更改ShopId
+三個模版可以根據具體情況而改變模版內容就可以.
 ```
 
 
