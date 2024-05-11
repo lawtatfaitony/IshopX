@@ -197,3 +197,9 @@ Response.Cookies.Append("cookieName", "cookieValue", new CookieOptions
 ## 訂單與購物車功能須知:
 
 必須先增加SKU才能選擇交易屬性實現加入購物車功能,如果無法創建SKU,那肯定是類目,屬性,屬性值沒有設置導致的.必須按流程 : 類目,屬性,屬性 > 產品 > SKU > 購物車 > 訂單 > 發貨單 > 支付
+
+## 取消手幾號碼登錄
+
+對個人經營的情況下,管理太多資源導致精力有效.
+
+Views/Account/MobileRegister.cshtml
