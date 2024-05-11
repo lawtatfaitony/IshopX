@@ -122,10 +122,11 @@ namespace Ishop
             SingleSendSmsRequest request = new SingleSendSmsRequest();
             try
             {
-                request.SignName = signName; // "信汇";//"管理控制台中配置的短信签名（状态必须是验证通过）"
-                request.TemplateCode = templateCode; //"SMS_44715002";//管理控制台中配置的审核通过的短信模板的模板CODE（状态必须是验证通过）"
-                request.RecNum = message.Destination; //"13000001111";//"接收号码，多个号码可以逗号分隔"
-                request.ParamString = "{code:\"" + message.Body + "\"}"; //"{\"name\":\"123\"}";//短信模板中的变量；数字需要转换为字符串；个人用户每个变量长度必须小于15个字符。"
+                request.SignName = signName;            // "信汇" - 管理控制台中配置的短信签名（状态必须是验证通过）"
+                request.TemplateCode = templateCode;    //管理控制台中配置的审核通过的短信模板的模板CODE（状态必须是验证通过）"
+                request.RecNum = message.Destination;   //"13000001111";//"接收号码，多个号码可以逗号分隔"
+                request.ParamString = "{code:\""        //"{\"name\":\"123\"}";//短信模板中的变量；数字需要转换为字符串；个人用户每个变量长度必须小于15个字符。"
+                    + message.Body + "\"}"; 
                 SingleSendSmsResponse httpResponse = client.GetAcsResponse(request);
             }
             catch (ServerException e)
