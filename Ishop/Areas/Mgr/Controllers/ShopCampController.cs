@@ -18,11 +18,12 @@ using Ishop.Areas.Mgr.Models;
 using Ishop.Context;
 using Ishop.Models.CampaignMgr; 
 using Ishop.Areas.Mgr.ModelView;
+using Ishop.Controllers;
 
 namespace Ishop.Areas.Mgr.Controllers
 {
     [Authorize(Roles = "StoreAdmin,StoreProductAdmin,StoreBusinessPromotion")]
-    public class ShopCampController : Controller
+    public class ShopCampController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
         private ApplicationUserManager _userManager;

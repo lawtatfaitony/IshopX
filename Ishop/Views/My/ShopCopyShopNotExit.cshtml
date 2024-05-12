@@ -15,16 +15,18 @@
             @Lang.ShopCopyShopNotExitResult
 
         </span>
-        <br /> <br /><br />
-        <span class="h5 text-black padding-left15">
-            Check shop staff UserId Exist
-
+       
+        <span class="h5 text-danger padding-left15">
+            <br /> <br /><br />
+            Tips : Check shop staff UserId Exist <br />
+            and  Has the Shop Created ?
+            <br />
         </span>
-        <br />
+       
         @if (Request.IsAuthenticated)
         {
-            <span>@User.Identity.GetUserId()</span> <br />
-            <span>@User.Identity.GetUserName()</span>
+            <span class="h5 text-black padding-left15"> @User.Identity.GetUserId()</span> <br />
+            <span>class="h5 text-black padding-left15"> @User.Identity.GetUserName()</span>
         }
 
         <br /><br />

@@ -14,10 +14,11 @@ using Ishop.Areas.Mgr.ModelView;
 using Ishop.Models.PubDataModal;
 using System.Data.Entity;
 using LanguageResource;
+using Ishop.Controllers;
 
 namespace Ishop.Areas.Mgr.Controllers
 {
-    public class DispatchNoteController : Controller
+    public class DispatchNoteController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
         // GET: Mgr/DispatchNote

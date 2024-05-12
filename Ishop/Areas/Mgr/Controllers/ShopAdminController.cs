@@ -21,11 +21,12 @@ using LanguageResource;
 using PagedList;
 using Ishop.Utilities;
 using System.Configuration;
+using Ishop.Controllers;
 
 namespace Ishop.Areas.Mgr.Controllers
 {
     [Authorize]
-    public class ShopAdminController : Controller
+    public class ShopAdminController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
         private ApplicationUserManager _userManager;

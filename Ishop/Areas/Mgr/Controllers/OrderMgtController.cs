@@ -1,6 +1,7 @@
 ﻿using Ishop.AppCode.Utilities;
 using Ishop.Areas.Mgr.Models;
 using Ishop.Context;
+using Ishop.Controllers;
 using Ishop.Models.ProductMgr;
 using Ishop.Models.UploadItem;
 using Ishop.Utilities;
@@ -20,7 +21,7 @@ using System.Web.Mvc;
 namespace Ishop.Areas.Mgr.Controllers
 {
    
-    public class OrderMgtController : Controller
+    public class OrderMgtController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
 

@@ -10,10 +10,12 @@ using Ishop.Context;
 using Ishop.Areas.Mgr.ModelView;
 using Ishop.Areas.Mgr.Models;
 using Ishop.Models.ProductMgr;
+using Ishop.Controllers;
+
 namespace Ishop.Areas.Mgr.Controllers
 {
     [Authorize(Roles = "StoreAdmin")]
-    public class SupplierController : Controller
+    public class SupplierController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
         // GET: Mgr/Supplier

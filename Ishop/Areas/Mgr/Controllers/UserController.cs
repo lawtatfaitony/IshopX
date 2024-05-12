@@ -1,6 +1,7 @@
 ﻿using Ishop.Areas.Mgr.Models;
 using Ishop.Areas.Mgr.ModelView;
 using Ishop.Context;
+using Ishop.Controllers;
 using Ishop.Models.PubDataModal;
 using Ishop.Models.User;
 using Ishop.Utilities;
@@ -27,7 +28,7 @@ using System.Web.Mvc;
 namespace Ishop.Areas.Mgr.Controllers
 {
     [Authorize]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
 
@@ -1244,6 +1245,30 @@ namespace Ishop.Areas.Mgr.Controllers
                 ModalDialogView1.Message = string.Format("{0},{1},{2}",Lang.Views_GeneralUI_ServerError, e.Message, UserProfile1.UserProfileID.ToString());
                 return Json(ModalDialogView1);
             } 
+        }
+
+        /// <summary>
+        /// 統計來源
+        /// </summary>
+        [Authorize]
+        [HttpGet]
+        public ActionResult SourceStatisticByRecommList()
+        {
+            DateTime dt = DateTime.Now;
+
+            BackEndShopInitialize();
+
+            string UserId = User.Identity.GetUserId();
+            var sourceStatistics = from s in db.SourceStatistics.Where(s => s.RecommUserId == UserId)
+                                   select s;
+            var sourceStatisticList = sourceStatistics.OrderByDescending(s => s.LastUpdateDate).Take(100).ToList();
+
+            var statistics = from a in db.SourceStatistics.Select(c => new { c.SourceStatisticsID, c.CreatedDate }).Where(s => s.CreatedDate.Year == dt.Year && s.CreatedDate.Month==dt.Month)
+                             select a;
+
+            ViewBag.UserViewsCount = statistics.Count(); //本月的統計
+
+            return View(sourceStatisticList);
         }
         public class TreeView
         {

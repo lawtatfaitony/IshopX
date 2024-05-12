@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ishop.Areas.Mgr.Models;
+using Ishop.Controllers;
+
 namespace Ishop.Areas.Mgr.Controllers
 {
-    public class testController : Controller
+    public class testController : BaseController
     {
         // GET: Mgr/test
         public ActionResult Index()

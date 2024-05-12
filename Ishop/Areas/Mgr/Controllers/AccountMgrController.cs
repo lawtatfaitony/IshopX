@@ -16,11 +16,12 @@ using Ishop.AppCode.Utilities;
 using System.Security.Cryptography.X509Certificates;
 using Ishop.Utilities;
 using LanguageResource;
+using Ishop.Controllers;
 
 namespace Ishop.Areas.Mgr.Controllers
 {
     [Authorize]
-    public class AccountMgrController : Controller
+    public class AccountMgrController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
 
@@ -40,6 +41,7 @@ namespace Ishop.Areas.Mgr.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            BackEndShopInitialize();  //BackEnd INI 2024-5-12 Applied
             return View();
         }
        
@@ -81,6 +83,8 @@ namespace Ishop.Areas.Mgr.Controllers
         [HttpGet]
         public ActionResult AccountMgrAddOrUpd(string AccountMgrID, string CerPassword)
         {
+            BackEndShopInitialize();  //BackEnd INI 2024-5-12 Applied
+
             //检查是否有证书密码会话存在，否则重定向提交 
             if (string.IsNullOrEmpty(CerPassword))  // && mvcCommeBase.ChkCerPassword() == false 不存在会话和Cerpassword则跳转。
             {

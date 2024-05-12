@@ -11,11 +11,13 @@ using Newtonsoft.Json;
 using Ishop.ViewModes.Public;
 using Ishop.Models.PubDataModal;
 using Ishop.Areas.Mgr.Models;
-using Ishop.Context; 
+using Ishop.Context;
+using Ishop.Controllers;
+
 namespace Ishop.Areas.Mgr.Controllers
 {
     [Authorize(Roles = "StoreBusinessPromotion")]
-    public class SeoController : Controller
+    public class SeoController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
         // GET: Mgr/Seo

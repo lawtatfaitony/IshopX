@@ -13,11 +13,12 @@ using Ishop.Models.PubDataModal;
 using Ishop.Areas.Mgr.Models;
 using LanguageResource;
 using PagedList;
+using Ishop.Controllers;
 
 namespace Ishop.Areas.Mgr.Controllers
 {
     [Authorize]
-    public class MenuItemController : Controller
+    public class MenuItemController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
 

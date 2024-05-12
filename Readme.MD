@@ -103,20 +103,20 @@ Index(string id,string InfoCateID ,string Index2,string code,string state)
 ██ C:\Windows\System32\drivers\etc\host 系統文件,配置域名和 IP 地址的映射
 127.0.0.1 sunwaylink.com 		# sh0001 login Id:Supervisor@xyz.com 
 127.0.0.1 xguard.cn 			# sh0006 login Id:joyercomcn@qq.com
-127.0.0.1 dataguardxcore.com 	# sh0016 not exist
+127.0.0.1 dataguardxcore.com X 	# sh0016 not exist lawtatfaitony@gmail.com
 127.0.0.1 dataguard.com 		# SH2028 no download login Id:lawtatfaitony@gmail.com
-127.0.0.1 starbilliant.cn 		# SH2028 login Id:lawtatfaitony@gmail.com			
+127.0.0.1 dataguardxcore.com 	# SH2028 login Id:lawtatfaitony@gmail.com			
 ```
 
  
 
 ## 目前的店鋪
 
-| sh0001 | 三个小情人的爸爸           | /Upload/ShopLogo/Shplogo_20171101063317284.png |
-| ------ | -------------------------- | ---------------------------------------------- |
-| sh0006 | 翔輝計算機系統             | /Upload/ShopLogo/Shplogo_20180826132306638.png |
-| SH2006 | HK安防  LTD.               | /Upload/ShopLogo/Shplogo_20180826132306638.png |
-| SH2028 | STAT BILLIANT AI TECH LTD. | /Upload/ShopLogo/Shplogo_20180826132306638.png |
+| sh0001  | 三个小       | 620000 | Super..or@xyz.com     | zh-CN | sunwaylink.com     | 0    |
+| ------- | :----------- | ------ | --------------------- | ----- | ------------------ | ---- |
+| sh0006  | 翔輝         | 620002 | joye..cn@qq.com       | zh-HK | xguard.cn          | 1    |
+| ▲SH2006 | HK CCTV LTD. | 620021 | cai..li82@gmail.com   | zh-CN | dataguardxcore.com | 1    |
+| SH2028  | STAT BILL..T | 620028 | law..fai..y@gmail.com | zh-HK | dataguard.com      | 0    |
 
 ```
 sh0006  翔輝系統
@@ -131,16 +131,14 @@ http://81.71.74.135:8081/?ShpID=SH2028
 上述以 [/?ShpID=sh0016]傳入,已經作廢,由於受到規則 WebCookie.ShpID 通過HostName判斷店鋪ID,導致 ID傳入主頁有用,其餘都作廢了.
 ```
 
- **For 音響工程**
+###  Cookie: ShpId 與 ShopID區別
 
-Template C Sample : 
-
-1. https://www.mxcamera.com/  參考
-2. https://shop.hivihk.com/products/jbl-mk08-karaoke-speaker 這個比較複雜大型
+1. WebCookie.ShpId     前端店鋪的Shop ID
+2. WebCookie.ShopID  後端店鋪的Shop ID
 
 ++++++++++++++++++++++++++++++++++++++++++++
 
-Update in 2024-4-28
+
 
 ## 丟失引用文件/shop/bin 
 
@@ -222,8 +220,8 @@ public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
     }
     else
     {
-        Redirect(returnUrl);
-        return View();
+        return RedirectToAction("Index", "Home",
+        			new { Language = ViewBag.LanguageCode}); //case: no returnUrl 
     }
    ....
 }
@@ -241,7 +239,7 @@ public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
 
 具體操作:
 
-打開鏈接 : http://localhost:34322/HK/my/ShopCopy?SourceShopId=SH0006   // SH0006是複製來源店鋪的店鋪ID 
+打開鏈接 : http://localhost:34322/HK/my/ShopCopy?SourceShopId=sh0006   // sh0006是複製來源店鋪的店鋪ID 
 
 這樣,直到返回結果就算是複製成功.
 

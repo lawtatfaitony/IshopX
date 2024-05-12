@@ -12,10 +12,12 @@ using PagedList;
 using Ishop.Models.ProductMgr; 
 using Ishop.Models;
 using Ishop.Appcode.Utilities;
+using Ishop.Controllers;
+
 namespace Ishop.Areas.Mgr.Controllers
 {
     [Authorize]
-    public class ProductPropertiesValueController : Controller
+    public class ProductPropertiesValueController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
          

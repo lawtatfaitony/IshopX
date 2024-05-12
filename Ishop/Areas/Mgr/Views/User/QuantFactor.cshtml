@@ -53,7 +53,6 @@
                                 </li>
                                 <li><div id="treeviewQuantFactor1" class="treemenucls"></div></li>
                             </ul>
-
                         </div><!--input-group-btn-->
                         <input ID="txtFactorName" type="text" maxlength="50" placeholder="@Lang.Views_GeneralUI_DefaultRoot" style="width:auto" class="form-control " value="@ViewBag.ParentsName" />
                         <div class="row"> @Html.ValidationMessageFor(model => model.ParentsID, "", new { @class = "text-danger" })</div>
@@ -61,7 +60,7 @@
                 </div>
             </div>
         </div><!--row-->
-        <br />
+        <br/>
         <div class="row ">
             <div class="form-group ">
                 <label class="col-md-2 text-right" for="CategoryName">@Html.DisplayNameFor(model => model.FactorName)</label>

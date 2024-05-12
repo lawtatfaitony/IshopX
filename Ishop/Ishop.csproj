@@ -1551,6 +1551,7 @@
     <Content Include="Content\ueditor\net\config - Copy.json" />
     <Content Include="Content\ueditor\net\config.json" />
     <Content Include="Content\ueditor\config.json" />
+    <Content Include="Areas\Mgr\Views\User\SourceStatisticByRecommList.cshtml" />
     <None Include="jquery\_references.js" />
     <Content Include="js\Category\ShopCategoryItem.js" />
     <Content Include="js\clipboard\clipboard.js" />

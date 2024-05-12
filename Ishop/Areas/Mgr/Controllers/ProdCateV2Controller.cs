@@ -12,10 +12,11 @@ using System.Data.Entity.Validation;
 using System.Data.Entity;
 using Ishop.Areas.Mgr.Models;
 using System.Data.Entity.Infrastructure;
+using Ishop.Controllers;
 
 namespace Ishop.Areas.Mgr.Controllers
 {
-    public class ProdCateV2Controller : Controller
+    public class ProdCateV2Controller : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
         // GET: Mgr/ProdCateV2

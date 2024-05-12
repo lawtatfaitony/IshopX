@@ -7,10 +7,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin; 
 using Ishop.ViewModes.Public; 
 using Ishop.Models.PubDataModal; 
-using Ishop.Areas.Mgr.Models; 
-namespace Ishop.Areas.Mgr.Controllers   //Ishop.Areas.Mgr
-{
-    public class MgrIndexController : Controller
+using Ishop.Areas.Mgr.Models;
+using Ishop.Controllers;
+
+namespace Ishop.Areas.Mgr.Controllers
+{ 
+    public class MgrIndexController : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
 
@@ -29,6 +31,7 @@ namespace Ishop.Areas.Mgr.Controllers   //Ishop.Areas.Mgr
         // GET: Mgr/MgrIndex
         public ActionResult Index()
         {
+            BackEndShopInitialize();  //後台初始化
             return View();
         }
         public ActionResult LeftMenu(string ParentsMenuItemID)

@@ -25,7 +25,7 @@ using Ishop.Areas.Mgr.Models;
 using System.Configuration;
 using System.Threading;
 using System.Globalization;
-
+using System.Web.UI.WebControls; 
 namespace Ishop.Controllers
 {
     public class BaseController : Controller  
@@ -60,12 +60,7 @@ namespace Ishop.Controllers
             {
                 WebCookie.Language = LangUtilities.LanguageCode;
             }
-            //Deprecated 2024-5-6
-            //if (string.IsNullOrEmpty(WebCookie.ShpID))
-            //{
-            //    mvcCommeBase.ChkShpID();
-            //}
-
+              
             ViewBag.Language = Language;
             ViewBag.LanguageCode = Language;
 
@@ -129,6 +124,96 @@ namespace Ishop.Controllers
                 Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(_Language);
                 Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(_Language);
             } 
+        }
+        /// <summary>
+        /// 後台初始化
+        /// </summary>
+        public void BackEndShopInitialize()
+        {
+            if (string.IsNullOrEmpty(WebCookie.Language))
+            {
+                WebCookie.Language = LangUtilities.LanguageCode;
+            }
+             
+            ViewBag.Language = Language;
+            ViewBag.LanguageCode = Language;
+
+            Shop shop = db.Shops.Find(WebCookie.ShopID);
+
+            ViewBag.Client_Shop = shop;
+            ViewBag.ClientShop = shop;
+
+            ViewBag.ShpID = WebCookie.ShpID;
+
+            ViewBag.Description = shop.ShopName;
+            ViewBag.ShopLogo = shop.ShopLogo;
+            ViewBag.PhoneNumber = shop.PhoneNumber;
+            ViewBag.ShopName = shop.ShopName;
+            ViewBag.ShopCurrency = shop.ShopCurrency;
+            ViewBag.ShopID = shop.ShopID;
+            ViewBag.ShopUserId = shop.UserId;
+            ViewBag.ShopHostName = shop.HostName;
+            ViewBag.IsInfoMode = shop.IsInfoMode;
+
+            //路由格式 zh-HK|zh-CN|en-US|hk|cn|en|HK|CN|EN
+            // 獲取當前的 URL
+            Uri currentUri = new Uri(System.Web.HttpContext.Current.Request.Url.AbsoluteUri);
+            string pathAndQuery = currentUri.PathAndQuery;
+
+            string[] keywords = { "zh-HK", "zh-CN", "en-US", "hk", "cn", "en", "HK", "CN", "EN" };
+
+            bool containsKeyword = false;
+            foreach (string keyword in keywords)
+            {
+                if (pathAndQuery.Contains(keyword))
+                {
+                    containsKeyword = true;
+                    break;
+                }
+            }
+
+            if (containsKeyword)
+            {
+                string[] patharr = pathAndQuery.Split(new char[] { '/' });
+                string pathAndQueryNew = pathAndQuery.TrimStart(new char[] { '/' });
+                pathAndQueryNew = pathAndQueryNew.TrimStart(patharr[1].ToArray());
+
+                ViewBag.ZhCnUriPath = $"/zh-CN{pathAndQueryNew}";
+                ViewBag.ZhHkUriPath = $"/zh-HK{pathAndQueryNew}";
+                ViewBag.EnUsUriPath = $"/en-US{pathAndQueryNew}";
+            }
+            else
+            {
+                string defaultHomeUrl = "/Home/index";
+                ViewBag.ZhCnUriPath = $"/zh-CN{defaultHomeUrl}";
+                ViewBag.ZhHkUriPath = $"/zh-HK{defaultHomeUrl}";
+                ViewBag.EnUsUriPath = $"/en-US{defaultHomeUrl}";
+            }
+
+            if (_Language == "zh-HK")
+            {
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-Hant");
+                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-Hant");
+            }
+            else
+            {
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(_Language);
+                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(_Language);
+            }
+
+            //後台LayOutd的 右上的 [Notification]
+            if (Request.IsAuthenticated)
+            { 
+                string userId = User.Identity.GetUserId();
+                var sourceStatistics = from s in db.SourceStatistics.Where(s => s.RecommUserId == userId)
+                                       select s;
+                sourceStatistics = sourceStatistics.OrderByDescending(s => s.LastUpdateDate).Take(100);
+                ViewBag.UserViewsCount = sourceStatistics.Count();
+            }
+            else
+            {
+                ViewBag.UserViewsCount = 0; //設置默認值避免出錯
+            }
         }
         public string DoPost(string url, string data)
         {
@@ -803,7 +888,7 @@ namespace Ishop.Controllers
             }
             string FilePath = string.Format("/{0}/{1}/{2}", MediaRootPath, SubPath, NewFileName);
             string oFilePath = System.Web.HttpContext.Current.Server.MapPath(FilePath);
-            Image Image1 = Image.FromStream(WebRequest.Create(UrlImage).GetResponse().GetResponseStream());
+            System.Drawing.Image Image1 = System.Drawing.Image.FromStream(WebRequest.Create(UrlImage).GetResponse().GetResponseStream());
             Image1.Save(oFilePath, GetFormat(oFilePath));
             return FilePath;
         }

@@ -65,15 +65,6 @@
             <a href="@Url.Action("Register", "Account",new { returnUrl = ViewBag.returnUrl })" class="text-center">@Lang.Account_LoginViewModel_DefinitedTag_RegNew</a>
 
         </div>
-        @if (Request.IsAuthenticated)
-        {
-            <ul>
-                @foreach (var claim in ((System.Security.Claims.ClaimsIdentity)User.Identity).Claims)
-                {
-                    <li>Issuer:@claim.Issuer  OriginalIssuer:@claim.OriginalIssuer  Value:@claim.Value</li>
-                }
-            </ul>
-        }
     </div>
 
     @Scripts.Render("~/AdminLTE/plugins/jquery/js")

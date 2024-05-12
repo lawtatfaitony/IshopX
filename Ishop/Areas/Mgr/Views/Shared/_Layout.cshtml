@@ -5,16 +5,13 @@
 @using LanguageResource
 @using Microsoft.AspNet.Identity
 @using Ishop.Models.ProductMgr
-@{
-    Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
-    Shop shop = db.Shops.Find(WebCookie.ShopID);
-}
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@shop.ShopName</title>
+    <title>@ViewBag.ShopName</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     @Styles.Render("~/AdminLTE/bootstrap/css")
     @Styles.Render("~/AdminLTE/plugins/font-awesome/css")
@@ -48,10 +45,7 @@
 
     @Scripts.Render("~/js/LayerUI/PC")
     @Scripts.Render("~/js/MainJS")
-    @Scripts.Render("~/Scripts/angular")
-
-
-
+    @Scripts.Render("~/Scripts/angular") 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -134,68 +128,12 @@
                                 <li class="footer"><a href="#">See All Messages</a></li>
                             </ul>
                         </li>
-                        <!--Notification Begin-->
-                        @{
-                            string UserId = User.Identity.GetUserId();
-                            var sourceStatistics = from s in db.SourceStatistics.Where(s => s.RecommUserId == UserId)
-                                                   select s;
-                            sourceStatistics = sourceStatistics.OrderByDescending(s => s.LastUpdateDate).Take(100);
-                            ViewBag.UserViewsCount = sourceStatistics.Count();
-                        }
-                        <li class="dropdown notifications-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">@ViewBag.UserViewsCount</span>
-                            </a>
-                            <ul class="dropdown-menu bg-yellow-active">
-                                <li class="header">@String.Format(Lang.SourceStatisticByRecomm_UserViews, ViewBag.UserViewsCount)</li>
-                                <li>
-                                    <ul class="menu small list-unstyled list-inline text-left">
-                                        @{
-                                            int cnt = 0;
-                                            foreach (var item in sourceStatistics)
-                                            {
-
-                                                if (item.VisitorIcon != string.Empty)
-                                                {
-                                                    <li class="padding-left5">
-                                                        <ul class="list-unstyled list-inline inline">
-                                                            <li>
-                                                                <ul class="list-unstyled no-padding no-margin">
-                                                                    <li title="openid:@item.OpenID" data-toggle="tooltip">
-                                                                        @Html.DisplayFor(modelItem => item.WxNickName)
-                                                                    </li>
-                                                                    <li>
-                                                                        @Html.Raw(HttpUtility.HtmlDecode(mvcCommeBase.RenderImg(item.VisitorIcon, "30px")))
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                            <li>
-                                                                <span>@item.SourceArea</span>
-                                                                <span style="padding-left:5px;padding-right:5px;">|</span>
-                                                                <span>@item.LastUpdateDate</span>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li>
-                                                        <i class="fa fa-users text-aqua"></i> <span class="small">@item.SourceArea</span>
-                                                        <span> | </span><span class="small">@item.LastUpdateDate</span>
-                                                    </li>
-                                                }
-                                                if (cnt++ % 1 == 0)
-                                                {
-                                                    @:<li class="divider hide" style="max-width:90%;"></li>
-                                                }
-                                            }
-                                        }
-
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="/Mgr/Info/InfoIPstatitics">View all</a></li>
-                            </ul>
+                       
+                        <li class="dropdown notifications-menu"> 
+                            @{
+                                //不能用 Html.Action (字符串) 而 Html.RenderAction是 Stream
+                                Html.RenderAction("SourceStatisticByRecommList", "User", new {area = "Mgr"}); 
+                            }
                         </li>
 
                         <!--Notification End-->
@@ -297,8 +235,7 @@
                     </div>
                 </form>
                 @Html.Partial("~/Areas/Mgr/Views/Shared/_LeftMenu.cshtml")
-            </section>
-
+            </section> 
         </aside>
         <div class="content-wrapper">
             <section class="content-header">
@@ -318,7 +255,7 @@
         <footer class="main-footer">
             <div class="pull-right hidden-xs" :0px;><b>Version</b> 1.1.2</div>
             <strong class="h5">
-                Copyrights | &copy;@shop.ShopName @DateTime.Now.Year - <!--@Lang.Views_GeneralUI_CompanyName-->
+                Copyrights | &copy;@ViewBag.ShopName @DateTime.Now.Year - <!--@Lang.Views_GeneralUI_CompanyName-->
                 <a href="@ConfigurationManager.AppSettings["CookieDomainOnline"]"></a>
             </strong>
         </footer>
