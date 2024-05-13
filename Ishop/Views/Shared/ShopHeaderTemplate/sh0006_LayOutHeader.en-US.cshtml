@@ -21,7 +21,7 @@
                     <img src="@ViewBag.ShopLogo" alt="@ViewBag.ShopName" style="margin-right: 3px; width: 48px;max-height: 50px;" />
 
                     <span class="logo_font_size_24_white" alt="@ViewBag.ShopName" style="vertical-align: middle;">
-                        @ViewBag.ShopName
+                        @ChineseStringUtility.ToAutoTraditional((string)ViewBag.ShopName)
                     </span>
                 </a>
             </div>
@@ -30,12 +30,21 @@
             <ul class="nav navbar-nav">
                 <li>@Html.ActionLink(Lang.Views_GeneralUI_Home, "Index", "Home")</li>
 
-                @if ((int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY || (int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
+                @if ((int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
                 {
-                    <li>
-                        <a href="@Url.Action("Index","Helper")">
-                            <i class="fa fa-question-circle margin-r-5" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>HELP
-                        </a>
+                    <li style="cursor:help;">
+                        <div class="btn-group padding-10" style="cursor:help;padding-top:15px;">
+                            <span class="dropdown-toggle margin-left5" data-toggle="dropdown">
+                                <i class="fa fa-question-circle title_tooltip_bottom" style="vertical-align: middle; font-size: 20px; color: #ffffff;" data-toggle="tooltip" title="Help Center"></i>
+                                <span class="text-gray active">HELP</span>
+                            </span>
+                            <ul class="dropdown-menu">
+                                <li class="padding-5"><a href="@Url.Action("Index", "Helper",new {InfoCateID = "HELP_FUNCTUON_DATAGUARD"})">@Lang.HELP_FUNCTUON_DATAGUARD</a></li>
+                                <li class="padding-5"><a href="@Url.Action("Index", "Helper",new {InfoCateID = "INFOCATE_SOFTWARE_HELPER_AIBOX"})">@Lang.INFOCATE_SOFTWARE_HELPER_AIBOX </a></li>
+                                <li class="padding-5"><a href="@Url.Action("Index", "Helper",new {InfoCateID = "INFOCATE_SOFTWARE_HELPER_AIBOX"})">@Lang.INFOCATE_SOFTWARE_HELPER_AIGUARD </a></li>
+                                <!--這裡可以擴充其他類別幫助說明-->
+                            </ul>
+                        </div>
                     </li>
 
                     <li>
@@ -64,7 +73,7 @@
                                 <li role="separator" class="divider"></li>
                                 <li class="h5">
                                     <a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A", mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber))">
-                                        <span><i class="fa fa-whatsapp text-green padding-right5" aria-hidden="true" tiltle="歡迎WhatsApp資訊"></i>歡迎咨詢</span>
+                                        <span><i class="fa fa-whatsapp text-green padding-right5 title_tooltip_bottom" aria-hidden="true" data-toggle="tooltip" tiltle="歡迎WhatsApp資訊"></i>歡迎咨詢</span>
                                     </a>
                                 </li>
                             }
@@ -74,8 +83,17 @@
                 @if ((int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
                 {
                     <li>
-                        <a href="@Url.Action("MyShoppingCart","Cart")" title="Shopping Cart" data-toggle="tooltip">
+                        <a href="@Url.Action("MyShoppingCart","Cart")" class="title_tooltip_bottom" title="Shopping Cart" data-toggle="tooltip">
                             <i class="fa fa-shopping-cart" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                }
+
+                @if (ViewBag.LanguageCode == "zh-HK" || ViewBag.LanguageCode == "en-US")
+                {
+                    <li>
+                        <a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A",mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber)))">
+                            <i class="fa fa-whatsapp text-green title_tooltip_bottom" style="font-size:20px;" aria-hidden="true" data-toggle="tooltip" tiltle="WhatsApp資詢"></i>
                         </a>
                     </li>
                 }

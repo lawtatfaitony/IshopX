@@ -31,17 +31,25 @@
             </blockquote>
         </div>
     </div>
+
+    
     List<ProductUnit> productList = ViewBag.ProductList;
     if (productList.Count > 0)
     {
-        <div class="container no-padding">
-            @foreach (var Item in productList)
-            {
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                    @Html.Partial("Product/ProductUnit", Item)
-                </div>
-            }
+<div class="container no-padding">
+    @foreach (var Item in productList)
+    {
+        <!--
+               col-xs: 適用於顯示器寬度小於 576px 的設備，佔據整個父級容器的寬度。
+               col-sm: 適用於顯示器寬度大於等於 576px 的設備，佔據整個父級容器的寬度。
+               col-md: 適用於顯示器寬度大於等於 768px 的設備，默認佔據 8/12 的寬度。
+               col-lg: 適用於顯示器寬度大於等於 992px 的設備，默認佔據 8/12 的寬度。
+        -->
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            @Html.Partial("Product/ProductUnit", Item)
         </div>
+    }
+</div>
         <div class="container" style="padding:5px 5px 5px 15px;">
             <a class="badge badge-success pull-right" href="@Url.Action("Get","InfoList")" target="_blank">
                 +more

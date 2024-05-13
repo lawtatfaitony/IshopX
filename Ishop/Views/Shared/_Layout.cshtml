@@ -6,11 +6,7 @@
 @using LanguageResource
 @using Ishop.Models.ProductMgr
 @using Ishop.AppCode.EnumCode
-@{  
-    //mvcCommeBase.CheckInitialize();
-    //Shop Client_Shop = mvcCommeBase.ReturnClient_Shop();
-    //ViewBag.Title = Client_Shop.ShopName;
-
+@{ 
     //new 2024-5-6  
     ViewBag.Title = ViewBag.ShopName;
     Shop Client_Shop = (Shop)ViewBag.Client_Shop;
@@ -62,18 +58,21 @@
     @Styles.Render("~/Content/Main")  <!--include IPstatics.js-->
 
     @Scripts.Render("~/js/LayerUI/mobile")
-    @Scripts.Render("~/js/Order/ShoppingCart") 
+
+    @Scripts.Render("~/js/Order/ShoppingCart")
 
     @RenderSection("scripts", required: false)
 
     <!--Share Button-->
     <!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=tonylaw"></script>-->
 
-    @Scripts.Render("~/js/LayerUI/mobile")
     @Scripts.Render("~/Scripts/angular")
+
     <script src="~/js/clipboard/clipboard.min.js"></script>
     <script src="~/js/clipboard/V2/clipboard.js"></script>
+
     <script src="~/js/Main.js"></script>
+    <!--layer-->
     <script src="~/AdminLTE/plugins/layer-v3.1.1/layer/layer.js"></script>
 
 </head>
@@ -85,5 +84,27 @@
     <div id="footer" class="container">
         @Html.Partial("~/Views/Shared/ShopFootTemplate/" + WebCookie.ShpID + "_FooterTemplate.cshtml", Client_Shop)
     </div>
+
+    < !--JavaScript代码部分-->
+    <script>
+        $(function () {
+            //设置鼠标悬停展开下拉菜单
+            function dropdownOpen() {
+                //鼠标悬停时展开子菜单
+                $('.dropdown').mouseover(function () {
+                    $(this).addClass('show');
+                    //查找当前元素子节点中的对象，修改其class，这样
+                    //这样当有多个下拉菜单时，可以分别独立处理，而不会出现都下拉的bug
+                    $(this).find(".dropdown-menu").addClass('show');
+
+                }).mouseout(function () { //鼠标不悬停时折叠子菜单
+                    $(this).find(".dropdown-menu").removeClass('show');
+                    $(this).removeClass('show');
+                });
+            }
+            //调用函数，这里一定要进行调用，否则的话会不生效
+            dropdownOpen();
+        });
+    </script>
 </body>
-</html>
+</html> 

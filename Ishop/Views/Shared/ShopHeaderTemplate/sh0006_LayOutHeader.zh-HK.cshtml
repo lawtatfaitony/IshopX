@@ -7,7 +7,7 @@
 @using Ishop.AppCode.EnumCode
 
 <div id="top" class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
+    <div id="dropdownMenu_container" class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
@@ -30,11 +30,11 @@
             <ul class="nav navbar-nav">
                 <li>@Html.ActionLink(Lang.Views_GeneralUI_Home, "Index", "Home")</li>
 
-                @if ((int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY || (int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
+                @if ((int)ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
                 {
-                    <li style="vertical-align: middle;cursor:help;">
-                        <div class="btn-group " style="vertical-align: middle;cursor:help;padding-top:15px;">
-                            <span class="dropdown-toggle" data-toggle="dropdown">
+                    <li style="cursor:help;">
+                        <div class="btn-group padding-10" style="cursor:help;padding-top:15px;">
+                            <span class="dropdown-toggle margin-left5" data-toggle="dropdown">
                                 <i class="fa fa-question-circle title_tooltip_bottom" style="vertical-align: middle; font-size: 20px; color: #ffffff;" data-toggle="tooltip" title="Help Center"></i>
                                 <span class="text-gray active">HELP</span>
                             </span>
@@ -58,7 +58,7 @@
                             <i class="fa fa-download margin-r-5" style="font-size:20px;color:#ffffff;" aria-hidden="true"></i>DOWNLOAD
                         </a>
                     </li>
-                }
+                 }
                 <li>
                     <div class="btn-group padding-10">
                         <span class="dropdown-toggle round " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
