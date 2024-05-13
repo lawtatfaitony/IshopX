@@ -4,5 +4,97 @@
     Layout = "~/Areas/Mgr/Views/Shared/_Layout.cshtml";
 }
 
- 
+<div class="container">
+    <div class="container no-margin no-padding">
+        <!--INFOMATION-->
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+            <div class="no-padding no-margin" style="background-image: url('/content/images/InfoModule.png'); background-size: 100% 100%; background-repeat: no-repeat;">
+
+                <div class="container">
+                    <div class="row">
+                        <blockquote class="h1" style="margin-left:15px;padding:10px;font-weight:600;">
+                            <i class="fa fa-microchip"></i>INFO
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header text-left padding-bottom10 text-omit">
+                            <blockquote class="text-blue h1" style="padding-left: 10px; font-weight: 600;">
+                                @Lang.ModalView_AddUpdateInfo_SubTitle
+                            </blockquote>
+                        </div>
+                        <div class="card-body" style="margin-left:10px;margin-bottom:30px;">
+                            <!-- Info List -->
+                            <a class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
+                               href="@Url.Action("Index","Info",new { Language = LangUtilities.LanguageCode , Area = "Mgr"})" target="_blank">
+                                <i class="fa fa-link margin-right10"></i>Info List
+                            </a>
+                            <br />
+                            <br />
+                            <!-- AddUpdateInfo -->
+                            <a class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
+                               href="@Url.Action("AddUpdateInfo","Info",new { Language = LangUtilities.LanguageCode , Area = "Mgr"})" target="_blank">
+                                <i class="fa fa-link margin-right10"></i>Add Info
+                            </a>
+                        </div>
+                        <div class="card-footer padding-bottom5 margin-top5">
+                            <p class="h5 padding-15 margin-left15" style="max-width:500px;word-break:break-word;">
+                                Rules: The premise for adaptive conversion between Traditional Chinese and Simplified Chinese is that the system installation supports fonts. For Traditional Chinese and Simplified Chinese,If hte English interface, the original content must be in English.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!--PRODUCT-->
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+            <div class="no-padding no-margin" style="background-image: url('/content/images/ProductModule.png'); background-size: 100% 100%; background-repeat: no-repeat;">
+
+                <div class="container">
+                    <div class="row">
+                        <blockquote class="h1" style="margin-left:15px;padding:10px;font-weight:600;">
+                            <i class="fa fa-microchip"></i>PRODUCT
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header text-left padding-bottom10 text-omit">
+                            <blockquote class="text-blue h1" style="padding-left: 10px; font-weight: 600;">
+                                @Lang.ProductAddUpd_SubTitle
+                            </blockquote>
+                        </div>
+                        <div class="card-body" style="margin-left:10px;margin-bottom:30px;">
+                            <!--Product List-->
+                            <a class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
+                               href="@Url.Action("Index","ProductMgr",new { Language = LangUtilities.LanguageCode , Area = "Mgr"})" target="_blank">
+                                <i class="fa fa-link margin-right10"></i>Product List
+                            </a>
+                            <br />
+                            <br />
+                            <!--返回產品發佈列表 Lang.Product_ProductAddUpd_ReturnToProductList-->
+                            <a class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
+                               href="@Url.Action("Index","ProductMgr",new { Language = LangUtilities.LanguageCode , Area = "Mgr"})" target="_blank">
+                                <i class="fa fa-link margin-right10"></i>Add Product 
+                            </a> 
+                        </div>
+                        <div class="card-footer padding-bottom5 margin-top5"> 
+                                <p class="h5 padding-15 margin-left15" style="max-width:500px;word-break:break-word;">
+                                    Rules: The transactions on the front-end page not only rely on the Product release system, but also have SKU inventory, and the category attributes and attribute values must be defined before the above two operations.
+                                </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+     
+
+</div>
 

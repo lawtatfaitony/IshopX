@@ -50,9 +50,12 @@
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
         <header class="main-header"> 
-            <nav class="navbar navbar-static-top" role="navigation"> 
-                <img src="~/Content/Images/logo_mini48.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8;max-width:48px;">
-                <span class="badge badge-inverse" style="padding:5px;"> @WebCookie.ShopID.ToUpper()</span>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="@Url.Action("index", "Admin", new { Language = ViewBag.LanguageCode })" class="" data-toggle="" role="button">
+                    <img src="~/Content/Images/logo_mini48.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8;max-width:48px;">
+                    <span class="badge badge-inverse" style="padding:5px;"> @WebCookie.ShopID.ToUpper()</span>
+                </a> 
+
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
@@ -128,11 +131,11 @@
                                 <li class="footer"><a href="#">See All Messages</a></li>
                             </ul>
                         </li>
-                       
-                        <li class="dropdown notifications-menu"> 
+
+                        <li class="dropdown notifications-menu">
                             @{
                                 //不能用 Html.Action (字符串) 而 Html.RenderAction是 Stream
-                                Html.RenderAction("SourceStatisticByRecommList", "User", new {area = "Mgr"}); 
+                                Html.RenderAction("SourceStatisticByRecommList", "User", new { area = "Mgr" });
                             }
                         </li>
 
@@ -221,7 +224,7 @@
                     </div>
                     <div class="pull-left info">
                         <p>@User.Identity.Name</p>
-                        <a href="#" title="USER ID" data-toggle="tooltip"><i class="fa fa-circle text-success"></i>@User.Identity.GetUserId()</a>
+                        <a href="@Url.Action("index", "Admin", new { Language = ViewBag.LanguageCode })" title="USER ID" data-toggle="tooltip"><i class="fa fa-circle text-success"></i>@User.Identity.GetUserId()</a>
                     </div>
                 </div>
                 <form action="#" method="get" class="sidebar-form">

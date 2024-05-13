@@ -14,12 +14,12 @@
     <WebStackScaffolding_AreaDialogWidth>600</WebStackScaffolding_AreaDialogWidth>
     <WebStackScaffolding_DbContextTypeFullName>Ishop.Context.ApplicationDbContext</WebStackScaffolding_DbContextTypeFullName>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
-    <NameOfLastUsedPublishProfile>D:\ClientIshop_Ishop_AD\IshopX_GitHub\IshopX\Ishop\Properties\PublishProfiles\Ishop_Issue.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>D:\ClientIshop_Ishop_AD\IshopX_GitHub\IshopX\Ishop\Properties\PublishProfiles\Ishop3.pubxml</NameOfLastUsedPublishProfile>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <UseGlobalApplicationHostFile />
-    <LastActiveSolutionConfig>Release|Any CPU</LastActiveSolutionConfig>
+    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
     <Use64BitIISExpress />
     <Controller_SelectedScaffolderID>MvcControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Controller</Controller_SelectedScaffolderCategoryPath>

@@ -143,6 +143,7 @@ namespace Ishop.Areas.Mgr.Controllers
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.SortParm = sortOrder == "Asc" ? "Desc" : "Asc";
+
             switch (sortOrder)
             {
                 case "Asc":
@@ -163,7 +164,6 @@ namespace Ishop.Areas.Mgr.Controllers
 
             return View(userProfiles.ToPagedList(pageNumber, pageSize));
         }
-
 
         private void UserTagDropDownList(object selectedUserTagID = null)
         {
