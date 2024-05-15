@@ -8,11 +8,22 @@
 
 ------
 
-立项时间：2021年10月21日
+## 角色:
 
-ISHOP新版开发—2021年12月21日阶段性开发完毕.MD
-
-ISHOP新版开发—2024年4月25日阶段性开发完毕.MD
+| RoleName ID            | Description                       | Remarks |
+| ---------------------- | --------------------------------- | ------- |
+| Supervisor             | 超级管理员、监督、全局管理员、CEO |         |
+| Admins                 | 管理員（Global）                  |         |
+| StoreAdmin             | 店長、店家營運主管                |         |
+| StoreProductAdmin      | 產品管理                          |         |
+| StorePreSales          | 店舖售前客服 跟單                 |         |
+| CustomerService        | 客戶售後服務,處理抱怨等等         |         |
+| AdminAnalyst           | 數據分析員                        |         |
+| StoreCustomersService  | 店舖售後                          |         |
+| StoreBusinessPromotion | 店內商業推廣等                    |         |
+| StroeShippingClerk     | 店舖出貨員                        | 倉管    |
+| BusinessPromotion      | 業務推廣,網站編輯,批量馬甲維護等  |         |
+| GlobalUser             | 網站使用者(註冊用戶)              |         |
 
 ## 店鋪模版須知
 
