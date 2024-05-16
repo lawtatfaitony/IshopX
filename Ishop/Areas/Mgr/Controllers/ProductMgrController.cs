@@ -94,7 +94,7 @@ namespace Ishop.Areas.Mgr.Controllers
 
         // GET: Mgr/ProductMgr
         [HttpGet]
-        [Authorize(Roles = "Supervisor,StoreAdmin,StoreProductAdmin,StoreBusinessPromotion")]
+        [Authorize(Roles = "Supervisor,Admins,StoreAdmin,StoreProductAdmin,StoreBusinessPromotion")]
         public ActionResult ProductAddUpd(string ProductID)
         { 
             EnumHelper EnumHelper1 = new Utilities.EnumHelper();
@@ -193,7 +193,7 @@ namespace Ishop.Areas.Mgr.Controllers
             return;
         }
         [HttpPost]
-        [Authorize(Roles = "Supervisor,StoreAdmin,StoreProductAdmin,StoreBusinessPromotion")]
+        [Authorize(Roles = "Supervisor,Admins,StoreAdmin,StoreProductAdmin,StoreBusinessPromotion")]
         public ActionResult ProductAddUpd(string ProductID, [Bind(Include = "ProductID,ProdCateID,ProductName,Title,ProductImg,StyleNo ,ProdDesc,VideoUrl,CategoryIDs,ShopID ,SupplierID,TradePrice,RetailPrice,CommisionRate,ViewsIP,CreatedDate,SaleStatusID")]Product Productdetail)
         { 
             AdditionalForUpload AdditionalForUpload1 = new AdditionalForUpload();
@@ -301,7 +301,7 @@ namespace Ishop.Areas.Mgr.Controllers
             PropNameValue1.ForEach(m => m.OperatedUserName = "");
             return PropNameValue1;
         }
-        [Authorize(Roles = "Supervisor,StoreAdmin,StoreProductAdmin")]
+        [Authorize(Roles = "Supervisor,Admins,StoreAdmin,StoreProductAdmin")]
         [HttpGet]
         public ActionResult createSku(string ProductId)
         {
@@ -312,7 +312,7 @@ namespace Ishop.Areas.Mgr.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "Supervisor,StoreAdmin,StoreProductAdmin")]
+        [Authorize(Roles = "Supervisor,Admins,StoreAdmin,StoreProductAdmin")]
         [HttpPost]
         public ActionResult createSku(string ProductId,string TempProductSkuId ,[Bind(Include = "txtQuantity,txtProductSkuTradePrice,txtProductSkuId,txtSkuImage,txtPropValueIDs")] ProductSkuAdd productSkuAdd)
         {
@@ -393,7 +393,7 @@ namespace Ishop.Areas.Mgr.Controllers
             }
         }
 
-        [Authorize(Roles = "Supervisor,StoreAdmin,StoreProductAdmin")]
+        [Authorize(Roles = "Supervisor,Admins,StoreAdmin,StoreProductAdmin")]
         public ActionResult ProductSkuList(string ProductId)
         {
             IQueryable<ProductSku> SkuList = from d in db.ProductSkus

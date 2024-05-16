@@ -19,12 +19,12 @@ namespace Ishop.Areas.Mgr.Controllers
     public class ProdCateV2Controller : BaseController
     {
         private Ishop.Context.ApplicationDbContext db = new Ishop.Context.ApplicationDbContext();
-        // GET: Mgr/ProdCateV2
+        [Authorize(Roles = "Supervisor,Admins,StoreAdmin,StoreProductAdmin")]
         public ActionResult Index()
         {
             return View();
         }
-        [Authorize(Roles = "Supervisor,Admins")]
+        [Authorize(Roles = "Supervisor,Admins,StoreProductAdmin")]
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public JsonResult ProdPropertiesName_Lst(string ProdCateID)
         {
@@ -54,7 +54,7 @@ namespace Ishop.Areas.Mgr.Controllers
         /// <param name="PropertiesNameID"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Supervisor,Admins")]
+        [Authorize(Roles = "Supervisor,Admins,StoreProductAdmin")]
         public JsonResult ProdPropertiesName_Del(string PropertiesNameID)
         {
             ProdPropertiesName DelItem = db.ProdPropertiesNames.Where(c => c.PropertiesNameID == PropertiesNameID).SingleOrDefault<ProdPropertiesName>();
@@ -80,7 +80,7 @@ namespace Ishop.Areas.Mgr.Controllers
         /// <param name="PropertiesName"></param>
         /// <param name="IsForTrading">是否交易属性</param>
         /// <returns>{ 1:成功 0：失败 }  </returns>
-        [Authorize(Roles = "Supervisor,Admins")]
+        [Authorize(Roles = "Supervisor,Admins,StoreProductAdmin")]
         public JsonResult ProdPropertiesName_Upd(string PropertiesNameID, string PropertiesName, string IsForTrading,int ShowPicture)
         {
             ModalDialogView ModalDialogView1 = new ModalDialogView();
@@ -115,7 +115,7 @@ namespace Ishop.Areas.Mgr.Controllers
         /// <param name="IsForTrading"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Supervisor,Admins")]
+        [Authorize(Roles = "Supervisor,Admins,StoreProductAdmin")]
         public JsonResult ProdPropertiesName_INS(string ProdCateID, string ProdCateName, string PropertiesName, int IsForTrading,int ShowPicture)
         {
             ProdPropertiesName ProdPropertiesName1=new ProdPropertiesName();
@@ -146,7 +146,7 @@ namespace Ishop.Areas.Mgr.Controllers
         /// <param name="PropertiesName"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Supervisor,Admins")]
+        [Authorize(Roles = "Supervisor,Admins,StoreProductAdmin")]
         public JsonResult ProdCate_CheckPropertiesName(string ProdCateID, string PropertiesName)
         {
             if (PropertiesName.Length < 1) //属性名称格式错误,返回。
@@ -175,7 +175,8 @@ namespace Ishop.Areas.Mgr.Controllers
                 return Json(result);
             } 
         }
-        [Authorize(Roles = "Supervisor,Admins")]
+
+        [Authorize(Roles = "Supervisor,Admins,StoreProductAdmin")]
         public ActionResult ProdCateListByCateID()
         { 
             return View();
@@ -249,7 +250,7 @@ namespace Ishop.Areas.Mgr.Controllers
         /// <param name="ParentsProdCateName"></param>
         /// <param name="ProdCateName"></param>
         /// <returns></returns>
-        [Authorize(Roles = "Supervisor,Admins")]
+        [Authorize(Roles = "Supervisor,Admins,StoreProductAdmin")]
         public JsonResult ProductCateMgr(string action,string ProdCateID, string ParentsProdCateID, string ParentsProdCateName,string ProdCateName)
         {
             ModalDialogView ModalDialogView1 = new ModalDialogView();
@@ -327,7 +328,7 @@ namespace Ishop.Areas.Mgr.Controllers
         /// </summary>
         /// <param name="ProdCateName"></param>
         /// <returns></returns>
-        [Authorize(Roles = "Supervisor,Admins")]
+        [Authorize(Roles = "Supervisor,Admins,StoreProductAdmin")]
         public JsonResult CheckProdCateName(string ProdCateName)
         {
             ModalDialogView ModalDialogView1 = new ModalDialogView();

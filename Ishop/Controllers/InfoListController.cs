@@ -337,9 +337,9 @@ namespace Ishop.Info.Controllers
                 UserTrace userTrace = this.GetUserTrace(infoDetail.InfoID, userId);
                 string userTraceUrl = $"{LangUtilities.LanguageCode}/Home/Trace/{userTrace.UserTraceID}";
 
-                userTraceUrl = $"{scheme}//{hostname}:{port}/{userTraceUrl}";
+                string fullUserTraceUrl = $"{scheme}://{hostname}:{port}/{userTraceUrl}";
 
-                ViewBag.UserTraceUrl = userTraceUrl;
+                ViewBag.UserTraceUrl = fullUserTraceUrl;
             }
             //模板是公共的,不需要店铺查询模板(InfoItemTemplate),也就是 where(c=>c.ShopId.Contain(shpID))不需要,之前是用这个附加条件的.
             //InfoTemp00003 信息明细的专题模板

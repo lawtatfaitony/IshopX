@@ -111,7 +111,8 @@
                                     <div class="small text-muted"><i class="fa fa-eye  text-gray" aria-hidden="true">&nbsp;</i>@Html.DisplayFor(model => model.Views)</div>
                                 </li>
                                 <li>
-                                    @Html.ActionLink(" ", "UserTrace", "Home", new { TableKeyID = ViewBag.InfoID, Act = "wx", Ctrl = "i" }, new { @class = "glyphicon glyphicon-share" })
+                                    <!--微信功能暫停2024-5-16-->
+                                    @Html.ActionLink("wx Share", "UserTrace", "Home", new { TableKeyID = ViewBag.InfoID, Act = "wx", Ctrl = "i" }, new { @class = "glyphicon glyphicon-share hide" })
                                 </li>
                                 @if (!string.IsNullOrEmpty(ViewBag.UserTraceUrl))
                                 {
