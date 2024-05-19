@@ -1,6 +1,7 @@
 ﻿@using LanguageResource;
 @using Microsoft.AspNet.Mvc.Rendering;
 @using Ishop.Utilities;
+@using Ishop.AppCode.EnumCode;
 @{
     ViewBag.Title = Lang.Manage_CreateShop_Title;
 } 
@@ -21,7 +22,7 @@
     <div class="container">
         <div class="box box-solid box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">@ViewBag.Title [@ViewBag.ShopID]</h3>
+                <h3 class="box-title">@ViewBag.Title</h3> <h2 class="box-title margin-left15">@Model.ShopID</h2>
                 <div class="box-tools pull-right">
                     <span class="label label-default"><i class="fa fa-lock" aria-hidden="true"></i> Shop</span>
                 </div><!-- /.box-tools -->
@@ -33,7 +34,7 @@
                 <div class="box-body with-border">
                     <div id="form1" class="form-horizontal">
                         <div id="Loading" class="hidden"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>
-                        @Html.HiddenFor(model => model.ShopID, new { Value = ViewBag.ShopID, data = ViewBag.ShopID, data_shopID = ViewBag.ShopID }) @*<!--//属性Value 大写开头, 或者通过data写入data属性--->*@
+                        @Html.HiddenFor(model => model.ShopID) @*<!--//属性Value 大写开头, 或者通过data写入data属性--->*@
                         <div class="form-group">
                             @Html.LabelFor(model => model.ShopName, new { @class = "control-label col-sm-2" })
                             <div class="col-sm-10">
@@ -46,6 +47,7 @@
                             <div class="col-sm-10">
                                 @Html.TextBoxFor(model => model.ShopCurrency, new { @class = "form-control", Value = "zh-CN" })
                                 @Html.ValidationMessageFor(model => model.ShopCurrency, "", new { @class = "text-danger" })
+                                <label class="label label-success"> 3 options: zh-HK; zh-CN; en-US;</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -152,7 +154,7 @@
                         <div class="form-group ">
                             @Html.LabelFor(model => model.IsInfoMode, htmlAttributes: new { @class = "control-label col-sm-2" })
                             <div class="col-sm-3">
-                                @Html.DropDownList("IsInfoMode", Html.IsInfoModeDropDownList(Model.IsInfoMode.ToString()), Lang.GeneralUI_Select, new { @class = "form-control"}) 
+                                @Html.DropDownList("IsInfoMode", Html.IsInfoModeDropDownList(Model.IsInfoMode.ToString()), Lang.GeneralUI_Select, new { @Class = "form-control"}) 
                                
                                 @Html.ValidationMessageFor(model => model.IsInfoMode, "", new { @class = "text-danger" })
                             </div>

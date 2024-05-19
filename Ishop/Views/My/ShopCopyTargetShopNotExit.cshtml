@@ -1,0 +1,43 @@
+﻿@using Ishop.Utilities
+@using LanguageResource
+@using System.Security.Principal
+@using Microsoft.AspNet.Identity
+<div class="container">
+    <blockquote class="h3 padding-left15">
+        <i class="fa fa-shopping-cart" style="font-size:30px;"></i> @Lang.ShopCopyTitle
+    </blockquote>
+    <hr />
+</div>
+<div class="container" id="MyShoppx1" style="margin-top:15px">
+    <div class="container">
+        <span class="padding-left15 h1" style="font-weight:600;">
+            <i class="fa fa-times text-danger fa-2x" aria-hidden="true"></i>
+          
+            @Lang.ShopCopyNotAsShopOwnerResult
+        </span>
+        <br />
+        <span class="padding-left15 h2" style="font-weight:600;">
+            <i class="fa fa-times text-danger fa-2x" aria-hidden="true"></i>
+            @Lang.ShopCopyTargetShopNotExitResult
+        </span>
+
+        <span class="h5 text-danger padding-left15">
+            <br /> <br /><br />
+            Tips : Check shop staff UserId Exist,  and  Has the Shop Created ? <br /> 
+            <br />
+        </span>
+
+        @if (Request.IsAuthenticated)
+        {
+            <span class="h5 text-black padding-left15"> @Html.Raw(User.Identity.GetUserId()) </span> <br />
+            <span class="h5 text-black padding-left15"> @Html.Raw(User.Identity.GetUserName()) </span>
+        }
+
+        <br /><br />
+        <span class="h4 text-black padding-left15">
+            ONLY INFODETAILS AND PRODUCTS
+        </span>
+    </div>
+</div>
+
+

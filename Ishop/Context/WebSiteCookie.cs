@@ -123,11 +123,10 @@ public class WebCookie
             set
             { 
                 HttpCookie ck_ShopID = new HttpCookie("ShopID", value);
-                ck_ShopID.Expires = DateTime.Now.AddYears(3);
-                HttpContext.Current.Response.Cookies.Add(ck_ShopID);
-                Response.Cookies["ShopID"].Expires = DateTime.Now.AddYears(3); //设置过期方式2 
-                Response.Cookies["ShopID"].Secure = true;
-                Response.Cookies["ShopID"].SameSite = SameSiteMode.None;
+                ck_ShopID.Expires = DateTime.Now.AddDays(3);
+                ck_ShopID.Secure = true;
+                ck_ShopID.SameSite = SameSiteMode.None;
+                HttpContext.Current.Response.Cookies.Add(ck_ShopID); 
             }
         }
         //作廢 2024-5-4

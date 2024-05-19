@@ -22,6 +22,8 @@ using Ishop.Context;
 using Ishop.Models.ProductMgr;
 using Ishop.Models.User;
 using System.Configuration;
+using Microsoft.Owin;
+using Newtonsoft.Json.Linq;
 
 namespace Ishop.Controllers
 {
@@ -111,8 +113,10 @@ namespace Ishop.Controllers
                     //如果兩者都不是則肯定不具有後台店鋪管理權限
                     var user = UserManager.FindByEmail(model.Email);
                     var shopStaff = db.ShopStaffs.Where(c => c.UserId == user.Id);
+
                     if (shopStaff.Count() > 0)
                     {
+                        //後台管理的店鋪ID
                         WebCookie.ShopID = shopStaff.SingleOrDefault().ShopID;
                     }
                     else
@@ -836,7 +840,7 @@ namespace Ishop.Controllers
                 };
                 Response.Cookies.Add(applicationCookie);
             }
-
+            
             Session.Clear();  
             Session.Abandon();  
 

@@ -8,25 +8,29 @@
     </blockquote>
     <hr />
 </div>
-<div class="container" id="MyShoppingCart1" style="margin-top:15px">
+<div class="container" id="MyShoppx1" style="margin-top:15px">
     <div class="container">
         <span class="padding-left15 h1" style="font-weight:600;">
             <i class="fa fa-times text-danger fa-2x" aria-hidden="true"></i>
-            @Lang.ShopCopyShopNotExitResult
+            @Lang.ShopCopyShopNotExitResult 
 
         </span>
-       
+        <br />
+        <span class="padding-left15 h1" style="font-weight:600;">
+            <i class="fa fa-times text-danger fa-2x" aria-hidden="true"></i>
+            @Lang.ShopCopyNotAsShopOwnerResult
+        </span>
+
         <span class="h5 text-danger padding-left15">
             <br /> <br /><br />
-            Tips : Check shop staff UserId Exist <br />
-            and  Has the Shop Created ?
+            Tips : Check shop staff UserId Exist,  and  Has the Shop Created ? <br /> 
             <br />
         </span>
-       
+
         @if (Request.IsAuthenticated)
         {
-            <span class="h5 text-black padding-left15"> @User.Identity.GetUserId()</span> <br />
-            <span>class="h5 text-black padding-left15"> @User.Identity.GetUserName()</span>
+            <span class="h5 text-black padding-left15"> @Html.Raw(User.Identity.GetUserId()) </span> <br />
+            <span class="h5 text-black padding-left15"> @Html.Raw(User.Identity.GetUserName()) </span>
         }
 
         <br /><br />

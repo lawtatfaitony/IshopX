@@ -23,7 +23,7 @@ namespace Ishop.AppCode.EnumCode
             /// <summary>
             /// 音響廣播工程行业模式
             /// </summary>
-            RADIOENGINEER = 1
+            RADIOENGINEER = 2
 
         }
     }

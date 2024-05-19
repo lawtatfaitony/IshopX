@@ -1108,6 +1108,10 @@ namespace LanguageResource
  				  public static string GeneralLogic_zhHK{
  				  get { return LangUtilities.GetString( "GeneralLogic_zhHK"); }} 
 
+				 ///<summary>確認</summary>
+ 				  public static string GeneralUI_Comfirm{
+ 				  get { return LangUtilities.GetString( "GeneralUI_Comfirm"); }} 
+
 				 ///<summary>出错了~~</summary>
  				  public static string GeneralUI_Fail{
  				  get { return LangUtilities.GetString( "GeneralUI_Fail"); }} 
@@ -2712,6 +2716,10 @@ namespace LanguageResource
  				  public static string ShopCategoryList_ShopCategory_Title{
  				  get { return LangUtilities.GetString( "ShopCategoryList_ShopCategory_Title"); }} 
 
+				 ///<summary>必须是店铺创建的用户才能操作店铺复制</summary>
+ 				  public static string ShopCopyNotAsShopOwnerResult{
+ 				  get { return LangUtilities.GetString( "ShopCopyNotAsShopOwnerResult"); }} 
+
 				 ///<summary>店铺复制成功!!!</summary>
  				  public static string ShopCopyResultSuccess{
  				  get { return LangUtilities.GetString( "ShopCopyResultSuccess"); }} 
@@ -2719,6 +2727,10 @@ namespace LanguageResource
 				 ///<summary>复制的来源店铺ID或店铺不存在!!!</summary>
  				  public static string ShopCopyShopNotExitResult{
  				  get { return LangUtilities.GetString( "ShopCopyShopNotExitResult"); }} 
+
+				 ///<summary>目标店铺不存在,必须先创建目标店铺,并且必须是创建店铺人操作复制</summary>
+ 				  public static string ShopCopyTargetShopNotExitResult{
+ 				  get { return LangUtilities.GetString( "ShopCopyTargetShopNotExitResult"); }} 
 
 				 ///<summary>店铺复制(ONLY INFODETAILS AND PRODUCTS)</summary>
  				  public static string ShopCopyTitle{

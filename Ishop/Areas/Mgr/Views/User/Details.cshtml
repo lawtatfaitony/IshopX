@@ -5,12 +5,7 @@
     ViewBag.Title = string.IsNullOrEmpty(ViewBag.CurrentAccountMgrID) ? Lang.Views_GeneralUI_Create : Lang.Views_GeneralUI_Update;
     ViewBag.SubTitle = Lang.UserProfile_Detail_Subtitle;
 }
-@{
-    if (Request.Params["Layout"] == null)
-    {
-        Layout = null;
-    } 
-}
+ 
 <style>
     label {
         font-size: 1.1em;

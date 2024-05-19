@@ -62,9 +62,14 @@ namespace Ishop.Controllers
             {
                 rankOrder = RankOrder;
             }
+            if (string.IsNullOrEmpty(ShopID))
+            {
+                ShopID = "ShopID_DEFAULTS"; //如果創建店鋪的情況下,存在默認blank shop ID
+            }
+            
             string filePathName = string.Empty;
             //文件名称前缀  
-            if (Prefix.Length > 1)
+            if (!string.IsNullOrEmpty(Prefix))
             {
                 filePathName = Prefix + filePathName;
             }
@@ -75,11 +80,10 @@ namespace Ishop.Controllers
                 localPath = System.IO.Path.Combine(localPath, SubPath);
                 urlPath += "/" + SubPath;
             }
-
-
+             
             if (Request.Files.Count == 0)
             {
-                return Json(new { jsonrpc = 2.0, error = new { code = 102, message = "保存失败" }, id = "id", filePath = "no file input" });
+                return Json(new { jsonrpc = 2.0, error = new { code = 102, message = "NO FILES POST TO SAVE (Request.Files.Count = 0)" }, id = "id", filePath = "no file input" });
             }
 
             string ex = System.IO.Path.GetExtension(file.FileName);
@@ -181,19 +185,19 @@ namespace Ishop.Controllers
             #endregion
 
             //数据记录
-            UploadItem uploadItem = new UploadItem();
-
-            uploadItem.UploadItemId = db.GetTableIdentityID("UP", "UploadItem", 20);
-            uploadItem.TargetTalbeKeyID = TargetTalbeKeyID;
-            uploadItem.RankOrder = rankOrder;
-            uploadItem.RawName = name;
-            uploadItem.ShopID = ShopID;
-            uploadItem.SubPath = SubPath;
-            uploadItem.Url = urlPath + "/" + filePathName;
-            uploadItem.FileExt = ex;
-            uploadItem.OperatedUserName = User.Identity.Name;
-            uploadItem.OperatedDate = DateTime.Now;
-
+            UploadItem uploadItem = new UploadItem {
+                   UploadItemId = db.GetTableIdentityID("UP", "UploadItem", 20)
+                  ,TargetTalbeKeyID = TargetTalbeKeyID??""
+                  ,ShopID = ShopID ?? ""
+                  ,SubPath = SubPath ?? ""
+                  ,Url= urlPath + "/" + filePathName
+                  ,RawName = name
+                  ,FileExt = ex
+                  ,RankOrder = RankOrder
+                  ,OperatedUserName = User.Identity.Name
+                  ,OperatedDate = DateTime.Now
+            };
+              
             db.UploadItems.Add(uploadItem);
             db.SaveChanges();
 

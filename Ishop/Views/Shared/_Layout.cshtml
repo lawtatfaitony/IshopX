@@ -24,6 +24,10 @@
     <link rel="bookmark" type="image/x-icon" href="/favicon.ico" />
     <link rel="shortcut icon" href="/favicon.ico">
 
+    <script>
+        var LanguageCode = "@LangUtilities.LanguageCode";
+    </script>
+
     @Styles.Render("~/AdminLTE/bootstrap/css")
     @Styles.Render("~/AdminLTE/plugins/font-awesome/css")
 
@@ -85,7 +89,7 @@
         @Html.Partial("~/Views/Shared/ShopFootTemplate/" + WebCookie.ShpID + "_FooterTemplate.cshtml", Client_Shop)
     </div>
 
-    < !--JavaScript代码部分-->
+   
     <script>
         $(function () {
             //设置鼠标悬停展开下拉菜单

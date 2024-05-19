@@ -25,6 +25,8 @@ using Ishop.AppCode.Utilities;
 using Ishop.Models.PubDataModal;
 using System.Threading;
 using Ishop.Models.Info;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Web.UI.WebControls;
 
 namespace Ishop.Controllers
 {
@@ -174,7 +176,7 @@ namespace Ishop.Controllers
         /// <param name="shipId">複製來源店鋪的店鋪ID</param>
         /// <returns></returns>
         [Authorize]
-        public ActionResult ShopCopy(string sourceShopId)
+        public ActionResult ShopCopy(string sourceShopId,string targetShopId)
         {
             if (string.IsNullOrEmpty(sourceShopId))
             {
@@ -184,6 +186,15 @@ namespace Ishop.Controllers
                 sourceShopId = sourceShopId.Trim();
             }
 
+            if (string.IsNullOrEmpty(targetShopId))
+            {
+                return View("ShopCopyTargetShopNotExit");
+            }
+            else
+            {
+                targetShopId = targetShopId.Trim();
+            }
+
             this.ShopInitialize();
 
             DateTime dt= DateTime.Now;
@@ -191,19 +202,59 @@ namespace Ishop.Controllers
             string opUserId = User.Identity.GetUserId();
             string opUserName = User.Identity.GetUserName();
 
-            //檢查是否此店鋪Staff
-            var staffUser = db.ShopStaffs.Where(c=>c.ShopID == WebCookie.ShpID && c.UserId == opUserId).FirstOrDefault();
-            if (staffUser==null)
+            //判斷店鋪是否存在
+            var sourceShop = db.Shops.Find(sourceShopId);
+            if(sourceShop == null)
             {
                 return View("ShopCopyShopNotExit");
             }
 
-            //判斷店鋪是否存在
-            var shop = db.Shops.Find(sourceShopId);
-            if(shop == null)
+            //目标店铺不存在,必须先创建目标店铺,并且必须是创建店铺人操作复制
+            var targetShop = db.Shops.Find(targetShopId);
+            if (targetShop == null)
+            {
+                return View("ShopCopyTargetShopNotExit");
+            }
+
+            //必须是店铺创建的用户才能操作店铺复制 
+            if (targetShop.UserId != opUserId)
             {
                 return View("ShopCopyShopNotExit");
             }
+
+            //供應商複製
+            string newSuppliersId = string.Empty;
+            bool resSupp = false;
+            var suppliers = db.Suppliers.Where(c => c.ShopID.Contains(targetShopId)).ToList();
+            if (suppliers.Count() == 0)
+            {
+                Supplier supplier = new Supplier
+                {
+                    SupplierID = db.GetTableIdentityID($"SUP{targetShopId}", "Supplier", 6),
+                    SupplierName = "Default SupplierName1",
+                    ContactNick = "Default Supplier ContactNick1",
+                    ContactName = "Default Supplier1",
+                    PhoneNumber = "Default Supplier1",
+                    CompanyName = "Default Supplier CompanyName 1",
+                    CompanyAddress = "Default Supplier CompanyAddress1",
+                    ShopID = targetShopId,
+                    Remarks = string.Empty,
+                    OperatedUserName = opUserName,
+                    OperatedDate = new DateTime(2000, 01, 01, 01, 01, 01, 01)
+                };
+                db.Suppliers.Add(supplier);
+                resSupp = db.SaveChanges() > 0;
+
+                if (resSupp)
+                {
+                    newSuppliersId = supplier.SupplierID;
+                }
+            }
+            else
+            {
+                newSuppliersId = suppliers.FirstOrDefault().SupplierID;
+            }
+
             //產品複製 --------------------------------------------------------------------
             var products = db.Products.Where(c=>c.ShopID.Contains(sourceShopId)).ToList();
 
@@ -213,17 +264,41 @@ namespace Ishop.Controllers
             {
                 if (product != null)
                 {
-                    //如果 貨號 StyleNo 在本店鋪不存在,則複製
-                    var existItem = db.Products.Where(c=>c.StyleNo.Contains(product.StyleNo) && c.ShopID.Contains(WebCookie.ShpID)).FirstOrDefault();
+                    //如果 貨號 StyleNo 在目標鋪不存在,則複製
+                    var existItem = db.Products.Where(c=>c.StyleNo.Contains(product.StyleNo) && c.ShopID.Contains(targetShopId)).FirstOrDefault();
                    if(existItem == null)
                     {
-                        product.ShopID = WebCookie.ShpID;
-                        product.StaffID = ViewBag.ShopUserId;
-                        product.ProductID =  db.GetTableIdentityID("P", "Product", 5);
+                        
+                       
                         product.OperatedUserName = opUserName; 
                         product.OperatedDate = new DateTime(2000,01,01,01,01,01,01);
                         product.CreatedDate = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 01, 01);
-                        productList.Add(product);
+
+                        Product product1 = new Product
+                        {
+                            ProductID = db.GetTableIdentityID("P", "Product", 5),
+                            ProdCateID = product.ProdCateID,
+                            ProductName = product.ProductName,
+                            Title = product.Title,
+                            ProductImg =  product.ProductImg,
+                            StyleNo = product.StyleNo,
+                            ProdDesc = product.ProdDesc,
+                            VideoUrl = product.VideoUrl,
+                            CategoryIDs = product.CategoryIDs,
+                            ShopID = targetShop.ShopID,
+                            SupplierID = product.SupplierID,
+                            TradePrice = product.TradePrice,
+                            RetailPrice = product.RetailPrice,
+                            CommisionRate = product.CommisionRate,
+                            ViewsIP = product.ViewsIP,
+                            StaffID = ViewBag.ShopUserId,
+                            OperatedUserName = opUserName,
+                            OperatedDate = new DateTime(2000, 01, 01, 01, 01, 01, 01),
+                            CreatedDate = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 01, 01),
+                            SaleStatusID = product.SaleStatusID
+                        };
+
+                        productList.Add(product1);
 
                     }else
                     {
@@ -235,25 +310,44 @@ namespace Ishop.Controllers
             int ProductCopyTotal = db.SaveChanges();
 
             //信息複製 --------------------------------------------------------------------
-            var infodetails = db.InfoDetails.Where(c => c.ShopID.Contains(sourceShopId)).ToList();
+            var infosourceList = db.InfoDetails.Where(c => c.ShopID.Contains(sourceShopId)).ToList();
 
             List<InfoDetail> infoDetailLists = new List<InfoDetail>();
 
-            foreach (var infoDetail in infoDetailLists)
+            foreach (var infoDetail in infosourceList)
             {
                 if (infoDetail != null)
                 {
-                    //如果 信息標題 在本店鋪不存在,則複製
-                    var existItem = db.InfoDetails.Where(c => c.Title.Contains(infoDetail.Title) && c.ShopID.Contains(WebCookie.ShpID)).FirstOrDefault();
+                    //如果 信息標題 在目標店鋪不存在,則複製
+                    var existItem = db.InfoDetails.Where(c => c.Title.Contains(infoDetail.Title) && c.ShopID.Contains(targetShopId)).FirstOrDefault();
                     if (existItem == null)
-                    {
-                        infoDetail.InfoID = db.GetTableIdentityID("Inf", "InfoDetail", 9);
-                        infoDetail.ShopID = WebCookie.ShpID;
-                        infoDetail.Author = ViewBag.ShopUserId;
-                        infoDetail.OperatedUserName = opUserName;
-                        infoDetail.OperatedDate = new DateTime(2000, 01, 01, 01, 01, 01, 01);
-                        infoDetail.CreatedDate = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 01, 01);
-                        infoDetailLists.Add(infoDetail);
+                    {   
+                        InfoDetail info1 = new InfoDetail
+                        {
+                            InfoID = db.GetTableIdentityID("Inf", "InfoDetail", 9),
+                            UserTraceID = string.Empty,
+                            InfoCateID = infoDetail.InfoCateID??string.Empty,
+                            Title = infoDetail.Title,
+                            InfoItemTemplateIDs = infoDetail.InfoItemTemplateIDs ?? string.Empty ,
+                            TitleThumbNail = infoDetail.TitleThumbNail ?? string.Empty,
+                            ShowTitleThumbNail = infoDetail.ShowTitleThumbNail,
+                            SubTitle = infoDetail.SubTitle ?? string.Empty,
+                            SeoKeyword = infoDetail.SeoKeyword ?? string.Empty,
+                            SeoDescription = infoDetail.SeoDescription ?? string.Empty,
+                            InfoDescription = infoDetail.InfoDescription ?? string.Empty,
+                            VideoUrl = infoDetail.VideoUrl ?? string.Empty,
+                            Author = infoDetail.Author ?? string.Empty,
+                            IsOriginal = infoDetail.IsOriginal,
+                            LanguageCode = infoDetail.LanguageCode ?? string.Empty,
+                            ShopStaffID = string.Empty,
+                            Views = 0,
+                            ShopID = targetShopId,
+                            OperatedUserName = opUserName,
+                            CreatedDate = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 01, 01),
+                            OperatedDate = new DateTime(2000, 01, 01, 01, 01, 01, 01),
+                        };
+
+                        infoDetailLists.Add(info1);
                     }
                     else
                     {
@@ -264,7 +358,19 @@ namespace Ishop.Controllers
             db.InfoDetails.AddRange(infoDetailLists);
             int InfCopyTotal = db.SaveChanges();
 
+           
+                
             ViewBag.ShopCopyMessage = $"Product Copy Total = {ProductCopyTotal} ; InfoDetails Copy Total = {InfCopyTotal}";
+
+            if (resSupp)
+            {
+                ViewBag.ShopCopyMessage = $"{ViewBag.ShopCopyMessage} ; Default New SupplierID = {newSuppliersId}";
+            }
+            else
+            {
+                ViewBag.ShopCopyMessage = $"{ViewBag.ShopCopyMessage} ; Exist SupplierID {newSuppliersId}!";
+            }
+
             return View("ShopCopySuccess");
         }
 

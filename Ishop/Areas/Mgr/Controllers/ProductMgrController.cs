@@ -305,6 +305,8 @@ namespace Ishop.Areas.Mgr.Controllers
         [HttpGet]
         public ActionResult createSku(string ProductId)
         {
+            this.BackEndShopInitialize();
+
             Product product = new Product();
             product = db.Products.Find(ProductId);
             ViewBag.CurrentProductId = ProductId.ToUpper();
@@ -316,6 +318,8 @@ namespace Ishop.Areas.Mgr.Controllers
         [HttpPost]
         public ActionResult createSku(string ProductId,string TempProductSkuId ,[Bind(Include = "txtQuantity,txtProductSkuTradePrice,txtProductSkuId,txtSkuImage,txtPropValueIDs")] ProductSkuAdd productSkuAdd)
         {
+            this.BackEndShopInitialize();
+
             ModalDialogView ModalDialogView1 = new ModalDialogView();
             ModalDialogView1.MsgCode = "1";
             ModalDialogView1.Message = "OK";

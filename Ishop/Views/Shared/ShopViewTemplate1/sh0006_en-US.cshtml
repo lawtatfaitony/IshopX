@@ -3,18 +3,19 @@
 <!--sh0006_zh-HK (Share/ShopViewTemplate1)-->
 
 <dl class="h4">
-    <dt class="padding-left15">
-        <a target="_blank" href="@string.Format("https://wa.me/{0}?text=Hello,%20I%20would%20like%20to%20know%20more%20information",mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber)))">
-            <span class="bold h3">
-                <i class="fa fa-whatsapp  text-green" style="font-size:25px;margin-right:15px;" aria-hidden="true" tiltle="WhatsApp Equiry"></i>
+    <dt class="padding-left10  padding-bottom10">
+        <a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A",mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber)))">
+            <span class="bold" style="font-size:18px;">
+                <i class="fa fa-whatsapp text-green" style="font-size:50px;margin-right:15px;" aria-hidden="true" tiltle="WhatsApp Inquiry"></i>
                 WhatsApp Inquiry
             </span>
         </a>
     </dt>
+
     <dd class="padding-10">
-        <a target="_blank" href="@string.Format("https://wa.me/{0}?text=Hello,%20I%20would%20like%20to%20know%20more%20information",mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber)))">
-            <span class="h3 bold">
-                <i class="fa fa-phone-square  text-green"  style="font-size:25px;margin-right:15px;" aria-hidden="true" tiltle="PhoneNumber"></i>
+        <a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A",mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber)))">
+            <span class="bold">
+                <i class="fa fa-phone-square text-green" style="font-size:25px;margin-right:15px;" aria-hidden="true" tiltle="PhoneNumber"></i>
                 @ViewBag.PhoneNumber
             </span>
         </a>

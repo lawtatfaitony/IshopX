@@ -273,10 +273,16 @@ namespace Ishop.Controllers
 
             //ShopStaffID ================== if  StaffID has value then prefer to show.
             // Must show the this user portrait,whatever RecommandUserId is.
-            string ShopStaffID = db.ShopStaffs.Where(c => c.UserId == userTrace1.UserId).FirstOrDefault().ShopStaffID; //initialize the value
-            
-            ViewBag.ShopStaffID = string.IsNullOrEmpty(Product1.StaffID) != true ? Product1.StaffID.Trim() : ShopStaffID;
-           
+            var shopStaff = db.ShopStaffs.Where(c => c.UserId == userTrace1.UserId).FirstOrDefault(); //initialize the value
+            if(shopStaff != null)
+            {     
+                ViewBag.ShopStaffID = shopStaff.ShopStaffID;
+            }
+            else if(!string.IsNullOrEmpty(Product1.StaffID))
+            {
+                ViewBag.ShopStaffID =  Product1.StaffID.Trim();
+            }
+
             ViewBag.SourceStatisticsID =this.IPstatiticsAdd(ProductID ,Product1.Title, userTrace1.UserId, Product1.ShopID);
 
             #region Product Slide

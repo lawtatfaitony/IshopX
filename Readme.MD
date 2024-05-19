@@ -1,10 +1,12 @@
+
+
 # 開發日誌
 
 **IshopX --- At the Heart of your Ecosystem!**
 
 ## 框架:
 
-使用 .NET Framework 4.8 ，C# 語言的版本通常是 C# 7.3。
+使用 .NET Framework 4.8 ，C# 語言的版本通常是 C# 7.3。 後續可以升級待進一步研究.
 
 ------
 
@@ -119,15 +121,20 @@ Index(string id,string InfoCateID ,string Index2,string code,string state)
 127.0.0.1 dataguardxcore.com 	# SH2028 login Id:lawtatfaitony@gmail.com			
 ```
 
- 
+##  創建店鋪:
+
+http://81.71.74.135:8081/hk/manage/Createshop  
+
+**3 options: zh-HK; zh-CN; en-US;**  三種貨幣的選擇,對應是: $HK ; ¥RMB ;$US;
 
 ## 目前的店鋪
 
-| sh0001  | 三个小       | 620000 | Super..or@xyz.com     | zh-CN | sunwaylink.com     | 0    |
-| ------- | :----------- | ------ | --------------------- | ----- | ------------------ | ---- |
-| sh0006  | 翔輝         | 620002 | joye..cn@qq.com       | zh-HK | xguard.cn          | 1    |
-| ▲SH2006 | HK CCTV LTD. | 620021 | cai..li82@gmail.com   | zh-CN | dataguardxcore.com | 1    |
-| SH2028  | STAT BILL..T | 620028 | law..fai..y@gmail.com | zh-HK | dataguard.com      | 0    |
+| sh0001  | 三个小        | 620000 | Super..or@xyz.com     | zh-CN | sunwaylink.com     | 0    |
+| ------- | :------------ | ------ | --------------------- | ----- | ------------------ | ---- |
+| sh0006  | 翔輝          | 620002 | joye..cn@qq.com       | zh-HK | xguard.cn          | 1    |
+| ▲SH2006 | HK CCTV LTD.  | 620021 | cai..li82@gmail.com   | zh-CN | dataguardxcore.com | 1    |
+| SH2028  | STAT BILL..T  | 620028 | law..fai..y@gmail.com | zh-HK | dataguard.com      | 0    |
+| SH0012  | xxx計算機系統 |        | essolf...on@qq.com    | zh-HK | pawd: adxxxxx8     | 1    |
 
 ```
 sh0006  翔輝系統
@@ -141,6 +148,8 @@ http://81.71.74.135:8081/?ShpID=SH2028
 安防业务 dataguard.com
 上述以 [/?ShpID=sh0016]傳入,已經作廢,由於受到規則 WebCookie.ShpID 通過HostName判斷店鋪ID,導致 ID傳入主頁有用,其餘都作廢了.
 ```
+
+██ **創建店鋪後,必須由系統管理員授權後才能跳轉到後台**
 
 ###  Cookie: ShpId 與 ShopID區別
 
@@ -248,10 +257,32 @@ public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
 
 回復/還原 : 為了避免誤操作,在 字段 product.OperatedDate = new DateTime(2000,01,01,01,01,01,01); 作為批量處理的標識,配合CreateDate = now ,可以在數據庫mssql studio IDE 工具,批量刪除掉
 
+恢復的關鍵字規則:
+
+```
+OperatedDate = new DateTime(2000, 01, 01, 01, 01, 01, 01),
+CreatedDate = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 01, 01),
+```
+
 具體操作:
 
-打開鏈接 : http://localhost:34322/HK/my/ShopCopy?SourceShopId=sh0006   // sh0006是複製來源店鋪的店鋪ID 
+```
+打開鏈接 : 
+http://localhost:34322/HK/my/ShopCopy?sourceShopId=sh0006&targetShopId=SH0012  
+http://81.71.74.135:8081/HK/my/ShopCopy?SourceShopId=sh0006&TargetShopId=SH0012
+sh0006是複製來源店鋪的店鋪ID 
+SH00054是目標店鋪的店鋪ID 
+檢查目標是否存在 : http://81.71.74.135:8081/hk/manage/Createshop 
+```
 
 這樣,直到返回結果就算是複製成功.
 
  <img src="README_IMGs/ShopCopySuccess.jpg" alt="ShopCopySuccess" style="zoom:50%;" />
+
+## 推薦人跟蹤鏈接
+
+http://localhost:34322/zh-HK/Home/p/Tr001060
+
+登錄後,從後台 http://localhost:34322/Mgr/ProductMgr 列表獲取推薦人鏈接
+
+![RecommTraceLink](README_IMGs/RecommTraceLink.jpg)

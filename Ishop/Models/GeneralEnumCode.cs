@@ -85,4 +85,5 @@ namespace Ishop.Models
         [EnumDisplayName("Language_en")] //英语
         US = 2
     }
+     
 }

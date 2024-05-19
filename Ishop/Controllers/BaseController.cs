@@ -145,7 +145,7 @@ namespace Ishop.Controllers
 
             ViewBag.ShpID = WebCookie.ShpID;
 
-            ViewBag.Description = shop.ShopName;
+            ViewBag.Description = shop.ShopName?? $"There is no shop in this user! WebCookie.ShopID = {WebCookie.ShopID}";
             ViewBag.ShopLogo = shop.ShopLogo;
             ViewBag.PhoneNumber = shop.PhoneNumber;
             ViewBag.ShopName = shop.ShopName;

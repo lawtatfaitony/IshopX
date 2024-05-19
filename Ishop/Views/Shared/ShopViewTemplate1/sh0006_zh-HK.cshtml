@@ -2,15 +2,16 @@
 @using Ishop.Utilities
 <!--sh0006_zh-HK (Share/ShopViewTemplate1)-->
  
-<dl class="h4">
-    <dt class="padding-left10">
+<dl class="h4"> 
+    <dt class="padding-left10  padding-bottom10">
         <a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A",mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber)))">
-            <span class="bold h3">
-                <i class="fa fa-whatsapp  text-green" style="font-size:25px;margin-right:15px;" aria-hidden="true" tiltle="WhatsApp Equiry"></i>
+            <span class="bold" style="font-size:18px;">
+                <i class="fa fa-whatsapp text-green" style="font-size:50px;margin-right:15px;" aria-hidden="true" tiltle="WhatsApp Inquiry"></i>
                 WhatsApp Inquiry
             </span>
-        </a> 
+        </a>
     </dt>
+
     <dd class="padding-10">
         <a target="_blank" href="@string.Format("https://wa.me/{0}?text=%E6%82%A8%E5%A5%BD,%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A%E8%B3%87%E8%A8%8A",mvcCommeBase.removePhoneAreaCode(ViewBag.PhoneNumber)))">
             <span class="bold">
@@ -20,12 +21,13 @@
         </a>
     </dd>
     <dt class="padding-10">
-        <span class="bold "> 
-        <i class="fa fa-money text-warning"  style="font-size:20px;margin-right:15px;"aria-hidden="true" 
-           data-toggle="tooltip" tiltle=" @Lang.ACCOUNT_BOC_OF_HK"></i> @Lang.ACCOUNT_BOC_OF_HK</span>
+        <span class="bold ">
+            <i class="fa fa-money text-warning" style="font-size:20px;margin-right:15px;" aria-hidden="true"
+               data-toggle="tooltip" tiltle=" @Lang.ACCOUNT_BOC_OF_HK"></i> @Lang.ACCOUNT_BOC_OF_HK
+        </span>
     </dt>
     <dd class="padding-10">
-        <span style="font-size:16px;" class="bold"> 
+        <span style="font-size:16px;" class="bold">
             <i class="fa fa-credit-card-alt text-black" style="font-size:20px;margin-right:15px;" aria-hidden="true"></i>
             012 1232 423423-0
         </span>

@@ -17,6 +17,10 @@ using Ishop.Context;
 using LanguageResource;
 using Ishop.Areas.Mgr.Models;
 using System.Text;
+using Microsoft.VisualBasic.ApplicationServices;
+using static Ishop.AppCode.EnumCode.PublicEnumCode;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using Ishop.AppCode.EnumCode;
 
 namespace Ishop.Controllers
 {
@@ -399,16 +403,39 @@ namespace Ishop.Controllers
             var shopExistsCheck = _db.Shops.Where(c => c.UserName == User.Identity.Name);
             if (shopExistsCheck.Count() > 0)
             {
-                Shop shop = shopExistsCheck.SingleOrDefault();
-                //shop.IsInfoMode = shop.IsInfoMode == null ? true : shop.IsInfoMode;
+                Shop shop = shopExistsCheck.SingleOrDefault(); 
                 shop.CreatedDate = DateTime.Now; 
                 ViewBag.ShopID = shop.ShopID;  //必需装入 ShopID 平台 数据的关键依据
-                return View(shop); 
-            }else
-            {
-                ViewBag.ShopID = _db.GetTableIdentityID("sh", "Shop", 4);
+                return View(shop);
             }
-            return View();
+            else
+            {
+                string UserId = User.Identity.Name;
+                string UserName = User.Identity.GetUserId();
+                DateTime dt = DateTime.Now;
+                Shop shop = new Shop
+                {
+                    ShopID = "ShopID_DEFAULTS", //不行提供默認值以上存店鋪logo必須傳入店鋪ID(臨時) ,for [UploadItem].[ShopID] - required
+                    ShopName = string.Empty,
+                    ShopLogo = string.Empty,
+                    WeixinQRcode = string.Empty,
+                    WeiboQRcode = string.Empty,
+                    ToutiaoQRcode = string.Empty,
+                    fbQRcode = string.Empty,
+                    FooterTemplate = string.Empty,
+                    cerPath = string.Empty,
+                    UserId = UserId,
+                    UserName = UserName,
+                    ShopCurrency = LangUtilities.LanguageCode,
+                    PhoneNumber = string.Empty,
+                    HostName = string.Empty,
+                    OperatedUserName = User.Identity.Name,
+                    OperatedDate = DateTime.Now,
+                    CreatedDate = DateTime.Now,
+                    IsInfoMode = (int)PublicEnumCode.IsInfoMode.INSURANCE
+                };
+                return View(shop); 
+            }
         }
         [HttpPost]
         public ActionResult CreateShopReturn([Bind(Include = "ShopID,ShopName,ShopCurrency,ShopLogo,PhoneNumber,WeixinQRcode,WeiboQRcode,ToutiaoQRcode,fbQRcode,HostName,CreatedDate,IsInfoMode")] Shop shop)
@@ -424,6 +451,7 @@ namespace Ishop.Controllers
             var shopExistsCheck = _db.Shops.Where(c => c.UserName == shop.UserName);
             if (shopExistsCheck.Count() ==0)
             {
+                shop.ShopID = _db.GetTableIdentityID("SH", "Shop", 4);
                 shop.CreatedDate = DateTime.Now;
                 _db.Shops.Add(shop);
                 _db.SaveChanges();

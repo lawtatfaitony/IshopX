@@ -126,9 +126,10 @@ namespace Microsoft.AspNet.Mvc.Rendering
             return selectListItems;
         }
 
-        public static IEnumerable<SelectListItem> IsInfoModeDropDownList(this HtmlHelper htmlHelper, string selectedValue = null)
+        public static IEnumerable<SelectListItem> IsInfoModeDropDownList(this HtmlHelper htmlHelper, string selectedValue)
         {
-            
+            selectedValue = selectedValue ?? string.Empty;
+
             var isInfoModes = GetEnumSelectList<IsInfoMode>();
 
             List<SelectListItem> selList = new List<SelectListItem>();
