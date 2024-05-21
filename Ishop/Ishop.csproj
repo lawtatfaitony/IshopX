@@ -2137,6 +2137,7 @@
     <Content Include="Views\My\ShopCopySuccess.cshtml" />
     <Content Include="Views\Shared\Info\InfoListUnit - 复制.cshtml" />
     <Content Include="Views\My\ShopCopyTargetShopNotExit.cshtml" />
+    <Content Include="Views\Home\p - 复制.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

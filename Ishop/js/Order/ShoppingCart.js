@@ -3,12 +3,17 @@
     console.log("AddToCart( ProductSkuId) :" + ProductSkuId);
 
     var myparamsObject = { "Id": ProductSkuId, Quantity :1 }; 
-    
+
+    var urlAddToCart = "/zh-HK/Cart/AddToCart";
+
+    if (LanguageCode != "" || LanguageCode != null) { //var LanguageCode from LayOut.cshtml
+
+        urlAddToCart = "/" + LanguageCode + "/Cart/AddToCart" 
+    }
+
     $.ajax({
 
-        //alert("\js\Order\ShoppingCart.js AddToCart(ProductSkuId)");
-
-        url: "/cn/Cart/AddToCart", /*设置post提交到的页面*/
+        url: urlAddToCart, /*设置post提交到的页面*/
         data: myparamsObject,
         type: "post",
         dataType: "text", /*设置返回值类型为文本*/

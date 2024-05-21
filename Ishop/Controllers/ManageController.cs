@@ -21,6 +21,7 @@ using Microsoft.VisualBasic.ApplicationServices;
 using static Ishop.AppCode.EnumCode.PublicEnumCode;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using Ishop.AppCode.EnumCode;
+using System.Reflection;
 
 namespace Ishop.Controllers
 {
@@ -123,9 +124,22 @@ namespace Ishop.Controllers
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
+
             ShopInitialize();
+
+            AddPhoneNumberViewModel model1 = new AddPhoneNumberViewModel();
+
+            if(LangUtilities.LanguageCode == "zh-HK" || LangUtilities.LanguageCode == "en-US")
+            {
+                model1.AreaCode = "+852";
+            }else if (LangUtilities.LanguageCode == "zh-CN")
+            {
+                model1.AreaCode = "+86";
+            }
+
             ViewBag.Ticks = DateTime.Now.Ticks.ToString();
-            return View();
+
+            return View(model1);
         }
 
         //
@@ -152,18 +166,40 @@ namespace Ishop.Controllers
                 ModelState.AddModelError("", AddModelError1);
                 return View(model);
             }
+
+            if (LangUtilities.LanguageCode == "zh-HK" || LangUtilities.LanguageCode == "en-US" || LangUtilities.LanguageCode == "zh-CN")
+            {
+                if (model.AreaCode != "+86" || model.AreaCode != "+852")
+                {
+                    ModelState.AddModelError("", $"{Lang.AddPhoneNumberViewModel_AreaCode} Reuired +86/+852...." );
+                    return View(model);
+                }    
+            }
+
+            string phoneNumber = $"{model.AreaCode}{model.Number}";
             // 生成令牌并发送该令牌
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
+            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
             if (UserManager.SmsService != null)
             {
                 var message = new IdentityMessage
                 {
-                    Destination = model.Number,
+                    Destination = phoneNumber,
                     Body =  code  // 使用平台的短信模板的情况下,只能传入 验证码 code 的值
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
-            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number});
+
+            if (UserManager.EmailService != null)
+            {
+                var message = new IdentityMessage
+                {
+                    Destination = phoneNumber,
+                    Body = code  // 使用平台的Email模板的情况下,只能传入 验证码 code 的值
+                };
+                await UserManager.EmailService.SendAsync(message);
+            }
+
+            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = phoneNumber });
         }
 
         //
@@ -199,7 +235,7 @@ namespace Ishop.Controllers
         }
 
         //
-        // GET: /Manage/VerifyPhoneNumber?phoneNumber=1231232131 
+        // GET: /Manage/VerifyPhoneNumber?phoneNumber=+8521231232131 
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
             ShopInitialize();

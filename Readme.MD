@@ -178,9 +178,11 @@ http://81.71.74.135:8081/?ShpID=SH2028
 文件 App_Start\IdentityConfig.cs  如何获得accesskey  ：https://ak-console.aliyun.com/#/accesskey
 line 112 : IClientProfile profile = DefaultProfile.GetProfile("xxx", "xxx", "xxx");  //裡面的參數值xxx是虛假的
 
+### 國際短信驗證平台
+
+https://www.cm.com/zh-cn/pricing/
 
 
-![rendersuccess_2024_4_29](README_IMGs/rendersuccess_2024_4_29.jpg
 
 ## 如何表達店鋪貨幣:
 

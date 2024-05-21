@@ -388,6 +388,10 @@ namespace LanguageResource
  				  public static string AccountWebSite_WebSite{
  				  get { return LangUtilities.GetString( "AccountWebSite_WebSite"); }} 
 
+				 ///<summary>国际地区号码</summary>
+ 				  public static string AddPhoneNumberViewModel_AreaCode{
+ 				  get { return LangUtilities.GetString( "AddPhoneNumberViewModel_AreaCode"); }} 
+
 				 ///<summary>验证码</summary>
  				  public static string AddPhoneNumberViewModel_ImageCode{
  				  get { return LangUtilities.GetString( "AddPhoneNumberViewModel_ImageCode"); }} 

@@ -63,6 +63,11 @@ namespace Ishop.Models
     public class AddPhoneNumberViewModel
     {
         [Required]
+        [RegularExpression(@"\+(852|853|86)")]
+        [LocalizedDisplayName("地區號碼", KeyName = "AddPhoneNumberViewModel_AreaCode", KeyType = KeyType.Modal)]
+        public string AreaCode { get; set; }
+
+        [Required]
         [Phone]
         [DataType(DataType.PhoneNumber)]
         [LocalizedDisplayName("手机号码", KeyName = "AddPhoneNumberViewModel_Number", KeyType = KeyType.Modal)]

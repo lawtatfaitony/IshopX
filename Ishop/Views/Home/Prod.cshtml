@@ -5,7 +5,7 @@
 @using Ishop.ViewModes.Info
 @using Ishop.AppCode.EnumCode
 @model Ishop.Models.ProductMgr.Product
- 
+
 <script src="~/js/Info/IPstatitics.js"></script>
 
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -242,7 +242,7 @@
 <footer class="floatFooter">
     <div class="BtmFunLayer container-fluid bg-black-active">
         <ul class="list-unstyled list-inline">
-            <li style="padding:5px,5px,5px,5px;"> 
+            <li style="padding:5px,5px,5px,5px;">
                 <a href="@Url.Action("Index","Home",new { area=""})" class="btn btn-info btn-link text-info"><i class="fa fa-home" style="color:#ffffff"></i></a>
             </li>
             <li style="padding:5px,5px,5px,5px;">
@@ -254,7 +254,7 @@
                 <a href="@Url.Action("UserTrace", "Home", new { TableKeyID = ViewBag.ProductId ,Act="p",Ctrl="Home" })"
                    class="btn btn-info btn-link text-info  bg-danger" style="color:#ffffff"><i class="fa fa-share-alt-square"></i></a>
             </li>
-            <li style="padding:5px,5px,5px,5px;"> 
+            <li style="padding:5px,5px,5px,5px;">
                 <span class="h3 text-bold text-white">&nbsp;@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", decimal.Parse(Html.DisplayFor(m => m.TradePrice).ToString())), (string)ViewBag.ShopCurrency)</span>
             </li>
         </ul>
@@ -282,7 +282,7 @@
 
     function AddToShoppingCartOK() {
         layer.open({
-            content: '<h2>ok</h2>' 
+            content: '<h2>ok</h2>'
         });
     }
 </script>

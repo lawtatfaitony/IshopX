@@ -5,7 +5,7 @@
 }
 <script>
     function getImageCode() {
-        $("#image-code").attr('src', '/Utilities/image?T=' + new Date().getTime());
+        $("#image-code").attr('src', '/@LangUtilities.LanguageCode/Utilities/image?T=' + new Date().getTime());
     }
 </script>
 <style>
@@ -19,21 +19,29 @@
     <div style="margin:15px 10px 15px 0">
         <h2 class="margin-top5">@ViewBag.Title</h2>
     </div>
-   
+
     @using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
-          
+         
         <div class="form-group">
-            @Html.LabelFor(m => m.Number, new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-10">
-                @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
+            @Html.LabelFor(m => m.Number, new { @class = "col-sm-2 col-md-2 col-lg-2 control-label" })
+            <div class="">
+                <div class="input-group input-group-sm padding-left5">
+                    <div class="input-group-addon" style="border-width:0px;">
+                        @Html.TextBoxFor(m => m.AreaCode, new { @class = "form-control", PlaceHolder = Lang.AddPhoneNumberViewModel_AreaCode, style = "width:60px;border-right-width:0px;" })
+
+                        @Html.TextBoxFor(m => m.Number, new { @class = "form-control", PlaceHolder = "Phone Number", style = "width:180px;border-left-width:2px;border-left-style:dashed;" })
+                        <div class="input-group-addon hide">*</div>
+                    </div>
+
+                </div>
             </div>
         </div>
         <div class="form-group has-feedback">
             <div class="col-sm-offset-2 col-sm-10 form-inline">
                 @Html.TextBoxFor(m => m.ImageCode, new { @class = "form-control", style = "max-width:100px;", placeholder = Html.DisplayNameFor(m => m.ImageCode) })
-                <img id="image-code" src="/Utilities/image?T=@ViewBag.Ticks" class="image-code img-responsive inline">
+                <img id="image-code" src="/@LangUtilities.LanguageCode/Utilities/image?T=@ViewBag.Ticks" class="image-code img-responsive inline">
                 @Html.ValidationMessageFor(m => m.ImageCode, "", new { @class = "text-danger" })
                 <a href="#" onclick="javascript: getImageCode();">@Lang.Manage_AddPhoneNumber_DefinitedTag_ChangeCode</a>
             </div>
