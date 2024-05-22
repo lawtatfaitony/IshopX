@@ -5,7 +5,7 @@
 @using Ishop.ViewModes.Info
 @using Ishop.AppCode.EnumCode
 @model Ishop.Models.ProductMgr.Product
-
+ 
 <script src="~/js/Info/IPstatitics.js"></script>
 
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -170,7 +170,7 @@
                         <blockquote>
                             <h3 class="left">
                                 <span style="padding-right:5px;padding-left:5px;"><i class="fa fa-angle-right"></i></span>
-                                @Html.Raw(ChineseStringUtility.ToAutoTraditional(Model.Title)) <a href="@Url.Action("UserTrace", "Home", new { TableKeyID = ViewBag.ProductId ,Act="p",Ctrl="Home" })"><i class="fa fa-share-alt-square"></i></a>
+                                @Html.Raw(ChineseStringUtility.ToAutoTraditional(Model.Title)) &nbsp;<span class="text-gray">@Model.ProductID</span> <a href="@Url.Action("UserTrace", "Home", new { TableKeyID = ViewBag.ProductId, Act = "p", Ctrl = "Home" })"><i class="fa fa-share-alt-square"></i></a>
                             </h3>
                         </blockquote>
                         <hr style="margin-bottom:3px;margin-top:10px;padding-bottom:1px;padding-top:1px;" />
@@ -189,6 +189,12 @@
             </ul>
         </div>
         <div class="col-lg-4 col-md-4">
+            <row>
+                @{
+                    Html.RenderPartial("~/Views/Cart/AddToCartProd.cshtml", Model);
+                } 
+            </row>
+           
             @if (ViewBag.IsInfoMode != null)
             {
                 if (ViewBag.IsInfoMode == (int)PublicEnumCode.IsInfoMode.SECURITY)
@@ -206,9 +212,10 @@
                 }
             }
             <row class="margin-top5">
+                <!--相關資訊-->
                 <div class="box box-solid  with-border box-success ">
                     <div class="box-header with-border">
-                        <h4 class="text-center">@Lang.InfoList_InfoDetails_DefinitedTag_RelateInfo</h4>
+                        <h4 class="text-center pull-left">@Lang.InfoList_InfoDetails_DefinitedTag_RelateInfo</h4>
                     </div>
                     <div class="box-body">
                         <!--Related information: Most viewed information-->
@@ -233,83 +240,9 @@
             </row>
         </div>
     </div>
-</div>
 
-<!--Space between main product details and footer-->
-<div class="container"> <br /> </div>
+    <script>
+        //layerTips("loading...");
+    </script>
 
-
-<footer class="floatFooter">
-    <div class="BtmFunLayer container-fluid bg-black-active">
-        <ul class="list-unstyled list-inline">
-            <li style="padding:5px,5px,5px,5px;">
-                <a href="@Url.Action("Index","Home",new { area=""})" class="btn btn-info btn-link text-info"><i class="fa fa-home" style="color:#ffffff"></i></a>
-            </li>
-            <li style="padding:5px,5px,5px,5px;">
-                <button type="button" id="BtnCart_homelayout" title="Click to Buy" data-toggle="tooltip" class="btn btn-info">
-                    <i class="fa fa-cart-arrow-down margin-r-5"></i>Buy
-                </button>
-            </li>
-            <li style="padding:5px,5px,5px,5px;">
-                <a href="@Url.Action("UserTrace", "Home", new { TableKeyID = ViewBag.ProductId ,Act="p",Ctrl="Home" })"
-                   class="btn btn-info btn-link text-info  bg-danger" style="color:#ffffff"><i class="fa fa-share-alt-square"></i></a>
-            </li>
-            <li style="padding:5px,5px,5px,5px;">
-                <span class="h3 text-bold text-white">&nbsp;@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", decimal.Parse(Html.DisplayFor(m => m.TradePrice).ToString())), (string)ViewBag.ShopCurrency)</span>
-            </li>
-        </ul>
-    </div>
-</footer>
-
-<script>
-
-    $("#BtnCart_homelayout").click(function () {
-
-        console.log("PRODUCT ID @ViewBag.ProductId");
-
-        var ProductId = "@ViewBag.ProductId";
-        var AddToCartUrl = "/" + "@ViewBag.Language" + "/Cart/AddToCart?GotoPay=1&ProductId=" + ProductId;
-        console.log(AddToCartUrl);
-        AddToCartContent = "<iframe src='" + AddToCartUrl + "' width='100%' height='320' frameborder='0' border='0' marginwidth='0' marginheight='0' scrolling='no' allowtransparency='true'></iframe>";
-        var ShoppingCartLayerIndex = layer.open({
-            type: 1
-            , title: "PRODUCT ID @ViewBag.ProductId"
-            , content: AddToCartContent
-            , anim: 'up'
-            , style: 'position:fixed; bottom:0px; left:0; width: 100%; height: 320px; padding:5px 0; border:none;'
-        });
-    }); // click
-
-    function AddToShoppingCartOK() {
-        layer.open({
-            content: '<h2>ok</h2>'
-        });
-    }
-</script>
-
-<script>
-    var ShopCurrency = "@ViewBag.ShopCurrency";
-    var ProductId = "@ViewBag.ProductId";
-    var IntervalMinutes = 1;
-    var SourceStatisticsID = "@ViewBag.SourceStatisticsID";
-    var IpStatitics_StartDate_Token = "@ViewBag.IpStatitics_StartDate_Token";
-
-    ProductViewCount(ProductId, IpStatitics_StartDate_Token);
-
-    console.log('\n\r SourceStatisticsID：' + '@ViewBag.SourceStatisticsID ');
-    console.log("\n\r SourceIP：" + '@ViewBag.SourceIP ');
-    console.log('\n\r UserId：' + '@ViewBag.UserId ');
-
-    $(document).ready(function () {
-
-        //加载页面耗时计算  loadTime
-        var loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
-        PageLoadingTimesCounter(SourceStatisticsID, loadTime);
-
-        //浏览次数统计
-        setTimeout("ProductViewCount(ProductId,IpStatitics_StartDate_Token)", 10000);
-    })
-
-    setInterval("SourceStatistics(SourceStatisticsID, IntervalMinutes, IpStatitics_StartDate_Token)", 60000); //Time Interval : 60s
-
-</script>
+</div> 

@@ -1204,6 +1204,7 @@
     <Content Include="AdminLTE\plugins\slimscroll\js\jquery.slimscroll.min.js" />
     <Content Include="AdminLTE\plugins\sparkline\js\jquery.sparkline.js" />
     <Content Include="AdminLTE\plugins\sparkline\js\jquery.sparkline.min.js" />
+    <Content Include="AdminLTE\plugins\tbTrade\baseprod.css" />
     <Content Include="AdminLTE\plugins\tbTrade\base.css" />
     <Content Include="AdminLTE\plugins\tbTrade\img\1.png" />
     <Content Include="AdminLTE\plugins\tbTrade\img\2.png" />
@@ -1816,6 +1817,14 @@
     <Content Include="Styles\Elements\Icons.css" />
     <Content Include="Styles\Elements\Modals.css" />
     <Content Include="test\bootrapSample123.html" />
+    <Content Include="Views\Cart\base.css" />
+    <Content Include="Views\Cart\img\1.png" />
+    <Content Include="Views\Cart\img\2.png" />
+    <Content Include="Views\Cart\img\3222222xxxxxxxxx.png" />
+    <Content Include="Views\Cart\img\4.png" />
+    <Content Include="Views\Cart\img\5.png" />
+    <Content Include="Views\Cart\img\6.png" />
+    <Content Include="Views\Cart\img\sys_item_selected.gif" />
     <Content Include="Views\Cart\taobaoTrade\base.css" />
     <Content Include="Views\Cart\taobaoTrade\img\1.png" />
     <Content Include="Views\Cart\taobaoTrade\img\2.png" />
@@ -2137,7 +2146,10 @@
     <Content Include="Views\My\ShopCopySuccess.cshtml" />
     <Content Include="Views\Shared\Info\InfoListUnit - 复制.cshtml" />
     <Content Include="Views\My\ShopCopyTargetShopNotExit.cshtml" />
-    <Content Include="Views\Home\p - 复制.cshtml" />
+    <Content Include="Views\Home\Prod.cshtml" />
+    <Content Include="Views\Cart\AddToCartProd.cshtml" />
+    <Content Include="Views\Cart\AddToCartProd - 复制.cshtml" />
+    <Content Include="Views\Cart\AddToCartProd - 复制%282%29.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

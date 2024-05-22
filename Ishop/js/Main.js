@@ -57,7 +57,62 @@ $("#HomeLink").click(function () {
     window.location = "/cn/home/index";
     console.log("NavigateTo : /cn/home/index");
 });
- 
+
+
+function getShopPriceByShopCurrency(price, shopCurrency) {
+    if (shopCurrency !== "" || shopCurrency !== null) {
+
+        if (price === "" || price === null) {
+            return "HK$0.0";
+        } else {
+
+            if (typeof price === 'string') {
+
+                price = price.toString(); // 將數字轉換為字串
+
+            } else {
+                console.log('main.js getShopPriceByShopCurrency :: price =' + price);
+            }
+
+            if (price.toString().startsWith("HK$") || price.toString().startsWith("CN¥") || price.toString().startsWith("US$")) {
+
+                return price;
+            }
+
+            let strPrice = price.toString(); 
+            console.log("strPrice typeof =" + typeof strPrice);
+            strPrice = strPrice.replace(/\.0$/, "");
+
+            switch (shopCurrency) {
+                case "zh-HK":
+
+                    strPrice = "HK$" + price + ".0";
+                    console.log('main.js getShopPriceByShopCurrency  price =' + strPrice);
+                    return strPrice;
+
+                case "zh-CN":
+
+                    strPrice = "CN¥" + price + ".0"; 
+                    console.log('main.js getShopPriceByShopCurrency  price =' + strPrice);
+                    return strPrice;
+
+                case "en-US":
+
+                    strPrice = "US$" + price + ".0";
+                    console.log('main.js getShopPriceByShopCurrency  price =' + strPrice);
+                    return strPrice;
+
+                default:
+
+                    strPrice = "HK$" + price + ".0";
+                    console.log('main.js getShopPriceByShopCurrency  price =' + strPrice);
+                    return strPrice; 
+            }
+        }
+    } else {
+        return price;
+    }
+}
 
 
  

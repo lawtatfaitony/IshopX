@@ -533,6 +533,10 @@ namespace Ishop
             bundles.Add(new StyleBundle("~/AdminLTE/plugins/print/").Include("~/AdminLTE/plugins/print/commPrint.css"));
             bundles.Add(new ScriptBundle("~/AdminLTE/plugins/print").Include("~/AdminLTE/plugins/print/Print.js"));
 
+            // ShoppingCart  
+            bundles.Add(new StyleBundle("~/AdminLTE/plugins/tbTrade").Include("~/AdminLTE/plugins/tbTrade/base.css"));
+            //baseprod.css
+            bundles.Add(new StyleBundle("~/AdminLTE/plugins/tbTradeProd").Include("~/AdminLTE/plugins/tbTrade/baseprod.css"));
         }
     }
 }

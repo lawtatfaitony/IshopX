@@ -41,12 +41,16 @@
     <link href="~/Content/mainStyle.css" rel="stylesheet" />
 
     @Scripts.Render("~/AdminLTE/plugins/jquery/js")
+    <script src="~/AdminLTE/plugins/momentjs/js/moment.min.js"></script>
 
     @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax")
     @Scripts.Render("~/Scripts/jquery.validate")
     @Scripts.Render("~/Scripts/jquery.validate.unobtrusive")
 
     @RenderSection("menu", required: false)
+
+    @RenderSection("styles", required: false)
+
     @Scripts.Render("~/AdminLTE/bootstrap/js")
 
     @Scripts.Render("~/AdminLTE/plugins/fastclick/js")
@@ -61,6 +65,7 @@
 
     @Styles.Render("~/Content/Main")  <!--include IPstatics.js-->
 
+
     @Scripts.Render("~/js/LayerUI/mobile")
 
     @Scripts.Render("~/js/Order/ShoppingCart")
@@ -72,12 +77,16 @@
 
     @Scripts.Render("~/Scripts/angular")
 
+
+
     <script src="~/js/clipboard/clipboard.min.js"></script>
     <script src="~/js/clipboard/V2/clipboard.js"></script>
 
     <script src="~/js/Main.js"></script>
     <!--layer-->
     <script src="~/AdminLTE/plugins/layer-v3.1.1/layer/layer.js"></script>
+
+    @RenderSection("styles", required: false)
 
 </head>
 <body class="hold-transition sidebar-mini body-content" style="height:100%">

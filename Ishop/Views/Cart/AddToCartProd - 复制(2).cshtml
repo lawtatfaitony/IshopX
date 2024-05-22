@@ -14,15 +14,25 @@
     {
         ProductId = Request.Params["ProductId"].ToString();
     }
-    ViewBag.CurrentGotoPay = 1;  //from outside
+   
     CartController cartController = new CartController();
+     
+}
 
-    Layout = "~/Views/Shared/_LayoutWX.cshtml";
+<!-- Shopping cart css -->
+@section styles {
+
+    @Styles.Render("~/AdminLTE/plugins/tbTrade")
+
+    <style>
+        /*demo 將會放置在layout Section styles 中*/
+        .abce123456 {
+            background-color: #f0f0f0;
+        }
+    </style>
 }
 <script>
-
-    layerTips("loading...");
-
+     
     //Sku and Price json
     var myparamsObject = { "ProductId": "@ViewBag.CurrentProductId"};
     console.log("line29:" + JSON.stringify(myparamsObject));
@@ -130,7 +140,7 @@
 
 </script>
 
-<div id="AddToCartPopup1" style="margin-top:0px;padding-top:0px;padding-left:10px;padding-right:10px; max-height:400px;border-top-color:chartreuse;border-top-width:4px;border-top-left-radius:4px;border-top-right-radius:4px;">
+<div id="AddToCartProd1" style="margin-top:0px;padding-top:0px;padding-left:10px;padding-right:10px;border-top-color:#48cca0;border-top-width:4px;border-top-left-radius:4px;border-top-right-radius:4px;">
     @using (Ajax.BeginForm("AddToCart", "Cart", new { ProductId = ViewBag.CurrentProductId, GotoPay = ViewBag.CurrentGotoPay, area = "", Language = ViewBag.Language }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleAddToCartSuccDialog", OnFailure = "errAddToCart", LoadingElementId = "Loading" }, new { @class = "form-horizontal", id = "formAddToShoppingCart" }))
     {
         @Html.AntiForgeryToken()
@@ -242,7 +252,7 @@
 
         var strPlsSelect = "@Lang.AddToCart_ClickBtnAddToCartOK_strPlsSelect";
         var ProductSkuId = $("#txtProductSkuId").val();
-         
+
         //insert default sku if only one sku /zh-CN/cart/CheckOnlyOneSkuForCart?productid=P00002 ret : {"ProductSkuId":"P0000210132","ProductSkuCount":1,"SkuMessage":"Only One SKU"}
         var urlCheckOnlyOneSku = " @Url.Action("CheckOnlyOneSkuForCart", "cart",new { area="default",Language=ViewBag.Language,productId= ViewBag.CurrentProductId })";
         urlCheckOnlyOneSku = "/@ViewBag.Language/cart/CheckOnlyOneSkuForCart?productid=@ViewBag.CurrentProductId";
@@ -262,7 +272,7 @@
                       ProductSkuId = data.ProductSkuId;
                       $("#BtnAddToCartOK").submit();
                   }
-                 
+
                   layerTips("<h4>" + data.SkuMessage +"</h4>");
               }
           });

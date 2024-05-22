@@ -1,0 +1,368 @@
+﻿@using Ishop.Controllers
+@using LanguageResource
+@using Ishop.Utilities
+@using Ishop.Models.ProductMgr
+@model Ishop.Models.ProductMgr.Product
+@{
+    string ProductId;
+    if (ViewBag.CurrentProductId != null)
+    {
+        ProductId = ViewBag.CurrentProductId;
+
+    }
+    else
+    {
+        ProductId = Request.Params["ProductId"].ToString();
+    }
+    ViewBag.CurrentGotoPay = 1;  //from outside
+    CartController cartController = new CartController();
+
+}
+
+<!-- Shopping cart css -->
+@Styles.Render("~/AdminLTE/plugins/tbTradeProd")
+
+<style>
+    /*demo 將會放置在layout Section styles 中*/
+    .abce123456 {
+        background-color: #f0f0f0;
+    }
+       
+</style> 
+<!--For Prod.cshtml Partial--> 
+<script>
+
+    let shopCurrency = "@ViewBag.ShopCurrency";
+    if (shopCurrency == "") {
+        shopCurrency = LanguageCode;
+    }
+    //Sku and Price json
+    var myparamsObject = { "ProductId": "@ViewBag.CurrentProductId"};
+    console.log("line29:" + JSON.stringify(myparamsObject));
+    var sys_item = {};
+    $.ajax({
+        url:"@Url.Action("GetProductAllInfo","cart",new { area="",Language=ViewBag.Language})" ,
+        data: myparamsObject,
+        type: "get",
+        dataType: "json",
+        error: function (result) {
+            console.log("GetProductAllInfo return error code:500\n\r " + JSON.stringify(result));
+        },
+        success: function (result) {
+            //console.log("/cart/GetProductAllInfo ：\n\r " + JSON.stringify(result));
+            sys_item = result;
+            //initialize (remain for use)
+            $("#txtProductTradePrice").val(sys_item.product.TradePrice);
+            $("#txtProductSkuTradePrice").val(sys_item.product.TradePrice);
+            console.log("Sku and Price json : \n\r" + sys_item);
+        }
+    });
+
+    //商品规格选择
+    $(function () {
+        $(".sys_item_spec .sys_item_specpara").each(function () {
+            var i = $(this);
+            var p = i.find("ul>li");
+            p.click(function () {
+                if (!!$(this).hasClass("selected")) {
+                    console.log("removeClass selected");
+                    console.log($(this).text() + ".sys_item_spec .sys_item_specpara data-aid =" + $(this).attr("data-aid"));
+                    $(this).removeClass("selected");
+                    i.removeAttr("data-attrval");
+                } else {
+                    $(this).addClass("selected").siblings("li").removeClass("selected");
+                    i.attr("data-attrval", $(this).attr("data-aid"));
+                    console.log($(this).text() + " .sys_item_spec .sys_item_specpara data-aid =" + $(this).attr("data-aid")); 
+                }
+                console.log("getattrprice:");
+                getattrprice(); //输出价格
+            });
+        });
+
+        //获取对应属性的价格
+        function getattrprice() {
+            var defaultstats = true;
+            var _val = '';
+            var _resp = {
+                mktprice: ".sys_item_mktprice",
+                price: ".sys_item_price"
+            };  //输出对应的class
+            $(".sys_item_spec .sys_item_specpara").each(function () {
+                var i = $(this);
+                var v = i.attr("data-attrval");
+                console.log("data-attrval = " + i.attr("data-attrval"));
+                if (!v) {
+                    defaultstats = false;
+                } else {
+                    _val += _val !== "" ? "_" : "";
+                    _val += v;
+
+                    console.log("_val:" + _val);
+                }
+            });
+            if (!!defaultstats) {
+                //debugger;
+                // for debug
+                console.log("defaultstats = " + defaultstats);
+                console.log("#_val:" + _val);
+               // console.log("sys_item.productSkulistl:\r\n" + JSON.stringify(sys_item.productSkulist));
+                var my_vals = _val.split('_');
+                json = eval(sys_item.productSkulist);
+                for (var i = 0; i < json.length; i++) {
+                    if (json[i].PropValueIDs ===_val　&& json[i].ProductID === sys_item.product.ProductID) {
+
+                        console.log(json[i].ProductSkuId + "-" + json[i].TradePrice + "-" + json[i].ProductID);
+
+                        $("#txtProductSkuId").val(json[i].ProductSkuId);
+                        $("#txtProductSkuTradePrice").val(json[i].TradePrice); // here also update the SKU TradePrice to the Product TradePrice
+                       
+                        //SkuImage
+
+                        console.log("json[i].TradePrice = " + json[i].TradePrice);
+                        $(".sys_item_price .text-danger").val(getShopPriceByShopCurrency(json[i].TradePrice, shopCurrency));  
+
+                        if (json[i].Quantity < 1) {
+
+                            $("#AddToShoppingCartValidationSummary1").html('@Lang.Views_GeneralUI_OutOfStock');
+                        }
+                        else {
+
+                            console.log({ "PropertyDesc": json[i].PropertyDesc })
+                            $("#AddToShoppingCartValidationSummary1").html(json[i].PropertyDesc);
+                           
+                        }
+                        break;
+                    }
+                    else {
+                        $("#txtProductSkuId").val("_");
+                        console.log("line105 : No Match ProductSkuId");
+                    }
+                }
+                console.log(sys_item);
+                _mktprice = sys_item.product.TradePrice;
+                _price = sys_item.product.TradePrice;
+            } else {
+                _mktprice = sys_item.product.TradePrice;
+                _price = sys_item.product.TradePrice;
+                console.log(" _mktprice = sys_item['TradePrice'];" + sys_item.product.TradePrice);
+                $("#txtProductSkuId").val("_");
+                $("#txtProductTradePrice").val(sys_item.product.TradePrice);
+            }
+            // output tradeprice
+            $(_resp.price).text(getShopPriceByShopCurrency(_price, shopCurrency));
+        }
+    });
+
+</script>
+
+
+<!-- Post To AddToCart -->
+
+@using (Ajax.BeginForm("AddToCart", "Cart", new { ProductId = ViewBag.CurrentProductId, GotoPay = ViewBag.CurrentGotoPay, area = "", Language = ViewBag.Language }, new AjaxOptions { HttpMethod = "post", OnSuccess = "HandleAddToCartSuccDialog", OnFailure = "errAddToCart", LoadingElementId = "Loading" }, new { @class = "form-horizontal", id = "formAddToShoppingCart" }))
+{
+    @Html.AntiForgeryToken()
+<div id="AddToCartProd1" class="container box box-success iteminfo_buying">
+
+    <div class="box-header">
+        <ul class="list-unstyled">
+            <li class=" ">
+                <img src="@Html.DisplayFor(m => m.ProductImg)" class="img-responsive img-thumbnail img-rounded pull-left" max-width="60" width="60" />
+            </li>
+            <li style="padding-top:0px;margin-top:0px;padding-left:5px;">
+                <div class="margin-left5">
+                    <blockquote class="text-left">
+                        @Html.DisplayFor(m => m.Title).ToString()
+                    </blockquote>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- Trade Prop-->
+    <div class="box-body">
+        <!--begin of ./box-body-->
+        <div class="row padding-left15">
+            <ul class="list-unstyled">
+                <li class="text-bold">
+                    @Lang.Views_GeneralUI_SalePrice<!--售价-->
+                </li>
+                <li class="">
+                    <h3 class="iteminfo_price"><b class="sys_item_price text-danger">@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:F1}", decimal.Parse(Html.DisplayFor(m => m.TradePrice).ToString())), (string)ViewBag.ShopCurrency)</b></h3>
+                </li>
+            </ul>
+        </div>
+        <div class="row padding-left10">
+            <dl class="margin-left5">
+                <dt class="padding-top10 text-bold">
+                    @Lang.Views_GeneralUI_Quantity
+                </dt>
+                <dd class="padding-bottom10">
+                    @Html.TextBox("txtQuantity", "1", new { @class = "form-control flat small", id = "txtQuantity", style = "width:45px; height:22px" })
+                </dd>
+            </dl>
+        </div>
+
+        <!--规格属性-->
+        <div class="row">
+            <div class="sys_item_spec clearfix pull-left" style="width:97%;"> 
+                @{
+                    var propLst1 = cartController.GetPropName(ProductId);
+                    foreach (var item in propLst1)
+                    {
+                        string switchToClass = item.ShowPicture != 1 ? "sys_spec_text" : "sys_spec_img";
+
+                        <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="@item.PropertiesNameID">
+                            <dt class="iteminfo_parameter clearfix" style="padding-left:0px;">
+                                <span class="text-bold h5 padding-5 text-black" id="@("ListName" + item.PropertiesNameID)" title="* select required" data-toggle="tooltip">
+                                    @item.PropertiesName 
+                                </span><!--ListName1=尺码-->
+                            </dt>
+                            <dd>
+                                <ul id="prop_ListData1" class="@switchToClass list-unstyled clearfix" title="* select required" data-toggle="tooltip">
+                                    <!-- prop1 listdata-->
+                                    @{
+                                        List<ProdPropertiesValue> GetPropValue = cartController.GetPropValue(item, ProductId);
+                                        foreach (var item2 in GetPropValue)
+                                        {
+                                            if (item.ShowPicture == 1)
+                                            {
+                                                <li data-aid="@item2.PropertiesValueID.Trim()">
+                                                    <a href="javascript:;" title="@item2.PropertiesValueName">
+                                                        <img src="@item2.OperatedUserName" alt="@item2.PropertiesValueName" />
+                                                    </a><i></i>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li data-aid="@item2.PropertiesValueID.Trim()"> 
+                                                    <a href="javascript:;" title="@item2.PropertiesValueName">@item2.PropertiesValueName</a><i></i>
+                                                </li>
+                                            }
+                                        }
+                                    }
+                                </ul>
+                            </dd>
+                        </dl>
+                    }
+                }
+            </div>
+        </div>
+
+        <!--Summary-->
+        <div class="row  clearfix padding-left15 margin-top10" data-sid="@propLst1.Count()">
+              @Html.ValidationSummary("", new { @class = "text-danger", id = "AddToShoppingCartValidationSummary1" }) 
+        </div>
+        <!-- button add to cart or buy instantly-->
+        <div class="row  margin-top10">
+            <div class="button-group col-lg-12 col-md-12 col-sm-12 col-xs-12 col-lg-left-offset-0 col-md-left-offset-0  col-sm-left-offset-0 col-xs-left-offset-0">
+                <button type="button" id="BtnAddToCartOK" onclick="javascript:AddToCartOK(false)" class="btn btn-danger btn-flat">Add to Cart</button>
+                <button type="button" id="btnActToBuy" onclick="javascript:AddToCartOK(true)" class="btn btn-danger btn-flat pull-left">Buy Now</button>
+            </div>
+        </div>
+
+        <!--属性值 【hide】--> <!--hide-->
+        <div class="row hide">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                @Html.TextBox("txtProductTradePrice", "", new { @class = "form-control", id = "txtProductTradePrice", width = "40px" })
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                @Html.TextBox("txtProductSkuTradePrice", "", new { @class = "form-control", id = "txtProductSkuTradePrice", width = "40px" })
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                @Html.TextBox("txtProductSkuId", "", new { @class = "form-control", id = "txtProductSkuId", width = "40px" })
+            </div>
+        </div>
+    </div><!--end of ./box-body-->
+</div><!--./AddToCartProd1-->
+}
+
+<script>
+
+    var redirectToCart = true; // default value is redirect to shopping cart.
+
+    $(document).ready(function () {
+        console.log("document ready");
+    });
+
+    function AddToCartOK(isRedirect) {
+
+        redirectToCart = isRedirect;
+
+
+        //layerTips("loading..."); bad!!!
+
+        var strPlsSelect = "@Lang.AddToCart_ClickBtnAddToCartOK_strPlsSelect";
+        var ProductSkuId = $("#txtProductSkuId").val();
+
+        //insert default sku if only one sku /zh-CN/cart/CheckOnlyOneSkuForCart?productid=P00002 ret : {"ProductSkuId":"P0000210132","ProductSkuCount":1,"SkuMessage":"Only One SKU"}
+        var urlCheckOnlyOneSku = " @Url.Action("CheckOnlyOneSkuForCart", "cart",new { area="default",Language=ViewBag.Language,productId= ViewBag.CurrentProductId })";
+        urlCheckOnlyOneSku = "/@ViewBag.Language/cart/CheckOnlyOneSkuForCart?productid=@ViewBag.CurrentProductId";
+        console.log("urlCheckOnlyOneSku :");
+        console.log(urlCheckOnlyOneSku);
+
+        $.ajax({
+          url: urlCheckOnlyOneSku,
+          type: "get",
+              success: function (data) {
+
+                  console.log("CheckOnlyOneSkuForCart Data:");
+                  console.log(JSON.stringify(data));
+                  if (data.ProductSkuCount == 1) {
+                      $("#txtProductSkuId").val(data.ProductSkuId)
+                      $("#txtProductSkuTradePrice").val(data.SkuTradePrice);
+                      ProductSkuId = data.ProductSkuId;
+                      $("#BtnAddToCartOK").submit();
+                  }
+
+                  layerTips("<h4>" + data.SkuMessage +"</h4>");
+              }
+          });
+
+        if (ProductSkuId === "-" || ProductSkuId === "_" || ProductSkuId.length < 1)
+        {
+            $("#AddToShoppingCartValidationSummary1").html(strPlsSelect);
+            layer.open({
+                content: strPlsSelect
+                , btn: 'OK'
+            });
+            return;
+        }
+        else {
+            layer.open({ type: 2 });
+            var $btn = $(this).button('loading');
+            $("#BtnAddToCartOK").submit();
+            $btn.button('reset');
+        }
+    }; // click
+
+    function HandleAddToCartSuccDialog(data) {
+
+        console.log("AddToCart Return Result:\r\n" + JSON.stringify(data));
+
+        if (data.MsgCode === -1) {
+             layerTips("@Lang.Views_GeneralUI_NoStock");
+            return;
+        }
+
+        //window.parent.AddToShoppingCartOK(); //from file p.cshtml
+        ////sleep(1000);
+
+        if (redirectToCart) {
+            window.location = "@Url.Action("myShoppingCart", "cart",new { area="",Language=ViewBag.Language})";
+        } else {
+            AddToShoppingCartOK();
+        }
+
+    }
+    function errAddToCart(data) {
+        layerTips("@Lang.Views_GeneralUI_NoStock");  //Main.js
+        console.log("AddToCart.cshtml Error: line:128 \n\r\  errAddToShoppingCart \n\r ");
+        console.log(JSON.stringify(data));
+    }
+
+    function AddToShoppingCartOK() {
+        layer.open({
+            content: '<h2>ok</h2>'
+        });
+    }
+
+</script>

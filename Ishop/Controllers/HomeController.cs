@@ -286,9 +286,20 @@ namespace Ishop.Controllers
             ViewBag.SourceStatisticsID =this.IPstatiticsAdd(ProductID ,Product1.Title, userTrace1.UserId, Product1.ShopID);
 
             #region Product Slide
-            ViewBag.productImageViews = GetListProductImageViews(ProductID); 
-            #endregion 
-            return View(Product1);
+            ViewBag.productImageViews = GetListProductImageViews(ProductID);
+            #endregion
+
+            int addtoCartStyleMode = int.Parse(ConfigurationManager.AppSettings["AddtoCartStyleMode"]);
+            if (addtoCartStyleMode == 0)
+            {
+                return View(Product1);
+            }
+            else
+            { 
+                //改用Prod.cshtml 2024-5-21
+                return View("Prod", Product1);
+            }
+           
         }
         public ActionResult AddToCart(string ProductId)
         {

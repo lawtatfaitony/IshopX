@@ -1448,7 +1448,7 @@ namespace LanguageResource
  				  public static string InfoList_InfoDetails_DefinitedTag_Introduction{
  				  get { return LangUtilities.GetString( "InfoList_InfoDetails_DefinitedTag_Introduction"); }} 
 
-				 ///<summary>推荐阅读</summary>
+				 ///<summary>行业资讯</summary>
  				  public static string InfoList_InfoDetails_DefinitedTag_RelateInfo{
  				  get { return LangUtilities.GetString( "InfoList_InfoDetails_DefinitedTag_RelateInfo"); }} 
 
