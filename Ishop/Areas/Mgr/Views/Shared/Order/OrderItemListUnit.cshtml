@@ -1,0 +1,45 @@
+﻿@using LanguageResource
+@using Ishop.Utilities
+@model Ishop.Models.ProductMgr.OrderItem
+
+<div class="container" style="margin-left:5px;">
+    <div class="row">
+        <div class="h4 col-lg-9 col-md-9" style="float:left;word-break:break-all;word-wrap:break-word">
+            <ul class="h4 list-unstyled list-inline">
+                <li class="list-inline" style="float:left;word-break:break-all;word-wrap:break-word">
+                    <ul class="unstyled list-unstyled" style="width:390px">
+                        <li class="padding-right5">
+                            @Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Model.ProductName), "p", "home", new { Id = Model.ProductSkuId.Substring(0, 6) }, htmlAttributes: new { @class = "text-primary", target = "_blank", title = ChineseStringUtility.ToAutoTraditional(Model.ProductName.ToString()) })
+                        </li>
+                        <li class="h5">
+                            <span class="h5"> Sku ID :  @Model.ProductSkuId</span><span class="h5"> @Model.PropertyDesc</span>
+                        </li>
+                    </ul>
+                </li>
+                <li class="list-inline">
+                    <ul class="list-unstyled list-inline" style="float:left;display:block;word-break:break-all;word-wrap:break-word">
+                        <li>
+                            <div class="margin-right10 padding-left15">
+                                @Lang.Views_GeneralUI_Quantity<span class="padding-left15 small">X</span><strong>@Model.Quantity</strong>
+                            </div>
+                        </li>
+                        <li class="h5">
+                            <div class="margin-right10">
+                                <strong>@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", Model.TradePrice), (string)ViewBag.ShopCurrency)</strong>
+                            </div>
+                        </li>
+
+                        <li class="list-inline pull-right hide">
+                            <img src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100)" alt="..." class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px;max-width:90px;" />
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-3 col-md-3">
+            <!-- PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100) -->
+            <img src="@Model.SkuImageUrl" class="img-responsive img-thumbnail img-rounded" style="max-width:120px;" />
+        </div>
+    </div>
+</div>
+

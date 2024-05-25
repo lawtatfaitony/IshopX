@@ -141,7 +141,7 @@ namespace LanguageResource
                     {
                         Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-hant-HK");
                         Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("zh-hant-HK");
-                    }catch(Exception e) {
+                    }catch{
                          
                     }  
                 }

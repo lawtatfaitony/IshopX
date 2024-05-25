@@ -7,7 +7,7 @@
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\ClientIshop_Ishop_AD\发布202110</_PublishTargetUrl>
-    <History>True|2024-05-11T18:01:49.1935738Z;True|2024-05-11T03:51:41.0261529+08:00;True|2024-05-09T10:33:46.6145408+08:00;True|2024-05-09T09:05:13.0366432+08:00;True|2024-05-06T12:54:21.7441724+08:00;True|2024-05-06T04:04:10.8175028+08:00;</History>
+    <History>True|2024-05-25T02:30:11.5767033Z;False|2024-05-25T10:21:34.6817544+08:00;True|2024-05-12T02:01:49.1935738+08:00;True|2024-05-11T03:51:41.0261529+08:00;True|2024-05-09T10:33:46.6145408+08:00;True|2024-05-09T09:05:13.0366432+08:00;True|2024-05-06T12:54:21.7441724+08:00;True|2024-05-06T04:04:10.8175028+08:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -2691,7 +2691,10 @@
       <publishTime>07/21/2016 18:56:43</publishTime>
     </File>
     <File Include="AdminLTE/plugins/tbTrade/base.css">
-      <publishTime>01/05/2019 09:50:59</publishTime>
+      <publishTime>05/22/2024 15:16:41</publishTime>
+    </File>
+    <File Include="AdminLTE/plugins/tbTrade/baseprod.css">
+      <publishTime>05/22/2024 16:37:35</publishTime>
     </File>
     <File Include="AdminLTE/plugins/tbTrade/img/1.png">
       <publishTime>02/17/2014 10:48:38</publishTime>
@@ -2805,10 +2808,13 @@
       <publishTime>07/30/2016 19:12:42</publishTime>
     </File>
     <File Include="Areas/Mgr/Views/OrderMgt/Index.cshtml">
-      <publishTime>03/05/2019 18:34:30</publishTime>
+      <publishTime>05/24/2024 21:57:04</publishTime>
+    </File>
+    <File Include="Areas/Mgr/Views/OrderMgt/MyNoOrderTips.cshtml">
+      <publishTime>05/25/2024 00:09:29</publishTime>
     </File>
     <File Include="Areas/Mgr/Views/OrderMgt/OrderDetails.cshtml">
-      <publishTime>03/06/2019 12:48:49</publishTime>
+      <publishTime>05/25/2024 02:20:18</publishTime>
     </File>
     <File Include="Areas/Mgr/Views/ProdCateV2/Index.cshtml">
       <publishTime>01/16/2019 15:38:33</publishTime>
@@ -2817,7 +2823,7 @@
       <publishTime>07/18/2016 12:18:29</publishTime>
     </File>
     <File Include="Areas/Mgr/Views/ProductMgr/createSku.cshtml">
-      <publishTime>02/27/2022 13:10:05</publishTime>
+      <publishTime>05/19/2024 18:08:23</publishTime>
     </File>
     <File Include="Areas/Mgr/Views/ProductMgr/Index.cshtml">
       <publishTime>01/02/2021 03:56:26</publishTime>
@@ -2849,6 +2855,12 @@
     <File Include="Areas/Mgr/Views/Shared/ModalDialogView.cshtml">
       <publishTime>01/24/2017 02:44:54</publishTime>
     </File>
+    <File Include="Areas/Mgr/Views/Shared/Order/OrderItemListUnit.cshtml">
+      <publishTime>05/24/2024 22:52:53</publishTime>
+    </File>
+    <File Include="Areas/Mgr/Views/Shared/Order/PaymentService.cshtml">
+      <publishTime>05/24/2024 23:18:41</publishTime>
+    </File>
     <File Include="Areas/Mgr/Views/Shared/_blankLayout.cshtml">
       <publishTime>12/13/2018 12:08:04</publishTime>
     </File>
@@ -2856,7 +2868,7 @@
       <publishTime>07/29/2016 11:46:41</publishTime>
     </File>
     <File Include="Areas/Mgr/Views/Shared/_Layout.cshtml">
-      <publishTime>05/13/2024 03:40:52</publishTime>
+      <publishTime>05/25/2024 02:04:21</publishTime>
     </File>
     <File Include="Areas/Mgr/Views/Shared/_LeftMenu.cshtml">
       <publishTime>12/20/2021 11:18:56</publishTime>
@@ -2934,7 +2946,7 @@
       <publishTime>12/28/2018 12:09:54</publishTime>
     </File>
     <File Include="Areas/Mgr/Views/User/Details.cshtml">
-      <publishTime>01/30/2019 13:16:11</publishTime>
+      <publishTime>05/19/2024 12:00:19</publishTime>
     </File>
     <File Include="Areas/Mgr/Views/User/Index.cshtml">
       <publishTime>02/24/2019 16:00:45</publishTime>
@@ -3030,19 +3042,19 @@
       <publishTime>02/03/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/Ishop.dll">
-      <publishTime>05/13/2024 03:48:11</publishTime>
+      <publishTime>05/25/2024 10:34:33</publishTime>
     </File>
     <File Include="bin/Ishop.pdb">
-      <publishTime>05/13/2024 03:48:11</publishTime>
+      <publishTime>05/25/2024 10:34:33</publishTime>
     </File>
     <File Include="bin/LanguageResource.dll">
-      <publishTime>05/12/2024 01:14:52</publishTime>
+      <publishTime>05/25/2024 10:30:03</publishTime>
     </File>
     <File Include="bin/LanguageResource.dll.config">
       <publishTime>03/25/2021 22:26:46</publishTime>
     </File>
     <File Include="bin/LanguageResource.pdb">
-      <publishTime>05/12/2024 01:14:52</publishTime>
+      <publishTime>05/25/2024 10:30:03</publishTime>
     </File>
     <File Include="bin/Microsoft.ApplicationBlocks.Data.dll">
       <publishTime>01/17/2006 10:13:52</publishTime>
@@ -3827,10 +3839,28 @@
     <File Include="Content/Images/6.png">
       <publishTime>04/29/2024 17:10:57</publishTime>
     </File>
+    <File Include="Content/Images/Admain.Old.png">
+      <publishTime>04/29/2024 17:10:58</publishTime>
+    </File>
     <File Include="Content/Images/Admain.png">
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
+    <File Include="Content/Images/AdMainAiBox_SloganP1 - 複製.png">
+      <publishTime>04/29/2024 17:10:58</publishTime>
+    </File>
     <File Include="Content/Images/AdMainAiBox_SloganP1.png">
+      <publishTime>05/19/2024 11:15:59</publishTime>
+    </File>
+    <File Include="Content/Images/AIService001.jpg">
+      <publishTime>04/29/2024 17:10:58</publishTime>
+    </File>
+    <File Include="Content/Images/AIService002.jpg">
+      <publishTime>04/29/2024 17:10:58</publishTime>
+    </File>
+    <File Include="Content/Images/AIService003.jpg">
+      <publishTime>04/29/2024 17:10:58</publishTime>
+    </File>
+    <File Include="Content/Images/AIService004.jpg">
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
     <File Include="Content/Images/banner.jpg">
@@ -3866,6 +3896,9 @@
     <File Include="Content/Images/favicon.png">
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
+    <File Include="Content/Images/gongxiSuccess.png">
+      <publishTime>05/24/2024 19:19:11</publishTime>
+    </File>
     <File Include="Content/Images/huiGuanBG150K.jpg">
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
@@ -3880,6 +3913,12 @@
     </File>
     <File Include="Content/Images/image.png">
       <publishTime>04/29/2024 17:10:58</publishTime>
+    </File>
+    <File Include="Content/Images/InfoModule.png">
+      <publishTime>05/13/2024 03:20:30</publishTime>
+    </File>
+    <File Include="Content/Images/InfoModule_full.png">
+      <publishTime>05/13/2024 03:21:44</publishTime>
     </File>
     <File Include="Content/Images/logo.psd">
       <publishTime>12/10/2014 19:44:29</publishTime>
@@ -3900,6 +3939,9 @@
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
     <File Include="Content/Images/Mgr/selectOKAccountMgrID.jpg">
+      <publishTime>04/29/2024 17:10:58</publishTime>
+    </File>
+    <File Include="Content/Images/multilanguage.png">
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
     <File Include="Content/Images/oa_avatar1.png">
@@ -3926,6 +3968,9 @@
     <File Include="Content/Images/oa_avatar8.png">
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
+    <File Include="Content/Images/ProductModule.png">
+      <publishTime>05/13/2024 03:07:33</publishTime>
+    </File>
     <File Include="Content/Images/progress.png">
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
@@ -3948,9 +3993,18 @@
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
     <File Include="Content/Images/sys_item_selected.gif">
+      <publishTime>11/02/2014 09:46:34</publishTime>
+    </File>
+    <File Include="Content/Images/TonyWhatsapp62595738.jpg">
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
     <File Include="Content/Images/Top.png">
+      <publishTime>04/29/2024 17:10:58</publishTime>
+    </File>
+    <File Include="Content/Images/whatsapp001.png">
+      <publishTime>04/29/2024 17:10:58</publishTime>
+    </File>
+    <File Include="Content/Images/whatsappUrlTony.txt">
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
     <File Include="Content/logo_480X.ico">
@@ -3960,7 +4014,7 @@
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
     <File Include="Content/mainStyle.css">
-      <publishTime>05/11/2024 03:01:55</publishTime>
+      <publishTime>05/15/2024 13:25:16</publishTime>
     </File>
     <File Include="Content/PagedList.css">
       <publishTime>04/29/2024 17:10:58</publishTime>
@@ -4959,7 +5013,7 @@
       <publishTime>05/12/2017 11:57:25</publishTime>
     </File>
     <File Include="js/Main.js">
-      <publishTime>12/12/2021 17:07:48</publishTime>
+      <publishTime>05/22/2024 10:45:30</publishTime>
     </File>
     <File Include="js/MgrUser/UserQuantization.js">
       <publishTime>06/13/2018 21:15:44</publishTime>
@@ -4968,7 +5022,7 @@
       <publishTime>04/14/2016 20:34:02</publishTime>
     </File>
     <File Include="js/Order/ShoppingCart.js">
-      <publishTime>05/07/2024 14:58:08</publishTime>
+      <publishTime>05/21/2024 17:33:25</publishTime>
     </File>
     <File Include="js/ProdCate/ProdcateProp.js">
       <publishTime>01/02/2021 04:08:04</publishTime>
@@ -7128,16 +7182,43 @@
       <publishTime>01/01/2017 14:09:49</publishTime>
     </File>
     <File Include="Views/Admin/Index.cshtml">
-      <publishTime>05/13/2024 03:43:40</publishTime>
+      <publishTime>05/24/2024 21:46:04</publishTime>
     </File>
     <File Include="Views/Cart/AddToCart.cshtml">
-      <publishTime>05/09/2024 12:52:45</publishTime>
+      <publishTime>05/21/2024 22:06:59</publishTime>
+    </File>
+    <File Include="Views/Cart/AddToCartProd.cshtml">
+      <publishTime>05/25/2024 10:18:01</publishTime>
+    </File>
+    <File Include="Views/Cart/base.css">
+      <publishTime>05/22/2024 02:49:35</publishTime>
+    </File>
+    <File Include="Views/Cart/img/1.png">
+      <publishTime>02/17/2014 10:48:38</publishTime>
+    </File>
+    <File Include="Views/Cart/img/2.png">
+      <publishTime>02/17/2014 10:48:52</publishTime>
+    </File>
+    <File Include="Views/Cart/img/3222222xxxxxxxxx.png">
+      <publishTime>02/17/2014 10:48:54</publishTime>
+    </File>
+    <File Include="Views/Cart/img/4.png">
+      <publishTime>02/17/2014 10:48:56</publishTime>
+    </File>
+    <File Include="Views/Cart/img/5.png">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Cart/img/6.png">
+      <publishTime>02/17/2014 10:49:02</publishTime>
+    </File>
+    <File Include="Views/Cart/img/sys_item_selected.gif">
+      <publishTime>11/02/2014 09:46:34</publishTime>
     </File>
     <File Include="Views/Cart/MyShoppingCart.cshtml">
       <publishTime>05/08/2024 01:33:28</publishTime>
     </File>
     <File Include="Views/Cart/taobaoTrade/base.css">
-      <publishTime>02/17/2014 14:25:58</publishTime>
+      <publishTime>05/22/2024 02:49:35</publishTime>
     </File>
     <File Include="Views/Cart/taobaoTrade/img/1.png">
       <publishTime>02/17/2014 10:48:38</publishTime>
@@ -7203,7 +7284,7 @@
       <publishTime>05/06/2024 11:18:31</publishTime>
     </File>
     <File Include="Views/Home/IndexB.cshtml">
-      <publishTime>05/11/2024 10:17:20</publishTime>
+      <publishTime>05/13/2024 13:03:59</publishTime>
     </File>
     <File Include="Views/Home/IndexC.cshtml">
       <publishTime>05/06/2024 03:47:58</publishTime>
@@ -7212,7 +7293,10 @@
       <publishTime>01/02/2021 00:14:37</publishTime>
     </File>
     <File Include="Views/Home/p.cshtml">
-      <publishTime>05/11/2024 02:09:11</publishTime>
+      <publishTime>05/21/2024 17:34:18</publishTime>
+    </File>
+    <File Include="Views/Home/Prod.cshtml">
+      <publishTime>05/22/2024 03:40:10</publishTime>
     </File>
     <File Include="Views/Home/ServiceFlow.cshtml">
       <publishTime>10/26/2021 16:30:05</publishTime>
@@ -7245,7 +7329,7 @@
       <publishTime>12/22/2021 10:04:04</publishTime>
     </File>
     <File Include="Views/InfoList/InfoDetails.cshtml">
-      <publishTime>06/12/2022 17:46:52</publishTime>
+      <publishTime>05/16/2024 13:09:27</publishTime>
     </File>
     <File Include="Views/InfoList/InfoDetailsForContains.cshtml">
       <publishTime>01/03/2022 22:36:14</publishTime>
@@ -7260,13 +7344,13 @@
       <publishTime>01/06/2022 22:14:39</publishTime>
     </File>
     <File Include="Views/Manage/AddPhoneNumber.cshtml">
-      <publishTime>10/31/2018 12:37:28</publishTime>
+      <publishTime>05/20/2024 14:41:03</publishTime>
     </File>
     <File Include="Views/Manage/ChangePassword.cshtml">
       <publishTime>01/14/2019 15:31:53</publishTime>
     </File>
     <File Include="Views/Manage/CreateShop.cshtml">
-      <publishTime>06/12/2022 22:58:44</publishTime>
+      <publishTime>05/25/2024 10:18:01</publishTime>
     </File>
     <File Include="Views/Manage/CreateShopReturn.cshtml">
       <publishTime>06/12/2022 22:50:37</publishTime>
@@ -7299,10 +7383,13 @@
       <publishTime>01/08/2022 22:44:10</publishTime>
     </File>
     <File Include="Views/My/ShopCopyShopNotExit.cshtml">
-      <publishTime>05/12/2024 02:18:44</publishTime>
+      <publishTime>05/19/2024 13:24:59</publishTime>
     </File>
     <File Include="Views/My/ShopCopySuccess.cshtml">
       <publishTime>05/12/2024 01:14:40</publishTime>
+    </File>
+    <File Include="Views/My/ShopCopyTargetShopNotExit.cshtml">
+      <publishTime>05/19/2024 13:40:35</publishTime>
     </File>
     <File Include="Views/My/SourceStatisticDetails.cshtml">
       <publishTime>06/11/2018 16:06:38</publishTime>
@@ -7326,7 +7413,7 @@
       <publishTime>05/07/2024 21:03:37</publishTime>
     </File>
     <File Include="Views/Order/OrderList.cshtml">
-      <publishTime>05/11/2024 16:26:06</publishTime>
+      <publishTime>05/24/2024 18:39:41</publishTime>
     </File>
     <File Include="Views/Roles/Create.cshtml">
       <publishTime>03/13/2019 04:42:02</publishTime>
@@ -7370,8 +7457,11 @@
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>01/01/2017 13:13:59</publishTime>
     </File>
+    <File Include="Views/Shared/Info/InfoListUnit - 复制.cshtml">
+      <publishTime>05/16/2024 12:20:54</publishTime>
+    </File>
     <File Include="Views/Shared/Info/InfoListUnit.cshtml">
-      <publishTime>12/22/2021 09:57:56</publishTime>
+      <publishTime>05/16/2024 12:24:38</publishTime>
     </File>
     <File Include="Views/Shared/Info/InfoListUnit_WX.cshtml">
       <publishTime>01/30/2019 16:37:04</publishTime>
@@ -7380,7 +7470,7 @@
       <publishTime>02/26/2019 01:40:50</publishTime>
     </File>
     <File Include="Views/Shared/Info/ViewIsInfoMode.cshtml">
-      <publishTime>05/11/2024 03:40:46</publishTime>
+      <publishTime>05/22/2024 03:13:48</publishTime>
     </File>
     <File Include="Views/Shared/Info/_ViewIconPortrait.cshtml">
       <publishTime>01/03/2022 22:57:35</publishTime>
@@ -7398,7 +7488,7 @@
       <publishTime>05/08/2024 13:18:36</publishTime>
     </File>
     <File Include="Views/Shared/PaymentInfo/sh0006_PaymentService_zh-HK.cshtml">
-      <publishTime>05/08/2024 13:16:42</publishTime>
+      <publishTime>05/24/2024 22:55:30</publishTime>
     </File>
     <File Include="Views/Shared/Product/ProductUnit.cshtml">
       <publishTime>05/05/2024 18:19:44</publishTime>
@@ -7437,13 +7527,13 @@
       <publishTime>05/09/2024 11:40:53</publishTime>
     </File>
     <File Include="Views/Shared/ShopHeaderTemplate/sh0006_LayOutHeader.en-US.cshtml">
-      <publishTime>05/10/2024 12:46:26</publishTime>
+      <publishTime>05/13/2024 13:32:22</publishTime>
     </File>
     <File Include="Views/Shared/ShopHeaderTemplate/sh0006_LayOutHeader.zh-CN.cshtml">
-      <publishTime>05/11/2024 01:57:59</publishTime>
+      <publishTime>05/13/2024 13:32:01</publishTime>
     </File>
     <File Include="Views/Shared/ShopHeaderTemplate/sh0006_LayOutHeader.zh-HK.cshtml">
-      <publishTime>05/11/2024 01:58:17</publishTime>
+      <publishTime>05/13/2024 13:41:38</publishTime>
     </File>
     <File Include="Views/Shared/ShopHeaderTemplate/SH2006_LayOutHeader.en-US.cshtml">
       <publishTime>05/09/2024 11:40:24</publishTime>
@@ -7485,13 +7575,13 @@
       <publishTime>04/25/2024 13:49:04</publishTime>
     </File>
     <File Include="Views/Shared/ShopViewTemplate1/sh0006_en-US.cshtml">
-      <publishTime>05/11/2024 03:35:31</publishTime>
+      <publishTime>05/19/2024 12:03:19</publishTime>
     </File>
     <File Include="Views/Shared/ShopViewTemplate1/sh0006_zh-CN.cshtml">
-      <publishTime>05/11/2024 03:33:05</publishTime>
+      <publishTime>05/19/2024 12:03:24</publishTime>
     </File>
     <File Include="Views/Shared/ShopViewTemplate1/sh0006_zh-HK.cshtml">
-      <publishTime>05/11/2024 03:34:50</publishTime>
+      <publishTime>05/19/2024 11:57:52</publishTime>
     </File>
     <File Include="Views/Shared/TemplateB/AdMain.en-US.cshtml">
       <publishTime>04/25/2024 13:19:23</publishTime>
@@ -7503,13 +7593,13 @@
       <publishTime>04/25/2024 13:16:05</publishTime>
     </File>
     <File Include="Views/Shared/TemplateB/AdMainAiBox.en-US.cshtml">
-      <publishTime>04/29/2024 13:24:31</publishTime>
+      <publishTime>05/21/2024 17:54:32</publishTime>
     </File>
     <File Include="Views/Shared/TemplateB/AdMainAiBox.zh-CN.cshtml">
-      <publishTime>05/10/2024 12:52:01</publishTime>
+      <publishTime>05/21/2024 17:54:25</publishTime>
     </File>
     <File Include="Views/Shared/TemplateB/AdMainAiBox.zh-HK.cshtml">
-      <publishTime>05/11/2024 01:17:21</publishTime>
+      <publishTime>05/21/2024 21:22:35</publishTime>
     </File>
     <File Include="Views/Shared/TemplateB/AiService.en-US.cshtml">
       <publishTime>05/06/2024 12:28:43</publishTime>
@@ -7629,13 +7719,13 @@
       <publishTime>04/29/2024 11:24:17</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>05/06/2024 11:06:43</publishTime>
+      <publishTime>05/22/2024 14:44:20</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutV51.cshtml">
       <publishTime>10/19/2021 16:00:13</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutWX.cshtml">
-      <publishTime>05/06/2024 12:53:42</publishTime>
+      <publishTime>05/22/2024 02:02:48</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>05/10/2024 12:40:09</publishTime>
@@ -7647,7 +7737,7 @@
       <publishTime>06/15/2016 14:25:13</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/13/2024 01:56:02</publishTime>
+      <publishTime>05/25/2024 10:26:56</publishTime>
     </File>
     <File Include="webuploader/CSS/bootstrap-theme.css">
       <publishTime>10/12/2014 19:51:12</publishTime>
@@ -7830,7 +7920,7 @@
       <publishTime>01/08/2017 19:10:48</publishTime>
     </File>
     <File Include="webuploader/Script/WebUploaderFun.js">
-      <publishTime>01/28/2022 17:37:46</publishTime>
+      <publishTime>05/19/2024 09:40:55</publishTime>
     </File>
   </ItemGroup>
 </Project>

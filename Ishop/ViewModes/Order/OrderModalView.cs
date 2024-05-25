@@ -10,6 +10,8 @@ using System.Linq;
 using System.Web;
 using System.Collections;
 using Ishop.Models.ProductMgr;
+using Ishop.Models.CampaignMgr;
+using Ishop.Models;
 
 namespace Ishop.ViewModes.Order
 { 
@@ -78,6 +80,18 @@ namespace Ishop.ViewModes.Order
         public DateTime CreatedDate { get; set; }
     }
 
+    /// <summary>
+    /// For OrderMgtController.OrderDetails
+    /// </summary>
+    public class OrderDetails
+    {
+        public Shop Shop { get; set; }
+        public Models.ProductMgr.Order OrderHeader { get; set; }
+        public int Quantity { get; set; } 
+        public DispatchNote DispatchNote { get; set; } 
+        public Coupon Coupon { get; set; }
+        public IList<OrderItem> OrderItems { get; set; }
+    }
     public class ProductSkuPropName1
     {
         public string ProductID;

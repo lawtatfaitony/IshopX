@@ -24,6 +24,7 @@ using Ishop.Utilities;
 using System.Diagnostics;
 using System.Threading;
 using System.Net;
+using Common;
 
 namespace Ishop
 {
@@ -32,25 +33,27 @@ namespace Ishop
         private MailMessage MailMessage126 = new MailMessage();
         public Task SendAsync(IdentityMessage message)
         {
-            //在此处插入电子邮件服务可发送电子邮件。
-            //var credentialUserName = ConfigurationManager.AppSettings["credentialUserName"].ToString();
-            //var sentFrom = ConfigurationManager.AppSettings["sentFrom"].ToString();
-            //var pwd = ConfigurationManager.AppSettings["pwd"].ToString();
-            //var host = ConfigurationManager.AppSettings["SmtpClient"].ToString();
-            //int port = int.Parse(ConfigurationManager.AppSettings["Port"].ToString());
-             
+            EmailAccoun EmailAccoun = new EmailAccoun
+            {
+                CredentialUserName = ConfigurationManager.AppSettings["credentialUserName"],
+                SentFrom = ConfigurationManager.AppSettings["sentFrom"],
+                Password = ConfigurationManager.AppSettings["password"],
+                SmtpClientHost = ConfigurationManager.AppSettings["SmtpClient"],
+                Port = int.Parse(ConfigurationManager.AppSettings["Port"])
+            };
 
-            SendEmail126X(message.Destination, message.Subject, message.Body);
+            //在此处插入电子邮件服务可发送电子邮件。 
+            SendEmail126X(EmailAccoun, message.Destination, message.Subject, message.Body);
 
             return Task.FromResult(1);
         }
   
-        public  void SendEmail126X(string to, string subject, string bodyContent)
+        public  void SendEmail126X(EmailAccoun emailAccoun,string to, string subject, string bodyContent)
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            var emailAcount = "xguard@126.com";//邮箱号
-            var emailPassword = "SAHMIMINZLHDRXSD";//POP3/SMTP/IMAP服务密码 或 邮箱密码
+            var emailAcount = emailAccoun.SentFrom;//邮箱号
+            var emailPassword = emailAccoun.Password;//POP3/SMTP/IMAP服务密码 或 邮箱密码
 
             try
             {
@@ -65,7 +68,7 @@ namespace Ishop
                 message.To.Add(reciver);
                 //设置抄送人
 #if DEBUG
-                message.Bcc.Add("caihaxxxxxxx2@gmail.com");
+                message.Bcc.Add("caihaili82@gmail.com");
 #endif 
                 //设置邮件标题 
                 message.Subject = subject;
@@ -73,7 +76,7 @@ namespace Ishop
                 message.Body = content;
                 message.IsBodyHtml = true;
                 //设置邮件发送服务器,服务器根据你使用的邮箱而不同,可以到相应的 邮箱管理后台查看
-                SmtpClient client = new SmtpClient("smtp.126.com", 25);
+                SmtpClient client = new SmtpClient(emailAccoun.SmtpClientHost, emailAccoun.Port);
                 //启用ssl,也就是安全发送
                 client.EnableSsl = false;
                 client.UseDefaultCredentials = false;
@@ -85,21 +88,27 @@ namespace Ishop
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[{DateTime.Now:F}] [EXCEPTION] [ {to} ] SEND MAIL FAIL : {subject} {ex.Message}");
+                string loggerLine = $"[EXCEPTION] [ {to} ] SEND MAIL FAIL : {subject} {ex.Message}"; 
+                CommonBase.OperateLoger(loggerLine);
                 throw ex;
             }
             finally
             {
-                string loggerLine = string.Format("[{0:yyyy-MM-dd HH:mm:ss}] [126 MAIL] [TO :{1} FROM : {2}] [SUCCESS {3}Milliseconds]", DateTime.Now, to, emailAcount, sw.Elapsed.Milliseconds);
-                Console.WriteLine(loggerLine);
-
+                string loggerLine = string.Format("[126 MAIL] [TO :{0} FROM : {1}] [SUCCESS {3}Milliseconds]", to, emailAcount, sw.Elapsed.Milliseconds);
+                CommonBase.OperateLoger(loggerLine);
                 sw.Stop();
             }
-
-
         }
     }
 
+    public class EmailAccoun
+    {
+        public string CredentialUserName { get; set; } 
+        public string SentFrom { get; set; }
+        public string Password { get; set; }
+        public string SmtpClientHost { get; set; }
+        public int Port { get; set; }
+    }
     public class SmsService : IIdentityMessageService
     { 
         public Task SendAsync(IdentityMessage message)

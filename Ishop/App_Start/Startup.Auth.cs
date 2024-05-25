@@ -55,7 +55,6 @@ namespace Ishop
                     routeValues.Add(context.Options.ReturnUrlParameter, returnUrl);
                 }
 
-                
                 //Overwrite the redirection uri
                 context.RedirectUri = url.Action("Login", "Account", routeValues);
                 originalHandler.Invoke(context);

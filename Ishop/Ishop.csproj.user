@@ -14,7 +14,7 @@
     <WebStackScaffolding_AreaDialogWidth>600</WebStackScaffolding_AreaDialogWidth>
     <WebStackScaffolding_DbContextTypeFullName>Ishop.Context.ApplicationDbContext</WebStackScaffolding_DbContextTypeFullName>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
-    <NameOfLastUsedPublishProfile>D:\ClientIshop_Ishop_AD\IshopX_GitHub\IshopX\Ishop\Properties\PublishProfiles\Ishop3.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>D:\ClientIshop_Ishop_AD\IshopX_GitHub\IshopX\Ishop\Properties\PublishProfiles\Ishop_Issue.pubxml</NameOfLastUsedPublishProfile>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -30,7 +30,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <StartPageUrl>zh-HK/Home/p/Tr001057</StartPageUrl>
+          <StartPageUrl>Mgr/OrderMgt/OrderDetails?OrderId=1050600005</StartPageUrl>
           <StartAction>SpecificPage</StartAction>
           <AspNetDebugging>True</AspNetDebugging>
           <SilverlightDebugging>False</SilverlightDebugging>

@@ -346,8 +346,8 @@ namespace Ishop.Controllers
             {
                 dispatchNote1.DispatchNoteId = db.GetTableIdentityID("D", "DispatchNote", 8);
                 dispatchNote1.Quantity = db.OrderItems.Where(c => c.OrderId == CurrentOrderId).Sum(s => s.Quantity);
-                dispatchNote1.RecommUserId = WebCookie.RecommUserId;
-                dispatchNote1.ShopID = WebCookie.ShopID;
+                dispatchNote1.RecommUserId = currentOrder.RecommUserId;
+                dispatchNote1.ShopID = currentOrder.ShopID;
                 dispatchNote1.CreatedDate = DateTime.Now;
                 try
                 {

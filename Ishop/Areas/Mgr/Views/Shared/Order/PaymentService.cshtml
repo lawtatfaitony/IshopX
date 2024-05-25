@@ -1,0 +1,58 @@
+﻿@using LanguageResource;
+@using Ishop.Utilities
+@model Ishop.ViewModes.Order.OrderDetails
+
+<div class="box box-info">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.OrderHeader.OrderId)
+    @Html.HiddenFor(model => model.OrderHeader.Payment)
+    @Html.HiddenFor(model => model.DispatchNote.District)
+    @Html.HiddenFor(model => model.DispatchNote.State)
+    @Html.HiddenFor(model => model.DispatchNote.Country)
+    <div id="box-header" class="box-header with-border">
+        <div class="pull-left">
+            <blockquote class="h4 box-title" style="margin-left:15px;padding:10px;font-weight:600;">
+                <i class="fa fa-microchip"></i>Payment Service
+            </blockquote>
+        </div>
+        <div class="box-tools pull-right">
+            <button id="show_collagge_plus" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+        </div><!-- /.box-tools -->
+    </div>
+    <div class="box-body padding-left15" style="background-image: url('/content/images/gongxiSuccess.png'); background-size: 100% 100%; background-repeat: no-repeat;">
+        <!--支付服務  -->
+        <div class="no-padding no-margin">
+            <div class="card card-body " style="margin-left:10px;">
+                    <p class="text-gray text-left h3" style="font-weight:600;">
+                        Transfer Account
+                    </p>
+                    <p class="text-white text-left h1" style="font-weight:600;">
+                        @Model.Shop.PhoneNumber
+                    </p>
+                    <p class="text-white text-left h5">
+                        @Model.Shop.ShopName
+                    </p>
+                    <p class="text-left text-blue">
+                        請備註訂單號<strong class="text-danger"> @Model.OrderHeader.OrderId </strong>更方便我們跟進<br />
+                    </p>
+                    @if (string.IsNullOrWhiteSpace(Model.DispatchNote.Address))
+                    {
+                        <p class="text-left text-blue">請先填寫訂單收貨地址才能發貨哦!</p>
+                    }
+            </div>
+            <div class="card-footer padding-bottom5 margin-top5">
+                <a class="badge badge-success padding-5" style="margin-left:10px;"
+                    href="@Url.Action("MainFunc","Helper",new { Language = LangUtilities.LanguageCode})" target="_blank">
+                    &nbsp;<i class="fa fa-link margin-r-5"></i>交易細則說明
+                </a><br />
+                <p class="h5 padding-10 margin-left15" style="max-width:500px;word-break:break-word;">
+                    交易規則：基於網絡安全考慮,保障客戶私隱,目前不支持在線支付.懇請閣下諒解,請通過線下銀行卡轉賬或轉數快支付。
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -27,14 +27,14 @@
                         <div class="card-body" style="margin-left:10px;margin-bottom:30px;">
                             <!-- Info List -->
                             <a target="_self" class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
-                               href="@Url.Action("Index","Info",new { Language = LangUtilities.LanguageCode , Area = "Mgr"})" target="_blank">
+                               href="@Url.Action("Index","Info",new {Area = "Mgr"})">
                                 <i class="fa fa-link margin-right10"></i>Info List
                             </a>
                             <br />
                             <br />
                             <!-- AddUpdateInfo -->
                             <a target="_self" class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
-                               href="@Url.Action("AddUpdateInfo","Info",new { Language = LangUtilities.LanguageCode , Area = "Mgr"})" target="_blank">
+                               href="@Url.Action("AddUpdateInfo","Info",new {Area = "Mgr"})">
                                 <i class="fa fa-link margin-right10"></i>Add Info
                             </a>
                         </div>
@@ -70,21 +70,109 @@
                         <div class="card-body" style="margin-left:10px;margin-bottom:30px;">
                             <!--Product List-->
                             <a target="_self" class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
-                               href="@Url.Action("Index","ProductMgr",new { Language = LangUtilities.LanguageCode , Area = "Mgr"})" target="_blank">
+                               href="@Url.Action("Index","ProductMgr",new { Area = "Mgr"})">
                                 <i class="fa fa-link margin-right10"></i>Product List
                             </a>
                             <br />
                             <br />
                             <!--返回產品發佈列表 Lang.Product_ProductAddUpd_ReturnToProductList-->
                             <a target="_self" class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
-                               href="@Url.Action("Index","ProductMgr",new { Language = LangUtilities.LanguageCode , Area = "Mgr"})" target="_blank">
-                                <i class="fa fa-link margin-right10"></i>Add Product 
-                            </a> 
+                               href="@Url.Action("Index","ProductMgr",new {Area = "Mgr"})">
+                                <i class="fa fa-link margin-right10"></i>Add Product
+                            </a>
                         </div>
-                        <div class="card-footer padding-bottom5 margin-top5"> 
-                                <p class="h5 padding-15 margin-left15" style="max-width:500px;word-break:break-word;">
-                                    Rules: The transactions on the front-end page not only rely on the Product release system, but also have SKU inventory, and the category attributes and attribute values must be defined before the above two operations.
-                                </p>
+                        <div class="card-footer padding-bottom5 margin-top5">
+                            <p class="h5 padding-15 margin-left15" style="max-width:500px;word-break:break-word;">
+                                Rules: The transactions on the front-end page not only rely on the Product release system, but also have SKU inventory, and the category attributes and attribute values must be defined before the above two operations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--ORDER LIST-->
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+            <div class="no-padding no-margin" style="background-image: url('/content/images/OrderModule.png'); background-size: 100% 100%; background-repeat: no-repeat;">
+
+                <div class="container">
+                    <div class="row">
+                        <blockquote class="h1" style="margin-left:15px;padding:10px;font-weight:600;">
+                            <i class="fa fa-microchip"></i>ORDERS
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header text-left padding-bottom10 text-omit">
+                            <blockquote class="text-blue h1" style="padding-left: 10px; font-weight: 600;">
+                                @Lang.OrderView_Title
+                            </blockquote>
+                        </div>
+                        <div class="card-body" style="margin-left:10px;margin-bottom:30px;">
+                            <!--Order List-->
+                            <a target="_self" class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
+                               href="@Url.Action("Index","OrderMgt",new {Area = "Mgr"})">
+                                <i class="fa fa-link margin-right10"></i>Order List
+                            </a>
+                            <br />
+                            <br />
+                            <!--DispatchNote-->
+                            <a target="_self" class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
+                               href="@Url.Action("Index","DispatchNote",new {Area = "Mgr"})">
+                                <i class="fa fa-link margin-right10"></i>Dispatch Notes
+                            </a>
+                        </div>
+                        <div class="card-footer padding-bottom5 margin-top5">
+                            <p class="h5 padding-15 margin-left15" style="max-width:500px;word-break:break-word;">
+                                Rules:The order list records include paid and unpaid, or undetermined orders are listed here one by one. If the customer submits an address after generating the order, a delivery order will be generated. Issues that need to be paid attention to, the delivery order must be sent concurrently. The payment has already been made and management staff is required to confirm the order status.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--CUSTOMER LIST-->
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+            <div class="no-padding no-margin" style="background-image: url('/content/images/CRMModule3.png'); background-size: 100% 100%; background-repeat: no-repeat;">
+
+                <div class="container">
+                    <div class="row">
+                        <blockquote class="h1" style="margin-left:15px;padding:10px;font-weight:600;">
+                            <i class="fa fa-microchip"></i>CRM
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header text-left padding-bottom10 text-omit">
+                            <blockquote class="text-blue h1" style="padding-left: 10px; font-weight: 600;">
+                                @Lang.MgrUser_Index_Title
+                            </blockquote>
+                        </div>
+                        <div class="card-body" style="margin-left:10px;margin-bottom:30px;">
+                            <!--Customer List-->
+                            <a target="_self" class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
+                               href="@Url.Action("Index","User",new { Area = "Mgr"})">
+                                <i class="fa fa-link margin-right10"></i>Customer Management
+                            </a>
+                            <br />
+                            <br />
+                            <!-- Customer-->
+                            <a target="_self" class="text-white text-left h3 padding-5" style="margin-left: 10px; font-weight: 600;"
+                               href="@Url.Action("Details","User",new { Area = "Mgr"})">
+                                <i class="fa fa-link margin-right10"></i>Customer Relationship Follow-Up
+                            </a>
+                        </div>
+                        <div class="card-footer padding-bottom5 margin-top5">
+                            <p class="h5 padding-15 margin-left15" style="max-width:500px;word-break:break-word;">
+                                Rules: Customer relationship follow-up can be divided into customers from orders and customers entered through operations, and can be divided into hierarchical groups and other functions.
+                            </p>
                         </div>
                     </div>
                 </div>

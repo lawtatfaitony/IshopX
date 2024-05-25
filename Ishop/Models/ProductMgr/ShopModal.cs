@@ -612,6 +612,7 @@ namespace Ishop.Models.ProductMgr
          
         [LocalizedDisplayName("所在国家", KeyName = "DispatchNote_Country", KeyType = KeyType.Modal)]
         [StringLength(50, ErrorMessage = "所在国家")]
+        [DefaultValue("CHINA SAR")]
         public string Country { get; set; }
          
         [LocalizedDisplayName("所在州省", KeyName = "DispatchNote_State", KeyType = KeyType.Modal)]

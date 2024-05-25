@@ -231,7 +231,6 @@ namespace Ishop.Controllers
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code });  //要求https:    Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     string confiredYourAccTitle =$"{Lang.Account_Register_confiredYourAccTitle} UserId = {UserID}" ;
-                    //string confiredYourAcc = string.Format(Lang.Account_Register_confiredYourAcc, callbackUrl);
                     string bodyContent = this.ReadTxtContent(Server.MapPath("~/MailTemplate/" + string.Format("Register_{0}.html", WebCookie.Language)));
                     bodyContent = bodyContent.Replace("{subject}", confiredYourAccTitle + "User Id : " + user.Id);
 
@@ -252,19 +251,15 @@ namespace Ishop.Controllers
                              Destination = user.Email
                         };
 
-                        //var sentFrom = ConfigurationManager.AppSettings["sentFrom"].ToString();
-                        //var pwd = ConfigurationManager.AppSettings["pwd"].ToString();
-                        //var host = ConfigurationManager.AppSettings["SmtpClient"].ToString();
-                        //int port = int.Parse(ConfigurationManager.AppSettings["Port"].ToString());
-
                         emailService.SendAsync(identityMessage);
-
-                        string emailRegisterLoggerLine = $"[FUNC::AccountController.Register] [SEND MAIL] [TO : {user.Email}]";
-                        Common.CommonBase.OperateDateLoger(emailRegisterLoggerLine,Common.CommonBase.LoggerMode.INFO);
                     });
-                   
 
-                    UserManager.ConfirmEmail(user.Id, code); //预设email确认
+                    //無論是否點擊確認發送callback郵件,都已經確認了這個email (無論EMAIL是否被點擊確認,系統都確認了這個是用戶的真實EMAIL,操作簡單化,當然也是不安全的)
+                    bool whetherConfirmedOrNot = bool.Parse(ConfigurationManager.AppSettings["WHETHER_CONFIRMED_OR_NOT"]);
+                    if(whetherConfirmedOrNot==false)
+                    {
+                        UserManager.ConfirmEmail(user.Id, code); //预设email确认
+                    } 
 
                     //CreateUserProfile(user.Id); 
 

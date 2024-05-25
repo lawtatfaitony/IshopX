@@ -53,8 +53,10 @@
                                                     @item.StatusId
                                                 </li>
                                                 <li class="h4 text-danger" style="font-weight:600;padding-right:5px;color:red;">
-                                                    @Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Lang.Views_GeneralUI_OrderDetails), "Index", "Order", new { OrderId = item.OrderId }, htmlAttributes: new { @class = "text-primary", target = "_blank", title = Lang.Views_GeneralUI_OrderDetails })
-                                                </li>
+                                                    <span class="btn btn-default"  style="padding:5px;border-radius:3px;border-color:blue;border-width:1px;;">
+                                                        @Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Lang.Views_GeneralUI_OrderDetails), "Index", "Order", new { OrderId = item.OrderId }, htmlAttributes: new { @class = "text-primary", target = "_blank", title = Lang.Views_GeneralUI_OrderDetails })
+                                                    </span>
+                                                 </li>
                                             </ul>
                                         </li>
                                         <li class="list-unstyled margin-left5">
