@@ -288,3 +288,41 @@ http://localhost:34322/zh-HK/Home/p/Tr001060
 登錄後,從後台 http://localhost:34322/Mgr/ProductMgr 列表獲取推薦人鏈接
 
 ![RecommTraceLink](README_IMGs/RecommTraceLink.jpg)
+
+## 標準國際化和現有架構比較
+
+`LanguageResource.dll.config` 是一個 .NET Framework 4.8 編譯後的檔案，通常被用來存儲與程式碼中使用的語言資源相關的設定資訊。這個檔案通常用於多語言支援的應用程式中，可以包含不同語言版本的字串資源、格式化資訊、地區設定等。在執行時，應用程式可以根據用戶的語言設定來讀取適合的資源內容，從而實現多語言的支援。透過這種方式，開發人員可以輕鬆地實現應用程式的國際化和本地化。希望這能幫助解答你的問題！
+
+在 .NET Framework 應用程式中，使用 `LanguageResource.dll.config` 檔案來支援多語言功能的一般步驟如下：
+
+1. **建立語言資源檔案**：首先，開發人員會建立包含不同語言版本的字串資源的檔案，通常是以 `.resx` 格式保存。每個語言的字串資源檔案都包含了該語言的本地化字串資訊。
+2. **編譯語言資源**：接著，這些語言資源檔案會被編譯成二進位格式的資源檔案，例如 `LanguageResource.dll`。這個檔案包含了應用程式所需的所有字串資源。
+3. **設定語言配置檔**：開發人員可以使用 `LanguageResource.dll.config` 檔案來指定應用程式要使用的語言資源。這個配置檔通常包含了語言資源檔案的路徑、預設語言等相關設定。
+4. **在程式碼中使用**：在程式碼中，開發人員可以透過 `.NET Framework` 提供的 API 來讀取 `LanguageResource.dll.config` 檔案中指定的語言資源，並根據用戶的語言設定來顯示適合的字串資訊。
+
+以下是一個簡單的 C# 程式碼範例，展示如何在 .NET Framework 應用程式中使用語言資源：
+
+```
+using System;
+using System.Resources;
+
+
+class Program
+{
+    static void Main()
+    {
+        // 載入語言資源
+        ResourceManager rm = new ResourceManager("LanguageResource", typeof(Program).Assembly);
+
+
+        // 讀取字串資源
+        string greeting = rm.GetString("Hello");
+
+
+        // 顯示字串資源
+        Console.WriteLine(greeting);
+    }
+}
+```
+
+以上範例假設 `LanguageResource.dll` 是已經編譯好的語言資源檔案，並且包含了一個名為 "Hello" 的字串資源。透過 `ResourceManager` 類別，我們可以輕鬆地讀取並顯示這些字串資源。希望這個範例能幫助你更好地理解如何在 .NET Framework 應用程式中使用 `LanguageResource.dll.config` 檔案。
