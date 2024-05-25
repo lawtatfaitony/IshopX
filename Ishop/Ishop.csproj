@@ -2151,8 +2151,6 @@
     <Content Include="Views\My\ShopCopyTargetShopNotExit.cshtml" />
     <Content Include="Views\Home\Prod.cshtml" />
     <Content Include="Views\Cart\AddToCartProd.cshtml" />
-    <Content Include="Views\Cart\AddToCartProd - 复制.cshtml" />
-    <Content Include="Views\Cart\AddToCartProd - 复制%282%29.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

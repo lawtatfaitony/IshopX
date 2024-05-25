@@ -64,12 +64,10 @@
 
     function selectedOK() {
 
-        var Onloading = layer.open({
-            type: 2
-            , content: 'Loading...'
-            , skin: 'msg'
-            , time: 12
-        });
+        var index_myshoppingcart = layer.load();
+        setTimeout(function () {
+            layer.close(index_myshoppingcart)
+        }, 3000);
 
         console.log("BtnSubmitCheeckOut click");
 
@@ -111,9 +109,11 @@
                     var skuId1 = NotSelectedList[i]["ProductSkuId"]
                     var RemoveID = "#" + skuId1;
                     $(RemoveID).html("");
-                }
+                } 
 
-                layerTips("<h4>Checked OK</h4>");
+                layer.open({
+                    content: '<h2>ok</h2>'
+                }); 
             }
         });
     }

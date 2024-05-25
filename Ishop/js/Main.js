@@ -37,7 +37,7 @@ function layerTips(msg) {
           content: msg
         , skin: 'msg'
         , time: 3
-    });
+    }); 
 } 
 
 

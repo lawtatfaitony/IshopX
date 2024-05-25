@@ -49,12 +49,14 @@
             console.log("GetProductAllInfo return error code:500\n\r " + JSON.stringify(result));
         },
         success: function (result) {
-            //console.log("/cart/GetProductAllInfo ：\n\r " + JSON.stringify(result));
+             
             sys_item = result;
+
             //initialize (remain for use)
             $("#txtProductTradePrice").val(sys_item.product.TradePrice);
             $("#txtProductSkuTradePrice").val(sys_item.product.TradePrice);
-            console.log("Sku and Price json : \n\r" + sys_item);
+
+            console.log("Sku and Price json = \n\r" + sys_item);
         }
     });
 
@@ -254,8 +256,8 @@
         <!-- button add to cart or buy instantly-->
         <div class="row  margin-top10">
             <div class="button-group col-lg-12 col-md-12 col-sm-12 col-xs-12 col-lg-left-offset-0 col-md-left-offset-0  col-sm-left-offset-0 col-xs-left-offset-0">
-                <button type="button" id="BtnAddToCartOK" onclick="javascript:AddToCartOK(false)" class="btn btn-danger btn-flat">Add to Cart</button>
-                <button type="button" id="btnActToBuy" onclick="javascript:AddToCartOK(true)" class="btn btn-danger btn-flat pull-left">Buy Now</button>
+                <button type="button" id="BtnAddToCartOK" onclick="javascript:AddToCartOK(false)" class="btn btn-danger btn-flat" lay-on="layerui-load-1">Add to Cart</button>
+                <button type="button" id="btnActToBuy" onclick="javascript:AddToCartOK(true)" class="btn btn-danger btn-flat pull-left" lay-on="layerui-load-1">Buy Now</button>
             </div>
         </div>
 
@@ -287,9 +289,6 @@
 
         redirectToCart = isRedirect;
 
-
-        //layerTips("loading..."); bad!!!
-
         var strPlsSelect = "@Lang.AddToCart_ClickBtnAddToCartOK_strPlsSelect";
         var ProductSkuId = $("#txtProductSkuId").val();
 
@@ -312,8 +311,10 @@
                       ProductSkuId = data.ProductSkuId;
                       $("#BtnAddToCartOK").submit();
                   }
-
-                  layerTips("<h4>" + data.SkuMessage +"</h4>");
+                  var index_prod = layer.load(); 
+                  setTimeout(function () {
+                      layer.close(index_prod)
+                  }, 3000);
               }
           });
 
@@ -327,9 +328,8 @@
             return;
         }
         else {
-            layer.open({ type: 2 });
-            var $btn = $(this).button('loading');
-            $("#BtnAddToCartOK").submit();
+           
+            $("#BtnAddToCartOK").submit(); 
             $btn.button('reset');
         }
     }; // click
@@ -362,7 +362,7 @@
     function AddToShoppingCartOK() {
         layer.open({
             content: '<h2>ok</h2>'
-        });
+        }); 
     }
 
 </script>

@@ -8,6 +8,10 @@
 
 使用 .NET Framework 4.8 ，C# 語言的版本通常是 C# 7.3。 後續可以升級待進一步研究.
 
+前端提示框架使用LayerUI : https://layui.dev/docs/2/layer/index.html#demo-tips
+
+
+
 ------
 
 ## 角色:
@@ -305,20 +309,14 @@ http://localhost:34322/zh-HK/Home/p/Tr001060
 ```
 using System;
 using System.Resources;
-
-
 class Program
 {
     static void Main()
     {
         // 載入語言資源
         ResourceManager rm = new ResourceManager("LanguageResource", typeof(Program).Assembly);
-
-
         // 讀取字串資源
         string greeting = rm.GetString("Hello");
-
-
         // 顯示字串資源
         Console.WriteLine(greeting);
     }
