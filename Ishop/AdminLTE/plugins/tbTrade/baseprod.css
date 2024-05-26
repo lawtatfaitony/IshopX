@@ -18,7 +18,7 @@
     vertical-align: middle;
 }
 .sys_item_price{ color:#c00; font-size:22px; vertical-align:middle;}
-.iteminfo_buying{ background:#f7f7f7; padding:12px 0;} 
+.iteminfo_buying{ background:#f7f7f7;} 
 
 /*规格*/
 .sys_item_spec dl.iteminfo_parameter{ }

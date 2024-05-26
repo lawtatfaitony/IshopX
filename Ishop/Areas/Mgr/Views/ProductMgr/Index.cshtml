@@ -97,7 +97,7 @@
                             @Html.DisplayFor(modelItem => item.ProductName) <label>-</label> <small>@item.SaleStatusID</small>
                         </span>
                         <strong class="text-omit-defined">
-                            <A href='@Url.Action("UserTrace","Home",new { TableKeyID=item.ProductID, Act="p",Ctrl="Home",Language = ViewBag.Language,area=""} )' class="bold" target="_blank">@item.ProductID</A>
+                            <A href='@string.Format("/{0}/Home/UserTrace?Ctrl=Home&Act=p&TableKeyID={1}",LangUtilities.LanguageCode,item.ProductID)' class="bold" target="_blank">@item.ProductID</A>
                         </strong>
                     </div>
                 </div><!-- /.info-box -->

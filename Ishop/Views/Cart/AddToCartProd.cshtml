@@ -41,7 +41,7 @@
     console.log("line29:" + JSON.stringify(myparamsObject));
     var sys_item = {};
     $.ajax({
-        url:"@Url.Action("GetProductAllInfo","cart",new { area="",Language=ViewBag.Language})" ,
+        url:"@Url.Action("GetProductAllInfo", "cart", new { area = "", Language = ViewBag.Language })" ,
         data: myparamsObject,
         type: "get",
         dataType: "json",
@@ -183,25 +183,39 @@
     <div class="box-body">
         <!--begin of ./box-body-->
         <div class="row padding-left15">
-            <ul class="list-unstyled">
-                <li class="text-bold">
-                    @Lang.Views_GeneralUI_SalePrice<!--售价-->
-                </li>
-                <li class="">
-                    <h3 class="iteminfo_price"><b class="sys_item_price text-danger">@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:F1}", decimal.Parse(Html.DisplayFor(m => m.TradePrice).ToString())), (string)ViewBag.ShopCurrency)</b></h3>
+            <ul class="list-unstyled list">
+                <li>
+                    <!--售价-->
+                    <ul class="list-unstyled">
+                        <li class="text-bold">
+                            @Lang.Views_GeneralUI_SalePrice
+                        </li>
+                        <li class="">
+                            <ul class="list-inline" style="float:left;">
+                                <li>
+                                    <h3 class="iteminfo_price"><b class="sys_item_price text-danger">@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:F1}", decimal.Parse(Html.DisplayFor(m => m.TradePrice).ToString())), (string)ViewBag.ShopCurrency)</b></h3>
+                                </li>
+                                <li class="">
+                                    <span class="text-mute deleted h6">@Lang.Cart_RetailPrice &#58; <span class="text-mute h6">@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:F1}", decimal.Parse(Model.RetailPrice.ToString())), (string)ViewBag.ShopCurrency)</span></span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li> 
+                <li class="list-seperator padding-10"></li>
+                <li>
+                    <!--數量-->
+                    <ul class="list-unstyled">
+                        <li class="text-bold">
+                            @Lang.Views_GeneralUI_Quantity
+                        </li>
+                        <li class="">
+                            @Html.TextBox("txtQuantity", "1", new { @class = "form-control flat small", id = "txtQuantity", style = "width:45px; height:22px" })
+                        </li>
+                    </ul>
                 </li>
             </ul>
-        </div>
-        <div class="row padding-left10">
-            <dl class="margin-left5">
-                <dt class="padding-top10 text-bold">
-                    @Lang.Views_GeneralUI_Quantity
-                </dt>
-                <dd class="padding-bottom10">
-                    @Html.TextBox("txtQuantity", "1", new { @class = "form-control flat small", id = "txtQuantity", style = "width:45px; height:22px" })
-                </dd>
-            </dl>
-        </div>
+        </div> 
 
         <!--规格属性-->
         <div class="row">
@@ -213,13 +227,13 @@
                         string switchToClass = item.ShowPicture != 1 ? "sys_spec_text" : "sys_spec_img";
 
                         <dl class="clearfix iteminfo_parameter sys_item_specpara" data-sid="@item.PropertiesNameID">
-                            <dt class="iteminfo_parameter clearfix" style="padding-left:0px;">
-                                <span class="text-bold h5 padding-5 text-black" id="@("ListName" + item.PropertiesNameID)" title="* select required" data-toggle="tooltip">
+                            <dt class="iteminfo_parameter clearfix" style="padding-left:0px;float:left;">
+                             <span style="margin-left:10px;float:left;" class="text-left text-bold h5 text-black" id="@("ListName" + item.PropertiesNameID)" title="* select required" data-toggle="tooltip">
                                     @item.PropertiesName 
                                 </span><!--ListName1=尺码-->
                             </dt>
                             <dd>
-                                <ul id="prop_ListData1" class="@switchToClass list-unstyled clearfix" title="* select required" data-toggle="tooltip">
+                                <ul id="prop_ListData1" class="@switchToClass list-unstyled clearfix padding-top10" title="* select required" data-toggle="tooltip">
                                     <!-- prop1 listdata-->
                                     @{
                                         List<ProdPropertiesValue> GetPropValue = cartController.GetPropValue(item, ProductId);
@@ -244,7 +258,7 @@
                                 </ul>
                             </dd>
                         </dl>
-                    }
+                                        }
                 }
             </div>
         </div>
@@ -287,13 +301,20 @@
 
     function AddToCartOK(isRedirect) {
 
+        //點擊Add To Cart 之後的loading  
+        var index_prod = layer.load();
+        setTimeout(function () {
+            layer.close(index_prod)
+        }, 2000);
+
+
         redirectToCart = isRedirect;
 
         var strPlsSelect = "@Lang.AddToCart_ClickBtnAddToCartOK_strPlsSelect";
         var ProductSkuId = $("#txtProductSkuId").val();
 
         //insert default sku if only one sku /zh-CN/cart/CheckOnlyOneSkuForCart?productid=P00002 ret : {"ProductSkuId":"P0000210132","ProductSkuCount":1,"SkuMessage":"Only One SKU"}
-        var urlCheckOnlyOneSku = " @Url.Action("CheckOnlyOneSkuForCart", "cart",new { area="default",Language=ViewBag.Language,productId= ViewBag.CurrentProductId })";
+        var urlCheckOnlyOneSku = " @Url.Action("CheckOnlyOneSkuForCart", "cart", new { area = "default", Language = ViewBag.Language, productId = ViewBag.CurrentProductId })";
         urlCheckOnlyOneSku = "/@ViewBag.Language/cart/CheckOnlyOneSkuForCart?productid=@ViewBag.CurrentProductId";
         console.log("urlCheckOnlyOneSku :");
         console.log(urlCheckOnlyOneSku);
@@ -305,33 +326,38 @@
 
                   console.log("CheckOnlyOneSkuForCart Data:");
                   console.log(JSON.stringify(data));
+
+                  if (data.ProductSkuCount === 0) {
+                       
+                      $("#AddToShoppingCartValidationSummary1").html("NO PRODUCT SKU SETTING!");
+                      return;
+                  }
+
                   if (data.ProductSkuCount == 1) {
                       $("#txtProductSkuId").val(data.ProductSkuId)
                       $("#txtProductSkuTradePrice").val(data.SkuTradePrice);
                       ProductSkuId = data.ProductSkuId;
                       $("#BtnAddToCartOK").submit();
-                  }
-                  var index_prod = layer.load(); 
-                  setTimeout(function () {
-                      layer.close(index_prod)
-                  }, 3000);
-              }
-          });
+                      $("#AddToShoppingCartValidationSummary1").html("Submit OK");
 
-        if (ProductSkuId === "-" || ProductSkuId === "_" || ProductSkuId.length < 1)
-        {
-            $("#AddToShoppingCartValidationSummary1").html(strPlsSelect);
-            layer.open({
-                content: strPlsSelect
-                , btn: 'OK'
-            });
-            return;
-        }
-        else {
-           
-            $("#BtnAddToCartOK").submit(); 
-            $btn.button('reset');
-        }
+                  } else {
+                       
+                      if ((ProductSkuId === null || ProductSkuId === "")) {
+                           
+                           //查詢返回SKU數量大於1,則表默認一個SKU的情況下,提示必須選擇交易屬性} 
+
+                          $("#AddToShoppingCartValidationSummary1").html(strPlsSelect + " (" + data.ProductSkuId +")");
+                           
+                          return;
+                      }
+                      else {
+
+                          $("#BtnAddToCartOK").submit();
+                          $btn.button('reset');
+                      } 
+                  }  
+              }
+          }); 
     }; // click
 
     function HandleAddToCartSuccDialog(data) {
@@ -347,13 +373,18 @@
         ////sleep(1000);
 
         if (redirectToCart) {
-            window.location = "@Url.Action("myShoppingCart", "cart",new { area="",Language=ViewBag.Language})";
+
+            window.location = "@Url.Action("myShoppingCart", "cart",new { area="",Language = ViewBag.Language})";
+
         } else {
+
+            $("#AddToShoppingCartValidationSummary1").html("OK");  //添加到購物車後的提示,在summary label中
             AddToShoppingCartOK();
         }
 
     }
     function errAddToCart(data) {
+
         layerTips("@Lang.Views_GeneralUI_NoStock");  //Main.js
         console.log("AddToCart.cshtml Error: line:128 \n\r\  errAddToShoppingCart \n\r ");
         console.log(JSON.stringify(data));

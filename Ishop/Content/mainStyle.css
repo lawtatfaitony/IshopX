@@ -672,8 +672,10 @@ textarea
     bottom: -25px; /* 調整提示框距離元素底部的距離 */
     top: auto; /* 確保提示框在下方顯示 */
 }
- 
 
+.deleted {
+    text-decoration: line-through;
+}
  /*footer Module*/ 
 #footer { padding-top: 15px; padding-bottom: 10px; color: #fff; background: #2e2e2e; border-top:5px solid #ed1b23; font-size:0.725em;}
 #footer a {  color: #fff;}

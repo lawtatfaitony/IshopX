@@ -40,16 +40,17 @@ namespace Ishop.Areas.Mgr.Controllers
             ViewBag.CurrentStartDate = string.IsNullOrEmpty(StartDate) ? DateTime.Now.ToString("yyyy-MM-dd HH:mm") : StartDate;
             ViewBag.CurrentEndDate = string.IsNullOrEmpty(EndDate) ? DateTime.Now.ToString("yyyy-MM-dd HH:mm") : EndDate;
 
-            if (searchString != null)
+            if (!string.IsNullOrEmpty(searchString)) 
             {
+                searchString = searchString?.Trim()??string.Empty;
                 page = 1;
             }
             else
             {
-                searchString = currentFilter;
+                searchString = currentFilter?.Trim() ?? string.Empty;
             }
 
-            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentFilter = searchString.Trim();
 
             var products = from s in db.Products
                               select s;
