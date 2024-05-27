@@ -1,0 +1,28 @@
+﻿@using Ishop.Utilities
+@using LanguageResource
+@model string
+<div class="container">
+    <blockquote class="h3 padding-left15">
+        <i class="fa fa-shopping-cart"></i> My Cart
+    </blockquote>
+    <hr />
+</div>
+<div class="container" id="MyShoppingCart1" style="margin-top:15px">
+    <div class="container">
+        <span class="h1  padding-left15 margin-bottom-15" style="font-weight:600;">
+            <i class="fa fa-exclamation-triangle text-danger"></i>
+            System Logic Error !!! <br />
+        </span>
+        <span><br /></span>
+        <span class="margin-top15 padding-left15 text-danger  h4"> @Html.Raw(Model) </span>
+
+        <span><br /></span>
+        <span><br /></span>
+        <span class="margin-top15 padding-left15 text-danger  h4">
+            NO PRODUCT SKU SETTING (BACKEND)
+        </span>
+
+    </div>
+</div>
+
+

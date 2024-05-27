@@ -1,47 +1,55 @@
 ﻿@using LanguageResource
 @using Ishop.Utilities
-@model Ishop.Models.ProductMgr.Cart 
+@model Ishop.Models.ProductMgr.Cart
 
-   <ul class="list-unstyled list-inline" style="margin-left:5px;background-color:aqua;">
-       <li class="h4 list-unstyled " style="float:left;word-break:break-all;word-wrap:break-word">
-           <ul class="list-unstyled list-inline">
-               <li class="list-inline" style="float:left;word-break:break-all;word-wrap:break-word">
-                   <ul class="list-unstyled list-inline">
-                       <li>
-                           <input type="checkbox" checked="checked" id="@Model.CartId" name="@Model.CartId" value="@Model.ProductSkuId" style="padding-left:10px" />
-                       </li>
-                       <li>
-                           <ul class="unstyled list-unstyled">
-                               <li>
-                                   @Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.ProductName).ToString()), "p", "home", new { Id = Model.ProductSkuId.ToString().Substring(0, 6) }, htmlAttributes: new { @class = "text-primary", title = ChineseStringUtility.ToAutoTraditional(Model.ProductName.ToString()) })
-                               </li>
-                               <li class="h5">
-                                   <span class="h5"> Sku ID :  @Model.ProductSkuId</span><span class="h5"> @Model.PropertyDesc</span>
-                               </li>
-                           </ul>
-                       </li>
-                   </ul>
-               </li>
-               <li class="list-inline">
-                   <ul class="list-unstyled list-inline" style="float:left;display:block;word-break:break-all;word-wrap:break-word">
-                       <li>
-                           <div class="margin-right10 padding-left15">
-                               @Lang.Views_GeneralUI_Quantity<span class="padding-left15 small">X</span><strong>@Model.Quantity</strong>
-                           </div>
-                       </li>
-                       <li class="h4" style="color:red;"> 
-                           <div class="margin-right10">
-                               <strong>@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", Model.TradePrice), (string)ViewBag.ShopCurrency)</strong>
-                           </div>
-                       </li> 
+<!-- For /Views/Cart\MyShoppingCart -->
+<!--Subject-->
+<div class="col-lg-5">
+    <ul class="list-unstyled list-inline">
+        <li>
+            <input type="checkbox" checked="checked" id="@Model.CartId" name="@Model.CartId" value="@Model.ProductSkuId" style="padding-left:10px" />
+        </li>
+        <li>
+            <ul class="unstyled list-unstyled">
+                <li>
+                    @Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Html.DisplayFor(model => model.ProductName).ToString()), "p", "home", new { Id = Model.ProductSkuId.ToString().Substring(0, 6) }, htmlAttributes: new { @class = "text-primary", title = ChineseStringUtility.ToAutoTraditional(Model.ProductName.ToString()) })
+                </li>
+                <li class="h5">
+                    <span class="h5"> Sku ID :  @Model.ProductSkuId</span><span class="h5"> @Model.PropertyDesc</span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
 
-                       <li class="list-inline pull-right">
-                           <!-- PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100) -->
-                           <img src="@Html.DisplayFor(model => model.SkuImageUrl).ToString()" alt="..." class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px;max-width:120px;" />
-                       </li>
-                   </ul>
-               </li> 
-           </ul>
-       </li> 
-   </ul>
- 
+<!--Quantity-->  
+<!--price-->
+<div class="col-lg-4 ">
+    <ul class="list-unstyled list-inline" style="float:left;display:block;word-break:break-all;word-wrap:break-word">
+        <li>
+            <div class="margin-right10 padding-left15">
+                @Lang.Views_GeneralUI_Quantity<span class="padding-left15 small">X</span><strong>@Model.Quantity</strong>
+            </div>
+        </li>
+        <li class="h4" style="color:red;">
+            <div class="margin-right10">
+                <strong>@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", Model.TradePrice), (string)ViewBag.ShopCurrency)</strong>
+            </div>
+        </li> 
+    </ul>
+</div>
+
+<!--sku picture-->
+<div class="col-lg-3 ">
+    <ul class="list-unstyled list-inline" style="float:left;display:block;word-break:break-all;word-wrap:break-word"> 
+
+        <li class="list-inline pull-right">
+            <!-- PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100) -->
+            <img src="@Html.DisplayFor(model => model.SkuImageUrl).ToString()" alt="..." class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px;max-width:120px;" />
+        </li>
+    </ul>
+</div>
+
+
+
+

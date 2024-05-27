@@ -116,8 +116,15 @@ namespace Ishop.Controllers
                         OrderItem orderItem = new OrderItem();
 
                         //1、get ProductDetails
-                        string ProductId = db.ProductSkus.Find(item.ProductSkuId).ProductID;
-                        Product product = db.Products.Find(ProductId);
+                        ProductSku productSku = db.ProductSkus.Find(item.ProductSkuId);
+
+                        if (productSku == null) //沒有對應的SKU 則提示錯誤
+                        {
+                            string messageForNoProductIDFormSkuID = $"{Lang.ProductSku_Title} Product SKU ID {item.ProductSkuId} does not have a corresponding product ID";
+                            return View("MyCartTransferSkuErrorTips", "_Layout", messageForNoProductIDFormSkuID);  //System Logic Error !!!ProductSkuId does not have a corresponding product ID!
+                        }
+
+                        Product product = db.Products.Find(productSku.ProductID);
 
                         orderItem.OrderItemId = order.OrderId.ToString() + i.ToString();
                         orderItem.OrderId = order.OrderId;

@@ -7,7 +7,7 @@
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\ClientIshop_Ishop_AD\发布202110</_PublishTargetUrl>
-    <History>False|2024-05-27T01:52:17.6145032Z;True|2024-05-25T10:30:11.5767033+08:00;False|2024-05-25T10:21:34.6817544+08:00;True|2024-05-12T02:01:49.1935738+08:00;True|2024-05-11T03:51:41.0261529+08:00;True|2024-05-09T10:33:46.6145408+08:00;True|2024-05-09T09:05:13.0366432+08:00;True|2024-05-06T12:54:21.7441724+08:00;True|2024-05-06T04:04:10.8175028+08:00;</History>
+    <History>False|2024-05-27T07:04:54.1753100Z;False|2024-05-27T09:52:17.6145032+08:00;True|2024-05-25T10:30:11.5767033+08:00;False|2024-05-25T10:21:34.6817544+08:00;True|2024-05-12T02:01:49.1935738+08:00;True|2024-05-11T03:51:41.0261529+08:00;True|2024-05-09T10:33:46.6145408+08:00;True|2024-05-09T09:05:13.0366432+08:00;True|2024-05-06T12:54:21.7441724+08:00;True|2024-05-06T04:04:10.8175028+08:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -3042,10 +3042,10 @@
       <publishTime>02/03/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/Ishop.dll">
-      <publishTime>05/27/2024 10:48:23</publishTime>
+      <publishTime>05/27/2024 15:27:41</publishTime>
     </File>
     <File Include="bin/Ishop.pdb">
-      <publishTime>05/27/2024 10:48:23</publishTime>
+      <publishTime>05/27/2024 15:27:41</publishTime>
     </File>
     <File Include="bin/LanguageResource.dll">
       <publishTime>05/25/2024 10:30:03</publishTime>
@@ -7215,7 +7215,7 @@
       <publishTime>11/02/2014 09:46:34</publishTime>
     </File>
     <File Include="Views/Cart/MyShoppingCart.cshtml">
-      <publishTime>05/25/2024 15:55:33</publishTime>
+      <publishTime>05/27/2024 15:12:48</publishTime>
     </File>
     <File Include="Views/Cart/taobaoTrade/base.css">
       <publishTime>05/22/2024 02:49:35</publishTime>
@@ -7406,6 +7406,9 @@
     <File Include="Views/Order/MyCartSelectToOrdererrorTips .cshtml">
       <publishTime>05/07/2024 18:57:41</publishTime>
     </File>
+    <File Include="Views/Order/MyCartTransferSkuErrorTips.cshtml">
+      <publishTime>05/27/2024 15:02:31</publishTime>
+    </File>
     <File Include="Views/Order/MyNoOrderTips.cshtml">
       <publishTime>05/07/2024 21:03:49</publishTime>
     </File>
@@ -7553,8 +7556,11 @@
     <File Include="Views/Shared/ShopHeaderTemplate/SH2028_LayOutHeader.zh-HK.cshtml">
       <publishTime>05/09/2024 11:40:44</publishTime>
     </File>
+    <File Include="Views/Shared/ShoppingCart/CarListUnit - 复制.cshtml">
+      <publishTime>05/27/2024 14:22:18</publishTime>
+    </File>
     <File Include="Views/Shared/ShoppingCart/CarListUnit.cshtml">
-      <publishTime>05/09/2024 07:34:14</publishTime>
+      <publishTime>05/27/2024 14:36:56</publishTime>
     </File>
     <File Include="Views/Shared/ShoppingCart/OrderItemListUnit.cshtml">
       <publishTime>05/09/2024 09:00:14</publishTime>
