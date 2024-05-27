@@ -1,45 +1,74 @@
 ﻿@using LanguageResource
 @using Ishop.Utilities
 @model Ishop.Models.ProductMgr.OrderItem
+@{
+    string ShopCurrency = ViewBag.ShopCurrency as string;
+    Model.SkuImageUrl = Model?.SkuImageUrl ?? string.Empty;  //避免SkuImageUrl = null
+}
 
-<div class="container" style="margin-left:5px;">
-    <div class="row">
-        <div class="h4 col-lg-9 col-md-9" style="float:left;word-break:break-all;word-wrap:break-word">
-            <ul class="h4 list-unstyled list-inline">
-                <li class="list-inline" style="float:left;word-break:break-all;word-wrap:break-word">
-                    <ul class="unstyled list-unstyled" style="width:390px">
-                        <li class="padding-right5">
-                            @Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Model.ProductName), "p", "home", new { Id = Model.ProductSkuId.Substring(0, 6) }, htmlAttributes: new { @class = "text-primary", target = "_blank", title = ChineseStringUtility.ToAutoTraditional(Model.ProductName.ToString()) })
-                        </li>
-                        <li class="h5">
-                            <span class="h5"> Sku ID :  @Model.ProductSkuId</span><span class="h5"> @Model.PropertyDesc</span>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list-inline">
-                    <ul class="list-unstyled list-inline" style="float:left;display:block;word-break:break-all;word-wrap:break-word">
-                        <li>
-                            <div class="margin-right10 padding-left15">
-                                @Lang.Views_GeneralUI_Quantity<span class="padding-left15 small">X</span><strong>@Model.Quantity</strong>
-                            </div>
-                        </li>
-                        <li class="h5">
-                            <div class="margin-right10">
-                                <strong>@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", Model.TradePrice), (string)ViewBag.ShopCurrency)</strong>
-                            </div>
-                        </li>
+<!-- For /Mgt/OrderMgt/index :: OrderItem -->
+<!--Subject-->
+<div class="col-lg-3 col-md-3">
+    <ul class="unstyled list-unstyled">
+        <li>
+            @Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Model.ProductName), "p", "home", new { Id = Model.ProductSkuId.Substring(0, 6) }, htmlAttributes: new { @class = "text-primary", target = "_blank", title = ChineseStringUtility.ToAutoTraditional(Model.ProductName.ToString()) })
+        </li>
+        <li class="h5">
+            <span class="h5"> Sku ID :  @Model.ProductSkuId</span><span class="h5"> @Model.PropertyDesc</span>
+        </li>
+    </ul>
+</div>
 
-                        <li class="list-inline pull-right hide">
-                            <img src="@PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100)" alt="..." class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px;max-width:90px;" />
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="col-lg-3 col-md-3">
-            <!-- PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100) -->
-            <img src="@Model.SkuImageUrl" class="img-responsive img-thumbnail img-rounded" style="max-width:120px;" />
-        </div>
+<!--price x Quantity -->
+<div class="col-lg-2 col-md-2">
+    <ul class="list-unstyled list-inline" style="float:left;display:block;word-break:break-all;word-wrap:break-word">
+        <li>
+            <div class="padding-left15 margin-right5 ">
+                @Lang.Views_GeneralUI_Quantity<span class="padding-left15 small">X</span><strong>@Model.Quantity</strong>
+            </div>
+        </li>
+        <li class="h5 text-muted">
+            <div class="padding-left15">
+                <strong>@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", Model.TradePrice), ShopCurrency)</strong>
+            </div>
+        </li>
+    </ul>
+</div>
+<!--ItemAmount-->
+<div class="col-lg-2 col-md-2  no-padding no-margin">
+    <div class="no-padding no-margin padding-top5 h3 text-danger">
+        <strong>@mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", Model.ItemAmount), ShopCurrency)</strong>
     </div>
 </div>
+<!--Commission-->
+<div class="col-lg-3 col-md-3  no-padding no-margin">
+    <ul class="list-unstyled list-inline" style="float:left;display:block;word-break:break-all;word-wrap:break-word">
+        <li>
+            <div class="margin-right10 padding-left15">
+                @Lang.OrderItem_Commision
+            </div>
+        </li>
+        <li class="h5 text-muted">
+            <div class="margin-right10">
+                @string.Format("{0:f1}%", Model.CommisionRate)
+            </div>
+        </li>
+        <li class="h5 text-danger">
+            <div class="margin-right10">
+                @mvcCommeBase.GetShopPriceByShopCurrency(string.Format("{0:f1}", Model.Commision), ShopCurrency)
+            </div>
+        </li> 
+    </ul>
+</div>
+
+<!--sku picture-->
+<div class="col-lg-2 col-md-2">
+    <ul class="list-unstyled list-inline" style="float:left;display:block;word-break:break-all;word-wrap:break-word"> 
+        <li class="list-inline pull-right">
+            <!-- PictureSuffix.ReturnSizePicUrl(Html.DisplayFor(model => model.SkuImageUrl).ToString(), PictureSize.s100X100) -->
+            <img src="@Model.SkuImageUrl.ToString()" alt="..." class="img-responsive img-thumbnail img-rounded pull-right" style="margin:0 0 5px 5px;max-width:120px;" />
+        </li>
+    </ul>
+</div>
+
 

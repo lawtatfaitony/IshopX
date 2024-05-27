@@ -33,6 +33,7 @@ namespace Ishop.Controllers
         /// <returns></returns>
         public JsonResult AddToCart(string Id, int Quantity)
         {
+            ModalDialogView ModalDialogView1 = new ModalDialogView();
             string ProductSkuId = Id;
 
             Cart cart = new Cart();
@@ -60,17 +61,32 @@ namespace Ishop.Controllers
             else
             {
                 ProductSku ProductSku1 = db.ProductSkus.Find(ProductSkuId);
+
+
+                if (ProductSku1 == null) //沒有對應的SKU 則提示錯誤
+                {
+                    string messageForNoProductIDFormSkuID = $"{Lang.ProductSku_Title} Product SKU ID {ProductSku1.ProductSkuId} does not have a corresponding product ID";
+                    ModalDialogView1 = new ModalDialogView();
+                    ModalDialogView1.MsgCode = "0";
+                    ModalDialogView1.Message = messageForNoProductIDFormSkuID;
+                    return Json(ModalDialogView1);
+                    
+                }
+
+                Product product = db.Products.Find(ProductSku1.ProductID);
+
                 cart.ProductSkuId = ProductSku1.ProductSkuId;
                 cart.SkuImageUrl = ProductSku1.SkuImage;
                 cart.ProductName = ProductSku1.ProductName;
                 cart.PropertyDesc = ProductSku1.PropertyDesc;
                 cart.TradePrice = ProductSku1.TradePrice;
+                cart.RetailPrice = product.RetailPrice;
                 cart.OperatedDate = DateTime.Now;
                 cart.CreatedDate = DateTime.Now;
                 db.Carts.Add(cart);
                 db.SaveChanges();
             }
-            ModalDialogView ModalDialogView1 = new ModalDialogView();
+           
             ModalDialogView1.MsgCode = "1";
             ModalDialogView1.Message = "OK";
             return Json(ModalDialogView1);
@@ -95,8 +111,8 @@ namespace Ishop.Controllers
         [HttpGet]
         public ActionResult AddToCart(string ProductId)
         {
-            ShopInitialize();
-            // this.InitLanguageStateViewBag();  //作廢 2024-4-29
+            ShopInitialize(); 
+
             Product product = new Product();
             product = db.Products.Find(ProductId);
             ViewBag.CurrentProductId = ProductId;

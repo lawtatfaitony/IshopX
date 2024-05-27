@@ -60,13 +60,13 @@
                             <div class="col-md-10">
                                 <div class="row margin-right15">
                                     <div class="col-md-4">
-                                        @Html.TextBoxFor(model => model.DispatchNote.District, new { @class = "form-control col-md-3", PlaceHolder = Lang.DispatchNote_District, autocomplete = "on" })
+                                        @Html.TextBoxFor(model => model.DispatchNote.District, new { @class = "form-control form-control-sm col-md-3", PlaceHolder = Lang.DispatchNote_District, autocomplete = "on" })
                                     </div>
                                     <div class="col-md-4">
-                                        @Html.TextBoxFor(model => model.DispatchNote.State, new { @class = "form-control col-md-3", PlaceHolder = Lang.DispatchNote_State, autocomplete = "on" })
+                                        @Html.TextBoxFor(model => model.DispatchNote.State, new { @class = "form-control form-control-sm col-md-3", PlaceHolder = Lang.DispatchNote_State, autocomplete = "on" })
                                     </div>
                                     <div class="col-md-4">
-                                        @Html.TextBoxFor(model => model.DispatchNote.Country, new { @class = "form-control col-md-3", PlaceHolder = Lang.DispatchNote_Country, autocomplete = "on" })
+                                        @Html.TextBoxFor(model => model.DispatchNote.Country, new { @class = "form-control form-control-sm col-md-3", PlaceHolder = Lang.DispatchNote_Country, autocomplete = "on" })
                                     </div>
                                 </div>
 
@@ -76,7 +76,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2">@Lang.DispatchNote_Recipient</label>
                             <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.DispatchNote.Recipient, new { @class = "form-control", autocomplete = "on", style = "max-width:410px;" })
+                                @Html.TextBoxFor(model => model.DispatchNote.Recipient, new { @class = "form-control form-control-sm", autocomplete = "on", style = "max-width:410px;" })
                                 @Html.ValidationMessageFor(model => model.DispatchNote.Recipient, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2">@Lang.DispatchNote_PhoneNumber</label>
                             <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.DispatchNote.PhoneNumber, new { @class = "form-control", autocomplete = "on", style = "max-width:410px;" })
+                                @Html.TextBoxFor(model => model.DispatchNote.PhoneNumber, new { @class = "form-control form-control-sm", autocomplete = "on", style = "max-width:410px;" })
                                 @Html.ValidationMessageFor(model => model.DispatchNote.PhoneNumber, "", new { @class = "text-danger", style = "width:60%;" })
                             </div>
                         </div>
@@ -92,14 +92,14 @@
                         <div class="form-group">
                             <label class="control-label col-md-2">@Lang.DispatchNote_TelePhoneNumber</label>
                             <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.DispatchNote.TelePhoneNumber, new { @class = "form-control", autocomplete = "on", style = "max-width:410px;" })
+                                @Html.TextBoxFor(model => model.DispatchNote.TelePhoneNumber, new { @class = "form-control form-control-sm", autocomplete = "on", style = "max-width:410px;" })
                                 @Html.ValidationMessageFor(model => model.DispatchNote.TelePhoneNumber, "", new { @class = "text-danger", style = "width:60%;" })
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-2">@Lang.DispatchNote_Recipien_Address</label>
                             <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.DispatchNote.Address, new { @class = "form-control", style = "max-width:410px;" })
+                                @Html.TextBoxFor(model => model.DispatchNote.Address, new { @class = "form-control form-control-sm", style = "max-width:410px;" })
                             </div>
                         </div>
 
@@ -123,7 +123,7 @@
         <div id="box-header" class="box-header with-border">
             <blockquote class="padding-left15 padding-bottom5 padding-top5">
                 <div class="pull-left">
-                    <a href="/@ViewBag.LanguageCode/Order/index">
+                    <a id="orderListUrl" class="text-blue" href="@Url.Action("OrderDetails","OrderMgt",new {OrderId = Model.OrderHeader.OrderId})">
                         <h5 class="box-title">
                             <i class="fa fa-list-ul margin-right5"></i>
                             @Lang.Views_GeneralUI_OrderDetails
@@ -192,6 +192,15 @@
                                 <li class="h5 text-danger" style="padding-right:5px;">
                                     @string.Format("{0:yyyy-MM-dd HH:mm:ss}", Model.OrderHeader.CreatedDate)
                                 </li>
+                                @if (!string.IsNullOrEmpty(Model.OrderHeader.RecommUserId))
+                                {
+                                    <li class="h5 text-danger " style="padding-right:5px;">
+                                        @Lang.Order_RecommUserId
+                                    </li>
+                                    <li class="h5 text-danger" style="padding-right:5px;">
+                                        @Model.OrderHeader.RecommUserId
+                                    </li>
+                                } 
                             </ul>
                         </li>
                     </ul>
@@ -203,7 +212,7 @@
                         {
                             <div class="container">
                                 @foreach (var Item in Model.OrderItems)
-                                {
+                                { 
                                     <div id="@Item.OrderItemId" class="row" style="padding:5px 0px 5px 0px; border-bottom-color:crimson;border-bottom-width:4px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
                                         @Html.Partial("Order/OrderItemListUnit", Item)
                                     </div>

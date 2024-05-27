@@ -79,8 +79,8 @@ namespace Ishop.Controllers
                         return View("MyCartSelectToOrdererrorTips ");  //System Logic Error !!! Handle my cart selection product transfering to order failure!
                     }
                       
-                    //1.
-                    string PrefixOrderID = "1" + string.Format("{0:MMdd}", DateTime.Now);
+                    //訂單以1開頭月日跟隨 作為前綴
+                    string PrefixOrderID = string.Format("1{0:MMdd}", DateTime.Now); // "1" + string.Format("{0:MMdd}", DateTime.Now);
                     order.OrderId = int.Parse(db.GetTableIdentityID(PrefixOrderID, "Order", 5));
                     order.UserId = userId;
                     order.UserName = User.Identity.GetUserName();
@@ -135,8 +135,9 @@ namespace Ishop.Controllers
                         orderItem.PropertyDesc = item.PropertyDesc;
                         orderItem.TradePrice = item.TradePrice;
                         orderItem.Quantity = item.Quantity;
-                        orderItem.RetailPrice = item.RetailPrice * item.Quantity;
+                        orderItem.RetailPrice = item.RetailPrice;
                         orderItem.ItemAmount = item.TradePrice * item.Quantity;
+                        orderItem.SkuImageUrl = productSku.SkuImage ?? string.Empty;
                         //2、get Rate
                         decimal ProductCommissionRate = product.CommisionRate;
                         orderItem.CommisionRate = ProductCommissionRate;
@@ -151,6 +152,7 @@ namespace Ishop.Controllers
 
                         orderItem.CreatedDate = DateTime.Now;
                         db.OrderItems.Add(orderItem);
+                       
                         i++;
                     }
                     int result = db.SaveChanges();
@@ -191,6 +193,7 @@ namespace Ishop.Controllers
                         };
                     ViewBag.CurrentOrderId = order.OrderId;
                     ViewBag.OrderItems = orderDetailView.OrderItems;
+
                     return View(orderDetailView);
                 }
                 else

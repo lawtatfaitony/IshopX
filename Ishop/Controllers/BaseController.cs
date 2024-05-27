@@ -73,7 +73,17 @@ namespace Ishop.Controllers
             ViewBag.ShopLogo = shop.ShopLogo;
             ViewBag.PhoneNumber = shop.PhoneNumber;
             ViewBag.ShopName = shop.ShopName;
-            ViewBag.ShopCurrency = shop.ShopCurrency;
+           
+            //獲取設置貨幣
+            if (!string.IsNullOrEmpty(shop.ShopCurrency))
+            {
+                ViewBag.ShopCurrency = shop.ShopCurrency; 
+            }
+            else
+            {
+                ViewBag.ShopCurrency = System.Configuration.ConfigurationManager.AppSettings["ShopCurrency"].ToString();
+            }
+
             ViewBag.ShopID = shop.ShopID;
             ViewBag.ShopUserId = shop.UserId;
             ViewBag.ShopHostName = shop.HostName;
