@@ -7,7 +7,7 @@
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\ClientIshop_Ishop_AD\发布202110</_PublishTargetUrl>
-    <History>True|2024-05-25T02:30:11.5767033Z;False|2024-05-25T10:21:34.6817544+08:00;True|2024-05-12T02:01:49.1935738+08:00;True|2024-05-11T03:51:41.0261529+08:00;True|2024-05-09T10:33:46.6145408+08:00;True|2024-05-09T09:05:13.0366432+08:00;True|2024-05-06T12:54:21.7441724+08:00;True|2024-05-06T04:04:10.8175028+08:00;</History>
+    <History>False|2024-05-27T01:52:17.6145032Z;True|2024-05-25T10:30:11.5767033+08:00;False|2024-05-25T10:21:34.6817544+08:00;True|2024-05-12T02:01:49.1935738+08:00;True|2024-05-11T03:51:41.0261529+08:00;True|2024-05-09T10:33:46.6145408+08:00;True|2024-05-09T09:05:13.0366432+08:00;True|2024-05-06T12:54:21.7441724+08:00;True|2024-05-06T04:04:10.8175028+08:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -3042,10 +3042,10 @@
       <publishTime>02/03/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/Ishop.dll">
-      <publishTime>05/26/2024 15:52:06</publishTime>
+      <publishTime>05/27/2024 10:48:23</publishTime>
     </File>
     <File Include="bin/Ishop.pdb">
-      <publishTime>05/26/2024 15:52:06</publishTime>
+      <publishTime>05/27/2024 10:48:23</publishTime>
     </File>
     <File Include="bin/LanguageResource.dll">
       <publishTime>05/25/2024 10:30:03</publishTime>
@@ -3915,7 +3915,7 @@
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
     <File Include="Content/Images/InfoModule.png">
-      <publishTime>05/13/2024 03:20:30</publishTime>
+      <publishTime>05/27/2024 09:49:31</publishTime>
     </File>
     <File Include="Content/Images/InfoModule_full.png">
       <publishTime>05/13/2024 03:21:44</publishTime>
@@ -3969,7 +3969,7 @@
       <publishTime>04/29/2024 17:10:58</publishTime>
     </File>
     <File Include="Content/Images/ProductModule.png">
-      <publishTime>05/13/2024 03:07:33</publishTime>
+      <publishTime>05/27/2024 09:50:06</publishTime>
     </File>
     <File Include="Content/Images/progress.png">
       <publishTime>04/29/2024 17:10:58</publishTime>
@@ -5055,22 +5055,22 @@
       <publishTime>09/14/2018 15:43:03</publishTime>
     </File>
     <File Include="MailTemplate/ForgetPassword_en-US.html">
-      <publishTime>12/21/2020 11:28:02</publishTime>
-    </File>
-    <File Include="MailTemplate/ForgetPassword_zh-CN.html">
-      <publishTime>12/21/2020 11:26:58</publishTime>
-    </File>
-    <File Include="MailTemplate/ForgetPassword_zh-HK.html">
-      <publishTime>12/31/2020 11:51:20</publishTime>
-    </File>
-    <File Include="MailTemplate/Register_en-US.html">
-      <publishTime>12/31/2020 11:51:50</publishTime>
-    </File>
-    <File Include="MailTemplate/Register_zh-CN.html">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
+    <File Include="MailTemplate/ForgetPassword_zh-CN.html">
+      <publishTime>05/27/2024 10:47:56</publishTime>
+    </File>
+    <File Include="MailTemplate/ForgetPassword_zh-HK.html">
+      <publishTime>05/27/2024 10:47:48</publishTime>
+    </File>
+    <File Include="MailTemplate/Register_en-US.html">
+      <publishTime>05/27/2024 10:47:39</publishTime>
+    </File>
+    <File Include="MailTemplate/Register_zh-CN.html">
+      <publishTime>05/27/2024 10:47:18</publishTime>
+    </File>
     <File Include="MailTemplate/Register_zh-HK.html">
-      <publishTime>12/21/2020 11:32:34</publishTime>
+      <publishTime>05/27/2024 10:47:35</publishTime>
     </File>
     <File Include="Mgr/Product/js/getting-started.js">
       <publishTime>05/02/2016 12:21:14</publishTime>
@@ -7182,7 +7182,7 @@
       <publishTime>01/01/2017 14:09:49</publishTime>
     </File>
     <File Include="Views/Admin/Index.cshtml">
-      <publishTime>05/24/2024 21:46:04</publishTime>
+      <publishTime>05/27/2024 09:42:28</publishTime>
     </File>
     <File Include="Views/Cart/AddToCart.cshtml">
       <publishTime>05/21/2024 22:06:59</publishTime>
