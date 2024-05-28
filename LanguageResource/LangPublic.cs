@@ -836,6 +836,10 @@ namespace LanguageResource
  				  public static string DispatchNote_CreatedDate{
  				  get { return LangUtilities.GetString( "DispatchNote_CreatedDate"); }} 
 
+				 ///<summary>发货单状态</summary>
+ 				  public static string DispatchNote_DispatchNoteStatus{
+ 				  get { return LangUtilities.GetString( "DispatchNote_DispatchNoteStatus"); }} 
+
 				 ///<summary>所在县区</summary>
  				  public static string DispatchNote_District{
  				  get { return LangUtilities.GetString( "DispatchNote_District"); }} 

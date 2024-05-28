@@ -1570,8 +1570,6 @@
     <Content Include="Areas\Mgr\Views\Shared\Order\OrderItemListUnit.cshtml" />
     <Content Include="Areas\Mgr\Views\OrderMgt\MyNoOrderTips.cshtml" />
     <Content Include="Areas\Mgr\Views\Shared\Order\PaymentService.cshtml" />
-    <Content Include="Areas\Mgr\Views\Shared\Order\OrderItemListUnit - 复制.cshtml" />
-    <Content Include="Areas\Mgr\Views\Shared\Order\OrderItemListUnit - 复制%282%29.cshtml" />
     <None Include="jquery\_references.js" />
     <Content Include="js\Category\ShopCategoryItem.js" />
     <Content Include="js\clipboard\clipboard.js" />

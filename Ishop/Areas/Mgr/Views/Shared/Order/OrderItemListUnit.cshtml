@@ -11,7 +11,10 @@
 <div class="col-lg-3 col-md-3">
     <ul class="unstyled list-unstyled">
         <li>
-            @Html.ActionLink(ChineseStringUtility.ToAutoTraditional(Model.ProductName), "p", "home", new { Id = Model.ProductSkuId.Substring(0, 6) }, htmlAttributes: new { @class = "text-primary", target = "_blank", title = ChineseStringUtility.ToAutoTraditional(Model.ProductName.ToString()) })
+            <a class="text-primary"
+               href="@string.Format("/{0}/Home/p/{1}",LangUtilities.LanguageCode,Model.ProductSkuId.Substring(0, 6))" target="_blank" title ="@ChineseStringUtility.ToAutoTraditional(Model.ProductName.ToString())")>
+               @ChineseStringUtility.ToAutoTraditional(Model.ProductName)
+            </a>
         </li>
         <li class="h5">
             <span class="h5"> Sku ID :  @Model.ProductSkuId</span><span class="h5"> @Model.PropertyDesc</span>

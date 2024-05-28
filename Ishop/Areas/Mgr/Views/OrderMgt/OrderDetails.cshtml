@@ -168,19 +168,7 @@
                                             @Model.OrderHeader.StatusId
                                         </li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <ul class="unstyled list-inline">
-                                        <li class="h4 text-danger " style="padding-right:5px;">
-                                            @Lang.DispatchNote_Recipien_Address &colon;
-                                        </li>
-                                        <li>
-                                            <label id="addressDetails" class="h5 text-black">
-                                                @Model.DispatchNote.Address
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </li>
+                                </li> 
                             </ul>
                         </li>
                         <!--Create Date-->
@@ -207,12 +195,12 @@
                 </div>
 
                 <div id="MyOrderAndDetails" class="row" style="margin-top:15px">
-                    @{ 
+                    @{
                         if (Model.OrderItems.Count > 0)
                         {
                             <div class="container">
                                 @foreach (var Item in Model.OrderItems)
-                                { 
+                                {
                                     <div id="@Item.OrderItemId" class="row" style="padding:5px 0px 5px 0px; border-bottom-color:crimson;border-bottom-width:4px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
                                         @Html.Partial("Order/OrderItemListUnit", Item)
                                     </div>
@@ -227,6 +215,58 @@
                                 </span>
                             </div>
                         }
+                         
+                        <!--DispatchNotes Status-->
+                        <div class="container"> 
+                            <div id="@Model.DispatchNote.DispatchNoteId" class="row" style="padding:5px 0px 5px 0px; border-bottom-color:crimson;border-bottom-width:4px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
+                                <ul class="margin-left10 unstyled list-inline">
+                                    <!--DispatchNoteStatus-->
+                                    <li>
+                                        <ul class="unstyled list-inline">
+                                            <li class="h5  text-primary" style="padding-right:5px;">
+                                                @Lang.DispatchNote_DispatchNoteStatus &colon;
+                                            </li>
+                                            <li>
+                                                <label id="DispatchNote_DispatchNoteStatus" class="h3 text-primary"  style="font-weight:600;padding-right:5px;">
+                                                    @Model.DispatchNote.DispatchNoteStatus
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!--Address-->
+                                    <li>
+                                        <ul class="unstyled list-inline">
+                                            <li class="h5 text-danger " style="padding-right:5px;">
+                                                @Lang.DispatchNote_Recipien_Address &colon;
+                                            </li>
+                                            <li>
+                                                <label id="addressDetails" class="h5 text-black">
+                                                    @Model.DispatchNote.Address
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!--Remakrs-->
+                                    <li>
+                                        
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="row divider"></div>
+                            <div class="row">
+                                <ul class="margin-left10 unstyled list-inline">
+                                    <li class="h5 text-muted" style="padding-right:5px;">
+                                        @Lang.DispatchNote_Remarks &colon;
+                                    </li>
+                                    <li>
+                                        <label id="dispatchNote_Remarks" class="h5 text-black">
+                                            @Model.DispatchNote.Remarks
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     }
                 </div>
             </div>
