@@ -324,3 +324,38 @@ class Program
 ```
 
 以上範例假設 `LanguageResource.dll` 是已經編譯好的語言資源檔案，並且包含了一個名為 "Hello" 的字串資源。透過 `ResourceManager` 類別，我們可以輕鬆地讀取並顯示這些字串資源。希望這個範例能幫助你更好地理解如何在 .NET Framework 應用程式中使用 `LanguageResource.dll.config` 檔案。
+
+## ANGULAR客戶端
+
+**Publish  API : IshopX_GitHub\ClientIshop\ClientShopPublish\Release**
+
+**Publish : IshopX_GitHub\ClientIshop\ClientShopPublish\dist**
+
+主要目標是for android / apple 等等設備的前端使用
+
+![angualr_client](README_IMGs/angualr_client.jpg)
+
+​    **獨立的業務: 包括前端和後端API**
+
+###     AD SERVICE
+
+​	前端廣告服務組件 src\app\ad\ad.service.ts
+
+​        錯誤根源 [http://localhost:8082/InfoData/getInfoPaneAdSet/sh0006/620002/InfoTemp00001] debug
+
+​	模版ID : InfoTemp00001 如果SH0006 沒有模版ID相關的infodetails 將導致無此infodetails 返回,所以後台需要操作設置與 [模版ID : InfoTemp00001] 相關的infodetails
+
+![image-20240629192013869](D:\ClientIshop_Ishop_AD\IshopX_GitHub\IshopX\README_IMGs\image-20240629192013869.png)
+
+對應的數據庫表
+
+![image-20240629192050646](D:\ClientIshop_Ishop_AD\IshopX_GitHub\IshopX\README_IMGs\image-20240629192050646.png)
+
+ SQL UPDATE : 
+
+```
+update InfoDetail set infoItemTemplateIDs = 'InfoTemp00001,InfoTemp00002,InfoTemp00003,InfoTemp00004'  where  InfoID = 'Inf000000095'
+```
+
+前端使用了 Jumptron Template 這個模版 獲取信息,所以要點選對應的 模版:Jumptron Template
+

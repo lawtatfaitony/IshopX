@@ -119,3 +119,11 @@ Ishop/Web.config
 Ishop/Web.config
 Ishop/Web.config
 Ishop/Web.config
+ClientIshop/ClientIshop/ClientApp/node_modules
+ClientIshop/ClientIshop/wwwroot/upload
+ClientIshop/ClientIshop/bin
+ClientIshop/ClientIshop/obj
+ClientIshop/WebApi/bin
+ClientIshop/packages
+ClientIshop/Common/bin
+ClientIshop/Common/obj
