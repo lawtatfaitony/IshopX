@@ -1,0 +1,14 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class='container' style="min-height:100%">
+  <div class='row'>
+    <app-nav-menu [myModelshopName]="shopName"  [myModelshopLogo]="shopLogo"></app-nav-menu> 
+  </div>
+  <div class='row' style="padding-top:50px;min-height:100%"> 
+    <router-outlet>
+    </router-outlet> 
+  </div>
+  <div class='row'>
+    <app-footer [myModelshopName]="shopName"></app-footer>
+  </div>
+</div>
+ 

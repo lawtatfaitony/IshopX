@@ -1,0 +1,57 @@
+<div *ngIf="!infolists" style="padding-top:100px;"> 
+  <div class='loader'>
+    <div class='loader_overlay'></div>
+    <div class='loader_cogs'>
+      <div class='loader_cogs__top'>
+        <div class='top_part'></div>
+        <div class='top_part'></div>
+        <div class='top_part'></div>
+        <div class='top_hole'></div>
+      </div>
+      <div class='loader_cogs__left'>
+        <div class='left_part'></div>
+        <div class='left_part'></div>
+        <div class='left_part'></div>
+        <div class='left_hole'></div>
+      </div>
+      <div class='loader_cogs__bottom'>
+        <div class='bottom_part'></div>
+        <div class='bottom_part'></div>
+        <div class='bottom_part'></div>
+        <div class='bottom_hole'><!-- lol --></div>
+      </div>
+      <p>loading</p>
+    </div>
+  </div>
+</div>
+
+<div>
+  <app-ad-banner [ads]="ads"></app-ad-banner>
+</div>
+
+<cdk-virtual-scroll-viewport class="no-margin no-padding" style="width:100%;height: 800px;" itemSize="1" minBufferPx="30" maxBufferPx="200">
+  <ng-container *cdkVirtualFor="let infodetail of infolists" class="no-margin no-padding">
+    <div class="row margin-bottom-10 padding-top5 padding-left5 padding-right5" style="border-bottom:solid;border-bottom-color:#f3eeee;border-bottom-width:1px; background-color:#f2eeee;">
+      <div class="col-xs-8 no-padding-top">
+        <div class="margin-left15 padding-left5 padding-bottom5 no-padding-top h4">
+          <div class="row">
+            <a [routerLink]='["/info/"+ infodetail.userTraceId]' class="repeat-title no-padding-top">
+              <span class="repeat-title">{{infodetail.title}}</span>
+            </a>
+          </div>
+          <div class="row">
+            <div class="hidden-sm hidden-md hidden-xs lead">{{infodetail.subTitle}}</div>
+          </div>
+        </div>
+      </div> 
+      <div class="col-xs-4 padding-bottom5">
+        <a [routerLink]='["/info/"+ infodetail.userTraceId]' class="no-margin no-padding">
+          <img  [defaultImage]="this.defaultImage" [lazyLoad]="infodetail.titleThumbNail" [offset]="offset" class="img-responsive">
+        </a>
+      </div>
+    </div>
+  </ng-container>
+</cdk-virtual-scroll-viewport>
+
+
+

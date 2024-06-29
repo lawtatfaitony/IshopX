@@ -1,0 +1,82 @@
+
+#div_TitleThumbNail {
+  position: relative;
+}
+.infobody {
+  margin-left: 5px;
+  margin-top: 0;
+  margin-right: 5px;
+  padding-left:3px;
+  padding-right:3px;
+  background-color: #f7f2ea;
+}
+
+.originalandauthor {
+  font-size: 12px;
+  padding-left: 3px; 
+  color: darkgray;
+  border-radius: 5px;
+  background-color: #e9e4dd;
+  padding-top: 1px;
+  display: block;
+}
+InfoDescription1 #div_TitleThumbNail img {
+  position: relative;
+}
+
+#InfoDescription1 p {
+  font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+  font-size: 1.2em;
+  line-height: 1.6em;
+}
+
+  #InfoDescription1 p > span {
+    font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+    font-size: 1.2em;
+    line-height: 1.6em;
+  }
+
+#InfoDescription1 div span {
+  font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+  font-size: 1.2em;
+  line-height: 1.6em;
+}
+
+#InfoDescription1 div > font span {
+  font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+  font-size: 1.2em;
+  line-height: 1.6em;
+}
+
+#InfoDescription1 div > p span {
+  font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+  font-size: 1.2em;
+  line-height: 1.6em;
+}
+
+#InfoDescription1 font {
+  font-family: 'Microsoft YaHei ,Microsoft JhengHei UI';
+  font-size: 1.2em;
+  line-height: 1.6em;
+}
+#InfoDescription1 img {
+  display: block;
+  margin: auto;
+  position: center;
+}
+.center_infodetail {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: center;
+}
+img {
+  position: center;
+  display: block;
+  margin: auto;
+}
+ p > img {
+  position: center;
+  display: block;
+  margin: auto;
+}
+ 

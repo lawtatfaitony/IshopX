@@ -1,0 +1,15 @@
+<div id="info-pane-father">
+  <a [routerLink]='["/info/"+ data.userTraceId]' class="no-margin no-padding">
+    <img [defaultImage]="this.defaultImage" [lazyLoad]="data.titleThumbNail" class="img-responsive">
+  </a>
+  <div id="info-pane-child" class="container">
+    <h3>
+      <a [routerLink]='["/info/"+ data.userTraceId]'>{{data.title}}</a>
+    </h3>
+    <div class="h6">{{data.subTitle}}</div>
+  </div>
+
+</div>
+
+ 
+

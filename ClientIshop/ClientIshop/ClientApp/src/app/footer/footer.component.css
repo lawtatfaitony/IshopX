@@ -1,0 +1,14 @@
+.bordertop3px {
+  border-top-style: solid;
+  border: 3px,0,0,0;
+  border-top-color: #e2e2e2; 
+}
+
+.gradient {
+  background: -moz-linear-gradient(top, #e7e0e0 0%, #ffffff 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e7e0e0), color-stop(100%,#ffffff));
+  background: -webkit-linear-gradient(top, #e7e0e0 0%,#ffffff 100%);
+  background: -o-linear-gradient(top, #e7e0e0 0%,#ffffff 100%);
+  background: -ms-linear-gradient(top, #e7e0e0 0%,#ffffff 100%);
+  background: linear-gradient(to bottom, #e7e0e0 0%,#ffffff 100%);
+}

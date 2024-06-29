@@ -1,0 +1,107 @@
+ <div *ngIf="!iiInfoIDs" style="padding-top:100px;">
+    <div class='loader'>
+      <div class='loader_overlay'></div>
+      <div class='loader_cogs'>
+        <div class='loader_cogs__top'>
+          <div class='top_part'></div>
+          <div class='top_part'></div>
+          <div class='top_part'></div>
+          <div class='top_hole'></div>
+        </div>
+        <div class='loader_cogs__left'>
+          <div class='left_part'></div>
+          <div class='left_part'></div>
+          <div class='left_part'></div>
+          <div class='left_hole'></div>
+        </div>
+        <div class='loader_cogs__bottom'>
+          <div class='bottom_part'></div>
+          <div class='bottom_part'></div>
+          <div class='bottom_part'></div>
+          <div class='bottom_hole'><!-- lol --></div>
+        </div>
+        <p>loading</p>
+      </div>
+    </div>
+  </div>
+
+ 
+<div *ngIf="iiInfoIDs" class="infobody">
+  <div> <span>{{titleThumbNail}}</span></div>
+  <div class="padding-right5 padding-top5" [appHighlight]="color">
+    <h4><strong>{{iiInfoIDs.title}}</strong></h4> 
+  </div> 
+  <div id="InfoDescription1" class="container">
+    <div class="row originalandauthor">
+      <ul class="list-unstyled list-inline">
+        <li>
+          <span class="text h5" *ngIf="this.isOriginal">原创：</span><span class="text-gray h6">{{operatedDate | date:'yyyy-MM-dd'}}</span>
+        </li>
+        <li>
+          <span class="h6" style="color:#607fa6" [innerHTML]="author"></span>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="this.showTitleThumbNail" id="div_TitleThumbNail" class="row center_infodetail">
+      <img src="{{titleThumbNail}}" class="img-responsive" />
+    </div> 
+    <div class="row">
+      <p [innerHTML]="this.infoDescription" class="text">
+
+      </p>
+    </div>
+  </div>
+</div>
+  
+  <div class="container" style="padding-left:5px;padding-right:5px;">
+    <!--view portrait  infodetails.shopStaffId--> 
+    <div class="panel panel-default" *ngIf="shopstaff">
+      <div class="panel-heading">
+        <div class="panel-title no-margin no-padding">
+          <i class="fa fa-user text-gray"></i><span style="padding-left:5px;">{{shopstaff.staffName}}</span>
+          <span class="h5" style="padding-left:5px;">{{shopstaff.contactTitle}}</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <p align="center"><img src="{{shopstaff.iconPortrait}}" alt="" width="120" class="img-circle img-responsive"></p>
+        <p align="center" id="_ViewconPortrait_Introduction" [innerHTML]="shopstaff.introduction" class="no-margin"></p>
+        <p align="center" class="no-margin no-padding">
+          <a href="{{shopstaff.otherQrcode}}" class="center-block">
+            <span class="h6">{{shopstaff.otherChannelName}}</span>
+            <img src="{{shopstaff.otherQrcode}}" class="img-responsive" style="max-width:90px;" />
+          </a>
+        </p>
+      </div>
+    </div>
+
+
+    <!--relate info-->
+    <div class="panel panel-default" *ngIf="infoDetailRalateList">
+      <div class="panel-heading"  *ngIf="infoDetailRalateList">
+        <span class="panel-title h4">更多...</span>
+      </div>
+      <div class="panel-body">
+        <ul class="list-unstyled no-margin" style="padding-bottom:0;margin-bottom:0" ng-init="{}" *ngFor="let infodetail of infoDetailRalateList">
+          <li style="line-height:25px;">
+            <a [routerLink]='["/info/"+ infodetail.userTraceId]' (click)="gotoTop()">
+              <span><i class="fa fa-angle-double-right"></i>{{infodetail.title}}</span>
+            </a>
+          </li>
+        </ul>
+
+        <ul class="list-unstyled no-margin" *ngIf="userId=='620000'" style="padding-top:0;margin-top:0;">
+          <!--userid=620000-->
+          <li>
+            <i class="fa fa-angle-double-right"></i> <a href="https://mp.weixin.qq.com/s/zbuPWhGFWqTj4FJ-w2OtdA" class="h5 text-primary">赌球热情与人间杯具，到底我们缺了什么？</a>
+          </li>
+          <li>
+            <i class="fa fa-angle-double-right"></i> <a href="https://mp.weixin.qq.com/s/LtpkE5yWvIfLDRKOd8r8sA" class="h5 text-primary">香港社区与社交网络时代杂谈</a>
+          </li>
+          <li>
+            <i class="fa fa-angle-double-right"></i> <a href="https://mp.weixin.qq.com/s/sdmXmFy1J-rYIj4gMAMtOA" class="h5 text-primary">父爱如山，女儿果然是爸爸上辈子的小情人</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>

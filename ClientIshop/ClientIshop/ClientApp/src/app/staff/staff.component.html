@@ -1,0 +1,19 @@
+<!--view portrait-->
+<div class="panel panel-default" *ngIf="shopstaff">
+  <div class="panel-heading">
+    <div class="panel-title no-margin no-padding">
+      <i class="fa fa-user text-gray"></i><span style="padding-left:5px;">{{shopstaff.staffName}}</span>
+      <span class="h5">{{shopstaff.contactTitle}}</span>
+    </div>
+  </div>
+  <div class="panel-body">
+    <p align="center"><img src="{{shopstaff.iconPortrait}}" alt="" width="120" ng-class="'img-circle img-responsive'"></p>
+    <p align="center" id="_ViewconPortrait_Introduction" [innerHTML]="shopstaff.introduction" class="no-margin"></p>
+    <p align="center" class="no-margin no-padding">
+      <a href="{{shopstaff.otherQrcode}}" class="center-block" target="_blank">
+        <span class="h6">{{shopstaff.otherChannelName}}</span>
+        <img src="{{shopstaff.otherQrcode}}" class="img-responsive" style="max-width:90px;" />
+      </a>
+    </p>
+  </div>
+</div>
