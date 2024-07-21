@@ -1259,9 +1259,9 @@ namespace Ishop.Areas.Mgr.Controllers
             BackEndShopInitialize();
 
             string UserId = User.Identity.GetUserId();
-            var sourceStatistics = from s in db.SourceStatistics.Where(s => s.RecommUserId == UserId)
+            var sourceStatistics = from s in db.SourceStatistics.Where(s => s.RecommUserId == UserId).OrderByDescending(s => s.LastUpdateDate).Take(100)
                                    select s;
-            var sourceStatisticList = sourceStatistics.OrderByDescending(s => s.LastUpdateDate).Take(100).ToList();
+            var sourceStatisticList = sourceStatistics.ToList();
 
             var statistics = from a in db.SourceStatistics.Select(c => new { c.SourceStatisticsID, c.CreatedDate }).Where(s => s.CreatedDate.Year == dt.Year && s.CreatedDate.Month==dt.Month)
                              select a;
