@@ -7,65 +7,85 @@
 @using Ishop.Models.PubDataModal;
 @using Ishop.AppCode.Utilities;
 @model IList<SourceStatistic>
- 
-@{ 
+
+@{
     Layout = null;
+
+    if (ViewBag.UserViewsCount == null)
+    {
+        ViewBag.UserViewsCount = 0;
+    }
 }
 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
     <i class="fa fa-bell-o"></i>
     <span class="label label-warning" data-toggle="tooltip" title="Current month statistic">@ViewBag.UserViewsCount</span>
 </a>
-<ul class="dropdown-menu bg-yellow-active">
-    @if (ViewBag.UserViewsCount == null)
-    {
-        ViewBag.UserViewsCount = 0;
-    }
+@if (ViewBag.UserViewsCount == 0)
+{
+    <ul class="dropdown-menu bg-yellow-active">
 
-    <li class="header">@String.Format(Lang.SourceStatisticByRecomm_UserViews, ViewBag.UserViewsCount)</li>
-    <li>
-        <ul class="menu small list-unstyled list-inline text-left">
-            @if (Request.IsAuthenticated)
-            {
-                int cnt = 0;
-                foreach (var item in Model.ToList())
+        <li class="header">
+            @String.Format(Lang.SourceStatisticByRecomm_UserViews, ViewBag.UserViewsCount)
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="dropdown-menu bg-yellow-active">
+
+        <li class="header">
+            @String.Format(Lang.SourceStatisticByRecomm_UserViews, ViewBag.UserViewsCount)
+        </li>
+        <li>
+            <ul class="menu small list-unstyled list-inline text-left">
+                @if (Request.IsAuthenticated)
                 {
-                    if (item.VisitorIcon != string.Empty)
+                    int cnt = 0;
+                    foreach (var item in Model.ToList())
                     {
-                        <li class="padding-left5">
-                            <ul class="list-unstyled list-inline inline">
-                                <li>
-                                    <ul class="list-unstyled no-padding no-margin">
-                                        <li title="openid:@item.OpenID" data-toggle="tooltip">
-                                            @Html.DisplayFor(modelItem => item.WxNickName)
-                                        </li>
-                                        <li>
-                                            @Html.Raw(HttpUtility.HtmlDecode(mvcCommeBase.RenderImg(item.VisitorIcon, "30px")))
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <span>@item.SourceArea</span>
-                                    <span style="padding-left:5px;padding-right:5px;">|</span>
-                                    <span>@item.LastUpdateDate</span>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <i class="fa fa-users text-aqua"></i> <span class="small">@item.SourceArea</span>
-                            <span> | </span><span class="small">@item.LastUpdateDate</span>
-                        </li>
-                    }
-                    if (cnt++ % 1 == 0)
-                    {
-                        @:<li class="divider hide" style="max-width:90%;"></li>
+                        if (item.VisitorIcon != string.Empty)
+                        {
+                            <li class="padding-left5">
+                                <ul class="list-unstyled list-inline inline">
+                                    <li>
+                                        <ul class="list-unstyled no-padding no-margin">
+                                            <li title="openid:@item.OpenID" data-toggle="tooltip">
+                                                @Html.DisplayFor(modelItem => item.WxNickName)
+                                            </li>
+                                            <li>
+                                                @Html.Raw(HttpUtility.HtmlDecode(mvcCommeBase.RenderImg(item.VisitorIcon, "30px")))
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span>@item.SourceArea</span>
+                                        <span style="padding-left:5px;padding-right:5px;">|</span>
+                                        <span>@item.LastUpdateDate</span>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <i class="fa fa-users text-aqua"></i> <span class="small">@item.SourceArea</span>
+                                <span> | </span><span class="small">@item.LastUpdateDate</span>
+                            </li>
+                        }
+                        if (cnt++ % 1 == 0)
+                        {
+                            @:<li class="divider hide" style="max-width:90%;"></li>
+                        }
                     }
                 }
-            } 
-        </ul>
-    </li>
-    <li class="footer"><a href="/Mgr/Info/InfoIPstatitics" data-toggle="tooltip" title="Current month statistic">View all 
-        @String.Format(Lang.SourceStatisticByRecomm_UserViews, ViewBag.UserViewsCount)</a></li>
-</ul>
+            </ul>
+        </li>
+        <li class="footer">
+            <a href="/Mgr/Info/InfoIPstatitics" data-toggle="tooltip" title="Current month statistic">
+                View all
+                @String.Format(Lang.SourceStatisticByRecomm_UserViews, ViewBag.UserViewsCount)
+            </a>
+        </li>
+    </ul>
+}
+
