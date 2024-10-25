@@ -132,11 +132,9 @@
                             </ul>
                         </li>
 
-                        <li class="dropdown notifications-menu">
-                            @{
-                                //不能用 Html.Action (字符串) 而 Html.RenderAction是 Stream
-                                Html.RenderAction("SourceStatisticByRecommList", "User", new { area = "Mgr" }); 
-                            }
+                        <li class="dropdown notifications-menu"> 
+                            @*不能用 Html.Action (字符串) 而 Html.RenderAction是 Stream*@
+                            @Html.Action("SourceStatisticByRecommList", "User", new { area = "Mgr" }) 
                         </li>
 
                         <!--Notification End-->

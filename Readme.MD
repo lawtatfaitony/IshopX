@@ -359,3 +359,8 @@ update InfoDetail set infoItemTemplateIDs = 'InfoTemp00001,InfoTemp00002,InfoTem
 
 前端使用了 Jumptron Template 這個模版 獲取信息,所以要點選對應的 模版:Jumptron Template
 
+
+
+@引用組件到cshtml 頁面錯誤,語法改過來就OK
+
+![1729840325060](README_IMGs/Readme/1729840325060.jpg)
