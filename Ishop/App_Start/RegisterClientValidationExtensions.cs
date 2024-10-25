@@ -7,6 +7,7 @@ namespace DataAnnotationsExtensions.Web
 {
     public static class AppStart_RegisterClientValidationExtensions
     {
+        [System.Obsolete]
         public static void Start()
         {
             DataAnnotationsModelValidatorProviderExtensions.RegisterValidationExtensions();

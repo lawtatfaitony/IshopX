@@ -74,22 +74,26 @@ namespace Ishop.AppCode.Utilities
             StreamReader reader = new StreamReader(st, Encoding.GetEncoding("utf-8"));
          
             string getQueryResult = reader.ReadToEnd();
-            JObject jo = JObject.Parse(getQueryResult);
-            string[] values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-            for(int i = 0;i<values.Length;i++)
+            if(!string.IsNullOrEmpty(getQueryResult))
             {
-                if(string.IsNullOrEmpty(values[i]))
+                JObject jo = JObject.Parse(getQueryResult);
+                string[] values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
+                for (int i = 0; i < values.Length; i++)
                 {
-                    values[i] = "0";
+                    if (string.IsNullOrEmpty(values[i]))
+                    {
+                        values[i] = "0";
+                    }
+                    if (values[i].Contains("127.0.0.1"))
+                    {
+                        return "local";
+                    }
                 }
-                if(values[i].Contains("127.0.0.1"))
-                {
-                    return "local";
-                }
+                JavaScriptSerializer ss = new JavaScriptSerializer();
+                SourceAreaName sourceAreaName = ss.Deserialize<SourceAreaName>(values[0]);
+                return string.Format("{0}{1}{2} {3}{4} {5}", sourceAreaName.country, sourceAreaName.area, sourceAreaName.county, sourceAreaName.region, sourceAreaName.city, sourceAreaName.isp);
             }
-            JavaScriptSerializer ss = new JavaScriptSerializer();
-            SourceAreaName sourceAreaName = ss.Deserialize<SourceAreaName>(values[0]);
-            return string.Format("{0}{1}{2} {3}{4} {5}", sourceAreaName.country, sourceAreaName.area, sourceAreaName.county, sourceAreaName.region, sourceAreaName.city, sourceAreaName.isp);
+            return string.Empty;
          }
 
         public static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)

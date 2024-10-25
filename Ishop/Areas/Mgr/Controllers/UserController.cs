@@ -9,6 +9,7 @@ using Ishop.ViewModes.Users;
 using LanguageResource;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.VisualBasic;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -1254,21 +1256,56 @@ namespace Ishop.Areas.Mgr.Controllers
         [HttpGet]
         public ActionResult SourceStatisticByRecommList()
         {
-            DateTime dt = DateTime.Now;
+            try
+            {
+                DateTime dt = DateTime.Now;
 
-            BackEndShopInitialize();
+                BackEndShopInitialize();
 
-            string UserId = User.Identity.GetUserId();
-            var sourceStatistics = from s in db.SourceStatistics.Where(s => s.RecommUserId == UserId).OrderByDescending(s => s.LastUpdateDate).Take(100)
-                                   select s;
-            var sourceStatisticList = sourceStatistics.ToList();
+                string UserId = User.Identity.GetUserId();
+                var sourceStatistics = from s in db.SourceStatistics.Where(s => s.RecommUserId == UserId).OrderByDescending(s => s.LastUpdateDate).Take(100)
+                                       select s;
 
-            var statistics = from a in db.SourceStatistics.Select(c => new { c.SourceStatisticsID, c.CreatedDate }).Where(s => s.CreatedDate.Year == dt.Year && s.CreatedDate.Month==dt.Month)
-                             select a;
+                if (sourceStatistics.Any())
+                {
+                    var sourceStatisticList = sourceStatistics.ToList();
 
-            ViewBag.UserViewsCount = statistics.Count(); //本月的統計
+                    var statistics = from a in db.SourceStatistics.Select(c => new { c.SourceStatisticsID, c.CreatedDate }).Where(s => s.CreatedDate.Year == dt.Year && s.CreatedDate.Month == dt.Month)
+                                     select a;
 
-            return View(sourceStatisticList);
+                    ViewBag.UserViewsCount = statistics.Count(); //本月的統計
+
+                    return View(sourceStatisticList);
+                }
+            }
+            catch
+            {   
+            }
+            //避免error
+            ViewBag.UserViewsCount = 0;
+            List<SourceStatistic> list = new List<SourceStatistic>();
+            SourceStatistic sourceStatistic = new SourceStatistic
+            {
+                SourceStatisticsID = 0,
+                TableKeyID = string.Empty,
+                OSVersion = string.Empty,
+                Title = string.Empty,
+                UserId = string.Empty,
+                RecommUserId = string.Empty,
+                IP = string.Empty,
+                SourceArea = string.Empty,
+                SourceUrl = string.Empty,
+                Duration = 0,
+                LoadTime = 0,
+                CreatedDate = DateTime.Now,
+                LastUpdateDate = DateTime.Now,
+                ShopID = string.Empty,
+                OpenID = string.Empty,
+                VisitorIcon = string.Empty,
+                WxNickName = string.Empty,
+                Status = 0
+            };
+            return View(list);
         }
         public class TreeView
         {

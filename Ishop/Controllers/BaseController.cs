@@ -155,7 +155,7 @@ namespace Ishop.Controllers
 
             ViewBag.ShpID = WebCookie.ShpID;
 
-            ViewBag.Description = shop.ShopName?? $"There is no shop in this user! WebCookie.ShopID = {WebCookie.ShopID}";
+            ViewBag.Description = shop.ShopName?? $"There is no shop in this user! WebCookie.ShopID";
             ViewBag.ShopLogo = shop.ShopLogo;
             ViewBag.PhoneNumber = shop.PhoneNumber;
             ViewBag.ShopName = shop.ShopName;
@@ -780,20 +780,24 @@ namespace Ishop.Controllers
         public ActionResult IpSourceAreaQuery(int SourceStatisticsID, string queryIP)
         {
             SourceStatistic SourceStatistics = db.SourceStatistics.Find(SourceStatisticsID);
-            if (SourceStatistics.SourceArea.Length < 1)
-            {
-                string SourceArea = AliyunIP.IpQuery(queryIP);
-                SourceStatistics.SourceArea = SourceArea;
-                DbEntityEntry<SourceStatistic> SourceStatisticEntry = db.Entry<SourceStatistic>(SourceStatistics);
-                db.SourceStatistics.Attach(SourceStatistics);
-                SourceStatisticEntry.Property(e => e.SourceArea).IsModified = true;
-                db.SaveChanges();
-                return Content(SourceArea);
+            if (SourceStatistics!=null)
+            { 
+                if (!string.IsNullOrEmpty(SourceStatistics.SourceArea))
+                {
+                    string SourceArea = AliyunIP.IpQuery(queryIP);
+                    //AliyunIP 查詢服務有效 就啟動查詢
+                    if (!string.IsNullOrEmpty (SourceArea))
+                    {
+                        SourceStatistics.SourceArea = SourceArea;
+                        DbEntityEntry<SourceStatistic> SourceStatisticEntry = db.Entry<SourceStatistic>(SourceStatistics);
+                        db.SourceStatistics.Attach(SourceStatistics);
+                        SourceStatisticEntry.Property(e => e.SourceArea).IsModified = true;
+                        db.SaveChanges();
+                        return Content(SourceArea);
+                    } 
+                } 
             }
-            else
-            {
-                return Content(SourceStatistics.SourceArea);
-            }
+            return Content(SourceStatistics.SourceArea);
         }
 
         /// <summary>
